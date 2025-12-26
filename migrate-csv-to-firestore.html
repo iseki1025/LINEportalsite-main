@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV移行ツール - 梶本クリニック 統合管理システム</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+</head>
+
+<body class="admin-body">
+    <header class="admin-header">
+        <div class="admin-header-left">
+            <button onclick="location.href='admin-dashboard.html'" class="btn-logout" style="margin-right:1rem;">←
+                戻る</button>
+            <h1>🔄 CSV → Firestore 移行ツール</h1>
+        </div>
+        <div class="admin-header-right">
+            <button id="logoutBtn" class="btn-logout">ログアウト</button>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <section class="editor-section">
+            <h2>データ移行の実行</h2>
+            <p>既存の <code>qa-data.csv</code> を読み込んで、Firestoreの <code>qa</code> コレクションへ登録します。</p>
+
+            <div class="form-group" style="margin-top:2rem;">
+                <label>CSVファイルを選択 (qa-data.csv)</label>
+                <input type="file" id="csvFile" accept=".csv">
+            </div>
+
+            <div id="previewArea" style="margin-top:1rem; display:none;">
+                <p>読み込み件数: <span id="rowCount">0</span> 件</p>
+                <button id="migrateBtn" class="btn-primary"
+                    style="padding: 1rem 3rem; font-size: 1.2rem;">移行を開始する</button>
+            </div>
+
+            <div id="progressArea" style="margin-top:2rem; display:none;">
+                <div style="width:100%; background:#e5e7eb; border-radius:10px; height:20px; overflow:hidden;">
+                    <div id="progressBar" style="width:0%; background:#667eea; height:100%; transition: width 0.3s;">
+                    </div>
+                </div>
+                <p id="progressStatus" style="text-align:center; margin-top:0.5rem;">処理中: 0% (0 / 0)</p>
+            </div>
+
+            <div id="resultArea" style="margin-top:2rem; display:none;">
+                <div class="toast-success" style="position:static; display:block; text-align:center;">
+                    移行が完了しました！
+                </div>
+                <p style="text-align:center; margin-top:1rem;">
+                    <button onclick="location.href='admin-qa-editor.html'" class="btn-secondary">Q&A一覧で確認する</button>
+                </p>
+            </div>
+        </section>
+
+        <section class="editor-section">
+            <h3>注意事項</h3>
+            <ul style="color:#666; font-size:0.9rem;">
+                <li>移行は一度だけ実行してください（重複登録されます）。</li>
+                <li>移行後、元のCSVファイルは不要になります。</li>
+                <li>CSVの文字コードは UTF-8 である必要があります。</li>
+            </ul>
+        </section>
+    </main>
+
+    <script type="module">
+        import { requireAuth } from './js/admin/auth-guard.js';
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, addDoc, Timestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from './js/firebase-config.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const user = await requireAuth();
+        if (user.role !== 'admin') {
+            alert('管理者専用ページです。');
+            window.location.href = 'admin-dashboard.html';
+        }
+
+        const csvFileInput = document.getElementById('csvFile');
+        const previewArea = document.getElementById('previewArea');
+        const rowCountSpan = document.getElementById('rowCount');
+        const migrateBtn = document.getElementById('migrateBtn');
+        const progressArea = document.getElementById('progressArea');
+        const progressBar = document.getElementById('progressBar');
+        const progressStatus = document.getElementById('progressStatus');
+        const resultArea = document.getElementById('resultArea');
+
+        let parsedData = [];
+
+        csvFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            Papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                complete: (results) => {
+                    parsedData = results.data;
+                    rowCountSpan.textContent = parsedData.length;
+                    previewArea.style.display = 'block';
+                    resultArea.style.display = 'none';
+                    progressArea.style.display = 'none';
+                },
+                error: (err) => {
+                    alert('CSVの解析に失敗しました: ' + err.message);
+                }
+            });
+        });
+
+        migrateBtn.addEventListener('click', async () => {
+            if (!confirm(`本当に ${parsedData.length} 件のデータを移行しますか？`)) return;
+
+            migrateBtn.disabled = true;
+            progressArea.style.display = 'block';
+            const total = parsedData.length;
+            let count = 0;
+
+            for (const row of parsedData) {
+                try {
+                    // 既存CSVのカラム名に合わせてマッピング
+                    // Category, Question, Answer
+                    const data = {
+                        category: row.Category || row.category || 'その他',
+                        question: row.Question || row.question || '',
+                        answer: row.Answer || row.answer || '',
+                        createdAt: Timestamp.now(),
+                        updatedAt: Timestamp.now(),
+                        createdBy: user.uid,
+                        updatedBy: user.uid
+                    };
+
+                    if (data.question && data.answer) {
+                        await addDoc(collection(db, 'qa'), data);
+                    }
+                } catch (error) {
+                    console.error('Migration row error:', error);
+                }
+
+                count++;
+                const percent = Math.round((count / total) * 100);
+                progressBar.style.width = percent + '%';
+                progressStatus.textContent = `処理中: ${percent}% (${count} / ${total})`;
+            }
+
+            resultArea.style.display = 'block';
+            migrateBtn.style.display = 'none';
+            progressStatus.textContent = `移行完了: ${total} 件中 ${count} 件処理しました。`;
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.href = 'admin-login.html';
+        });
+    </script>
+</body>
+
+</html>

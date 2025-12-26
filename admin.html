@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>透析状況 更新ツール</title>
+    <!-- メインのstyle.cssを使用 -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- admin専用の追加スタイル -->
+    <style>
+        body {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        }
+        
+        .admin-container {
+            max-width: 700px;
+            margin: 20px auto;
+            padding: 0;
+            background-color: var(--surface);
+            border-radius: var(--border-radius-xl);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+        }
+        
+        .admin-header {
+            text-align: center;
+            padding: 40px 40px 20px 40px;
+            background: linear-gradient(135deg, var(--c-status) 0%, #fbbf24 100%);
+            color: white;
+            margin-bottom: 0;
+        }
+        
+        .admin-header h1 {
+            margin: 0;
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 700;
+        }
+        
+        .admin-content {
+            padding: 40px;
+        }
+        
+        .clinic-group {
+            margin-bottom: 32px;
+            padding: 24px;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--surface) 100%);
+            border: 2px solid var(--border-light);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .clinic-group:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .clinic-group label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            font-size: 1.1em;
+        }
+        
+        .clinic-group select,
+        .clinic-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--border-radius);
+            border: 2px solid var(--border-light);
+            box-sizing: border-box;
+            font-family: var(--font-family);
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background-color: var(--surface);
+        }
+        
+        .clinic-group select:focus,
+        .clinic-group input:focus {
+            outline: none;
+            border-color: var(--c-status);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+        
+        .clinic-group input {
+            margin-top: 12px;
+        }
+        
+        .generate-button {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--c-status) 0%, #fbbf24 100%);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-lg);
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-lg);
+            font-family: var(--font-family);
+        }
+        
+        .generate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .output-area {
+            margin-top: 40px;
+            display: none;
+        }
+        
+        .output-area.show {
+            display: block;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .output-area h2 {
+            font-size: 1.4em;
+            margin-bottom: 16px;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, var(--c-status) 0%, #fbbf24 100%);
+            color: white;
+            border-radius: var(--border-radius);
+            margin-top: 0;
+            border: none;
+        }
+        
+        .generated-code {
+            width: 100%;
+            height: 280px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            padding: 16px;
+            border: 2px solid var(--border-light);
+            border-radius: var(--border-radius);
+            background: linear-gradient(135deg, #f8fafc 0%, var(--bg-primary) 100%);
+            white-space: pre;
+            overflow: auto;
+            resize: vertical;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .generated-code:focus {
+            outline: none;
+            border-color: var(--c-status);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+        
+        .copy-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 16px;
+            background: linear-gradient(135deg, var(--c-shunt) 0%, var(--c-shunt-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            font-family: var(--font-family);
+        }
+        
+        .copy-button:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .instructions {
+            margin-top: 24px;
+            padding: 24px;
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border: 2px solid #fbbf24;
+            border-radius: var(--border-radius-lg);
+            font-size: 0.95em;
+            box-shadow: var(--shadow);
+        }
+        
+        .instructions h2 {
+            margin: 0 0 16px 0;
+            font-size: 1.2em;
+            color: #92400e;
+            background: none;
+            padding: 0;
+            border: none;
+        }
+        
+        .instructions ol {
+            margin: 0;
+            padding-left: 20px;
+            line-height: 1.7;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+            color: #78350f;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 32px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--text-secondary) 0%, var(--text-muted) 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+        
+        .back-link::before {
+            content: "←";
+            margin-right: 8px;
+            font-weight: 700;
+        }
+        
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            text-decoration: none;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* レスポンシブデザイン */
+        @media (max-width: 768px) {
+            .admin-container {
+                margin: 10px;
+                border-radius: var(--border-radius-lg);
+            }
+            
+            .admin-header {
+                padding: 30px 20px 20px 20px;
+            }
+            
+            .admin-content {
+                padding: 20px;
+            }
+            
+            .clinic-group {
+                padding: 20px;
+                margin-bottom: 24px;
+            }
+            
+            .generate-button {
+                padding: 16px;
+            }
+            
+            .instructions {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1>透析状況 更新ツール</h1>
+        </header>
+
+        <div class="admin-content">
+            <div id="form-area">
+                <!-- 本院 -->
+                <div class="clinic-group">
+                    <label for="honin-status">本院</label>
+                    <select id="honin-status" onchange="toggleReason('honin')">
+                        <option value="ok" selected>透析可</option>
+                        <option value="ng">透析不可</option>
+                    </select>
+                    <input type="text" id="honin-reason" placeholder="（透析不可の場合）理由を入力" style="display: none;">
+                </div>
+
+                <!-- なかもず分院 -->
+                <div class="clinic-group">
+                    <label for="nakamozu-status">なかもず分院</label>
+                    <select id="nakamozu-status" onchange="toggleReason('nakamozu')">
+                        <option value="ok">透析可</option>
+                        <option value="ng" selected>透析不可</option>
+                    </select>
+                    <input type="text" id="nakamozu-reason" placeholder="（透析不可の場合）理由を入力" value="断水のため">
+                </div>
+
+                <!-- 三国ケ丘分院 -->
+                <div class="clinic-group">
+                    <label for="mikunigaoka-status">三国ケ丘分院</label>
+                    <select id="mikunigaoka-status" onchange="toggleReason('mikunigaoka')">
+                        <option value="ok" selected>透析可</option>
+                        <option value="ng">透析不可</option>
+                    </select>
+                    <input type="text" id="mikunigaoka-reason" placeholder="（透析不可の場合）理由を入力" style="display: none;">
+                </div>
+
+                <button class="generate-button" onclick="generateCode()">更新用コードを生成</button>
+            </div>
+
+            <div id="output-area" class="output-area">
+                <h2>1. 生成されたコード</h2>
+                <p>下のボックス内のテキストをすべてコピーしてください。</p>
+                <textarea id="generated-code" class="generated-code" readonly></textarea>
+                <button class="copy-button" onclick="copyToClipboard()">クリップボードにコピー</button>
+                <div class="instructions">
+                    <h2>2. 更新手順</h2>
+                    <ol>
+                        <li>上の「クリップボードにコピー」ボタンを押します。</li>
+                        <li>`index.html` ファイルをメモ帳などのテキストエディタで開きます。</li>
+                        <li>ファイル内の `▼▼▼ 透析状況 更新エリア ここから ▼▼▼` から `▲▲▲ 透析状況 更新エリア ここまで ▲▲▲` までの間の部分を、すべて削除します。</li>
+                        <li>削除した場所に、コピーした内容を貼り付けます。</li>
+                        <li>`index.html` を上書き保存し、サーバーにアップロードして完了です。</li>
+                    </ol>
+                </div>
+            </div>
+
+            <a href="index.html" class="back-link">総合情報ポータルへ戻る</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleReason(clinicName) {
+            const statusSelect = document.getElementById(clinicName + '-status');
+            const reasonInput = document.getElementById(clinicName + '-reason');
+            reasonInput.style.display = (statusSelect.value === 'ng') ? 'block' : 'none';
+        }
+
+        function generateCode() {
+            const clinics = [
+                { name: '本院', id: 'honin' },
+                { name: 'なかもず分院', id: 'nakamozu' },
+                { name: '三国ケ丘分院', id: 'mikunigaoka' }
+            ];
+
+            let html = '<div class="status-container">\n';
+
+            clinics.forEach(clinic => {
+                const status = document.getElementById(clinic.id + '-status').value;
+                const reason = document.getElementById(clinic.id + '-reason').value;
+
+                html += `    <!-- ${clinic.name} -->\n`;
+                html += '    <div class="status-item">\n';
+                html += `        <h3>${clinic.name}</h3>\n`;
+
+                if (status === 'ok') {
+                    html += '        <p class="status-text status-ok">透析可</p>\n';
+                } else {
+                    const reasonText = reason ? ` <span class="reason">（${reason}）</span>` : '';
+                    html += `        <p class="status-text status-ng">透析不可${reasonText}</p>\n`;
+                }
+                html += '    </div>\n';
+            });
+            html += '</div>';
+
+            document.getElementById('generated-code').value = html;
+            document.getElementById('output-area').classList.add('show');
+        }
+
+        function copyToClipboard() {
+            const textarea = document.getElementById('generated-code');
+            textarea.select();
+            textarea.setSelectionRange(0, 99999); // モバイル対応
+            
+            try {
+                document.execCommand('copy');
+                // フィードバック表示
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = 'コピーしました！';
+                button.style.background = 'linear-gradient(135deg, var(--c-shunt) 0%, var(--c-shunt-dark) 100%)';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = 'linear-gradient(135deg, var(--c-shunt) 0%, var(--c-shunt-dark) 100%)';
+                }, 2000);
+            } catch (err) {
+                alert('コピーに失敗しました。手動でテキストを選択してコピーしてください。');
+            }
+        }
+    </script>
+</body>
+</html>

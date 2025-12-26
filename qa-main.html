@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A 検索 | 梶本クリニック</title>
+    <!-- 共通スタイル -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="theme-qa">
+    <div class="container">
+        <header>
+            <h1>Q&A 検索</h1>
+        </header>
+        <main>
+            <div class="intro-text">
+                <p>キーワードを入力して、よくある質問を検索できます。<br>（例：食事, 災害, シャント, 運動 など）</p>
+            </div>
+
+            <!-- 
+                検索セクション 
+                パス修正: files/data/qa-data.csv
+                data-category属性なし = 全カテゴリ検索モード
+            -->
+            <section class="qa-search-section" data-csv-path="files/data/qa-data.csv">
+                <div class="qa-search-container">
+                    <input type="search" class="qa-search-input" placeholder="キーワードを入力 (例: 塩分, 災害, シャント)"
+                        autocomplete="off">
+                </div>
+
+                <!-- よく検索されるワード（全般用） -->
+                <div class="qa-popular-keywords">
+                    <h3>人気のキーワード</h3>
+                    <div class="keyword-buttons">
+                        <button class="keyword-button" onclick="setKeyword('食事')">食事</button>
+                        <button class="keyword-button" onclick="setKeyword('水分')">水分</button>
+                        <button class="keyword-button" onclick="setKeyword('シャント')">シャント</button>
+                        <button class="keyword-button" onclick="setKeyword('災害')">災害</button>
+                        <button class="keyword-button" onclick="setKeyword('運動')">運動</button>
+                    </div>
+                </div>
+
+                <div class="qa-results-container">
+                    <!-- 検索結果はここに表示されます -->
+                </div>
+            </section>
+        </main>
+
+        <a href="index.html" class="back-to-portal-button">総合情報ポータルへ戻る</a>
+
+        <footer>
+            <p><small>&copy; 2025 医療法人 好輝会 梶本クリニック</small></p>
+        </footer>
+    </div>
+
+    <!-- ライブラリとスクリプト -->
+    <script type="module" src="js/qa/qa-loader.js"></script>
+
+    <!-- キーワードボタン用簡易スクリプト -->
+    <script>
+        window.setKeyword = function (word) {
+            const input = document.querySelector('.qa-search-input');
+            if (input) {
+                input.value = word;
+                // 入力イベントを発火させて検索を実行
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>反射神経ゲーム</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-friend">
+    <div class="game-container">
+        <h1 class="game-title">⚡ 反射神経ゲーム</h1>
+        
+        <div style="background:#fff7ed; padding:1rem; border-radius:0.5rem; color:#9a3412; border-left:4px solid #ea580c; text-align:left; font-size:0.9rem; margin-bottom:1rem;">
+            画面が<strong>赤色</strong>から<strong>緑色</strong>に変わったら、できるだけ早くクリック！
+        </div>
+
+        <!-- 修正: style.cssの .reaction-area を使用 -->
+        <div id="gameArea" class="reaction-area idle">
+            クリックしてスタート
+        </div>
+
+        <div class="game-stats" style="grid-template-columns: 1fr 1fr;">
+            <div class="stat-box">
+                <div class="stat-label">タイム</div>
+                <div class="stat-value" id="currentTime">-</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">判定</div>
+                <div class="stat-value" id="estimatedAge">-</div>
+            </div>
+        </div>
+
+        <button class="game-btn btn-secondary" onclick="resetStats()">記録をリセット</button>
+
+        <br>
+        <!-- 戻るボタン修正 -->
+        <a href="friend-game-main.html" class="back-to-portal-button" style="margin-top:2rem;">ミニゲーム選択へ戻る</a>
+    </div>
+
+    <script>
+        let gameState = 'idle';
+        let startTime = 0;
+        let timeoutId = null;
+        
+        const gameArea = document.getElementById('gameArea');
+        const timeDisplay = document.getElementById('currentTime');
+        const ageDisplay = document.getElementById('estimatedAge');
+
+        gameArea.addEventListener('click', handleClick);
+        // スマホのタップ遅延対策
+        gameArea.addEventListener('touchstart', (e) => { e.preventDefault(); handleClick(); });
+
+        function handleClick() {
+            if (gameState === 'idle') {
+                startGame();
+            } else if (gameState === 'waiting') {
+                clearTimeout(timeoutId);
+                gameState = 'idle';
+                gameArea.className = 'reaction-area idle';
+                gameArea.textContent = '早すぎます！';
+            } else if (gameState === 'ready') {
+                const time = Date.now() - startTime;
+                timeDisplay.textContent = time + ' ms';
+                ageDisplay.textContent = getAge(time);
+                gameState = 'idle';
+                gameArea.className = 'reaction-area idle';
+                gameArea.textContent = 'もう一度挑戦';
+            }
+        }
+
+        function startGame() {
+            gameState = 'waiting';
+            gameArea.className = 'reaction-area waiting';
+            gameArea.textContent = '待って...';
+            
+            timeoutId = setTimeout(() => {
+                gameState = 'ready';
+                gameArea.className = 'reaction-area ready';
+                gameArea.textContent = '今だ！';
+                startTime = Date.now();
+            }, 2000 + Math.random() * 3000);
+        }
+
+        function getAge(time) {
+            if (time < 200) return '神業！';
+            if (time < 250) return '20代級';
+            if (time < 300) return '30代級';
+            if (time < 400) return '40代級';
+            if (time < 500) return '60代級';
+            return '要練習';
+        }
+
+        function resetStats() {
+            timeDisplay.textContent = '-';
+            ageDisplay.textContent = '-';
+            gameState = 'idle';
+            gameArea.className = 'reaction-area idle';
+            gameArea.textContent = 'クリックしてスタート';
+        }
+    </script>
+</body>
+</html>

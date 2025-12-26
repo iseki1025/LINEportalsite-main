@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>家具の固定について | 災害情報ポータル</title>
+    <!-- 元のスタイルシートを読み込みます -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ページ特有のレイアウト調整 */
+        body {
+            background-color: #f3f4f6;
+        }
+        .page-header-simple {
+            background-color: #d9534f; /* 災害テーマカラー */
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .page-header-simple h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .content-wrapper {
+            padding: 0 1rem 3rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        /* リンクカードのスタイル */
+        .link-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 5px solid #d9534f;
+            transition: transform 0.2s;
+        }
+        .link-card:active {
+            transform: scale(0.98);
+        }
+        .link-card h3 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            color: #d9534f;
+        }
+        .link-card p {
+            font-size: 0.9rem;
+            color: #4b5563;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        .external-link-btn {
+            display: inline-block;
+            background-color: #333;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .nav-back-container {
+            text-align: center;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body class="theme-disaster">
+    <div class="container">
+        
+        <!-- ヘッダー -->
+        <header class="page-header-simple">
+            <h1>家具の固定について</h1>
+        </header>
+
+        <main class="content-wrapper">
+            
+            <section class="content-section active" style="display:block;">
+                <div class="intro-text">
+                    <p>大地震が発生した際、家具の転倒は怪我だけでなく、避難経路を塞ぐ原因にもなります。ご自宅の状況に合わせて対策を行いましょう。</p>
+                    <p>詳しい対策方法については、以下の公的機関のページ（外部サイト）をご参照ください。</p>
+                </div>
+
+                <!-- リンク1: 総務省消防庁 -->
+                <div class="link-card">
+                    <h3>総務省消防庁「家具の転倒防止対策」</h3>
+                    <a href="https://www.fdma.go.jp/publication/database/kagu/post1.html" target="_blank" class="external-link-btn">
+                        ページを開く ❐
+                    </a>
+                </div>
+
+                <!-- リンク2: 首相官邸 -->
+                <div class="link-card">
+                    <h3>首相官邸「災害に対するご家庭での備え」</h3>
+                    <a href="https://www.kantei.go.jp/jp/headline/bousai/sonae.html" target="_blank" class="external-link-btn">
+                        ページを開く ❐
+                    </a>
+                </div>
+
+                <!-- リンク3: 政府広報オンライン -->
+                <div class="link-card">
+                    <h3>政府広報オンライン「地震などの災害に備えて」</h3>
+                    <a href="https://www.gov-online.go.jp/article/201108/entry-8072.html" target="_blank" class="external-link-btn">
+                        ページを開く ❐
+                    </a>
+                </div>
+
+            </section>
+
+            <!-- ポータルに戻るボタン -->
+            <div class="nav-back-container">
+                <a href="#" onclick="history.back(); return false;" class="back-to-portal-button">災害情報ポータルへ戻る</a>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><small>&copy; 2025 医療法人 好輝会 梶本クリニック</small></p>
+        </footer>
+    </div>
+</body>
+</html>

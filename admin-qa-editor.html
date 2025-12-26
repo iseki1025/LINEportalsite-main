@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A編集 - 梶本クリニック 統合管理システム</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="admin-body">
+    <header class="admin-header">
+        <div class="admin-header-left">
+            <button onclick="location.href='admin-dashboard.html'" class="btn-logout" style="margin-right:1rem;">←
+                戻る</button>
+            <h1>📋 Q&A編集</h1>
+        </div>
+        <div class="admin-header-right">
+            <button id="logoutBtn" class="btn-logout">ログアウト</button>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <section class="editor-section">
+            <h2 id="formTitle">新規Q&A登録</h2>
+            <form id="qaForm">
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label for="category">カテゴリ</label>
+                    <select id="category" required>
+                        <option value="シャント">シャント</option>
+                        <option value="栄養">栄養</option>
+                        <option value="運動">運動</option>
+                        <option value="災害">災害</option>
+                        <option value="フットケア">フットケア</option>
+                        <option value="その他">その他</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="question">質問</label>
+                    <textarea id="question" required placeholder="質問内容を入力してください"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="answer">回答</label>
+                    <textarea id="answer" required placeholder="回答内容を入力してください"></textarea>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" id="submitBtn" class="btn-primary">登録する</button>
+                    <button type="button" id="cancelBtn" class="btn-secondary" style="display:none;">キャンセル</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="editor-section">
+            <h2>登録済みQ&A一覧</h2>
+            <div class="form-group">
+                <input type="text" id="searchInput" placeholder="質問・回答から検索...">
+            </div>
+            <div id="qaList">
+                <!-- 読み込み中表示 -->
+                <div class="loading-container">
+                    <div class="spinner"></div>
+                    <p>読み込み中...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module">
+        import { requireAuth } from './js/admin/auth-guard.js';
+        import { requirePermission } from './js/admin/permission-check.js';
+        import { showSuccess, confirmAction } from './js/admin/ui-helper.js';
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDocs, query, orderBy, Timestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from './js/firebase-config.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // 認証&権限チェック
+        const user = await requireAuth();
+        await requirePermission('qa');
+
+        const qaForm = document.getElementById('qaForm');
+        const qaList = document.getElementById('qaList');
+        const searchInput = document.getElementById('searchInput');
+        const editIdInput = document.getElementById('editId');
+        const formTitle = document.getElementById('formTitle');
+        const submitBtn = document.getElementById('submitBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+
+        let allQaData = [];
+
+        // データ読み込み
+        async function loadQaData() {
+            try {
+                const q = query(collection(db, 'qa'), orderBy('createdAt', 'desc'));
+                const snapshot = await getDocs(q);
+                allQaData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderQaList(allQaData);
+            } catch (error) {
+                console.error('Error loading QA:', error);
+                qaList.innerHTML = '<p class="error-message">データの読み込みに失敗しました。</p>';
+            }
+        }
+
+        function renderQaList(data) {
+            if (data.length === 0) {
+                qaList.innerHTML = '<p>登録されているQ&Aはありません。</p>';
+                return;
+            }
+
+            qaList.innerHTML = data.map(item => `
+        <div class="qa-list-item">
+          <div>
+            <span class="qa-category-badge badge-${item.category}">${item.category}</span>
+          </div>
+          <div class="qa-question">Q. ${item.question}</div>
+          <div class="qa-answer">${item.answer}</div>
+          <div class="qa-meta">
+            作成日: ${item.createdAt?.toDate ? item.createdAt.toDate().toLocaleString() : '---'} | 
+            更新日: ${item.updatedAt?.toDate ? item.updatedAt.toDate().toLocaleString() : '---'}
+          </div>
+          <div class="user-actions">
+            <button class="btn-primary" onclick="window.editQa('${item.id}')" style="padding: 0.4rem 1rem; font-size: 0.8rem;">編集</button>
+            <button class="btn-danger" onclick="window.deleteQa('${item.id}')" style="padding: 0.4rem 1rem; font-size: 0.8rem;">削除</button>
+          </div>
+        </div>
+      `).join('');
+        }
+
+        // 検索機能
+        searchInput.addEventListener('input', (e) => {
+            const keyword = e.target.value.toLowerCase();
+            const filtered = allQaData.filter(item =>
+                item.question.toLowerCase().includes(keyword) ||
+                item.answer.toLowerCase().includes(keyword) ||
+                item.category.includes(keyword)
+            );
+            renderQaList(filtered);
+        });
+
+        // 登録・更新処理
+        qaForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = editIdInput.value;
+            const data = {
+                category: document.getElementById('category').value,
+                question: document.getElementById('question').value,
+                answer: document.getElementById('answer').value,
+                updatedAt: Timestamp.now(),
+                updatedBy: user.uid
+            };
+
+            try {
+                if (id) {
+                    // 更新
+                    await updateDoc(doc(db, 'qa', id), data);
+                    showSuccess('Q&Aを更新しました');
+                } else {
+                    // 新規登録
+                    data.createdAt = Timestamp.now();
+                    data.createdBy = user.uid;
+                    await addDoc(collection(db, 'qa'), data);
+                    showSuccess('Q&Aを登録しました');
+                }
+                resetForm();
+                loadQaData();
+            } catch (error) {
+                console.error('Save error:', error);
+                alert('保存中にエラーが発生しました');
+            }
+        });
+
+        // 編集モード
+        window.editQa = (id) => {
+            const item = allQaData.find(q => q.id === id);
+            if (!item) return;
+
+            editIdInput.value = item.id;
+            document.getElementById('category').value = item.category;
+            document.getElementById('question').value = item.question;
+            document.getElementById('answer').value = item.answer;
+
+            formTitle.textContent = 'Q&A編集';
+            submitBtn.textContent = '更新する';
+            cancelBtn.style.display = 'inline-block';
+            window.scrollTo(0, 0);
+        };
+
+        // 削除処理
+        window.deleteQa = async (id) => {
+            if (confirmAction('本当に削除しますか？')) {
+                try {
+                    await deleteDoc(doc(db, 'qa', id));
+                    showSuccess('削除しました');
+                    loadQaData();
+                } catch (error) {
+                    console.error('Delete error:', error);
+                    alert('削除に失敗しました');
+                }
+            }
+        };
+
+        function resetForm() {
+            editIdInput.value = '';
+            qaForm.reset();
+            formTitle.textContent = '新規Q&A登録';
+            submitBtn.textContent = '登録する';
+            cancelBtn.style.display = 'none';
+        }
+
+        cancelBtn.addEventListener('click', resetForm);
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            if (confirmAction('ログアウトしますか？')) {
+                await signOut(auth);
+                window.location.href = 'admin-login.html';
+            }
+        });
+
+        // 初期読み込み
+        loadQaData();
+    </script>
+</body>
+
+</html>

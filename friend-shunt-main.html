@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>透析情報ポータル | シャント管理</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="theme-shunt">
+    <div class="container">
+        <header>
+            <h1>シャント管理について</h1>
+        </header>
+        <nav class="page-nav">
+            <button class="nav-button active" onclick="switchTab('info')">シャント<br>管理の基本</button>
+            <button class="nav-button" onclick="switchTab('quiz')">シャント<br>クイズ</button>
+            <button class="nav-button" onclick="switchTab('qa')">シャント<br>Q&A</button>
+        </nav>
+
+        <main id="content-area">
+            <!-- ① シャント基本 -->
+            <section id="info" class="content-section active">
+                <h2>シャントは透析治療の「命綱」です</h2>
+                <div class="intro-text">
+                    <p>シャントを長持ちさせるためには、日頃の自己管理が非常に重要です。</p>
+                </div>
+
+                <h3>毎日行いましょう：見て・聴いて・触って</h3>
+                <div class="check-grid">
+                    <!-- 見る -->
+                    <div class="check-item">
+                        <div class="img-container">
+                            <img src="files/shunt/shunt-look.png" alt="見る" class="check-icon">
+                        </div>
+                        <div class="check-text">
+                            <h4>見る（視診）</h4>
+                            <p>赤み、腫れ、傷、出血などがないか確認します。</p>
+                        </div>
+                    </div>
+                    <!-- 聴く -->
+                    <div class="check-item">
+                        <div class="img-container">
+                            <img src="files/shunt/shunt-listen.png" alt="聴く" class="check-icon">
+                        </div>
+                        <div class="check-text">
+                            <h4>聴く（聴診）</h4>
+                            <p>「ザーザー」という音が連続して聴こえるか確認します。</p>
+                        </div>
+                    </div>
+                    <!-- 触る -->
+                    <div class="check-item">
+                        <div class="img-container">
+                            <img src="files/shunt/shunt-touch.png" alt="触る" class="check-icon">
+                        </div>
+                        <div class="check-text">
+                            <h4>触る（触診）</h4>
+                            <p>指で軽く触れて、スリル（振動）があるか確認します。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>日常生活で気をつけること</h3>
+                <ul class="ng-list">
+                    <li>シャント側で重いものを持たない</li>
+                    <li>シャント側で血圧測定や採血をしない</li>
+                    <li>腕を体の下にして寝ない</li>
+                    <li>シャント部を清潔に保つ</li>
+                </ul>
+
+                <button class="emergency-btn"
+                    onclick="document.querySelector('.modal-overlay').classList.add('active')">各施設への連絡先はこちら</button>
+            </section>
+
+            <!-- ② クイズ -->
+            <section id="quiz" class="content-section">
+                <div class="quiz-section">
+                    <h2>挑戦してみよう！シャント管理クイズ</h2>
+                    <p>ゲーム感覚で楽しく知識が身につきます。</p>
+                    <a href="friend-shunt-quiz.html" class="quiz-button">クイズに挑戦する！</a>
+                </div>
+            </section>
+
+            <!-- ③ Q&A -->
+            <section id="qa" class="content-section qa-search-section" data-csv-path="files/data/qa-data.csv"
+                data-category="シャント">
+                <h2>シャント管理Q&A</h2>
+                <div class="qa-search-container">
+                    <input type="search" class="qa-search-input" placeholder="キーワード (例: 痛み, 閉塞)" autocomplete="off">
+                </div>
+                <div class="qa-popular-keywords">
+                    <h3>よく検索されるワード</h3>
+                    <div class="keyword-buttons">
+                        <button class="keyword-button" onclick="setKeyword('痛み')">痛み</button>
+                        <button class="keyword-button" onclick="setKeyword('閉塞')">閉塞</button>
+                        <button class="keyword-button" onclick="setKeyword('感染')">感染</button>
+                    </div>
+                </div>
+                <div class="qa-results-container"></div>
+            </section>
+        </main>
+
+        <a href="friend-main.html" class="back-to-portal-button">特典ページへ戻る</a>
+        <footer>
+            <p><small>&copy; 2025 医療法人 好輝会 梶本クリニック</small></p>
+        </footer>
+    </div>
+
+    <!-- 連絡先モーダル -->
+    <div class="modal-overlay" onclick="if(event.target==this) this.classList.remove('active')">
+        <div class="modal-content">
+            <button class="close-modal-btn"
+                onclick="this.closest('.modal-overlay').classList.remove('active')">&times;</button>
+            <h3>連絡先を選択</h3>
+            <div class="contact-list">
+                <a href="tel:0664519010" class="contact-link">
+                    <span class="contact-name">本院</span><span class="contact-icon">📞</span>
+                </a>
+                <a href="tel:0722502960" class="contact-link">
+                    <span class="contact-name">なかもず分院</span><span class="contact-icon">📞</span>
+                </a>
+                <a href="tel:0722758980" class="contact-link">
+                    <span class="contact-name">三国ヶ丘分院</span><span class="contact-icon">📞</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script type="module" src="js/qa/qa-loader.js"></script>
+    <script>
+        window.switchTab = function (id) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            const buttons = document.querySelectorAll('.nav-button');
+            for (let btn of buttons) {
+                if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(id)) btn.classList.add('active');
+            }
+        }
+        window.setKeyword = function (word) {
+            const input = document.querySelector('.content-section.active .qa-search-input');
+            if (input) {
+                input.value = word;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        }
+    </script>
+</body>
+
+</html>

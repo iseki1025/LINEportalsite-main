@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>災害情報ポータル</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="theme-disaster">
+    <div class="container">
+        <header>
+            <h1>災害情報ポータル</h1>
+        </header>
+
+        <!-- 透析状況（アコーディオン） -->
+        <section id="dialysis-status" class="collapsible-section is-open" style="max-width:900px; margin:0 auto 2rem;">
+            <div class="collapsible-header-wrapper" onclick="this.parentElement.classList.toggle('is-open')"
+                style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1.5rem;">
+
+                <h2 style="margin:0; width:auto; border:none; padding:0;">現在の透析状況</h2>
+                <span class="collapse-hint" style="margin-top:0.5rem;">▼ タップで開閉</span>
+            </div>
+
+            <div class="collapsible-content">
+                <div class="status-container" id="dialysisStatusContainer">
+                    <p style="text-align:center; padding:2rem; width:100%;">読み込み中...</p>
+                </div>
+                <p style="text-align:center; margin-top:1.5rem; font-size:0.9rem; color:#4b5563; font-weight:bold;">
+                    ※この情報は災害時などに随時更新されます。
+                </p>
+            </div>
+        </section>
+
+        <!-- タブナビゲーション -->
+        <nav class="page-nav">
+            <button class="nav-button active" onclick="switchTab('info')">基本情報</button>
+            <button class="nav-button" onclick="switchTab('evacuation')">避難手段</button>
+            <button class="nav-button" onclick="switchTab('faq')">災害Q&A</button>
+        </nav>
+
+        <main id="content-area">
+
+            <!-- ① 基本情報 -->
+            <section id="info" class="content-section active">
+                <h2>災害への備え:基本情報</h2>
+                <div class="intro-text">
+                    <p>災害はいつ起こるかわかりません。日頃から適切な準備をしておくことで、いざという時に自分や家族の命を守ることができます。</p>
+                </div>
+
+                <!-- 防災ハンドブック（PDF） -->
+                <div class="pdf-collapsible">
+                    <div class="pdf-collapsible-header" onclick="togglePdf()">
+                        <span>📖 梶本クリニック 防災ハンドブックを見る</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="pdf-collapsible-content">
+                        <div class="pdf-collapsible-body">
+                            <p style="margin-bottom:1rem;">災害時にすべきこと、起こる前の備えについて詳しくまとめています。</p>
+
+                            <!-- スマホ用リンク -->
+                            <div class="pdf-mobile-notice">
+                                <strong>📱 スマートフォンでご覧の方へ</strong><br>
+                                下のボタンから別ページでPDFを開くことをおすすめします。
+                            </div>
+                            <div class="pdf-link-mobile-wrapper">
+                                <a href="files/pdf/disaster-guide-book.pdf" target="_blank"
+                                    class="back-to-portal-button" style="background:#007bff; border:none;">防災ハンドブックを開く
+                                    (PDF)</a>
+                            </div>
+
+                            <!-- PC用埋め込み -->
+                            <div class="pdf-loading-container" id="pdfLoadingContainer">
+                                <div class="pdf-spinner"></div>
+                                <p>防災ハンドブックを読み込んでいます...</p>
+                            </div>
+                            <embed id="pdfEmbed" src="" type="application/pdf" class="pdf-embed-desktop">
+                        </div>
+                    </div>
+                </div>
+
+                <h3>防災の基本4つのポイント</h3>
+
+                <div class="prevention-grid">
+                    <!-- 1. ハザードマップ -->
+                    <a href="disaster-hazardmap.html" class="prevention-card"
+                        style="text-decoration:none; color:inherit; display:block;">
+                        <div class="prevention-card-img-wrapper">
+                            <img src="files/disaster/Check the hazard map.png" alt="ハザードマップの確認">
+                        </div>
+                        <div class="prevention-card-body">
+                            <h3>ハザードマップの確認</h3>
+                            <p>お住まいの地域でどのような災害のリスクがあるかを確認し、避難場所や避難経路を家族で共有しておきましょう。<br><strong>(タップして詳細ページへ)</strong>
+                            </p>
+                        </div>
+                    </a>
+
+                    <!-- 2. 備蓄と非常用持ち出し袋 -->
+                    <a href="disaster-stock.html" class="prevention-card"
+                        style="text-decoration:none; color:inherit; display:block;">
+                        <div class="prevention-card-img-wrapper">
+                            <img src="files/disaster/Home stockpiles.png" alt="備蓄と非常用持ち出し袋">
+                        </div>
+                        <div class="prevention-card-body">
+                            <h3>備蓄と非常用持ち出し袋</h3>
+                            <p>断水・停電に備えた水や食料、避難時に必要な持ち出し袋の準備は命を守る基本です。透析患者様特有のリストも確認できます。<br><strong>(タップしてリストを見る)</strong>
+                            </p>
+                        </div>
+                    </a>
+
+                    <!-- 3. 家具の固定 -->
+                    <a href="disaster-furniture.html" class="prevention-card"
+                        style="text-decoration:none; color:inherit; display:block;">
+                        <div class="prevention-card-img-wrapper">
+                            <img src="files/disaster/fixing furniture.png" alt="家具の固定">
+                        </div>
+                        <div class="prevention-card-body">
+                            <h3>家具の固定</h3>
+                            <p>地震による家具の転倒を防ぐため、タンスや本棚などを壁に固定しましょう。具体的な固定方法はこちら。<br><strong>(タップして対策方法を見る)</strong></p>
+                        </div>
+                    </a>
+
+                    <!-- 4. 安否確認 (修正: リンクタグに変更) -->
+                    <a href="disaster-safety.html" class="prevention-card"
+                        style="text-decoration:none; color:inherit; display:block;">
+                        <div class="prevention-card-img-wrapper">
+                            <img src="files/disaster/Sharing methods for confirming safety.png" alt="安否確認方法の共有">
+                        </div>
+                        <div class="prevention-card-body">
+                            <h3>安否確認方法の共有</h3>
+                            <p>災害時には電話が繋がりにくくなります。災害用伝言ダイヤル(171)や当院への連絡先はこちらから確認できます。<br><strong>(タップして連絡先を見る)</strong>
+                            </p>
+                        </div>
+                    </a>
+                </div>
+
+            </section>
+
+            <!-- ③ 避難手段 -->
+            <section id="evacuation" class="content-section">
+                <h2>おひとりでは避難が難しい方へ</h2>
+                <p style="margin-bottom:2rem;">災害時、当院では様々な避難手段を用意しています。各設備の使用方法を事前に確認しておきましょう。</p>
+
+                <!-- イーバックチェア -->
+                <div class="evacuation-item">
+                    <div class="evacuation-item-header" onclick="this.parentElement.classList.toggle('is-open')">
+                        <span>イーバックチェア（階段避難車）</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="evacuation-item-content">
+                        <div class="evacuation-item-body">
+                            <p><strong>概要:</strong>
+                                車椅子の方や歩行が困難な方を、階段を使って安全に避難させるための専用チェアです。キャタピラ式の構造により、介助者1〜2名で階段を降りることができます。</p>
+                            <p><strong>設置場所:</strong> 各階の避難経路入口付近</p>
+                            <div class="video-wrapper">
+                                <!-- 動画があればここにsrcを指定 -->
+                                <div
+                                    style="color:white; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
+                                    動画準備中</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UDエスケープ -->
+                <div class="evacuation-item">
+                    <div class="evacuation-item-header" onclick="this.parentElement.classList.toggle('is-open')">
+                        <span>UDエスケープ（三国ヶ丘のみ）</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="evacuation-item-content">
+                        <div class="evacuation-item-body">
+                            <p><strong>概要:</strong> ベランダから地上へ素早く避難するための乗り物です。エレベーターのような構造で、階段が使えない緊急時に使用します。</p>
+                            <p><strong>設置場所:</strong> 2階のベランダ北端（非常口表示あり）</p>
+                            <div class="video-wrapper">
+                                <div
+                                    style="color:white; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
+                                    動画準備中</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 外部の滑り台 -->
+                <div class="evacuation-item">
+                    <div class="evacuation-item-header" onclick="this.parentElement.classList.toggle('is-open')">
+                        <span>外部避難用滑り台（なかもず分院のみ）</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="evacuation-item-content">
+                        <div class="evacuation-item-body">
+                            <p><strong>概要:</strong> 建物外部に設置された金属製の避難用滑り台です。火災などで建物内の避難経路が使えない場合に使用します。</p>
+                            <p><strong>設置場所:</strong> 建物南側2階・3階・4階・5階</p>
+                            <div class="video-wrapper">
+                                <div
+                                    style="color:white; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
+                                    動画準備中</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>⚠ 注意事項</strong><br>
+                    これらの避難手段は、職員の指示に従ってご使用ください。定期的に避難訓練を実施していますので、ぜひご参加ください。
+                </div>
+            </section>
+
+            <!-- ⑤ 災害Q&A -->
+            <section id="faq" class="content-section qa-search-section" data-csv-path="files/data/qa-data.csv"
+                data-category="災害">
+                <h2>災害対策についてのQ&A</h2>
+                <div class="qa-search-container">
+                    <input type="search" class="qa-search-input" placeholder="キーワード (例: 備蓄, 避難所)" autocomplete="off">
+                </div>
+
+                <!-- よく検索されるワード -->
+                <div class="qa-popular-keywords">
+                    <h3>よく検索されるワード</h3>
+                    <div class="keyword-buttons">
+                        <button class="keyword-button" onclick="setKeyword('備蓄')">備蓄</button>
+                        <button class="keyword-button" onclick="setKeyword('避難')">避難</button>
+                        <button class="keyword-button" onclick="setKeyword('連絡')">連絡</button>
+                        <button class="keyword-button" onclick="setKeyword('薬')">薬</button>
+                    </div>
+                </div>
+
+                <div class="qa-results-container">
+                    <!-- 検索結果はここに表示されます -->
+                </div>
+            </section>
+
+        </main>
+
+        <a href="index.html" class="back-to-portal-button">トップへ戻る</a>
+
+        <footer>
+            <p><small>&copy; 2025 医療法人 好輝会 梶本クリニック</small></p>
+        </footer>
+    </div>
+
+    <!-- ライブラリとスクリプト -->
+    <script type="module" src="js/qa/qa-loader.js"></script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, getDocs, orderBy, query } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from './js/firebase-config.js';
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 透析状況の読み込み
+        async function loadDialysisStatus() {
+            const container = document.getElementById('dialysisStatusContainer');
+            try {
+                const snapshot = await getDocs(collection(db, 'dialysis_status'));
+                container.innerHTML = '';
+
+                const facilities = ["本院", "なかもず分院", "三国ヶ丘分院"];
+                const dataMap = {};
+                snapshot.forEach(doc => dataMap[doc.id] = doc.data());
+
+                facilities.forEach(name => {
+                    const data = dataMap[name] || { status: 'available', reason: '' };
+                    const statusClass = data.status === 'available' ? 'status-ok' : 'status-ng';
+                    const statusText = data.status === 'available' ? '透析可' : '透析不可';
+
+                    const item = document.createElement('div');
+                    item.className = 'status-item';
+                    item.innerHTML = `
+                        <div class="status-name">${name.replace('分院', '<br>分院')}</div>
+                        <div class="status-value ${statusClass}">${statusText}</div>
+                        <div class="status-reason">${data.reason || ''}</div>
+                    `;
+                    container.appendChild(item);
+                });
+            } catch (error) {
+                console.error('Status load error:', error);
+                container.innerHTML = '<p>状況の取得に失敗しました</p>';
+            }
+        }
+        loadDialysisStatus();
+
+        // 検索キーワード
+        window.setKeyword = function (word) {
+            const input = document.querySelector('.content-section.active .qa-search-input');
+            if (input) {
+                input.value = word;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        };
+
+        // タブ切り替え
+        window.switchTab = function (id) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+
+            const buttons = document.querySelectorAll('.nav-button');
+            for (let btn of buttons) {
+                if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(id)) {
+                    btn.classList.add('active');
+                }
+            }
+        }
+
+        // PDF読み込み
+        let pdfLoaded = false;
+        window.togglePdf = function () {
+            const container = document.querySelector('.pdf-collapsible');
+            container.classList.toggle('is-open');
+
+            if (container.classList.contains('is-open') && !pdfLoaded) {
+                setTimeout(() => {
+                    document.getElementById('pdfEmbed').src = "files/pdf/disaster-guide-book.pdf#toolbar=0";
+                    pdfLoaded = true;
+                    setTimeout(() => {
+                        document.getElementById('pdfLoadingContainer').style.display = 'none';
+                        document.getElementById('pdfEmbed').style.display = 'block';
+                    }, 1500);
+                }, 100);
+            }
+        }
+    </script>
+</body>
+
+</html>

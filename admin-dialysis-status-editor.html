@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>透析状況更新 - 梶本クリニック 統合管理システム</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .status-editor-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            margin-bottom: 2rem;
+        }
+
+        .facility-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 2px solid #e5e7eb;
+        }
+
+        .facility-card.available {
+            border-color: #10b981;
+        }
+
+        .facility-card.unavailable {
+            border-color: #ef4444;
+        }
+
+        .status-toggle {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .status-toggle label {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border: 2px solid #e5e7eb;
+            font-weight: bold;
+        }
+
+        .status-toggle input[type="radio"]:checked+label.radio-ok {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .status-toggle input[type="radio"]:checked+label.radio-ng {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+
+        .status-toggle input[type="radio"] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="admin-body">
+    <header class="admin-header">
+        <div class="admin-header-left">
+            <button onclick="location.href='admin-dashboard.html'" class="btn-logout" style="margin-right:1rem;">←
+                戻る</button>
+            <h1>💉 透析状況更新</h1>
+        </div>
+        <div class="admin-header-right">
+            <button id="logoutBtn" class="btn-logout">ログアウト</button>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <section class="editor-section">
+            <h2>各施設の状況を選択</h2>
+            <p>更新後、災害情報ページに即座に反映されます。</p>
+
+            <div id="statusGrid" class="status-editor-grid">
+                <!-- JSで生成 -->
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <button id="updateBatchBtn" class="btn-primary"
+                    style="padding: 1rem 3rem; font-size: 1.2rem;">全ての状況を更新する</button>
+            </div>
+            <div id="lastUpdateInfo" class="qa-meta" style="text-align: center; margin-top: 1rem;"></div>
+        </section>
+    </main>
+
+    <script type="module">
+        import { requireAuth } from './js/admin/auth-guard.js';
+        import { requirePermission } from './js/admin/permission-check.js';
+        import { showSuccess, confirmAction, showLoading } from './js/admin/ui-helper.js';
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, doc, getDoc, setDoc, Timestamp, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from './js/firebase-config.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const user = await requireAuth();
+        await requirePermission('dialysisStatus');
+
+        const statusGrid = document.getElementById('statusGrid');
+        const updateBatchBtn = document.getElementById('updateBatchBtn');
+        const lastUpdateInfo = document.getElementById('lastUpdateInfo');
+
+        const facilities = ["本院", "なかもず分院", "三国ヶ丘分院"];
+        let currentData = {};
+
+        async function loadStatus() {
+            showLoading(statusGrid);
+            try {
+                const snapshot = await getDocs(collection(db, 'dialysis_status'));
+                snapshot.forEach(doc => {
+                    currentData[doc.id] = doc.data();
+                });
+
+                renderStatusCards();
+            } catch (error) {
+                console.error('Load status error:', error);
+                statusGrid.innerHTML = '<p>データの読み込みに失敗しました。</p>';
+            }
+        }
+
+        function renderStatusCards() {
+            statusGrid.innerHTML = facilities.map(name => {
+                const data = currentData[name] || { status: 'available', reason: '' };
+                const isOk = data.status === 'available';
+
+                return `
+          <div class="facility-card ${data.status}" id="card-${name}">
+            <h3>${name}</h3>
+            <div class="status-toggle">
+              <input type="radio" name="status-${name}" id="ok-${name}" value="available" ${isOk ? 'checked' : ''} onchange="window.toggleReason('${name}', true)">
+              <label for="ok-${name}" class="radio-ok">透析可</label>
+              
+              <input type="radio" name="status-${name}" id="ng-${name}" value="unavailable" ${!isOk ? 'checked' : ''} onchange="window.toggleReason('${name}', false)">
+              <label for="ng-${name}" class="radio-ng">透析不可</label>
+            </div>
+            <div class="form-group" id="reason-group-${name}" style="display: ${isOk ? 'none' : 'block'}">
+              <label>理由（例：断水のため）</label>
+              <input type="text" id="reason-${name}" value="${data.reason || ''}" placeholder="理由を入力してください">
+            </div>
+          </div>
+        `;
+            }).join('');
+
+            // 最終更新情報の表示
+            const latest = Object.values(currentData).sort((a, b) => b.updatedAt?.toMillis() - a.updatedAt?.toMillis())[0];
+            if (latest) {
+                lastUpdateInfo.textContent = `最終更新: ${latest.updatedAt?.toDate().toLocaleString()} (担当: ${latest.updatedByDisplayName || latest.updatedBy})`;
+            }
+        }
+
+        window.toggleReason = (name, isOk) => {
+            const group = document.getElementById(`reason-group-${name}`);
+            const card = document.getElementById(`card-${name}`);
+            group.style.display = isOk ? 'none' : 'block';
+            card.className = `facility-card ${isOk ? 'available' : 'unavailable'}`;
+        };
+
+        updateBatchBtn.addEventListener('click', async () => {
+            updateBatchBtn.disabled = true;
+            updateBatchBtn.textContent = '更新中...';
+
+            try {
+                for (const name of facilities) {
+                    const status = document.querySelector(`input[name="status-${name}"]:checked`).value;
+                    const reason = document.getElementById(`reason-${name}`).value;
+
+                    await setDoc(doc(db, 'dialysis_status', name), {
+                        facility: name,
+                        status: status,
+                        reason: status === 'available' ? '' : reason,
+                        updatedAt: Timestamp.now(),
+                        updatedBy: user.uid,
+                        updatedByDisplayName: user.displayName
+                    });
+                }
+                showSuccess('全ての状況を更新しました');
+                loadStatus();
+            } catch (error) {
+                console.error('Update error:', error);
+                alert('更新中にエラーが発生しました');
+            } finally {
+                updateBatchBtn.disabled = false;
+                updateBatchBtn.textContent = '全ての状況を更新する';
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            if (confirmAction('ログアウトしますか？')) {
+                await signOut(auth);
+                window.location.href = 'admin-login.html';
+            }
+        });
+
+        loadStatus();
+    </script>
+</body>
+
+</html>

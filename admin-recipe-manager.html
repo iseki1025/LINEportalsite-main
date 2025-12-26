@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レシピ管理 - 梶本クリニック 統合管理システム</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="admin-body">
+    <header class="admin-header">
+        <div class="admin-header-left">
+            <button onclick="location.href='admin-dashboard.html'" class="btn-logout" style="margin-right:1rem;">←
+                戻る</button>
+            <h1>🍽️ レシピ管理</h1>
+        </div>
+        <div class="admin-header-right">
+            <button id="logoutBtn" class="btn-logout">ログアウト</button>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <section class="editor-section">
+            <h2>新規レシピ登録</h2>
+            <form id="recipeForm">
+                <div class="form-group">
+                    <label for="recipeTitle">レシピ名（例：夏野菜のカレー）</label>
+                    <input type="text" id="recipeTitle" required placeholder="レシピ名を入力">
+                </div>
+                <div class="form-group">
+                    <label for="recipeFile">PDFファイル（10MB以下）</label>
+                    <input type="file" id="recipeFile" accept="application/pdf" required>
+                </div>
+                <button type="submit" id="uploadBtn" class="btn-primary">アップロード</button>
+                <div id="uploadProgress" style="margin-top:1rem; display:none;">
+                    <div class="spinner"
+                        style="width:20px; height:20px; border-width:2px; display:inline-block; vertical-align:middle;">
+                    </div>
+                    <span style="margin-left:0.5rem;">処理中...</span>
+                </div>
+            </form>
+        </section>
+
+        <section class="editor-section">
+            <h2>登録済みレシピ一覧</h2>
+            <div id="recipeList">
+                <div class="loading-container">
+                    <div class="spinner"></div>
+                    <p>読み込み中...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module">
+        import { requireAuth } from './js/admin/auth-guard.js';
+        import { requirePermission } from './js/admin/permission-check.js';
+        import { showSuccess, confirmAction, showLoading } from './js/admin/ui-helper.js';
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+        import { firebaseConfig } from './js/firebase-config.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        const user = await requireAuth();
+        await requirePermission('recipes');
+
+        const recipeForm = document.getElementById('recipeForm');
+        const recipeList = document.getElementById('recipeList');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadProgress = document.getElementById('uploadProgress');
+
+        async function loadRecipes() {
+            showLoading(recipeList);
+            try {
+                const q = query(collection(db, 'recipes'), orderBy('uploadedAt', 'desc'));
+                const snapshot = await getDocs(q);
+                const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderRecipeList(data);
+            } catch (error) {
+                console.error('Load recipes error:', error);
+                recipeList.innerHTML = '<p>データの読み込みに失敗しました。</p>';
+            }
+        }
+
+        function renderRecipeList(recipes) {
+            if (recipes.length === 0) {
+                recipeList.innerHTML = '<p>登録されているレシピはありません。</p>';
+                return;
+            }
+
+            recipeList.innerHTML = recipes.map(item => `
+        <div class="user-list-item" style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h4>📄 ${item.title}</h4>
+            <p>登録日: ${item.uploadedAt?.toDate().toLocaleString()}</p>
+            <p>サイズ: ${(item.fileSize / 1024 / 1024).toFixed(2)} MB</p>
+          </div>
+          <div class="user-actions">
+            <a href="${item.storageUrl}" target="_blank" class="btn-secondary" style="text-decoration:none; padding: 0.5rem 1rem; font-size: 0.8rem;">プレビュー</a>
+            <button class="btn-danger" onclick="window.deleteRecipe('${item.id}', '${item.filename}')" style="padding: 0.5rem 1rem; font-size: 0.8rem;">削除</button>
+          </div>
+        </div>
+      `).join('');
+        }
+
+        recipeForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('recipeTitle').value;
+            const file = document.getElementById('recipeFile').files[0];
+
+            if (!file || file.type !== 'application/pdf') {
+                alert('PDFファイルを選択してください');
+                return;
+            }
+            if (file.size > 10 * 1024 * 1024) {
+                alert('ファイルサイズを10MB以下にしてください');
+                return;
+            }
+
+            uploadBtn.disabled = true;
+            uploadProgress.style.display = 'block';
+
+            try {
+                const filename = `${Date.now()}-${file.name.replace(/[^\x00-\x7F]/g, "")}`; // Remove non-ascii to avoid issues
+                const storageRef = ref(storage, `recipes/${filename}`);
+
+                // Storageへアップロード
+                await uploadBytes(storageRef, file);
+                const storageUrl = await getDownloadURL(storageRef);
+
+                // Firestoreにメタデータ保存
+                await addDoc(collection(db, 'recipes'), {
+                    title: title,
+                    filename: filename,
+                    storageUrl: storageUrl,
+                    fileSize: file.size,
+                    uploadedAt: new Date(),
+                    uploadedBy: user.uid,
+                    uploadedByDisplayName: user.displayName
+                });
+
+                showSuccess('レシピをアップロードしました');
+                recipeForm.reset();
+                loadRecipes();
+            } catch (error) {
+                console.error('Upload error:', error);
+                alert('アップロード中にエラーが発生しました');
+            } finally {
+                uploadBtn.disabled = false;
+                uploadProgress.style.display = 'none';
+            }
+        });
+
+        window.deleteRecipe = async (id, filename) => {
+            if (confirmAction('このレシピを削除しますか？\n(PDFファイルも削除されます)')) {
+                try {
+                    // 1. Storageから削除
+                    const storageRef = ref(storage, `recipes/${filename}`);
+                    await deleteObject(storageRef);
+
+                    // 2. Firestoreから削除
+                    await deleteDoc(doc(db, 'recipes', id));
+
+                    showSuccess('レシピを削除しました');
+                    loadRecipes();
+                } catch (error) {
+                    console.error('Delete error:', error);
+                    alert('削除に失敗しました');
+                }
+            }
+        };
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            if (confirmAction('ログアウトしますか？')) {
+                await signOut(auth);
+                window.location.href = 'admin-login.html';
+            }
+        });
+
+        loadRecipes();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ダッシュボード - 梶本クリニック 統合管理システム</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="admin-body">
+    <header class="admin-header">
+        <div class="admin-header-left">
+            <h1>📊 管理画面</h1>
+        </div>
+        <div class="admin-header-right">
+            <span class="user-info">
+                ようこそ、<strong id="displayName">...</strong>さん（<span id="userRole">...</span>）
+            </span>
+            <button id="logoutBtn" class="btn-logout">ログアウト</button>
+        </div>
+    </header>
+
+    <main class="admin-main">
+        <div class="dashboard-grid">
+            <!-- Q&A Card -->
+            <div id="qaCard" class="dashboard-card">
+                <h3>📋 Q&A編集</h3>
+                <p>あなたが編集可能な質問・回答を管理できます。</p>
+                <button onclick="location.href='admin-qa-editor.html'">編集する</button>
+            </div>
+
+            <!-- Dialysis Status Card -->
+            <div id="dialysisCard" class="dashboard-card">
+                <h3>💉 透析状況更新</h3>
+                <p>各施設の透析可否情報を更新できます。</p>
+                <button onclick="location.href='admin-dialysis-status-editor.html'">更新する</button>
+            </div>
+
+            <!-- Recipe Card -->
+            <div id="recipeCard" class="dashboard-card">
+                <h3>🍽️ レシピ管理</h3>
+                <p>レシピPDFのアップロード・削除ができます。</p>
+                <button onclick="location.href='admin-recipe-manager.html'">管理する</button>
+            </div>
+
+            <!-- User Manager Card (Admin only) -->
+            <div id="userMgrCard" class="dashboard-card" style="display: none;">
+                <h3>👥 ユーザー管理</h3>
+                <p>アカウントの作成・権限設定ができます。</p>
+                <button onclick="location.href='admin-user-manager.html'">管理する</button>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { requireAuth } from './js/admin/auth-guard.js';
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { firebaseConfig } from './js/firebase-config.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // 認証チェック
+        const user = await requireAuth();
+        if (!user) {
+            // Auth guard handles redirect
+        } else {
+            // 表示更新
+            document.getElementById('displayName').textContent = user.displayName;
+            document.getElementById('userRole').textContent = user.role === 'admin' ? 'システム管理者' : '編集者';
+
+            // 権限に応じた表示制御
+            if (user.role === 'admin') {
+                document.getElementById('userMgrCard').style.display = 'block';
+            }
+
+            // 編集権限のチェック (編集者の場合)
+            if (user.role !== 'admin') {
+                if (!user.permissions.qa) {
+                    disableCard('qaCard');
+                }
+                if (!user.permissions.dialysisStatus) {
+                    disableCard('dialysisCard');
+                }
+                if (!user.permissions.recipes) {
+                    disableCard('recipeCard');
+                }
+            }
+        }
+
+        function disableCard(id) {
+            const card = document.getElementById(id);
+            card.classList.add('disabled');
+            card.querySelector('button').disabled = true;
+        }
+
+        // ログアウト
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            if (confirm('ログアウトしますか？')) {
+                await signOut(auth);
+                window.location.href = 'admin-login.html';
+            }
+        });
+    </script>
+</body>
+
+</html>

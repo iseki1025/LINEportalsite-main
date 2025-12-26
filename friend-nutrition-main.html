@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>透析情報ポータル | 栄養情報</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="theme-nutrition">
+    <div class="container">
+        <header>
+            <h1>透析患者さんのための栄養情報</h1>
+        </header>
+        <nav class="page-nav">
+            <button class="nav-button active" onclick="switchTab('info')">栄養の基本</button>
+            <button class="nav-button" onclick="switchTab('recipe')">おすすめ<br>レシピ</button>
+            <button class="nav-button" onclick="switchTab('quiz')">栄養クイズ</button>
+            <button class="nav-button" onclick="switchTab('qa')">栄養Q&A</button>
+        </nav>
+
+        <main id="content-area">
+            <!-- ① 栄養の基本 -->
+            <section id="info" class="content-section active">
+                <h2>透析と食事のたいせつな関係</h2>
+                <div class="intro-text">
+                    <p>適切な食事管理は、透析による体の負担を減らし、合併症を予防します。</p>
+                </div>
+
+                <h3>食事療法の5つの基本ポイント</h3>
+                <ul>
+                    <li><strong>水分・塩分:</strong> 摂りすぎは血圧上昇や心負担の原因になります。</li>
+                    <li><strong>カリウム:</strong> 野菜や果物に多く含まれます。茹でこぼしなどで工夫を。</li>
+                    <li><strong>リン:</strong> 加工食品や乳製品に注意。骨や血管を守るために制限が必要です。</li>
+                    <li><strong>たんぱく質:</strong> 体を作る栄養素ですが、摂りすぎると老廃物が増えます。</li>
+                    <li><strong>エネルギー:</strong> 制限しつつも、炭水化物や脂質でしっかり確保しましょう。</li>
+                </ul>
+            </section>
+
+            <!-- ② おすすめレシピ -->
+            <section id="recipe" class="content-section">
+                <h2>おすすめレシピ</h2>
+                <div id="recipeContainer">
+                    <p style="text-align:center; padding:2rem;">読み込み中...</p>
+                </div>
+            </section>
+
+            <!-- ③ 栄養クイズ -->
+            <section id="quiz" class="content-section">
+                <div class="quiz-section">
+                    <h2>挑戦してみよう！透析栄養クイズ</h2>
+                    <p>食事管理に役立つ知識がゲーム感覚で身につきます。</p>
+                    <a href="friend-nutrition-quiz.html" class="quiz-button">クイズに挑戦する！</a>
+                    <p style="margin-top:1rem; font-size:0.9rem;">ランダムに5問出題されます。</p>
+                </div>
+            </section>
+
+            <!-- ④ 栄養Q&A -->
+            <section id="qa" class="content-section qa-search-section" data-csv-path="files/data/qa-data.csv"
+                data-category="栄養">
+                <h2>栄養についてのQ&A</h2>
+                <div class="qa-search-container">
+                    <input type="search" class="qa-search-input" placeholder="キーワード (例: リン, 外食)" autocomplete="off">
+                </div>
+                <div class="qa-popular-keywords">
+                    <h3>よく検索されるワード</h3>
+                    <div class="keyword-buttons">
+                        <button class="keyword-button" onclick="setKeyword('リン')">リン</button>
+                        <button class="keyword-button" onclick="setKeyword('カリウム')">カリウム</button>
+                        <button class="keyword-button" onclick="setKeyword('水分')">水分</button>
+                        <button class="keyword-button" onclick="setKeyword('塩分')">塩分</button>
+                    </div>
+                </div>
+                <div class="qa-results-container"></div>
+            </section>
+        </main>
+
+        <a href="friend-main.html" class="back-to-portal-button">特典ページへ戻る</a>
+        <footer>
+            <p><small>&copy; 2025 医療法人 好輝会 梶本クリニック</small></p>
+        </footer>
+    </div>
+
+    <!-- JS: Firestore, QA, Tab -->
+    <script type="module" src="js/qa/qa-loader.js"></script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, getDocs, orderBy, query } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from './js/firebase-config.js';
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // レシピの読み込み
+        async function loadRecipes() {
+            const container = document.getElementById('recipeContainer');
+            try {
+                const q = query(collection(db, 'recipes'), orderBy('uploadedAt', 'desc'));
+                const snapshot = await getDocs(q);
+
+                if (snapshot.empty) {
+                    container.innerHTML = '<p style="text-align:center;">現在、公開されているレシピはありません。</p>';
+                    return;
+                }
+
+                container.innerHTML = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    return `
+                        <div class="pdf-collapsible" data-pdf="${data.storageUrl}">
+                            <div class="pdf-collapsible-header" onclick="togglePdf(this)">
+                                <span>🍳 ${data.title}</span>
+                                <span>▼</span>
+                            </div>
+                            <div class="pdf-collapsible-content">
+                                <div class="pdf-collapsible-body">
+                                    <div class="pdf-mobile-notice">📱 下のボタンからPDFを開くのがおすすめです</div>
+                                    <div class="pdf-link-mobile-wrapper">
+                                        <a href="${data.storageUrl}" target="_blank" class="pdf-link-mobile">PDFを開く</a>
+                                    </div>
+                                    <div class="pdf-loading-container">
+                                        <div class="pdf-spinner"></div><p>読み込み中...</p>
+                                    </div>
+                                    <embed src="" type="application/pdf" class="pdf-embed-desktop">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Recipe load error:', error);
+                container.innerHTML = '<p>レシピの取得に失敗しました</p>';
+            }
+        }
+        loadRecipes();
+
+        // 検索キーワード
+        window.setKeyword = function (word) {
+            const input = document.querySelector('.content-section.active .qa-search-input');
+            if (input) {
+                input.value = word;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        };
+
+        // タブ切り替え
+        window.switchTab = function (id) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+
+            const buttons = document.querySelectorAll('.nav-button');
+            for (let btn of buttons) {
+                if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(id)) {
+                    btn.classList.add('active');
+                }
+            }
+        }
+
+        // PDF開閉ロジック
+        window.togglePdf = function (header) {
+            const container = header.parentElement;
+            const pdfUrl = container.getAttribute('data-pdf');
+            const embed = container.querySelector('embed');
+            const loader = container.querySelector('.pdf-loading-container');
+
+            container.classList.toggle('is-open');
+
+            if (container.classList.contains('is-open') && !embed.src) {
+                setTimeout(() => {
+                    embed.src = pdfUrl + '#toolbar=0';
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                        embed.style.display = 'block';
+                    }, 1500);
+                }, 100);
+            }
+        }
+    </script>
+</body>
+
+</html>
