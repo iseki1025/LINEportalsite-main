@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('qa-search-input');
-    const resultsContainer = document.getElementById('qa-results-container');
+    const searchInput = document.querySelector('.qa-search-input');
+    const resultsContainer = document.querySelector('.qa-results-container');
     let qaData = [];
 
     // --- メインの処理を開始 ---
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // CSVファイルを読み込んで解析する関数
     function loadQAData() {
         showInitialMessage('Q&Aデータを読み込んでいます...');
-        const csvFilePath = `files/qa-data.csv?t=${new Date().getTime()}`;
+        const csvFilePath = `files/data/qa-data.csv?t=${new Date().getTime()}`;
 
         Papa.parse(csvFilePath, {
             download: true,
@@ -35,9 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
             transformHeader: header => header.trim(),
             complete: (results) => {
                 if (results.errors.length > 0 && results.data.length === 0) {
-                     console.error('CSV Parse Error:', results.errors);
-                     showInitialMessage('エラー: Q&Aデータの読み込みに失敗しました。');
-                     return;
+                    console.error('CSV Parse Error:', results.errors);
+                    showInitialMessage('エラー: Q&Aデータの読み込みに失敗しました。');
+                    return;
                 }
 
                 const questionHeader = 'Question';
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         normalizedText: normalizeText(questionText + ' ' + answerText)
                     };
                 }).filter(item => item.question && item.answer);
-                
+
                 console.log("✅ Q&Aデータの読み込みが完了しました。");
                 showInitialMessage(); // 準備完了後、初期メッセージを表示
             },
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 検索ボックスに入力があった時のイベント
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value.trim();
-        
+
         if (!query) {
             showInitialMessage();
             return;
@@ -107,14 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 検索キーワードも正規化する
         const searchKeywords = query.split(/\s+/)
-                                    .filter(keyword => keyword)
-                                    .map(keyword => normalizeText(keyword));
+            .filter(keyword => keyword)
+            .map(keyword => normalizeText(keyword));
 
         const filteredData = qaData.filter(item => {
             // 全てのキーワードが、正規化されたテキストに含まれているかチェック
             return searchKeywords.every(keyword => item.normalizedText.includes(keyword));
         });
-        
+
         displayResults(filteredData);
     });
 });

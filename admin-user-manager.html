@@ -55,7 +55,7 @@
                 <div class="form-group" id="permissionsGroup">
                     <label>編集権限（編集者の場合のみ）</label>
                     <div class="checkbox-group">
-                        <label><input type="checkbox" id="permQa" checked> Q&A編集</label>
+                        <!-- <label><input type="checkbox" id="permQa" checked> Q&A編集</label> -->
                         <label><input type="checkbox" id="permDialysis" checked> 透析状況更新</label>
                         <label><input type="checkbox" id="permRecipes" checked> レシピ管理</label>
                     </div>
@@ -143,7 +143,7 @@
             const role = document.querySelector('input[name="role"]:checked').value;
 
             const perms = {
-                qa: document.getElementById('permQa').checked,
+                // qa: document.getElementById('permQa').checked,
                 dialysisStatus: document.getElementById('permDialysis').checked,
                 recipes: document.getElementById('permRecipes').checked
             };
@@ -215,7 +215,7 @@
             document.querySelector(`input[name="role"][value="${user.role}"]`).checked = true;
 
             if (user.permissions) {
-                document.getElementById('permQa').checked = user.permissions.qa;
+                // if (document.getElementById('permQa')) document.getElementById('permQa').checked = user.permissions.qa;
                 document.getElementById('permDialysis').checked = user.permissions.dialysisStatus;
                 document.getElementById('permRecipes').checked = user.permissions.recipes;
             }
