@@ -6,6 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>透析情報ポータル | 栄養情報</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        if (window.location.protocol === 'file:') {
+            window.addEventListener('DOMContentLoaded', () => {
+                const container = document.getElementById('recipeContainer');
+                if (container) {
+                    container.innerHTML = '<p style="padding:1rem; color:#e53e3e; background:#fff5f5; border-radius:8px; text-align:center;">' +
+                        '<strong>⚠️ ローカル閲覧制限</strong><br>' +
+                        'レシピの読み込みには <code>http://</code> サーバーが必要です。<br>' +
+                        '<code>start_server.bat</code> を使用してください。</p>';
+                }
+            });
+        }
+    </script>
 </head>
 
 <body class="theme-nutrition">
@@ -82,31 +95,80 @@
         </footer>
     </div>
 
-    <!-- JS: Firestore, QA, Tab -->
+    <!-- UI Logic: Global scope -->
+    <script>
+        // タブ切り替え
+        function switchTab(id) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+
+            const buttons = document.querySelectorAll('.nav-button');
+            for (let btn of buttons) {
+                if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(id)) {
+                    btn.classList.add('active');
+                }
+            }
+        }
+        window.switchTab = switchTab;
+
+        // PDF開閉ロジック
+        function togglePdf(header) {
+            const container = header.parentElement;
+            const pdfUrl = container.getAttribute('data-pdf');
+            const content = container.querySelector('.pdf-collapsible-content');
+            const embed = container.querySelector('embed');
+            const loader = container.querySelector('.pdf-loading-container');
+
+            container.classList.toggle('is-open');
+
+            if (container.classList.contains('is-open') && !embed.src) {
+                setTimeout(() => {
+                    embed.src = pdfUrl + '#toolbar=0';
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                        embed.style.display = 'block';
+                    }, 1500);
+                }, 100);
+            }
+        }
+        window.togglePdf = togglePdf;
+
+        function setKeyword(word) {
+            const input = document.querySelector('.content-section.active .qa-search-input');
+            if (input) {
+                input.value = word;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        }
+        window.setKeyword = setKeyword;
+    </script>
+
+    <!-- Data Logic: Modules -->
     <script type="module" src="js/qa/qa-loader.js"></script>
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getFirestore, collection, getDocs, orderBy, query } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { firebaseConfig } from './js/firebase-config.js';
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        try {
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
 
-        // レシピの読み込み
-        async function loadRecipes() {
-            const container = document.getElementById('recipeContainer');
-            try {
-                const q = query(collection(db, 'recipes'), orderBy('uploadedAt', 'desc'));
-                const snapshot = await getDocs(q);
+            async function loadRecipes() {
+                const container = document.getElementById('recipeContainer');
+                try {
+                    const q = query(collection(db, 'recipes'), orderBy('uploadedAt', 'desc'));
+                    const snapshot = await getDocs(q);
 
-                if (snapshot.empty) {
-                    container.innerHTML = '<p style="text-align:center;">現在、公開されているレシピはありません。</p>';
-                    return;
-                }
+                    if (snapshot.empty) {
+                        container.innerHTML = '<p style="text-align:center;">現在、公開されているレシピはありません。</p>';
+                        return;
+                    }
 
-                container.innerHTML = snapshot.docs.map(doc => {
-                    const data = doc.data();
-                    return `
+                    container.innerHTML = snapshot.docs.map(doc => {
+                        const data = doc.data();
+                        return `
                         <div class="pdf-collapsible" data-pdf="${data.storageUrl}">
                             <div class="pdf-collapsible-header" onclick="togglePdf(this)">
                                 <span>🍳 ${data.title}</span>
@@ -125,56 +187,17 @@
                                 </div>
                             </div>
                         </div>
-                    `;
-                }).join('');
-            } catch (error) {
-                console.error('Recipe load error:', error);
-                container.innerHTML = '<p>レシピの取得に失敗しました</p>';
-            }
-        }
-        loadRecipes();
-
-        // 検索キーワード
-        window.setKeyword = function (word) {
-            const input = document.querySelector('.content-section.active .qa-search-input');
-            if (input) {
-                input.value = word;
-                input.dispatchEvent(new Event('input', { bubbles: true }));
-            }
-        };
-
-        // タブ切り替え
-        window.switchTab = function (id) {
-            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-
-            const buttons = document.querySelectorAll('.nav-button');
-            for (let btn of buttons) {
-                if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(id)) {
-                    btn.classList.add('active');
+                        `;
+                    }).join('');
+                } catch (error) {
+                    console.error('Recipe load error:', error);
+                    container.innerHTML = '<p style="padding:1rem; color:red;">レシピの取得に失敗しました。<br>(Local環境ではサーバー経由での閲覧が必要です)</p>';
                 }
             }
-        }
-
-        // PDF開閉ロジック
-        window.togglePdf = function (header) {
-            const container = header.parentElement;
-            const pdfUrl = container.getAttribute('data-pdf');
-            const embed = container.querySelector('embed');
-            const loader = container.querySelector('.pdf-loading-container');
-
-            container.classList.toggle('is-open');
-
-            if (container.classList.contains('is-open') && !embed.src) {
-                setTimeout(() => {
-                    embed.src = pdfUrl + '#toolbar=0';
-                    setTimeout(() => {
-                        loader.style.display = 'none';
-                        embed.style.display = 'block';
-                    }, 1500);
-                }, 100);
-            }
+            loadRecipes();
+        } catch (e) {
+            console.error('Firebase init error:', e);
+            document.getElementById('recipeContainer').innerHTML = '<p style="padding:1rem; color:red;">システムの初期化に失敗しました。</p>';
         }
     </script>
 </body>

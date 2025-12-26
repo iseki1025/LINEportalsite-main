@@ -6,49 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>初期セットアップ - 梶本クリニック 統合管理システム</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            background: #f4f7f6;
-            padding: 2rem;
+    <script>
+        // file:// プロトコルでの実行をチェック
+        if (window.location.protocol === 'file:') {
+            window.addEventListener('DOMContentLoaded', () => {
+                const msg = document.getElementById('msg');
+                msg.style.color = '#e53e3e';
+                msg.style.background = '#fff5f5';
+                msg.style.padding = '1rem';
+                msg.style.borderRadius = '8px';
+                msg.style.border = '1px solid #feb2b2';
+                msg.innerHTML = '<strong>⚠️ セキュリティエラー</strong><br>' +
+                    'ブラウザの仕様により、ファイルを直接開くとプログラムが動作しません。<br>' +
+                    '付属の <code>start_server.bat</code> を実行してから<br>' +
+                    '<a href="http://localhost:8000/admin-setup.html">http://localhost:8000/admin-setup.html</a><br>' +
+                    'を開いてください。';
+            });
         }
-
-        .setup-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .setup-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .setup-header h1 {
-            color: #333;
-        }
-
-        .setup-header p {
-            color: #666;
-        }
-
-        .form-section {
-            border-top: 1px solid #eee;
-            padding-top: 1.5rem;
-        }
-
-        .btn-container {
-            text-align: center;
-            margin-top: 2rem;
-        }
-    </style>
+    </script>
 </head>
 
-<body>
-    <div class="setup-container">
-        <div class="setup-header">
+<body class="auth-page-body">
+    <div class="auth-container">
+        <div class="auth-header">
             <h1>🔧 初回セットアップ</h1>
             <p>最初のシステム管理者アカウントを作成します。</p>
         </div>
@@ -78,7 +58,7 @@
                 </select>
             </div>
             <div class="btn-container">
-                <button type="button" id="submitBtn" class="btn-primary">管理者を作成する</button>
+                <button type="button" id="submitBtn" class="btn-auth">管理者を作成する</button>
             </div>
             <div id="msg" style="margin-top:1rem; text-align:center;"></div>
         </div>
@@ -160,7 +140,16 @@
             } catch (error) {
                 console.error('Setup error:', error);
                 msg.style.color = 'red';
-                msg.textContent = 'エラーが発生しました：' + error.message;
+
+                if (error.code === 'auth/operation-not-allowed') {
+                    msg.innerHTML = '<strong>❌ Firebase設定エラー</strong><br>' +
+                        'Firebaseコンソールで「Email/Password」認証が有効になっていません。<br>' +
+                        '1. Firebase Consoleを開く<br>' +
+                        '2. Build > Authentication > Sign-in method を開く<br>' +
+                        '3. 「Email/Password」を有効（Enable）にしてください。';
+                } else {
+                    msg.textContent = 'エラーが発生しました：' + error.message;
+                }
                 submitBtn.disabled = false;
             }
         });

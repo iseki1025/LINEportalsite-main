@@ -9,6 +9,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ページ内のすべての Q&A セクションを取得 (.qa-search-section)
     const qaSections = document.querySelectorAll('.qa-search-section');
 
+    if (window.location.protocol === 'file:') {
+        qaSections.forEach(section => {
+            const resultsContainer = section.querySelector('.qa-results-container');
+            if (resultsContainer) {
+                resultsContainer.innerHTML = '<p style="padding:1rem; color:#e53e3e; background:#fff5f5; border-radius:8px;">' +
+                    '<strong>⚠️ ローカル閲覧制限</strong><br>' +
+                    'Q&Aの検索には <code>http://</code> サーバーが必要です。<br>' +
+                    '<code>start_server.bat</code> を使用してください。</p>';
+            }
+        });
+        return;
+    }
+
     for (const section of qaSections) {
         // セクション内の要素を取得
         const searchInput = section.querySelector('.qa-search-input');

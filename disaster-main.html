@@ -6,6 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>災害情報ポータル</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        if (window.location.protocol === 'file:') {
+            window.addEventListener('DOMContentLoaded', () => {
+                const container = document.getElementById('dialysisStatusContainer');
+                if (container) {
+                    container.innerHTML = '<p style="padding:1rem; color:#e53e3e; background:#fff5f5; border-radius:8px;">' +
+                        '<strong>⚠️ ローカル閲覧制限</strong><br>' +
+                        'このページは <code>http://</code> でアクセスする必要があります。<br>' +
+                        '<code>start_server.bat</code> を使用してください。</p>';
+                }
+            });
+        }
+    </script>
 </head>
 
 <body class="theme-disaster">
@@ -241,58 +254,10 @@
     </div>
 
     <!-- ライブラリとスクリプト -->
-    <script type="module" src="js/qa/qa-loader.js"></script>
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, getDocs, orderBy, query } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-        import { firebaseConfig } from './js/firebase-config.js';
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // 透析状況の読み込み
-        async function loadDialysisStatus() {
-            const container = document.getElementById('dialysisStatusContainer');
-            try {
-                const snapshot = await getDocs(collection(db, 'dialysis_status'));
-                container.innerHTML = '';
-
-                const facilities = ["本院", "なかもず分院", "三国ヶ丘分院"];
-                const dataMap = {};
-                snapshot.forEach(doc => dataMap[doc.id] = doc.data());
-
-                facilities.forEach(name => {
-                    const data = dataMap[name] || { status: 'available', reason: '' };
-                    const statusClass = data.status === 'available' ? 'status-ok' : 'status-ng';
-                    const statusText = data.status === 'available' ? '透析可' : '透析不可';
-
-                    const item = document.createElement('div');
-                    item.className = 'status-item';
-                    item.innerHTML = `
-                        <div class="status-name">${name.replace('分院', '<br>分院')}</div>
-                        <div class="status-value ${statusClass}">${statusText}</div>
-                        <div class="status-reason">${data.reason || ''}</div>
-                    `;
-                    container.appendChild(item);
-                });
-            } catch (error) {
-                console.error('Status load error:', error);
-                container.innerHTML = '<p>状況の取得に失敗しました</p>';
-            }
-        }
-        loadDialysisStatus();
-
-        // 検索キーワード
-        window.setKeyword = function (word) {
-            const input = document.querySelector('.content-section.active .qa-search-input');
-            if (input) {
-                input.value = word;
-                input.dispatchEvent(new Event('input', { bubbles: true }));
-            }
-        };
-
+    <!-- 1. UI制御用の標準スクリプト (moduleにしないことで onclick などから呼べるようにする) -->
+    <script>
         // タブ切り替え
-        window.switchTab = function (id) {
+        function switchTab(id) {
             document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
@@ -304,23 +269,87 @@
                 }
             }
         }
+        window.switchTab = switchTab;
 
         // PDF読み込み
         let pdfLoaded = false;
-        window.togglePdf = function () {
+        function togglePdf() {
             const container = document.querySelector('.pdf-collapsible');
             container.classList.toggle('is-open');
 
             if (container.classList.contains('is-open') && !pdfLoaded) {
+                const embed = document.getElementById('pdfEmbed');
+                const loader = document.getElementById('pdfLoadingContainer');
+
                 setTimeout(() => {
-                    document.getElementById('pdfEmbed').src = "files/pdf/disaster-guide-book.pdf#toolbar=0";
+                    embed.src = "files/pdf/disaster-guide-book.pdf#toolbar=0";
                     pdfLoaded = true;
                     setTimeout(() => {
-                        document.getElementById('pdfLoadingContainer').style.display = 'none';
-                        document.getElementById('pdfEmbed').style.display = 'block';
+                        loader.style.display = 'none';
+                        embed.style.display = 'block';
                     }, 1500);
                 }, 100);
             }
+        }
+        window.togglePdf = togglePdf;
+
+        // 検索キーワード
+        function setKeyword(word) {
+            const input = document.querySelector('.content-section.active .qa-search-input');
+            if (input) {
+                input.value = word;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        }
+        window.setKeyword = setKeyword;
+    </script>
+
+    <!-- 2. Firestoreデータ読み込み用モジュール -->
+    <script type="module" src="js/qa/qa-loader.js"></script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, getDocs, orderBy, query } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from './js/firebase-config.js';
+
+        try {
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+
+            // 透析状況の読み込み
+            async function loadDialysisStatus() {
+                const container = document.getElementById('dialysisStatusContainer');
+                try {
+                    const snapshot = await getDocs(collection(db, 'dialysis_status'));
+                    container.innerHTML = '';
+
+                    const facilities = ["本院", "なかもず分院", "三国ヶ丘分院"];
+                    const dataMap = {};
+                    snapshot.forEach(doc => dataMap[doc.id] = doc.data());
+
+                    facilities.forEach(name => {
+                        const data = dataMap[name] || { status: 'available', reason: '' };
+                        const statusClass = data.status === 'available' ? 'status-ok' : 'status-ng';
+                        const statusText = data.status === 'available' ? '透析可' : '透析不可';
+
+                        const item = document.createElement('div');
+                        item.className = 'status-item';
+                        item.innerHTML = `
+                            <div class="status-name">${name.replace('分院', '<br>分院')}</div>
+                            <div class="status-value ${statusClass}">${statusText}</div>
+                            <div class="status-reason">${data.reason || ''}</div>
+                        `;
+                        container.appendChild(item);
+                    });
+                } catch (error) {
+                    console.error('Status load error:', error);
+                    container.innerHTML = '<p style="padding:1rem; color:red;">状況の取得に失敗しました。<br>ネットワーク環境をご確認ください。</p>';
+                }
+            }
+            loadDialysisStatus();
+        } catch (e) {
+            console.error('Firebase init error:', e);
+            document.getElementById('dialysisStatusContainer').innerHTML =
+                '<p style="padding:1rem; color:red;">システムの初期化に失敗しました。<br>(Local環境ではサーバー経由での閲覧が必要です)</p>';
         }
     </script>
 </body>

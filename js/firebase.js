@@ -1,6 +1,6 @@
 // 1. Firebaseの機能をウェブ上から読み込む（インポート）
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDoc, doc, setDoc, updateDoc, query, orderBy, limit, getDocs } 
+import { getFirestore, collection, addDoc, getDoc, doc, setDoc, updateDoc, query, orderBy, limit, getDocs }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // ----------------------------------------------------------------
@@ -24,16 +24,16 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // 5. ほかのファイル（ゲームのHTMLなど）でも使えるように機能を配る（エクスポート）
-export { 
-    db, 
-    collection, 
-    addDoc,      // データを追加する（ID自動生成）
-    setDoc,      // IDを指定してデータを保存する
-    getDoc,      // 特定のデータを1つ取る
-    doc,         // 特定のデータの場所を指定する
-    updateDoc,   // データを更新する
-    query,       // 検索条件を作る
-    orderBy,     // 並び替える
-    limit,       // 数を制限する（TOP10など）
-    getDocs      // 条件に合うデータを全部取る
+export {
+  db,
+  collection,
+  addDoc,      // データを追加する（ID自動生成）
+  setDoc,      // IDを指定してデータを保存する
+  getDoc,      // 特定のデータを1つ取る
+  doc,         // 特定のデータの場所を指定する
+  updateDoc,   // データを更新する
+  query,       // 検索条件を作る
+  orderBy,     // 並び替える
+  limit,       // 数を制限する（TOP10など）
+  getDocs      // 条件に合うデータを全部取る
 };

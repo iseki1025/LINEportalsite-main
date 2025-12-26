@@ -2,10 +2,11 @@
 // Copy this file to js/firebase-config.js and fill in your project's credentials.
 
 export const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBNSnCQGPsDPqLS2K9wqDR7mxCpzedI0WM",
+  authDomain: "kajimoto-official-line-site.firebaseapp.com",
+  projectId: "kajimoto-official-line-site",
+  storageBucket: "kajimoto-official-line-site.firebasestorage.app",
+  messagingSenderId: "985647612590",
+  appId: "1:985647612590:web:f1b4184601d17a93aa233f",
+  measurementId: "G-KNK64JS15W"
 };

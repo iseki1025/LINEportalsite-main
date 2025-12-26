@@ -6,96 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ログイン - 梶本クリニック 統合管理システム</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            background: #f4f7f6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
 
-        .login-container {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-
-        .login-header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-            color: #333;
-        }
-
-        .login-header p {
-            color: #666;
-            margin-bottom: 2rem;
-        }
-
-        .login-form .form-group {
-            text-align: left;
-            margin-bottom: 1.5rem;
-        }
-
-        .login-form label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-
-        .login-form input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-        }
-
-        .login-form button {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-
-        .login-form button:hover {
-            opacity: 0.9;
-        }
-
-        .error-msg {
-            color: #e53e3e;
-            margin-top: 1rem;
-            display: none;
-            font-weight: bold;
-        }
-
-        .setup-link {
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-            color: #718096;
-        }
-
-        .setup-link a {
-            color: #667eea;
-            text-decoration: none;
-        }
-    </style>
 </head>
 
-<body>
-    <div class="login-container">
-        <div class="login-header">
+<body class="auth-page-body">
+    <div class="auth-container">
+        <div class="auth-header">
             <h1>🏥 梶本クリニック</h1>
             <p>管理システム ログイン</p>
         </div>
@@ -108,7 +24,7 @@
                 <label for="password">パスワード</label>
                 <input type="password" id="password" required placeholder="••••••••">
             </div>
-            <button type="submit" id="loginBtn">ログイン</button>
+            <button type="submit" id="loginBtn" class="btn-auth">ログイン</button>
             <div id="errorMsg" class="error-msg"></div>
         </form>
         <div class="setup-link">
