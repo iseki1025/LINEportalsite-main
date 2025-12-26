@@ -69,8 +69,7 @@
                     <li>シャント部を清潔に保つ</li>
                 </ul>
 
-                <button class="emergency-btn"
-                    onclick="document.querySelector('.modal-overlay').classList.add('active')">各施設への連絡先はこちら</button>
+                <button class="emergency-btn" id="openContactModal">各施設への連絡先はこちら</button>
             </section>
 
             <!-- ② クイズ -->
@@ -108,10 +107,9 @@
     </div>
 
     <!-- 連絡先モーダル -->
-    <div class="modal-overlay" onclick="if(event.target==this) this.classList.remove('active')">
+    <div class="modal-overlay" id="contactOverlay" style="display: none;">
         <div class="modal-content">
-            <button class="close-modal-btn"
-                onclick="this.closest('.modal-overlay').classList.remove('active')">&times;</button>
+            <button class="close-modal-btn" id="closeContactModal">&times;</button>
             <h3>連絡先を選択</h3>
             <div class="contact-list">
                 <a href="tel:0664519010" class="contact-link">
@@ -128,7 +126,8 @@
     </div>
 
     <!-- JS -->
-    <script type="module" src="js/qa/qa-loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="js/qa/qa-script.js"></script>
     <script>
         window.switchTab = function (id) {
             document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
@@ -146,6 +145,49 @@
                 input.dispatchEvent(new Event('input', { bubbles: true }));
             }
         }
+
+        // モーダル制御ロジック (インラインから移行・強化)
+        document.addEventListener('DOMContentLoaded', () => {
+            const openBtn = document.getElementById('openContactModal');
+            const closeBtn = document.getElementById('closeContactModal');
+            const overlay = document.getElementById('contactOverlay');
+
+            // 開く
+            if (openBtn) {
+                openBtn.addEventListener('click', () => {
+                    overlay.style.display = 'flex'; // 強制的に表示
+                    // 少し遅らせてactiveクラス（フェードイン用）を追加
+                    requestAnimationFrame(() => {
+                        overlay.classList.add('active');
+                    });
+                });
+            }
+
+            // 閉じる関数
+            const closeModal = () => {
+                overlay.classList.remove('active');
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 300); // アニメーション時間待機
+            };
+
+            // 閉じるボタン
+            if (closeBtn) {
+                closeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // イベント冒泡を防ぐ
+                    closeModal();
+                });
+            }
+
+            // オーバーレイ背景クリックで閉じる
+            if (overlay) {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) {
+                        closeModal();
+                    }
+                });
+            }
+        });
     </script>
 </body>
 

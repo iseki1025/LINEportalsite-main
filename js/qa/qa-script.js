@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.querySelector('.qa-search-input');
     const resultsContainer = document.querySelector('.qa-results-container');
+    const qaSection = document.querySelector('.qa-search-section');
+    const categoryFilter = qaSection ? qaSection.dataset.category : null; // data-category="栄養" など
     let qaData = [];
 
     // --- メインの処理を開始 ---
@@ -52,14 +54,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     const questionText = String(row[questionHeader] || '').trim();
                     const answerText = String(row[answerHeader] || '').trim();
                     return {
-                        question: questionText, // 表示用に元のテキストを保持
-                        answer: answerText,     // 表示用に元のテキストを保持
-                        // 検索用に、質問と回答を結合して正規化したテキストを用意
-                        normalizedText: normalizeText(questionText + ' ' + answerText)
+                        question: questionText,
+                        answer: answerText,
+                        normalizedText: normalizeText(questionText + ' ' + answerText),
+                        // カテゴリ判定用に追加
+                        categories: [
+                            row['Category'],
+                            row['Category'] ? row['Category'].replace(/\s+/g, '') : '',
+                            row['大項目'],
+                            row['中項目']
+                        ]
                     };
-                }).filter(item => item.question && item.answer);
+                }).filter(item => {
+                    if (!item.question || !item.answer) return false;
 
-                console.log("✅ Q&Aデータの読み込みが完了しました。");
+                    if (categoryFilter) {
+                        // カテゴリ文字列を含んでいるかチェック
+                        const hasCategory = item.categories.some(val => val && val.includes(categoryFilter));
+                        if (!hasCategory) return false;
+                    }
+                    return true;
+                });
+
+                console.log(`✅ Q&Aデータの読み込みが完了しました。カテゴリ: ${categoryFilter || '全般'} (${qaData.length}件)`);
                 showInitialMessage(); // 準備完了後、初期メッセージを表示
             },
             error: (err) => {
