@@ -1,166 +1,311 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>透析情報ポータル | 運動療法について</title>
+    <title>運動療法 | 梶本クリニック</title>
     <link rel="stylesheet" href="style.css">
-</head>
-<body class="theme-friend">
-    <div class="container">
-        <header>
-            <h1>透析と運動療法</h1>
-        </header>
+    <link rel="stylesheet" href="mobile-layout.css">
+    <style>
+        .exercise-grid {
+            display: grid;
+            gap: 1rem;
+        }
 
-        <div class="intro-text">
-            <h2>なぜ運動が大切？</h2>
-            <p>透析患者さんにとって、適切な運動は体力を維持し、合併症を予防するために非常に重要です。<br>筋力や柔軟性を保つことで、日常生活の質(QOL)の向上にも繋がります。</p>
+        .exercise-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            min-height: 240px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background: #000;
+            color: white;
+            cursor: pointer;
+        }
+
+        .exercise-item:active {
+            transform: scale(0.98);
+        }
+
+        .exercise-item img.exercise-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.85;
+        }
+
+        /* Narrower gradient (height 30%) */
+        .exercise-overlay {
+            position: relative;
+            z-index: 1;
+            height: 30%;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.7) 30%, rgba(0, 0, 0, 0.95) 100%);
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        /* Visible Play Button */
+        .play-indicator {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #333;
+            z-index: 2;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .exercise-overlay h4 {
+            font-size: 1.05rem;
+            margin: 0 0 0.3rem;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            color: white;
+        }
+
+        .exercise-overlay p {
+            font-size: 0.9rem;
+            margin: 0;
+            line-height: 1.5;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+            color: rgba(255, 255, 255, 0.95);
+            white-space: pre-line;
+            /* Preserve line breaks */
+        }
+
+        .exercise-note {
+            display: inline-block;
+            font-size: 0.75rem;
+            background: rgba(26, 115, 232, 0.95);
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Caution Box */
+        .caution-box {
+            background: #fff3cd;
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .caution-icon-img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .caution-content h3 {
+            color: #856404;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .caution-content p {
+            color: #856404;
+            margin: 0.5rem 0 0;
+            font-size: 0.9rem;
+        }
+
+        /* Video Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 95%;
+            max-width: 600px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="theme-friend app-mode">
+    <header class="app-header">
+        <a href="friend-main.html"
+            style="position:absolute; left:1rem; font-size:1.5rem; color:#333; text-decoration:none;">&lt;</a>
+        <div class="app-title">運動療法</div>
+    </header>
+
+    <main class="app-content-scroll">
+        <div class="caution-box">
+            <img src="files/common/caution-icon.png" alt="注意" class="caution-icon-img">
+            <div class="caution-content">
+                <h3>運動の注意点</h3>
+                <p>シャント側で重い物を持たないでください。体調が悪い日は無理せず休みましょう。</p>
+            </div>
         </div>
 
-        <nav class="page-nav">
-            <button class="nav-button active" onclick="switchTab('sitting')">座ってできる<br>運動</button>
-            <button class="nav-button" onclick="switchTab('during')">透析中の<br>運動</button>
-            <button class="nav-button" onclick="switchTab('off-days')">透析のない日の<br>運動</button>
+        <nav class="app-segmented-control">
+            <button class="app-segmented-item active" onclick="switchTab('sitting')">座って</button>
+            <button class="app-segmented-item" onclick="switchTab('during')">透析中</button>
+            <button class="app-segmented-item" onclick="switchTab('off-days')">透析日以外</button>
         </nav>
 
-        <main id="content-area">
-            
-            <!-- ▼ 修正箇所：注意点をここに移動しました（すべてのタブで共通して最初に表示されます） ▼ -->
-            <div class="caution-box" style="margin-bottom: 2rem;">
-                <img src="files/common/caution-icon.png" alt="注意" class="caution-icon-img">
-                <div class="caution-content">
-                    <h3>運動を行う上での注意点</h3>
-                    <p>シャント側の腕に負担がかかる運動は避けてください。体調が優れない日は無理せず休みましょう。</p>
+        <!-- Sitting -->
+        <section id="sitting" class="app-page-section active">
+            <div class="exercise-grid">
+                <div class="exercise-item"
+                    data-video="https://drive.google.com/file/d/1cIf72nCFqFuQ3Vw5TDe-2KnOFgxfOW7X/view?usp=sharing">
+                    <img src="files/exercise/guu-paa.png" alt="手指のグーパー" class="exercise-bg">
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>手指のグーパー運動</h4>
+                        <span class="exercise-note">握力維持・血流促進</span>
+                        <p>1. 背筋を伸ばす
+                            2. 手を握って開くを繰り返す</p>
+                    </div>
+                </div>
+                <div class="exercise-item"
+                    data-video="https://drive.google.com/file/d/1uGux7Y_GsCEV9L7dds14DBTnu7UPWHoR/view?usp=sharing">
+                    <img src="files/exercise/kainai-kaigai.png" alt="前腕回内・回外" class="exercise-bg">
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>前腕回内・回外運動</h4>
+                        <span class="exercise-note">ADL向上</span>
+                        <p>1. 肘を90度に曲げる
+                            2. 手のひらを上下に返す</p>
+                    </div>
                 </div>
             </div>
-            <!-- ▲ 修正箇所ここまで ▲ -->
+        </section>
 
-            <!-- タブ1: 座ってできる運動 -->
-            <section id="sitting" class="content-section active">
-                <h3>座ってできる運動</h3>
-                <p style="text-align: center; margin-bottom: 2rem;">椅子に座ったまま、無理なく行える運動です。</p>
-                <div class="exercise-grid">
-                    <div class="exercise-item" data-video="https://drive.google.com/file/d/1cIf72nCFqFuQ3Vw5TDe-2KnOFgxfOW7X/view?usp=sharing">
-                        <div class="img-container">
-                            <img src="files/exercise/guu-paa.png" alt="手指のグーパー運動" class="exercise-icon">
-                            <div class="play-overlay"></div>
-                        </div>
-                        <div class="exercise-text">
-                            <h4>手指のグーパー運動</h4>
-                            <span class="exercise-note">~握力維持、血流促進~<br>10〜15回を1セット</span>
-                            <p>1. 椅子に座り背筋を伸ばす<br>2. 手を握って開くを繰り返す</p>
-                        </div>
-                    </div>
-
-                    <div class="exercise-item" data-video="https://drive.google.com/file/d/1uGux7Y_GsCEV9L7dds14DBTnu7UPWHoR/view?usp=sharing">
-                        <div class="img-container">
-                            <img src="files/exercise/kainai-kaigai.png" alt="前腕回内・回外運動" class="exercise-icon">
-                            <div class="play-overlay"></div>
-                        </div>
-                        <div class="exercise-text">
-                            <h4>前腕回内・回外運動</h4>
-                            <span class="exercise-note">~握力維持、ADL向上~<br>内、外10〜15回ずつを1セット</span>
-                            <p>1. 肘を90度に曲げる<br>2. 手のひらを上下に返す</p>
-                        </div>
+        <!-- During -->
+        <section id="during" class="app-page-section">
+            <div class="exercise-grid">
+                <div class="exercise-item" data-video="files/movies/ankle_exercise.mp4">
+                    <img src="files/exercise/ankle-exercise-icon.png" alt="足首" class="exercise-bg">
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>足首の曲げ伸ばし</h4>
+                        <p>血行を促進し、むくみを改善します。</p>
                     </div>
                 </div>
-            </section>
-
-            <!-- タブ2: 透析中の運動 -->
-            <section id="during" class="content-section">
-                <h3>透析中の運動(オンダイアライシス運動)</h3>
-                <p style="text-align: center; margin-bottom: 2rem;">透析中に行える軽い運動です。</p>
-                <div class="exercise-grid">
-                    <div class="exercise-item" data-video="files/movies/ankle_exercise.mp4">
-                        <div class="img-container">
-                            <img src="files/exercise/ankle-exercise-icon.png" alt="足首の曲げ伸ばし" class="exercise-icon">
-                            <div class="play-overlay"></div>
-                        </div>
-                        <div class="exercise-text">
-                            <h4>足首の曲げ伸ばし</h4>
-                            <p>血行を促進し、むくみの改善に繋がります。</p>
-                        </div>
-                    </div>
-                    
-                    <div class="exercise-item" data-video="files/movies/ergometer.mp4">
-                        <div class="img-container">
-                            <img src="files/exercise/ergometer-icon.png" alt="エルゴメーター" class="exercise-icon">
-                            <div class="play-overlay"></div>
-                        </div>
-                        <div class="exercise-text">
-                            <h4>エルゴメーター</h4>
-                            <p>ベッドサイドで使える自転車こぎ運動です。</p>
-                        </div>
+                <div class="exercise-item" data-video="files/movies/ergometer.mp4">
+                    <img src="files/exercise/ergometer-icon.png" alt="エルゴメーター" class="exercise-bg">
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>エルゴメーター</h4>
+                        <p>ベッドサイドでできる自転車こぎ運動です。</p>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- タブ3: 透析のない日の運動 -->
-            <section id="off-days" class="content-section">
-                <h3>透析のない日の運動</h3>
-                <div class="exercise-grid">
-                    <div class="exercise-item" data-video="files/movies/dumbbell_exercise.mp4">
-                        <div class="img-container">
-                            <img src="files/exercise/dumbbell-exercise-icon.png" alt="おもり運動" class="exercise-icon">
-                            <div class="play-overlay"></div>
-                        </div>
-                        <div class="exercise-text">
-                            <h4>軽いおもりの上げ下げ</h4>
-                            <p>腕や足の筋力を維持します。</p>
-                        </div>
-                    </div>
-
-                    <div class="exercise-item" data-video="files/movies/walking.mp4">
-                        <div class="img-container">
-                            <img src="files/exercise/walking-icon.png" alt="ウォーキング" class="exercise-icon">
-                            <div class="play-overlay"></div>
-                        </div>
-                        <div class="exercise-text">
-                            <h4>ウォーキング</h4>
-                            <p>1日15分程度から始めましょう。</p>
-                        </div>
-                    </div>
-                    
-                    <div class="exercise-item" data-video="files/movies/stretching.mp4">
-                        <div class="img-container">
-                            <img src="files/exercise/stretching-icon.png" alt="ストレッチ" class="exercise-icon">
-                            <div class="play-overlay"></div>
-                        </div>
-                        <div class="exercise-text">
-                            <h4>ストレッチ</h4>
-                            <p>筋肉の緊張をほぐします。</p>
-                        </div>
-                    </div>
-                    
-                    <div class="exercise-item" data-video="files/movies/gymnastics.mp4">
-                        <div class="img-container">
-                            <img src="files/exercise/radio-exercise-icon.png" alt="軽い体操" class="exercise-icon">
-                            <div class="play-overlay"></div>
-                        </div>
-                        <div class="exercise-text">
-                            <h4>軽い体操</h4>
-                            <p>ラジオ体操なども全身運動になります。</p>
-                        </div>
+        <!-- Off-days -->
+        <section id="off-days" class="app-page-section">
+            <div class="exercise-grid">
+                <div class="exercise-item" data-video="files/movies/dumbbell_exercise.mp4">
+                    <img src="files/exercise/dumbbell-exercise-icon.png" alt="おもり" class="exercise-bg">
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>軽いおもりの上げ下げ</h4>
+                        <p>腕や足の筋力を維持・強化します。</p>
                     </div>
                 </div>
-            </section>
-            
-            <!-- 元々ここにあった caution-box を上に移動しました -->
+                <div class="exercise-item" data-video="files/movies/walking.mp4">
+                    <img src="files/exercise/walking-icon.png" alt="ウォーキング" class="exercise-bg">
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>ウォーキング</h4>
+                        <p>1日15分程度から無理なく始めましょう。</p>
+                    </div>
+                </div>
+                <div class="exercise-item" data-video="files/movies/stretching.mp4">
+                    <img src="files/exercise/stretching-icon.png" alt="ストレッチ" class="exercise-bg">
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>ストレッチ</h4>
+                        <p>筋肉の緊張をほぐし、柔軟性を高めます。</p>
+                    </div>
+                </div>
+                <div class="exercise-item" data-video="files/movies/gymnastics.mp4">
+                    <img src="files/exercise/radio-exercise-icon.png" alt="体操" class="exercise-bg">
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>軽い体操</h4>
+                        <p>ラジオ体操などで全身を動かしましょう。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        </main>
+        <div style="height: 40px;"></div>
+    </main>
 
-        <a href="friend-main.html" class="back-to-portal-button">特典ページへ戻る</a>
-        <footer>
-            <p><small>&copy; 2025 医療法人 好輝会 梶本クリニック</small></p>
-        </footer>
-    </div>
+    <nav class="bottom-nav">
+        <a href="friend-main.html" class="nav-item">
+            <span class="nav-icon">🎁</span>
+            <span>お友達</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <span class="nav-icon">❓</span>
+            <span>Q&A</span>
+        </a>
+    </nav>
 
-    <!-- 動画モーダル -->
     <div id="videoModal" class="modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
             <div class="video-wrapper">
-                <video id="popupVideo" controls>
+                <video id="popupVideo" controls playsinline>
                     <source src="" type="video/mp4">
                 </video>
             </div>
@@ -168,36 +313,31 @@
     </div>
 
     <script>
-        function switchTab(tabId) {
-            document.querySelectorAll('.content-section').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            
-            const buttons = document.querySelectorAll('.nav-button');
-            for (let btn of buttons) {
-                if (btn.getAttribute('onclick').includes(tabId)) {
-                    btn.classList.add('active'); break;
-                }
-            }
+        function switchTab(id) {
+            document.querySelectorAll('.app-page-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.app-segmented-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            const buttons = document.querySelectorAll('.app-segmented-item');
+            buttons.forEach(btn => { if (btn.getAttribute('onclick').includes(id)) btn.classList.add('active'); });
         }
+        window.switchTab = switchTab;
 
         const modal = document.getElementById("videoModal");
         const video = document.getElementById("popupVideo");
         const closeBtn = document.querySelector(".close-modal");
-        
+
         document.querySelectorAll(".exercise-item").forEach(item => {
-            item.addEventListener("click", function() {
+            item.addEventListener("click", function () {
                 const src = this.getAttribute("data-video");
-                if(src) {
-                    video.src = src;
-                    modal.style.display = "block";
-                    video.play().catch(e=>console.log("Auto-play blocked"));
+                if (src) {
+                    if (src.includes('drive.google.com')) { window.open(src, '_blank'); }
+                    else { video.src = src; modal.style.display = "block"; video.play().catch(() => { }); }
                 }
             });
         });
-        
         closeBtn.onclick = () => { modal.style.display = "none"; video.pause(); };
-        window.onclick = (e) => { if(e.target == modal) { modal.style.display = "none"; video.pause(); } };
+        window.onclick = (e) => { if (e.target == modal) { modal.style.display = "none"; video.pause(); } };
     </script>
 </body>
+
 </html>

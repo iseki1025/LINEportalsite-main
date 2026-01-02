@@ -1,45 +1,114 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ボール避けゲーム</title>
-    <!-- パス修正: 同階層のstyle.css -->
+    <title>F1カー障害物回避</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* iPhone 1画面に収めるためのコンパクトレイアウト */
+        body.theme-friend {
+            padding: 0.5rem !important;
+            min-height: auto !important;
+        }
+
+        .game-container {
+            padding: 0.5rem !important;
+            max-width: 100% !important;
+        }
+
+        .game-title {
+            font-size: 1.2rem !important;
+            margin: 0.3rem 0 !important;
+        }
+
+        .game-canvas-wrapper {
+            position: relative;
+            touch-action: none;
+        }
+
+        /* ゲームオーバーはキャンバス内描画なので不要 */
+        .game-over-overlay {
+            display: none !important;
+        }
+
+        /* 戻るボタン（animal-merge形式） */
+        .btn-back {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.9);
+            color: #5a4a78;
+            font-size: 0.8rem;
+            padding: 0.5rem 1rem;
+            border-radius: 1.5rem;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: all 0.2s;
+            margin-top: 0.3rem;
+        }
+
+        .btn-back:hover {
+            background: #fff;
+            transform: scale(1.02);
+        }
+
+        /* ステータス表示（リアクションゲームと統一） */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.4rem;
+            margin: 0.5rem 0;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 0.5rem 0.3rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: #666;
+            margin-bottom: 0.15rem;
+        }
+
+        .stat-value {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+
+        .stat-value.speed {
+            color: #ef4444;
+        }
+    </style>
 </head>
+
 <body class="theme-friend">
     <div class="game-container">
-        <h1 class="game-title">🏃 ボール避けゲーム</h1>
-        
+        <h1 class="game-title">🏎️ F1カー障害物回避</h1>
+
         <div class="game-canvas-wrapper">
             <canvas id="gameCanvas" class="game-canvas" width="600" height="600"></canvas>
-            
-            <div id="gameOver" class="game-over-overlay">
-                <h2>ゲームオーバー！</h2>
-                <div id="finalScore" style="margin: 1rem 0; font-weight:bold; font-size:1.2rem;"></div>
-                <button id="restartBtn" class="game-btn btn-primary">もう一度プレイ</button>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-box">
+                <div class="stat-label">最高距離</div>
+                <div class="stat-value" id="score">0m</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">判定</div>
+                <div class="stat-value" id="estimatedAge">-</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">スピード</div>
+                <div class="stat-value speed" id="difficulty">Lv1</div>
             </div>
         </div>
 
-        <div class="game-stats">
-            <div class="stat-box">
-                <div class="stat-label">時間</div>
-                <div class="stat-value" id="score">0.0秒</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-label">反応年齢</div>
-                <div class="stat-value" id="estimatedAge">--</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-label">レベル</div>
-                <div class="stat-value" id="difficulty" style="color:#ef4444;">1</div>
-            </div>
-        </div>
-        
-        <p style="font-size:0.9rem; color:#6b7280; margin-bottom:1.5rem;">マウスまたは指で左右に動いてボールを避けよう！</p>
-
-        <!-- 戻るボタン修正: friend-game-main.html -->
-        <a href="friend-game-main.html" class="back-to-portal-button">ミニゲーム選択へ戻る</a>
+        <a href="friend-game-main.html" class="btn-back">戻る</a>
     </div>
 
     <script>
@@ -48,141 +117,500 @@
         const scoreDisplay = document.getElementById('score');
         const estimatedAgeDisplay = document.getElementById('estimatedAge');
         const difficultyDisplay = document.getElementById('difficulty');
-        const gameOverDiv = document.getElementById('gameOver');
-        const finalScoreDisplay = document.getElementById('finalScore');
-        const restartBtn = document.getElementById('restartBtn');
 
-        // キャンバスサイズ調整
+        // キャンバスサイズ調整（iPhone 1画面に収まるように）
         function resizeCanvas() {
             const containerWidth = document.querySelector('.game-container').clientWidth;
-            // パディング分を引く
-            const maxWidth = Math.min(600, containerWidth - 40);
-            canvas.width = maxWidth;
-            canvas.height = maxWidth; // 正方形
+            // 画面高さから他の要素分を引いてキャンバス最大サイズを計算
+            // タイトル(約35px) + パネル(約55px) + 戻るボタン(約40px) + マージン/パディング(約50px) = 約180px
+            const availableHeight = window.innerHeight - 180;
+            const maxSize = Math.min(containerWidth - 16, availableHeight, 450);
+            canvas.width = maxSize;
+            canvas.height = maxSize;
         }
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
         let gameRunning = false;
+        let isGameOver = false;
+        let gameOverData = null; // ゲームオーバー時のデータ保存
         let startTime;
         let currentTime = 0;
         let level = 1;
-        let baseSpeed = 2; // 初期速度調整
-        let currentSpeed = baseSpeed;
+        let currentSpeed;
+        let roadOffset = 0;
 
-        const player = { x: canvas.width / 2, y: canvas.height - 50, radius: 15, color: '#00ff00' };
-        let balls = [];
-        let ballRadius = 10;
-        let ballSpawnRate = 1000;
-        let lastBallSpawn = 0;
-        let mouseX = canvas.width / 2;
+        // プレイヤー（F1カー）
+        const player = { x: 0, y: 0, width: 0, height: 0 };
+        let obstacles = [];
+        let obstacleSpawnRate = 1200;
+        let lastObstacleSpawn = 0;
+        let mouseX;
 
-        function getEstimatedAge(ms) {
-            if (ms >= 800) return '80歳以上';
-            if (ms >= 600) return '60代';
-            if (ms >= 400) return '40代';
-            if (ms >= 200) return '20代';
-            return 'アスリート級';
+        // 回避成功のトラッキング（年齢判定用）
+        let dodgeData = [];
+        let totalDodges = 0;
+        let closeCalls = 0; // ギリギリ回避の回数
+
+        // 最高記録（ページ内のみ保持）
+        let bestDistance = 0;
+        let bestAge = '-';
+
+        // 障害物の種類
+        const obstacleTypes = [
+            { type: 'rock', color: '#6b7280', emoji: '🪨' },
+            { type: 'tire', color: '#1f2937', emoji: '⚫' },
+            { type: 'cone', color: '#f97316', emoji: '🔶' },
+            { type: 'barrel', color: '#dc2626', emoji: '🛢️' },
+            { type: 'pothole', color: '#374151', emoji: '🕳️' },
+            { type: 'box', color: '#78350f', emoji: '📦' }
+        ];
+
+        // 反射神経年齢を計算（回避スキルから算出）
+        function calculateReflexAge(time, speed, dodgeCount, closeCallCount) {
+            // 基本スコア: 生存時間と難易度
+            let baseScore = time * (1 + (level - 1) * 0.3);
+
+            // クロースコール（ギリギリ回避）のボーナス
+            let closeCallBonus = closeCallCount * 2;
+
+            // 総合スコア
+            let totalScore = baseScore + closeCallBonus;
+
+            // 年齢判定テーブル（スコアベース）
+            if (totalScore >= 60) return { age: '10代', detail: 'プロレベル！🏆' };
+            if (totalScore >= 45) return { age: '20代', detail: '素晴らしい反射神経！' };
+            if (totalScore >= 30) return { age: '30代', detail: '良好な反応速度！' };
+            if (totalScore >= 20) return { age: '40代', detail: '平均的な反射神経' };
+            if (totalScore >= 12) return { age: '50代', detail: 'まだまだ現役！' };
+            if (totalScore >= 6) return { age: '60代', detail: '経験でカバー！' };
+            return { age: '70代以上', detail: 'のんびりドライブ' };
         }
 
-        canvas.addEventListener('mousemove', e => {
+        // 画面全体でタッチ/マウス操作を受け付け
+        const wrapper = document.querySelector('.game-canvas-wrapper');
+
+        wrapper.addEventListener('mousemove', e => {
             const rect = canvas.getBoundingClientRect();
-            mouseX = e.clientX - rect.left;
-            // スケール補正
-            mouseX = mouseX * (canvas.width / rect.width);
+            mouseX = (e.clientX - rect.left) * (canvas.width / rect.width);
         });
-        
-        canvas.addEventListener('touchmove', e => {
+
+        wrapper.addEventListener('touchmove', e => {
             e.preventDefault();
             const rect = canvas.getBoundingClientRect();
-            mouseX = e.touches[0].clientX - rect.left;
-            mouseX = mouseX * (canvas.width / rect.width);
-        }, {passive: false});
+            mouseX = (e.touches[0].clientX - rect.left) * (canvas.width / rect.width);
+        }, { passive: false });
 
-        canvas.addEventListener('click', () => { if (!gameRunning) startGame(); });
-        restartBtn.addEventListener('click', () => { gameOverDiv.style.display = 'none'; startGame(); });
+        canvas.addEventListener('click', () => {
+            if (!gameRunning && !isGameOver) {
+                startGame();
+            } else if (isGameOver) {
+                // ゲームオーバーから再スタート
+                isGameOver = false;
+                gameOverData = null;
+                startGame();
+            }
+        });
 
         function startGame() {
             gameRunning = true;
+            isGameOver = false;
+            gameOverData = null;
             startTime = Date.now();
             currentTime = 0;
             level = 1;
-            balls = [];
-            currentSpeed = canvas.height / 200; // 画面サイズに応じた速度
-            ballSpawnRate = 1000;
-            estimatedAgeDisplay.textContent = '--';
-            
-            // プレイヤー位置リセット
+            obstacles = [];
+            currentSpeed = canvas.height / 150;
+            obstacleSpawnRate = 1200;
+            dodgeData = [];
+            totalDodges = 0;
+            closeCalls = 0;
+            estimatedAgeDisplay.textContent = '-';
+            roadOffset = 0;
+
+            // プレイヤー設定
+            player.width = canvas.width / 8;
+            player.height = canvas.width / 5;
             player.x = canvas.width / 2;
-            player.y = canvas.height - (canvas.height / 8);
-            player.radius = canvas.width / 30;
-            ballRadius = canvas.width / 40;
+            player.y = canvas.height - player.height - 20;
+            mouseX = player.x;
 
             gameLoop();
         }
 
-        function spawnBall() {
-            balls.push({
-                x: Math.random() * (canvas.width - ballRadius * 2) + ballRadius,
-                y: -ballRadius,
-                radius: ballRadius,
-                color: `hsl(${Math.random() * 360}, 70%, 60%)`
+        function spawnObstacle() {
+            const typeInfo = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
+            const size = canvas.width / 12 + Math.random() * (canvas.width / 20);
+
+            // 道路の縁を避けて、道路全幅でランダムな位置に出現
+            const edgeWidth = canvas.width * 0.08;
+            const minX = edgeWidth + size / 2;
+            const maxX = canvas.width - edgeWidth - size / 2;
+            const randomX = minX + Math.random() * (maxX - minX);
+
+            obstacles.push({
+                x: randomX,
+                y: -size,
+                width: size,
+                height: size * 0.8,
+                ...typeInfo,
+                passed: false
             });
+        }
+
+        function drawRoad() {
+            // 道路背景
+            ctx.fillStyle = '#374151';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 道路の縁（芝生）
+            const edgeWidth = canvas.width * 0.08;
+            ctx.fillStyle = '#22c55e';
+            ctx.fillRect(0, 0, edgeWidth, canvas.height);
+            ctx.fillRect(canvas.width - edgeWidth, 0, edgeWidth, canvas.height);
+
+            // 車線（3レーン）
+            const laneWidth = (canvas.width - edgeWidth * 2) / 3;
+            ctx.strokeStyle = '#fbbf24';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([30, 30]);
+
+            // スクロールオフセットで動く車線
+            roadOffset = (roadOffset + currentSpeed * 2) % 60;
+
+            for (let i = 1; i < 3; i++) {
+                const x = edgeWidth + laneWidth * i;
+                ctx.beginPath();
+                ctx.moveTo(x, -60 + roadOffset);
+                for (let y = -60 + roadOffset; y < canvas.height + 60; y += 60) {
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(x, y + 30);
+                }
+                ctx.stroke();
+            }
+            ctx.setLineDash([]);
+
+            // 外側の白線
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(edgeWidth, 0);
+            ctx.lineTo(edgeWidth, canvas.height);
+            ctx.moveTo(canvas.width - edgeWidth, 0);
+            ctx.lineTo(canvas.width - edgeWidth, canvas.height);
+            ctx.stroke();
+        }
+
+        function drawF1Car(x, y, width, height) {
+            ctx.save();
+            ctx.translate(x, y);
+
+            const w = width;
+            const h = height;
+
+            // 後輪
+            ctx.fillStyle = '#1f2937';
+            ctx.fillRect(-w * 0.55, h * 0.5, w * 0.15, h * 0.3);
+            ctx.fillRect(w * 0.40, h * 0.5, w * 0.15, h * 0.3);
+
+            // 前輪
+            ctx.fillRect(-w * 0.45, -h * 0.3, w * 0.12, h * 0.25);
+            ctx.fillRect(w * 0.33, -h * 0.3, w * 0.12, h * 0.25);
+
+            // リアウィング
+            ctx.fillStyle = '#dc2626';
+            ctx.fillRect(-w * 0.4, h * 0.55, w * 0.8, h * 0.08);
+            ctx.fillRect(-w * 0.05, h * 0.45, w * 0.1, h * 0.15);
+
+            // ボディ本体
+            ctx.fillStyle = '#dc2626';
+            ctx.beginPath();
+            ctx.moveTo(0, -h * 0.5); // ノーズ先端
+            ctx.lineTo(-w * 0.15, -h * 0.3);
+            ctx.lineTo(-w * 0.3, h * 0.1);
+            ctx.lineTo(-w * 0.35, h * 0.5);
+            ctx.lineTo(w * 0.35, h * 0.5);
+            ctx.lineTo(w * 0.3, h * 0.1);
+            ctx.lineTo(w * 0.15, -h * 0.3);
+            ctx.closePath();
+            ctx.fill();
+
+            // コックピット
+            ctx.fillStyle = '#111827';
+            ctx.beginPath();
+            ctx.ellipse(0, h * 0.05, w * 0.12, h * 0.18, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // ヘルメット
+            ctx.fillStyle = '#fbbf24';
+            ctx.beginPath();
+            ctx.arc(0, -h * 0.05, w * 0.08, 0, Math.PI * 2);
+            ctx.fill();
+
+            // フロントウィング
+            ctx.fillStyle = '#dc2626';
+            ctx.fillRect(-w * 0.35, -h * 0.4, w * 0.7, h * 0.06);
+
+            // ノーズ（白いアクセント）
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.moveTo(0, -h * 0.5);
+            ctx.lineTo(-w * 0.05, -h * 0.3);
+            ctx.lineTo(w * 0.05, -h * 0.3);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        function drawObstacle(obs) {
+            ctx.save();
+            ctx.translate(obs.x, obs.y);
+
+            switch (obs.type) {
+                case 'rock':
+                    // 岩
+                    ctx.fillStyle = '#6b7280';
+                    ctx.beginPath();
+                    ctx.moveTo(-obs.width / 2, obs.height / 3);
+                    ctx.lineTo(-obs.width / 3, -obs.height / 3);
+                    ctx.lineTo(obs.width / 4, -obs.height / 2);
+                    ctx.lineTo(obs.width / 2, 0);
+                    ctx.lineTo(obs.width / 3, obs.height / 2);
+                    ctx.lineTo(-obs.width / 4, obs.height / 2);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.strokeStyle = '#4b5563';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    break;
+
+                case 'tire':
+                    // タイヤ
+                    ctx.fillStyle = '#1f2937';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, obs.width / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#374151';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, obs.width / 4, 0, Math.PI * 2);
+                    ctx.fill();
+                    break;
+
+                case 'cone':
+                    // コーン
+                    ctx.fillStyle = '#f97316';
+                    ctx.beginPath();
+                    ctx.moveTo(0, -obs.height / 2);
+                    ctx.lineTo(-obs.width / 2, obs.height / 2);
+                    ctx.lineTo(obs.width / 2, obs.height / 2);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(-obs.width / 3, -obs.height / 6, obs.width * 2 / 3, obs.height / 6);
+                    break;
+
+                case 'barrel':
+                    // ドラム缶
+                    ctx.fillStyle = '#dc2626';
+                    ctx.fillRect(-obs.width / 2, -obs.height / 2, obs.width, obs.height);
+                    ctx.fillStyle = '#fbbf24';
+                    ctx.fillRect(-obs.width / 2, -obs.height / 4, obs.width, obs.height / 8);
+                    ctx.fillRect(-obs.width / 2, obs.height / 8, obs.width, obs.height / 8);
+                    break;
+
+                case 'pothole':
+                    // 穴
+                    ctx.fillStyle = '#111827';
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, obs.width / 2, obs.height / 3, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = '#4b5563';
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+                    break;
+
+                case 'box':
+                    // 箱
+                    ctx.fillStyle = '#78350f';
+                    ctx.fillRect(-obs.width / 2, -obs.height / 2, obs.width, obs.height);
+                    ctx.strokeStyle = '#422006';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(-obs.width / 2, -obs.height / 2, obs.width, obs.height);
+                    ctx.beginPath();
+                    ctx.moveTo(-obs.width / 2, 0);
+                    ctx.lineTo(obs.width / 2, 0);
+                    ctx.stroke();
+                    break;
+            }
+
+            ctx.restore();
         }
 
         function update() {
             currentTime = (Date.now() - startTime) / 1000;
-            scoreDisplay.textContent = currentTime.toFixed(1) + '秒';
-            
-            const newLevel = Math.floor(currentTime / 5) + 1;
+            const distance = Math.floor(currentTime * currentSpeed * 2);
+            scoreDisplay.textContent = distance + 'm';
+
+            const newLevel = Math.floor(currentTime / 8) + 1;
             if (newLevel > level) {
                 level = newLevel;
-                currentSpeed += 0.5;
-                ballSpawnRate = Math.max(200, 1000 - (level - 1) * 80);
-                difficultyDisplay.textContent = level;
+                currentSpeed += 0.8;
+                obstacleSpawnRate = Math.max(400, 1200 - (level - 1) * 100);
+                difficultyDisplay.textContent = 'Lv' + level;
             }
 
-            // プレイヤー移動
-            player.x += (mouseX - player.x) * 0.2;
-            // 画面外にはみ出さない
-            if(player.x < player.radius) player.x = player.radius;
-            if(player.x > canvas.width - player.radius) player.x = canvas.width - player.radius;
-            
-            if (Date.now() - lastBallSpawn > ballSpawnRate) {
-                spawnBall();
-                lastBallSpawn = Date.now();
+            // プレイヤー移動（スムーズに追従）
+            player.x += (mouseX - player.x) * 0.15;
+
+            // 画面端の制限
+            const minX = canvas.width * 0.08 + player.width / 2;
+            const maxX = canvas.width - canvas.width * 0.08 - player.width / 2;
+            if (player.x < minX) player.x = minX;
+            if (player.x > maxX) player.x = maxX;
+
+            // 障害物生成
+            if (Date.now() - lastObstacleSpawn > obstacleSpawnRate) {
+                spawnObstacle();
+                lastObstacleSpawn = Date.now();
             }
 
-            for (let i = balls.length - 1; i >= 0; i--) {
-                balls[i].y += currentSpeed;
-                
-                const dx = player.x - balls[i].x;
-                const dy = player.y - balls[i].y;
-                const distance = Math.sqrt(dx*dx + dy*dy);
+            // 障害物更新と衝突判定
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                const obs = obstacles[i];
+                obs.y += currentSpeed;
 
-                if (distance < player.radius + balls[i].radius) {
-                    gameOver(); return;
+                // 簡易矩形衝突判定
+                const playerLeft = player.x - player.width * 0.35;
+                const playerRight = player.x + player.width * 0.35;
+                const playerTop = player.y - player.height * 0.4;
+                const playerBottom = player.y + player.height * 0.4;
+
+                const obsLeft = obs.x - obs.width * 0.4;
+                const obsRight = obs.x + obs.width * 0.4;
+                const obsTop = obs.y - obs.height * 0.4;
+                const obsBottom = obs.y + obs.height * 0.4;
+
+                if (playerRight > obsLeft && playerLeft < obsRight &&
+                    playerBottom > obsTop && playerTop < obsBottom) {
+                    gameOver();
+                    return;
                 }
-                if (balls[i].y - balls[i].radius > canvas.height) balls.splice(i, 1);
+
+                // 障害物を通過したかチェック
+                if (!obs.passed && obs.y > player.y + player.height) {
+                    obs.passed = true;
+                    totalDodges++;
+
+                    // ギリギリ回避判定
+                    const horizontalDist = Math.abs(obs.x - player.x);
+                    if (horizontalDist < player.width) {
+                        closeCalls++;
+                    }
+                }
+
+                // 画面外削除
+                if (obs.y - obs.height > canvas.height) {
+                    obstacles.splice(i, 1);
+                }
             }
         }
 
         function draw() {
-            ctx.fillStyle = '#1a1a2e'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.beginPath(); ctx.arc(player.x, player.y, player.radius, 0, Math.PI*2);
-            ctx.fillStyle = player.color; ctx.fill();
-            
-            balls.forEach(b => {
-                ctx.beginPath(); ctx.arc(b.x, b.y, b.radius, 0, Math.PI*2);
-                ctx.fillStyle = b.color; ctx.fill();
-            });
+            // ゲームオーバー時は専用画面を描画
+            if (isGameOver) {
+                drawGameOverScreen();
+                return;
+            }
+
+            drawRoad();
+
+            // 障害物描画
+            obstacles.forEach(obs => drawObstacle(obs));
+
+            // F1カー描画
+            drawF1Car(player.x, player.y, player.width, player.height);
         }
 
         function gameOver() {
             gameRunning = false;
-            finalScoreDisplay.innerHTML = `生存時間: ${currentTime.toFixed(1)}秒<br>レベル: ${level}`;
-            gameOverDiv.style.display = 'block';
+            isGameOver = true;
+
+            const reflexResult = calculateReflexAge(currentTime, currentSpeed, totalDodges, closeCalls);
+            const distance = Math.floor(currentTime * currentSpeed * 2);
+
+            // ゲームオーバーデータを保存
+            gameOverData = {
+                distance: distance,
+                level: level,
+                dodges: totalDodges,
+                closeCalls: closeCalls,
+                reflexAge: reflexResult.age,
+                reflexDetail: reflexResult.detail
+            };
+
+            // 最高記録更新
+            if (distance > bestDistance) {
+                bestDistance = distance;
+                scoreDisplay.textContent = bestDistance + 'm';
+            }
+            bestAge = reflexResult.age;
+            estimatedAgeDisplay.textContent = bestAge;
+
+            // ゲームオーバー画面を描画
+            drawGameOverScreen();
+        }
+
+        function drawGameOverScreen() {
+            if (!gameOverData) return;
+
+            // 背景を直接描画（draw()を呼ばずに）
+            drawRoad();
+            obstacles.forEach(obs => drawObstacle(obs));
+            drawF1Car(player.x, player.y, player.width, player.height);
+
+            // 半透明オーバーレイ
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.textAlign = 'center';
+
+            // ゲームオーバータイトル
+            ctx.fillStyle = '#ff6b6b';
+            ctx.font = `bold ${canvas.width / 10}px sans-serif`;
+            ctx.fillText('GAME OVER', canvas.width / 2, canvas.height * 0.18);
+
+            // スコア情報
+            const lineHeight = canvas.height * 0.08;
+            let y = canvas.height * 0.32;
+
+            ctx.fillStyle = '#fff';
+            ctx.font = `${canvas.width / 18}px sans-serif`;
+            ctx.fillText(`走行距離: ${gameOverData.distance}m`, canvas.width / 2, y);
+            y += lineHeight;
+            ctx.fillText(`スピード: Lv${gameOverData.level}`, canvas.width / 2, y);
+            y += lineHeight;
+            ctx.fillText(`回避成功: ${gameOverData.dodges}回`, canvas.width / 2, y);
+            y += lineHeight;
+            ctx.fillText(`ギリギリ回避: ${gameOverData.closeCalls}回`, canvas.width / 2, y);
+
+            // 反射神経年齢（ハイライト）
+            y += lineHeight * 1.3;
+            ctx.fillStyle = '#fbbf24';
+            ctx.font = `bold ${canvas.width / 12}px sans-serif`;
+            ctx.fillText(`反射神経年齢: ${gameOverData.reflexAge}`, canvas.width / 2, y);
+
+            // 詳細
+            y += lineHeight * 0.7;
+            ctx.fillStyle = '#9ca3af';
+            ctx.font = `${canvas.width / 20}px sans-serif`;
+            ctx.fillText(gameOverData.reflexDetail, canvas.width / 2, y);
+
+            // タップして再スタート
+            y = canvas.height * 0.9;
+            ctx.fillStyle = '#fff';
+            ctx.font = `${canvas.width / 16}px sans-serif`;
+            ctx.fillText('タップして再スタート', canvas.width / 2, y);
         }
 
         function gameLoop() {
@@ -192,9 +620,28 @@
             requestAnimationFrame(gameLoop);
         }
 
-        draw();
-        ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.font = `${canvas.width/15}px sans-serif`;
-        ctx.fillText('タップしてスタート', canvas.width/2, canvas.height/2);
+        // 初期表示
+        function drawStartScreen() {
+            drawRoad();
+            player.width = canvas.width / 8;
+            player.height = canvas.width / 5;
+            player.x = canvas.width / 2;
+            player.y = canvas.height - player.height - 20;
+            drawF1Car(player.x, player.y, player.width, player.height);
+
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'center';
+            ctx.font = `bold ${canvas.width / 12}px sans-serif`;
+            ctx.fillText('🏎️ F1カー', canvas.width / 2, canvas.height / 2 - 30);
+            ctx.font = `${canvas.width / 15}px sans-serif`;
+            ctx.fillText('タップしてスタート', canvas.width / 2, canvas.height / 2 + 20);
+        }
+
+        drawStartScreen();
     </script>
 </body>
+
 </html>

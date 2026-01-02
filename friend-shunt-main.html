@@ -4,191 +4,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>透析情報ポータル | シャント管理</title>
+    <title>シャント管理 | 梶本クリニック</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-layout.css">
+    <style>
+        /* Full Image Card Style (Friend Portal Look) */
+        .check-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .check-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            min-height: 240px;
+            /* Taller to fit text */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background: #000;
+            text-decoration: none;
+            color: white;
+        }
+
+        .check-item img.check-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.9;
+        }
+
+        .check-overlay {
+            position: relative;
+            z-index: 1;
+            /* Gradient similar to Friend Portal but adapting to content height */
+            background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 20%, rgba(0, 0, 0, 0.95) 100%);
+            padding: 1.5rem;
+            padding-top: 3rem;
+            /* Push content down initially */
+        }
+
+        .check-overlay h4 {
+            font-size: 1.1rem;
+            margin: 0 0 0.5rem;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            color: white;
+        }
+
+        .check-overlay p {
+            font-size: 0.95rem;
+            margin: 0;
+            line-height: 1.5;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* List & Buttons */
+        .ng-list {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            list-style: none;
+        }
+
+        .ng-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .ng-list li::before {
+            content: '✖';
+            position: absolute;
+            left: 0;
+            color: #e53e3e;
+            font-weight: bold;
+        }
+
+        .emergency-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+            margin-top: 2rem;
+            cursor: pointer;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .contact-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
-<body class="theme-shunt">
-    <div class="container">
-        <header>
-            <h1>シャント管理について</h1>
-        </header>
-        <nav class="page-nav">
-            <button class="nav-button active" onclick="switchTab('info')">シャント<br>管理の基本</button>
-            <button class="nav-button" onclick="switchTab('quiz')">シャント<br>クイズ</button>
-            <button class="nav-button" onclick="switchTab('qa')">シャント<br>Q&A</button>
+<body class="theme-shunt app-mode">
+    <header class="app-header">
+        <a href="friend-main.html"
+            style="position:absolute; left:1rem; font-size:1.5rem; color:#333; text-decoration:none;">&lt;</a>
+        <div class="app-title">シャント管理</div>
+    </header>
+
+    <main class="app-content-scroll">
+        <nav class="app-segmented-control">
+            <button class="app-segmented-item active" onclick="switchTab('info')">シャント<br>管理の基本</button>
+            <button class="app-segmented-item" onclick="switchTab('quiz')">シャント<br>クイズ</button>
+            <button class="app-segmented-item" onclick="switchTab('qa')">シャント<br>Q&A</button>
         </nav>
 
-        <main id="content-area">
-            <!-- ① シャント基本 -->
-            <section id="info" class="content-section active">
-                <h2>シャントは透析治療の「命綱」です</h2>
-                <div class="intro-text">
-                    <p>シャントを長持ちさせるためには、日頃の自己管理が非常に重要です。</p>
-                </div>
+        <!-- ① Info -->
+        <section id="info" class="app-page-section active">
+            <div class="app-card-generic">
+                <h2 style="font-size:1.1rem; text-align:center; margin-bottom:0.5rem; color:#1a73e8;">シャントは「命綱」</h2>
+                <p style="text-align:center; font-size:0.95rem; line-height:1.6;">日頃の自己管理が非常に重要です。</p>
+            </div>
 
-                <h3>毎日行いましょう：見て・聴いて・触って</h3>
-                <div class="check-grid">
-                    <!-- 見る -->
-                    <div class="check-item">
-                        <div class="img-container">
-                            <img src="files/shunt/shunt-look.png" alt="見る" class="check-icon">
-                        </div>
-                        <div class="check-text">
-                            <h4>見る（視診）</h4>
-                            <p>赤み、腫れ、傷、出血などがないか確認します。</p>
-                        </div>
-                    </div>
-                    <!-- 聴く -->
-                    <div class="check-item">
-                        <div class="img-container">
-                            <img src="files/shunt/shunt-listen.png" alt="聴く" class="check-icon">
-                        </div>
-                        <div class="check-text">
-                            <h4>聴く（聴診）</h4>
-                            <p>「ザーザー」という音が連続して聴こえるか確認します。</p>
-                        </div>
-                    </div>
-                    <!-- 触る -->
-                    <div class="check-item">
-                        <div class="img-container">
-                            <img src="files/shunt/shunt-touch.png" alt="触る" class="check-icon">
-                        </div>
-                        <div class="check-text">
-                            <h4>触る（触診）</h4>
-                            <p>指で軽く触れて、スリル（振動）があるか確認します。</p>
-                        </div>
+            <h3 style="margin: 1.5rem 0.5rem 1rem; font-size:1rem; color:#444;">毎日のチェックポイント</h3>
+
+            <div class="check-grid">
+                <!-- Look -->
+                <div class="check-item">
+                    <img src="files/shunt/shunt-look.png" alt="見る" class="check-bg">
+                    <div class="check-overlay">
+                        <h4>見る（視診）</h4>
+                        <p>赤み、腫れ、傷、出血などがないか確認します。</p>
                     </div>
                 </div>
-
-                <h3>日常生活で気をつけること</h3>
-                <ul class="ng-list">
-                    <li>シャント側で重いものを持たない</li>
-                    <li>シャント側で血圧測定や採血をしない</li>
-                    <li>腕を体の下にして寝ない</li>
-                    <li>シャント部を清潔に保つ</li>
-                </ul>
-
-                <button class="emergency-btn" id="openContactModal">各施設への連絡先はこちら</button>
-            </section>
-
-            <!-- ② クイズ -->
-            <section id="quiz" class="content-section">
-                <div class="quiz-section">
-                    <h2>挑戦してみよう！シャント管理クイズ</h2>
-                    <p>ゲーム感覚で楽しく知識が身につきます。</p>
-                    <a href="friend-shunt-quiz.html" class="quiz-button">クイズに挑戦する！</a>
-                </div>
-            </section>
-
-            <!-- ③ Q&A -->
-            <section id="qa" class="content-section qa-search-section" data-csv-path="files/data/qa-data.csv"
-                data-category="シャント">
-                <h2>シャント管理Q&A</h2>
-                <div class="qa-search-container">
-                    <input type="search" class="qa-search-input" placeholder="キーワード (例: 痛み, 閉塞)" autocomplete="off">
-                </div>
-                <div class="qa-popular-keywords">
-                    <h3>よく検索されるワード</h3>
-                    <div class="keyword-buttons">
-                        <button class="keyword-button" onclick="setKeyword('痛み')">痛み</button>
-                        <button class="keyword-button" onclick="setKeyword('閉塞')">閉塞</button>
-                        <button class="keyword-button" onclick="setKeyword('感染')">感染</button>
+                <!-- Listen -->
+                <div class="check-item">
+                    <img src="files/shunt/shunt-listen.png" alt="聴く" class="check-bg">
+                    <div class="check-overlay">
+                        <h4>聴く（聴診）</h4>
+                        <p>「ザーザー」という音が連続して聴こえるか確認します。</p>
                     </div>
                 </div>
-                <div class="qa-results-container"></div>
-            </section>
-        </main>
+                <!-- Touch -->
+                <div class="check-item">
+                    <img src="files/shunt/shunt-touch.png" alt="触る" class="check-bg">
+                    <div class="check-overlay">
+                        <h4>触る（触診）</h4>
+                        <p>指で軽く触れて、スリル（振動）があるか確認します。</p>
+                    </div>
+                </div>
+            </div>
 
-        <a href="friend-main.html" class="back-to-portal-button">特典ページへ戻る</a>
-        <footer>
-            <p><small>&copy; 2025 医療法人 好輝会 梶本クリニック</small></p>
-        </footer>
-    </div>
+            <h3 style="margin: 1.5rem 0.5rem 1rem; font-size:1rem; color:#444;">日常生活の注意点</h3>
+            <ul class="ng-list">
+                <li>シャント側で重いものを持たない</li>
+                <li>シャント側で血圧測定や採血をしない</li>
+                <li>腕を体の下にして寝ない</li>
+                <li>シャント部を清潔に保つ</li>
+            </ul>
 
-    <!-- 連絡先モーダル -->
-    <div class="modal-overlay" id="contactOverlay" style="display: none;">
+            <button class="emergency-btn" id="openContactModal">各施設への連絡先はこちら</button>
+        </section>
+
+        <!-- ② Quiz -->
+        <section id="quiz" class="app-page-section">
+            <div class="app-card-generic" style="text-align:center; padding:3rem 1.5rem;">
+                <h2 style="margin-bottom:1rem;">シャント管理クイズ</h2>
+                <p style="margin-bottom:2rem;">ゲーム感覚で楽しく知識が身につきます。</p>
+                <a href="friend-shunt-quiz.html" class="quiz-button"
+                    style="display:inline-block; padding:12px 30px; background:#1a73e8; color:white; border-radius:30px; text-decoration:none; font-weight:bold; box-shadow:0 4px 10px rgba(26,115,232,0.3);">
+                    クイズに挑戦
+                </a>
+            </div>
+        </section>
+
+        <!-- ③ Q&A -->
+        <section id="qa" class="app-page-section qa-search-section" data-csv-path="files/data/qa-data.csv"
+            data-category="シャント">
+            <h2 style="font-size:1.1rem; margin-bottom:1rem;">シャント管理Q&A</h2>
+            <div class="qa-search-container" style="margin-bottom:1rem;">
+                <input type="search" class="qa-search-input" placeholder="キーワード (例: 痛み, 閉塞)" autocomplete="off"
+                    style="width:100%; padding:12px; border-radius:12px; border:1px solid #ddd; background:rgba(255,255,255,0.9);">
+            </div>
+            <div class="keyword-buttons" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:1.5rem;">
+                <button class="keyword-button" onclick="setKeyword('痛み')"
+                    style="padding:6px 12px; border-radius:20px; border:none; background:#eee; font-size:0.8rem;">痛み</button>
+                <button class="keyword-button" onclick="setKeyword('閉塞')"
+                    style="padding:6px 12px; border-radius:20px; border:none; background:#eee; font-size:0.8rem;">閉塞</button>
+                <button class="keyword-button" onclick="setKeyword('感染')"
+                    style="padding:6px 12px; border-radius:20px; border:none; background:#eee; font-size:0.8rem;">感染</button>
+            </div>
+            <div class="qa-results-container"></div>
+        </section>
+
+        <div style="height: 40px;"></div>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="friend-main.html" class="nav-item">
+            <span class="nav-icon">🎁</span>
+            <span>お友達</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <span class="nav-icon">❓</span>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
+    <!-- Modal Logic -->
+    <div class="modal-overlay" id="contactOverlay">
         <div class="modal-content">
-            <button class="close-modal-btn" id="closeContactModal">&times;</button>
-            <h3>連絡先を選択</h3>
+            <button class="close-modal-btn" id="closeContactModal"
+                style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:1.5rem; color:#aaa;">&times;</button>
+            <h3 style="text-align:center; margin-bottom:0;">連絡先を選択</h3>
             <div class="contact-list">
-                <a href="tel:0664519010" class="contact-link">
-                    <span class="contact-name">本院</span><span class="contact-icon">📞</span>
-                </a>
-                <a href="tel:0722502960" class="contact-link">
-                    <span class="contact-name">なかもず分院</span><span class="contact-icon">📞</span>
-                </a>
-                <a href="tel:0722758980" class="contact-link">
-                    <span class="contact-name">三国ヶ丘分院</span><span class="contact-icon">📞</span>
-                </a>
+                <a href="tel:0664519010" class="contact-link"><span>本院</span><span>📞</span></a>
+                <a href="tel:0722502960" class="contact-link"><span>なかもず分院</span><span>📞</span></a>
+                <a href="tel:0722758980" class="contact-link"><span>三国ヶ丘分院</span><span>📞</span></a>
             </div>
         </div>
     </div>
 
-    <!-- JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-    <script src="js/qa/qa-script.js"></script>
+    <!-- Scripts -->
     <script>
-        window.switchTab = function (id) {
-            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
+        function switchTab(id) {
+            document.querySelectorAll('.app-page-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.app-segmented-item').forEach(el => el.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            const buttons = document.querySelectorAll('.nav-button');
-            for (let btn of buttons) {
-                if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(id)) btn.classList.add('active');
-            }
+            const buttons = document.querySelectorAll('.app-segmented-item');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('onclick').includes(id)) {
+                    btn.classList.add('active');
+                }
+            });
         }
+        window.switchTab = switchTab;
         window.setKeyword = function (word) {
-            const input = document.querySelector('.content-section.active .qa-search-input');
-            if (input) {
-                input.value = word;
-                input.dispatchEvent(new Event('input', { bubbles: true }));
-            }
+            const input = document.querySelector('.qa-search-input');
+            if (input) { input.value = word; input.dispatchEvent(new Event('input', { bubbles: true })); }
         }
-
-        // モーダル制御ロジック (インラインから移行・強化)
         document.addEventListener('DOMContentLoaded', () => {
             const openBtn = document.getElementById('openContactModal');
             const closeBtn = document.getElementById('closeContactModal');
             const overlay = document.getElementById('contactOverlay');
-
-            // 開く
-            if (openBtn) {
-                openBtn.addEventListener('click', () => {
-                    overlay.style.display = 'flex'; // 強制的に表示
-                    // 少し遅らせてactiveクラス（フェードイン用）を追加
-                    requestAnimationFrame(() => {
-                        overlay.classList.add('active');
-                    });
-                });
-            }
-
-            // 閉じる関数
-            const closeModal = () => {
-                overlay.classList.remove('active');
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                }, 300); // アニメーション時間待機
-            };
-
-            // 閉じるボタン
-            if (closeBtn) {
-                closeBtn.addEventListener('click', (e) => {
-                    e.stopPropagation(); // イベント冒泡を防ぐ
-                    closeModal();
-                });
-            }
-
-            // オーバーレイ背景クリックで閉じる
-            if (overlay) {
-                overlay.addEventListener('click', (e) => {
-                    if (e.target === overlay) {
-                        closeModal();
-                    }
-                });
-            }
+            if (openBtn) openBtn.onclick = () => overlay.style.display = 'flex';
+            if (closeBtn) closeBtn.onclick = () => overlay.style.display = 'none';
+            if (overlay) overlay.onclick = (e) => { if (e.target === overlay) overlay.style.display = 'none'; };
         });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="js/qa/qa-data-embedded.js"></script>
+    <script src="js/qa/qa-script.js"></script>
 </body>
 
 </html>

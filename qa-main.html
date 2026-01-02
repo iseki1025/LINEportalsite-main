@@ -7,65 +7,79 @@
     <title>Q&A 検索 | 梶本クリニック</title>
     <!-- 共通スタイル -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-layout.css">
 </head>
 
-<body class="theme-qa">
-    <div class="container">
-        <header>
-            <h1>Q&A 検索</h1>
-        </header>
-        <main>
-            <div class="intro-text">
-                <p>キーワードを入力して、よくある質問を検索できます。<br>（例：食事, 災害, シャント, 運動 など）</p>
-            </div>
+<body class="theme-qa app-mode">
+    <!-- 1. App Header -->
+    <header class="app-header">
+        <div class="app-title">Q&A 検索</div>
+    </header>
 
-            <!-- 
-                検索セクション 
-                パス修正: files/data/qa-data.csv
-                data-category属性なし = 全カテゴリ検索モード
-            -->
+    <!-- 2. Main Content (Scrollable) -->
+    <main class="app-content-scroll">
+
+        <div class="app-card-generic" style="text-align:center; padding: 1.5rem 1rem;">
+            <p style="font-size:0.95rem; color:#555; margin-bottom:1rem;">
+                キーワードを入力して、よくある質問を検索できます。<br>
+                <span style="font-size:0.8rem; color:#888;">(例: 食事, 災害, シャント, 運動 など)</span>
+            </p>
+
+            <!-- Search Section -->
             <section class="qa-search-section" data-csv-path="files/data/qa-data.csv">
-                <div class="qa-search-container">
-                    <input type="search" class="qa-search-input" placeholder="キーワードを入力 (例: 塩分, 災害, シャント)"
-                        autocomplete="off">
+                <div class="qa-search-container" style="margin-bottom:1.5rem;">
+                    <input type="search" class="qa-search-input" placeholder="キーワードを入力..." autocomplete="off"
+                        style="width:100%; padding:14px; border-radius:30px; border:1px solid #ddd; background:rgba(255,255,255,0.9); box-shadow:0 4px 10px rgba(0,0,0,0.05);">
                 </div>
 
-                <!-- よく検索されるワード（全般用） -->
+                <!-- Popular Keywords -->
                 <div class="qa-popular-keywords">
-                    <h3>人気のキーワード</h3>
-                    <div class="keyword-buttons">
-                        <button class="keyword-button" onclick="setKeyword('食事')">食事</button>
-                        <button class="keyword-button" onclick="setKeyword('水分')">水分</button>
-                        <button class="keyword-button" onclick="setKeyword('シャント')">シャント</button>
-                        <button class="keyword-button" onclick="setKeyword('災害')">災害</button>
-                        <button class="keyword-button" onclick="setKeyword('運動')">運動</button>
+                    <h3 style="font-size:0.9rem; color:#666; margin-bottom:0.8rem;">よく検索されるワード</h3>
+                    <div class="keyword-buttons" style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
+                        <button class="keyword-button" onclick="setKeyword('食事')"
+                            style="padding:8px 16px; border-radius:20px; border:none; background:#f0f2f5; font-size:0.85rem; color:#555; font-weight:bold;">食事</button>
+                        <button class="keyword-button" onclick="setKeyword('水分')"
+                            style="padding:8px 16px; border-radius:20px; border:none; background:#f0f2f5; font-size:0.85rem; color:#555; font-weight:bold;">水分</button>
+                        <button class="keyword-button" onclick="setKeyword('シャント')"
+                            style="padding:8px 16px; border-radius:20px; border:none; background:#f0f2f5; font-size:0.85rem; color:#555; font-weight:bold;">シャント</button>
+                        <button class="keyword-button" onclick="setKeyword('災害')"
+                            style="padding:8px 16px; border-radius:20px; border:none; background:#f0f2f5; font-size:0.85rem; color:#555; font-weight:bold;">災害</button>
+                        <button class="keyword-button" onclick="setKeyword('運動')"
+                            style="padding:8px 16px; border-radius:20px; border:none; background:#f0f2f5; font-size:0.85rem; color:#555; font-weight:bold;">運動</button>
                     </div>
                 </div>
 
-                <div class="qa-results-container">
-                    <!-- 検索結果はここに表示されます -->
+                <div class="qa-results-container" style="text-align:left; margin-top:2rem;">
+                    <!-- Results will be injected here -->
                 </div>
             </section>
-        </main>
+        </div>
 
-        <a href="index.html" class="back-to-portal-button">総合情報ポータルへ戻る</a>
+        <div style="height: 40px;"></div>
+    </main>
 
-        <footer>
-            <p><small>&copy; 2025 医療法人 好輝会 梶本クリニック</small></p>
-        </footer>
-    </div>
+    <!-- 3. Bottom Navigation (Fixed) -->
+    <nav class="bottom-nav">
+        <a href="friend-main.html" class="nav-item">
+            <span class="nav-icon">🎁</span>
+            <span>お友達</span>
+        </a>
+        <a href="disaster-main.html" class="nav-item">
+            <span class="nav-icon">⛑️</span>
+            <span>災害対策</span>
+        </a>
+    </nav>
 
-    <!-- ライブラリとスクリプト -->
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="js/qa/qa-data-embedded.js"></script>
     <script src="js/qa/qa-script.js"></script>
 
-    <!-- キーワードボタン用簡易スクリプト -->
     <script>
         window.setKeyword = function (word) {
             const input = document.querySelector('.qa-search-input');
             if (input) {
                 input.value = word;
-                // 入力イベントを発火させて検索を実行
                 input.dispatchEvent(new Event('input', { bubbles: true }));
             }
         }

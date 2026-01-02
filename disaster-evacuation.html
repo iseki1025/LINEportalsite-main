@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>災害情報ポータル | 避難手段</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-layout.css">
+    <style>
+        .evacuation-item {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+
+        .evacuation-item-header {
+            padding: 1rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: #fafafa;
+        }
+
+        .evacuation-item-content {
+            display: none;
+            padding: 1rem;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+
+        .evacuation-item.is-open .evacuation-item-content {
+            display: block;
+        }
+
+        .video-wrapper {
+            background: #000;
+            height: 200px;
+            border-radius: 8px;
+            margin-top: 1rem;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body class="app-mode theme-disaster">
+
+    <!-- 1. Fixed App Header -->
+    <header class="app-header">
+        <a href="disaster-main.html" class="back-button">◀</a>
+        <div class="app-title">避難手段</div>
+    </header>
+
+    <!-- 2. Main Scrollable Content -->
+    <main class="app-content">
+
+        <section id="evacuation" class="content-section active" style="padding: 1rem;">
+            <h2>おひとりでは避難が難しい方へ</h2>
+            <p style="margin-bottom:2rem;">災害時、当院では様々な避難手段を用意しています。各設備の使用方法を事前に確認しておきましょう。</p>
+
+            <!-- イーバックチェア -->
+            <div class="evacuation-item">
+                <div class="evacuation-item-header" onclick="this.parentElement.classList.toggle('is-open')">
+                    <span>イーバックチェア（階段避難車）</span>
+                    <span>▼</span>
+                </div>
+                <div class="evacuation-item-content">
+                    <div class="evacuation-item-body">
+                        <p><strong>概要:</strong>
+                            車椅子の方や歩行が困難な方を、階段を使って安全に避難させるための専用チェアです。キャタピラ式の構造により、介助者1〜2名で階段を降りることができます。</p>
+                        <p><strong>設置場所:</strong> 各階の避難経路入口付近</p>
+                        <div class="video-wrapper">
+                            <!-- 動画があればここにsrcを指定 -->
+                            <div
+                                style="color:white; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
+                                動画準備中</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UDエスケープ -->
+            <div class="evacuation-item">
+                <div class="evacuation-item-header" onclick="this.parentElement.classList.toggle('is-open')">
+                    <span>UDエスケープ（三国ヶ丘のみ）</span>
+                    <span>▼</span>
+                </div>
+                <div class="evacuation-item-content">
+                    <div class="evacuation-item-body">
+                        <p><strong>概要:</strong> ベランダから地上へ素早く避難するための乗り物です。エレベーターのような構造で、階段が使えない緊急時に使用します。</p>
+                        <p><strong>設置場所:</strong> 2階のベランダ北端（非常口表示あり）</p>
+                        <div class="video-wrapper">
+                            <div
+                                style="color:white; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
+                                動画準備中</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 外部の滑り台 -->
+            <div class="evacuation-item">
+                <div class="evacuation-item-header" onclick="this.parentElement.classList.toggle('is-open')">
+                    <span>外部避難用滑り台（なかもず分院のみ）</span>
+                    <span>▼</span>
+                </div>
+                <div class="evacuation-item-content">
+                    <div class="evacuation-item-body">
+                        <p><strong>概要:</strong> 建物外部に設置された金属製の避難用滑り台です。火災などで建物内の避難経路が使えない場合に使用します。</p>
+                        <p><strong>設置場所:</strong> 建物南側2階・3階・4階・5階</p>
+                        <div class="video-wrapper">
+                            <div
+                                style="color:white; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
+                                動画準備中</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>⚠ 注意事項</strong><br>
+                これらの避難手段は、職員の指示に従ってご使用ください。定期的に避難訓練を実施していますので、ぜひご参加ください。
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 3. Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <div class="nav-icon icon-home"></div>
+            <span>ホーム</span>
+        </a>
+        <a href="friend-main.html" class="nav-item">
+            <div class="nav-icon icon-friend"></div>
+            <span>特典</span>
+        </a>
+        <a href="disaster-main.html" class="nav-item active">
+            <div class="nav-icon icon-disaster"></div>
+            <span>災害</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <div class="nav-icon icon-qa"></div>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
+</body>
+
+</html>

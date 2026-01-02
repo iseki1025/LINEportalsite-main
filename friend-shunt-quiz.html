@@ -1,76 +1,213 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>シャント管理クイズ</title>
+    <title>シャント管理クイズ | 梶本クリニック</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-layout.css">
+    <style>
+        /* Quiz-specific styles */
+        .quiz-progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1a73e8, #34a853);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-question-number {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .quiz-question-text {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .quiz-option:active {
+            transform: scale(0.98);
+        }
+
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .quiz-option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .quiz-option.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .quiz-explanation {
+            background: #fff3cd;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .quiz-explanation.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .explanation-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #856404;
+        }
+
+        .quiz-next-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .quiz-next-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Result Container */
+        .quiz-result-container {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .quiz-result-container.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-score {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1a73e8;
+            margin: 1rem 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
-<body class="theme-shunt">
-    <div class="container">
-        <header style="padding-bottom: 1rem;">
-            <h1>💉 シャント管理クイズ</h1>
-            <p>10問の中からランダムに5問出題</p>
-        </header>
 
-        <main id="content-area" style="min-height: auto;">
-            <div class="quiz-progress-container">
-                <div class="quiz-progress-fill" id="progressFill"></div>
-            </div>
+<body class="theme-shunt app-mode">
+    <header class="app-header">
+        <a href="friend-shunt-main.html"
+            style="position:absolute; left:1rem; font-size:1.5rem; color:#333; text-decoration:none;">&lt;</a>
+        <div class="app-title">シャント管理クイズ</div>
+    </header>
 
-            <div id="quizContainer">
-                <!-- Questions inserted here -->
-            </div>
+    <main class="app-content-scroll">
+        <div class="app-card-generic" style="text-align:center; margin-bottom:1.5rem;">
+            <p style="margin:0; font-size:0.9rem; color:#666;">10問からランダムに5問出題されます</p>
+        </div>
 
-            <div id="resultContainer" class="quiz-result-container">
-                <!-- Results shown here -->
-            </div>
+        <div class="quiz-progress-container">
+            <div class="quiz-progress-fill" id="progressFill"></div>
+        </div>
 
-            <button id="nextButton" class="quiz-next-btn" style="display: none;">次の問題へ</button>
-        </main>
-        
-        <a href="friend-shunt-main.html" class="back-to-portal-button">シャント管理ページへ戻る</a>
-    </div>
+        <div id="quizContainer" class="app-card-generic">
+            <!-- Questions inserted here -->
+        </div>
+
+        <div id="resultContainer" class="quiz-result-container app-card-generic">
+            <!-- Results shown here -->
+        </div>
+
+        <button id="nextButton" class="quiz-next-btn" style="display: none;">次の問題へ</button>
+
+        <div style="height: 40px;"></div>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="friend-main.html" class="nav-item">
+            <span class="nav-icon">🎁</span>
+            <span>お友達</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <span class="nav-icon">❓</span>
+            <span>Q&A</span>
+        </a>
+    </nav>
 
     <script>
         const quizData = [
-            {
-                question: "シャントに最も適した観察方法はどれ？",
-                options: ["指で触って鼓動(スリル)を確認する", "目で見るだけ", "毎日押さえて止める"],
-                correct: 0,
-                explanation: "毎日スリル(振動)を触れて確認することが重要です。ザーザーという音が正常です。"
-            },
-            {
-                question: "シャント側の腕で「やってはいけないこと」はどれ？",
-                options: ["血圧測定", "買い物袋を軽く持つ", "手を洗う"],
-                correct: 0,
-                explanation: "血圧測定、採血、腕時計などは血管を圧迫し、閉塞の原因になるため避けます。"
-            },
-            {
-                question: "シャントの閉塞が疑われる症状は？",
-                options: ["スリルが触れない", "少しかゆい", "冷たくない"],
-                correct: 0,
-                explanation: "スリル(振動)や音が消失した場合、閉塞の可能性が高いです。直ちに連絡してください。"
-            },
-            {
-                question: "シャント感染を疑うサインは？",
-                options: ["発赤・熱感・痛み", "皮膚が乾燥している", "少しむくんでいるだけ"],
-                correct: 0,
-                explanation: "赤み、腫れ、痛み、熱感は感染の兆候です。放置せず受診しましょう。"
-            },
-            {
-                question: "透析後の止血方法として正しいのは？",
-                options: ["適度な圧で押さえる", "強く押す", "テープだけ貼る"],
-                correct: 0,
-                explanation: "強すぎる圧迫は血管を潰してしまいます。出血が止まる程度の「適度な圧」で押さえます。"
-            },
-            // ... (他の問題データは維持) ...
-            {
-                question: "寒い季節の血流管理は？",
-                options: ["冷やさない", "水で冷やす", "血流を止める"],
-                correct: 0,
-                explanation: "血管は冷えると収縮します。冬場はサポーターやカイロ(直接当てない)で保温しましょう。"
-            }
+            { question: "シャントに最も適した観察方法はどれ？", options: ["指で触って鼓動(スリル)を確認する", "目で見るだけ", "毎日押さえて止める"], correct: 0, explanation: "毎日スリル(振動)を触れて確認することが重要です。ザーザーという音が正常です。" },
+            { question: "シャント側の腕で「やってはいけないこと」はどれ？", options: ["血圧測定", "買い物袋を軽く持つ", "手を洗う"], correct: 0, explanation: "血圧測定、採血、腕時計などは血管を圧迫し、閉塞の原因になるため避けます。" },
+            { question: "シャントの閉塞が疑われる症状は？", options: ["スリルが触れない", "少しかゆい", "冷たくない"], correct: 0, explanation: "スリル(振動)や音が消失した場合、閉塞の可能性が高いです。直ちに連絡してください。" },
+            { question: "シャント感染を疑うサインは？", options: ["発赤・熱感・痛み", "皮膚が乾燥している", "少しむくんでいるだけ"], correct: 0, explanation: "赤み、腫れ、痛み、熱感は感染の兆候です。放置せず受診しましょう。" },
+            { question: "透析後の止血方法として正しいのは？", options: ["適度な圧で押さえる", "強く押す", "テープだけ貼る"], correct: 0, explanation: "強すぎる圧迫は血管を潰してしまいます。出血が止まる程度の「適度な圧」で押さえます。" },
+            { question: "寒い季節の血流管理は？", options: ["冷やさない", "水で冷やす", "血流を止める"], correct: 0, explanation: "血管は冷えると収縮します。冬場はサポーターやカイロ(直接当てない)で保温しましょう。" },
+            { question: "透析中にシャント肢がしびれたら？", options: ["スタッフに報告する", "自分でマッサージする", "そのまま様子を見る"], correct: 0, explanation: "しびれは血流障害のサインです。すぐにスタッフに知らせましょう。" },
+            { question: "シャントの音を聞くのに適した道具は？", options: ["聴診器", "体温計", "血圧計"], correct: 0, explanation: "聴診器でザーザーという連続音(スリル音)を確認します。" },
+            { question: "シャント部の清潔を保つために大切なのは？", options: ["毎日石鹸で優しく洗う", "消毒液を毎日塗る", "テープでずっと覆う"], correct: 0, explanation: "清潔を保つには、毎日石鹸で優しく洗い、清潔なタオルで拭くことが基本です。" },
+            { question: "シャント側の腕に腕時計をしても良い？", options: ["いいえ、避けるべき", "はい、問題ない", "たまになら良い"], correct: 0, explanation: "腕時計や締め付けるアクセサリーは血流を妨げるため避けましょう。" }
         ];
 
         let currentQuestion = 0;
@@ -96,7 +233,7 @@
             answered = false;
             const quizContainer = document.getElementById('quizContainer');
             const data = selectedQuestions[currentQuestion];
-            
+
             const progress = ((currentQuestion + 1) / selectedQuestions.length) * 100;
             document.getElementById('progressFill').style.width = progress + '%';
 
@@ -133,9 +270,8 @@
                 score++;
             } else {
                 element.classList.add('incorrect');
-                // 正解を表示
                 document.querySelectorAll('.quiz-option').forEach(opt => {
-                    if(opt.getAttribute('onclick').includes('true')) opt.classList.add('correct');
+                    if (opt.getAttribute('onclick').includes('true')) opt.classList.add('correct');
                 });
             }
 
@@ -183,4 +319,5 @@
         loadQuestion();
     </script>
 </body>
+
 </html>

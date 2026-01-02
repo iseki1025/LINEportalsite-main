@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ぷにぷにアニマル・マージ</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* スクロール禁止 & 全画面固定 */
+        html,
+        body {
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+            touch-action: none;
+            user-select: none;
+            margin: 0;
+            padding: 0;
+            position: fixed;
+        }
+
+        .game-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #e0c3fc 0%, #c9b1ff 25%, #b8d4e3 50%, #b5ead7 75%, #ffc8dd 100%);
+            z-index: 0;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: float-up 8s infinite linear;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.4;
+            }
+
+            90% {
+                opacity: 0.4;
+            }
+
+            100% {
+                transform: translateY(-20vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* コンテナ類 */
+        .game-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .game-header h1 {
+            position: fixed;
+            top: 10px;
+            left: 15px;
+            margin: 0;
+            font-size: 1.1rem;
+            z-index: 50;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, #ff9a9e, #a18cd1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .game-box {
+            position: relative;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15), inset 0 0 60px rgba(255, 255, 255, 0.1);
+            z-index: 10;
+        }
+
+        .game-area {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            /* 左寄せ */
+            padding-left: 15px;
+            box-sizing: border-box;
+        }
+
+        .deadline {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff6b6b, transparent);
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .glass-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 4px solid rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            pointer-events: none;
+            z-index: 30;
+            box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.3), inset 2px 2px 0 rgba(255, 255, 255, 0.5), inset -2px -2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .glass-overlay::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 60%;
+            height: 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), transparent);
+            border-radius: 10px;
+        }
+
+        #gameCanvas {
+            display: block;
+            border-radius: 12px;
+            background: linear-gradient(180deg, rgba(200, 180, 220, 0.3) 0%, rgba(180, 200, 200, 0.4) 100%);
+        }
+
+        /* HUD: 右上情報パネル */
+        .info-panel {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            width: auto;
+            min-width: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            z-index: 50;
+            gap: 8px;
+        }
+
+        /* 縦並びコンポーネント */
+        .info-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .label-text {
+            font-size: 0.6rem;
+            color: #888;
+            font-weight: bold;
+            margin-bottom: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        #nextCanvas {
+            border-radius: 50%;
+            background: #f0f0f0;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 45px;
+            height: 45px;
+            margin-bottom: 2px;
+        }
+
+        .score-val {
+            font-size: 0.9rem;
+            color: #5a4a78;
+            font-weight: bold;
+            font-family: 'Arial Rounded MT Bold', 'Verdana', sans-serif;
+            line-height: 1;
+        }
+
+        .best-val {
+            font-size: 0.8rem;
+            color: #ff9a9e;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .separator {
+            width: 80%;
+            height: 1px;
+            background: #e0d0f0;
+            margin: 2px 0;
+        }
+
+        /* 古いクラスの無効化/調整 */
+        .info-row,
+        .score-box,
+        .next-box {
+            display: contents;
+        }
+
+        .score-label,
+        .next-label {
+            display: none;
+        }
+
+        /* 新しいHTMLでlabel-textを使うため */
+
+        /* HUD: 右下コントロール */
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column-reverse;
+            /* 下から積む */
+            gap: 15px;
+            z-index: 50;
+            align-items: flex-end;
+        }
+
+        .game-btn {
+            padding: 12px 24px;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+            color: white;
+        }
+
+        .btn-start:active {
+            transform: scale(0.95);
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.9);
+            color: #5a4a78;
+            font-size: 0.8rem;
+            padding: 8px 16px;
+        }
+
+        .game-over-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            z-index: 40;
+        }
+
+        .game-over-overlay.active {
+            display: flex;
+        }
+
+        .game-over-overlay h2 {
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .game-over-overlay p {
+            color: #ffc8dd;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .game-over-overlay button,
+        .game-over-overlay a {
+            pointer-events: auto;
+        }
+
+        .merge-effect {
+            position: absolute;
+            pointer-events: none;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.9), transparent);
+            animation: merge-pop 0.4s ease-out forwards;
+            z-index: 25;
+        }
+
+        @keyframes merge-pop {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .drop-preview {
+            position: absolute;
+            pointer-events: none;
+            z-index: 15;
+        }
+
+        @media (max-width: 400px) {
+            .info-panel {
+                padding: 8px 12px;
+            }
+
+            .score-val {
+                font-size: 1.0rem;
+            }
+
+            #nextCanvas {
+                width: 35px;
+                height: 35px;
+            }
+        }
+    </style>
+</head>
+
+<body class="theme-friend game-mode-fullscreen">
+    <div class="game-bg"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- HUDレイヤー -->
+    <header class="game-header">
+        <h1>🐾 ぷにぷにアニマル</h1>
+    </header>
+
+    <!-- HUD Information Panel (Vertical) -->
+    <div class="info-panel">
+        <!-- NEXT (Top) -->
+        <div class="info-section">
+            <span class="label-text">NEXT</span>
+            <canvas id="nextCanvas" width="45" height="45"></canvas>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- BEST (Middle) -->
+        <div class="info-section">
+            <span class="label-text">BEST</span>
+            <span class="best-val" id="bestScore">0</span>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- SCORE (Bottom) -->
+        <div class="info-section">
+            <span class="label-text">SCORE</span>
+            <span class="score-val" id="score">0</span>
+        </div>
+    </div>
+
+    <!-- HUD Controls (Bottom Right) -->
+    <div class="controls">
+        <a href="friend-game-main.html" class="game-btn btn-back">戻る</a>
+        <button class="game-btn btn-start" id="startBtn">スタート</button>
+    </div>
+
+    <!-- Game Container -->
+    <div class="game-container">
+        <div class="game-area">
+            <div class="game-box" id="gameBox">
+                <div class="deadline"></div>
+                <canvas id="gameCanvas"></canvas>
+                <div class="glass-overlay"></div>
+                <div class="game-over-overlay" id="gameOverOverlay">
+                    <h2>🎮 Game Over</h2>
+                    <p>スコア: <span id="finalScore">0</span></p>
+                    <button class="game-btn btn-start" id="restartBtn">もう一度</button>
+                    <a href="friend-game-main.html" class="game-btn btn-back" style="margin-top:10px;">メニューへ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Matter.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+
+    <script>
+        // ============================================
+        // ぷにぷにアニマル・マージ - Game Engine
+        // ============================================
+
+        // --- Matter.js モジュール ---
+        const { Engine, Render, Runner, Bodies, Body, World, Events, Query } = Matter;
+
+        // --- 定数 (可変) ---
+        let CANVAS_WIDTH = 350;
+        let CANVAS_HEIGHT = 550;
+        const ASPECT_RATIO = 350 / 550;
+        let WALL_THICKNESS = 20;
+        let DEADLINE_Y = 60;
+        const DANGER_TIME = 3000;
+
+        // --- 動物定義 (基準) ---
+        const BASE_ANIMALS = [
+            { name: 'ヒヨコ', radius: 18, color: '#FFE066', earColor: '#FFD700', bodyColor: '#FFFACD' },
+            { name: 'ハムスター', radius: 24, color: '#FFDAB9', earColor: '#DEB887', bodyColor: '#FFE4C4' },
+            { name: 'ウサギ', radius: 32, color: '#FFB6C1', earColor: '#FF69B4', bodyColor: '#FFC0CB' },
+            { name: 'ネコ', radius: 42, color: '#E6E6FA', earColor: '#DDA0DD', bodyColor: '#F0E6FA' },
+            { name: 'イヌ', radius: 54, color: '#B5EAD7', earColor: '#98D8C8', bodyColor: '#C5F0E0' },
+            { name: 'レッサーパンダ', radius: 68, color: '#FFCBA4', earColor: '#8B4513', bodyColor: '#FFD8B8' },
+            { name: 'ヒツジ', radius: 84, color: '#FAFAFA', earColor: '#D3D3D3', bodyColor: '#FFFFFF' },
+            { name: 'クマ', radius: 102, color: '#DEB887', earColor: '#8B4513', bodyColor: '#E8C89E' },
+            { name: 'ライオン', radius: 122, color: '#FFD700', earColor: '#DAA520', bodyColor: '#FFE55C' },
+            { name: 'ゾウ', radius: 145, color: '#C0C0C0', earColor: '#A9A9A9', bodyColor: '#D3D3D3' }
+        ];
+
+        // 作業用動物リストとスケール
+        let ANIMALS = JSON.parse(JSON.stringify(BASE_ANIMALS));
+        let scaleFactor = 1.0;
+
+        // スコアポイント
+        const SCORES = [10, 20, 40, 80, 160, 320, 640, 1280, 2560, 5120];
+
+        // --- ゲーム状態 ---
+        let engine, world, runner;
+        let canvas, ctx, nextCanvas, nextCtx;
+        let gameBox;
+        let isGameRunning = false;
+        let isGameOver = false;
+        let score = 0;
+        let bestScore = parseInt(localStorage.getItem('animalMergeBest') || '0');
+        let currentAnimalIndex = 0;
+        let nextAnimalIndex = 0;
+        let canDrop = true;
+        let mouseX = 0;
+        let dangerTimer = null;
+        let dangerStartTime = null;
+        let animals = []; // 落下した動物オブジェクトを管理
+
+        // --- 初期化 ---
+        function init() {
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+            nextCanvas = document.getElementById('nextCanvas');
+            nextCtx = nextCanvas.getContext('2d');
+            gameBox = document.getElementById('gameBox');
+
+            document.getElementById('bestScore').textContent = bestScore;
+
+            // リサイズ実行
+            handleResize();
+            window.addEventListener('resize', () => {
+                handleResize();
+                if (!isGameRunning) drawPreview();
+            });
+
+            // イベント
+            document.getElementById('startBtn').addEventListener('click', startGame);
+            document.getElementById('restartBtn').addEventListener('click', restartGame);
+
+            canvas.addEventListener('mousemove', handleMouseMove);
+            canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+            canvas.addEventListener('click', handleClick);
+            canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+
+            // パーティクル生成
+            createParticles();
+
+            // 初期描画
+            drawPreview();
+            drawNextAnimal();
+        }
+
+        // --- リサイズ処理 ---
+        function handleResize() {
+            const container = document.querySelector('.game-area');
+            if (!container) return;
+
+            // 少し余白を設ける (上下左右)
+            // 左寄せ戦略: 右側のHUD(約80px)を避けて、左側のスペースで最大化する
+            // 幅: 全幅 - 右マージン(90px) - 左パディング(15px)
+            // 高さ: 全高 - 上下マージン(50px: ヘッダーや安全マージン)
+            const maxWidth = container.clientWidth - 105;
+            const maxHeight = container.clientHeight - 50;
+
+            // アスペクト比維持で最大化
+            let w = maxHeight * ASPECT_RATIO;
+            let h = maxHeight;
+
+            if (w > maxWidth) {
+                w = maxWidth;
+                h = w / ASPECT_RATIO;
+            }
+
+            CANVAS_WIDTH = w;
+            CANVAS_HEIGHT = h;
+            scaleFactor = CANVAS_WIDTH / 350; // 基準350px
+
+            canvas.width = CANVAS_WIDTH;
+            canvas.height = CANVAS_HEIGHT;
+            gameBox.style.width = CANVAS_WIDTH + 'px';
+            gameBox.style.height = CANVAS_HEIGHT + 'px';
+
+            // 動物サイズと壁厚みの再計算
+            ANIMALS = BASE_ANIMALS.map(a => ({
+                ...a,
+                radius: a.radius * scaleFactor
+            }));
+            WALL_THICKNESS = 20 * scaleFactor;
+            DEADLINE_Y = 60 * scaleFactor;
+
+            // デッドライン要素の位置調整（CSSでtop: 60pxなのをJSで上書きした方が良いが、CSSは固定なので...）
+            // CSSの.deadlineのtopもJSで上書き
+            document.querySelector('.deadline').style.top = DEADLINE_Y + 'px';
+        }
+
+        // --- パーティクル生成 ---
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['#ffc8dd', '#bde0fe', '#a2d2ff', '#cdb4db', '#b5ead7'];
+
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = (Math.random() * 15 + 5) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.animationDelay = (Math.random() * 8) + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // --- ゲーム開始 ---
+        function startGame() {
+            isGameRunning = true;
+            isGameOver = false;
+            score = 0;
+            animals = [];
+            canDrop = true;
+            dangerTimer = null;
+            dangerStartTime = null;
+
+            document.getElementById('score').textContent = '0';
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('gameOverOverlay').classList.remove('active');
+            // 警告初期化不要
+
+            // Matter.js エンジン初期化
+            engine = Engine.create();
+            world = engine.world;
+            engine.world.gravity.y = 1;
+
+            // 壁生成
+            const walls = [
+                Bodies.rectangle(CANVAS_WIDTH / 2, CANVAS_HEIGHT + WALL_THICKNESS / 2, CANVAS_WIDTH, WALL_THICKNESS, { isStatic: true, label: 'floor' }),
+                Bodies.rectangle(-WALL_THICKNESS / 2, CANVAS_HEIGHT / 2, WALL_THICKNESS, CANVAS_HEIGHT, { isStatic: true, label: 'leftWall' }),
+                Bodies.rectangle(CANVAS_WIDTH + WALL_THICKNESS / 2, CANVAS_HEIGHT / 2, WALL_THICKNESS, CANVAS_HEIGHT, { isStatic: true, label: 'rightWall' })
+            ];
+            World.add(world, walls);
+
+            // 衝突イベント
+            Events.on(engine, 'collisionStart', handleCollision);
+
+            // 次の動物を設定
+            currentAnimalIndex = getRandomAnimalIndex();
+            nextAnimalIndex = getRandomAnimalIndex();
+            drawNextAnimal();
+
+            // ゲームループ開始
+            runner = Runner.create();
+            Runner.run(runner, engine);
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        // --- ゲームリスタート ---
+        function restartGame() {
+            if (runner) {
+                Runner.stop(runner);
+            }
+            if (engine) {
+                World.clear(world);
+                Engine.clear(engine);
+            }
+            startGame();
+        }
+
+        // --- ランダム動物インデックス (最初の5種類のみ出現) ---
+        function getRandomAnimalIndex() {
+            return Math.floor(Math.random() * 5);
+        }
+
+        // --- マウス/タッチ操作 ---
+        function handleMouseMove(e) {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+            clampMouseX();
+        }
+
+        function handleTouchMove(e) {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.touches[0].clientX - rect.left;
+            clampMouseX();
+        }
+
+        function clampMouseX() {
+            const r = ANIMALS[currentAnimalIndex].radius;
+            mouseX = Math.max(r + 5, Math.min(CANVAS_WIDTH - r - 5, mouseX));
+        }
+
+        function handleClick(e) {
+            if (!isGameRunning || !canDrop || isGameOver) return;
+            dropAnimal();
+        }
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            if (!isGameRunning || !canDrop || isGameOver) return;
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.touches[0].clientX - rect.left;
+            clampMouseX();
+            dropAnimal();
+        }
+
+        // --- 動物ドロップ ---
+        function dropAnimal() {
+            canDrop = false;
+            const animal = ANIMALS[currentAnimalIndex];
+
+            const body = Bodies.circle(mouseX, 40, animal.radius, {
+                restitution: 0.2,
+                friction: 0.5,
+                frictionAir: 0.01,
+                label: 'animal',
+                animalIndex: currentAnimalIndex
+            });
+
+            World.add(world, body);
+            animals.push(body);
+
+            // 次の動物
+            currentAnimalIndex = nextAnimalIndex;
+            nextAnimalIndex = getRandomAnimalIndex();
+            drawNextAnimal();
+
+            // ドロップクールダウン
+            setTimeout(() => {
+                canDrop = true;
+            }, 500);
+        }
+
+        // --- 衝突処理 ---
+        function handleCollision(event) {
+            const pairs = event.pairs;
+
+            for (const pair of pairs) {
+                const bodyA = pair.bodyA;
+                const bodyB = pair.bodyB;
+
+                if (bodyA.label === 'animal' && bodyB.label === 'animal') {
+                    if (bodyA.animalIndex === bodyB.animalIndex && bodyA.animalIndex < ANIMALS.length - 1) {
+                        // マージ処理
+                        const newIndex = bodyA.animalIndex + 1;
+                        const newX = (bodyA.position.x + bodyB.position.x) / 2;
+                        const newY = (bodyA.position.y + bodyB.position.y) / 2;
+
+                        // 古い動物を削除
+                        World.remove(world, bodyA);
+                        World.remove(world, bodyB);
+                        animals = animals.filter(a => a !== bodyA && a !== bodyB);
+
+                        // 新しい動物を生成
+                        const newAnimal = ANIMALS[newIndex];
+                        const newBody = Bodies.circle(newX, newY, newAnimal.radius, {
+                            restitution: 0.2,
+                            friction: 0.5,
+                            frictionAir: 0.01,
+                            label: 'animal',
+                            animalIndex: newIndex
+                        });
+                        World.add(world, newBody);
+                        animals.push(newBody);
+
+                        // スコア加算
+                        score += SCORES[newIndex];
+                        document.getElementById('score').textContent = score;
+
+                        // マージエフェクト
+                        showMergeEffect(newX, newY, newAnimal.radius);
+
+                        // 反重力エフェクト - 周囲の動物を少し浮かせる
+                        applyAntiGravityEffect(newX, newY);
+
+                        break; // 1フレームに1マージのみ
+                    }
+                }
+            }
+        }
+
+        // --- マージエフェクト ---
+        function showMergeEffect(x, y, radius) {
+            const effect = document.createElement('div');
+            effect.className = 'merge-effect';
+            effect.style.left = (x - radius) + 'px';
+            effect.style.top = (y - radius) + 'px';
+            effect.style.width = (radius * 2) + 'px';
+            effect.style.height = (radius * 2) + 'px';
+            gameBox.appendChild(effect);
+
+            setTimeout(() => effect.remove(), 400);
+        }
+
+        // --- 反重力エフェクト ---
+        function applyAntiGravityEffect(centerX, centerY) {
+            for (const body of animals) {
+                const dx = body.position.x - centerX;
+                const dy = body.position.y - centerY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < 200 && dist > 0) {
+                    const force = 0.015 * (1 - dist / 200);
+                    Body.applyForce(body, body.position, {
+                        x: 0,
+                        y: -force
+                    });
+                }
+            }
+        }
+
+        // --- ゲームオーバー判定 ---
+        function checkGameOver() {
+            let anyAboveDeadline = false;
+
+            for (const body of animals) {
+                if (body.position.y - ANIMALS[body.animalIndex].radius < DEADLINE_Y) {
+                    anyAboveDeadline = true;
+                    break;
+                }
+            }
+
+            if (anyAboveDeadline) {
+                if (!dangerStartTime) {
+                    dangerStartTime = Date.now();
+                    // 警告表示なし
+                } else if (Date.now() - dangerStartTime > DANGER_TIME) {
+                    endGame();
+                }
+            } else {
+                dangerStartTime = null;
+                // 警告非表示なし
+            }
+        }
+
+        // --- ゲーム終了 ---
+        function endGame() {
+            isGameOver = true;
+            isGameRunning = false;
+
+            if (runner) Runner.stop(runner);
+
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('gameOverOverlay').classList.add('active');
+            document.getElementById('startBtn').style.display = 'block';
+
+            // ベストスコア更新
+            if (score > bestScore) {
+                bestScore = score;
+                localStorage.setItem('animalMergeBest', bestScore);
+                document.getElementById('bestScore').textContent = bestScore;
+            }
+        }
+
+        // --- 描画: Next動物 ---
+        function drawNextAnimal() {
+            nextCtx.clearRect(0, 0, 50, 50);
+            const animal = ANIMALS[nextAnimalIndex];
+            const scale = 40 / (animal.radius * 2);
+            const r = animal.radius * scale;
+            drawAnimalShape(nextCtx, 25, 25, r, animal, nextAnimalIndex);
+        }
+
+        // --- 描画: プレビュー ---
+        function drawPreview() {
+            if (!isGameRunning || !canDrop) return;
+
+            const animal = ANIMALS[currentAnimalIndex];
+
+            // ドロップライン
+            ctx.save();
+            ctx.setLineDash([5, 5]);
+            ctx.strokeStyle = 'rgba(160, 140, 200, 0.4)';
+            ctx.beginPath();
+            ctx.moveTo(mouseX, 50);
+            ctx.lineTo(mouseX, CANVAS_HEIGHT);
+            ctx.stroke();
+            ctx.restore();
+
+            // プレビュー動物
+            ctx.globalAlpha = 0.6;
+            drawAnimalShape(ctx, mouseX, 40, animal.radius, animal, currentAnimalIndex);
+            ctx.globalAlpha = 1;
+        }
+
+        // --- 動物描画関数 ---
+        function drawAnimalShape(context, x, y, radius, animal, index, angle = 0) {
+            const r = radius;
+
+            // 影
+            context.save();
+            context.fillStyle = 'rgba(0,0,0,0.15)';
+            context.beginPath();
+            context.arc(x + 3, y + 3, r, 0, Math.PI * 2);
+            context.fill();
+            context.restore();
+
+            // 回転適用 (体・顔・ハイライト)
+            context.save();
+            context.translate(x, y);
+            context.rotate(angle);
+            context.translate(-x, -y);
+
+            // 体 (メインの円)
+            context.save();
+            const gradient = context.createRadialGradient(x - r * 0.3, y - r * 0.3, 0, x, y, r);
+            gradient.addColorStop(0, animal.bodyColor);
+            gradient.addColorStop(1, animal.color);
+            context.fillStyle = gradient;
+            context.beginPath();
+            context.arc(x, y, r, 0, Math.PI * 2);
+            context.fill();
+            context.restore();
+
+            // 動物ごとの特徴描画
+            switch (index) {
+                case 0: drawChick(context, x, y, r); break;
+                case 1: drawHamster(context, x, y, r); break;
+                case 2: drawRabbit(context, x, y, r); break;
+                case 3: drawCat(context, x, y, r); break;
+                case 4: drawDog(context, x, y, r); break;
+                case 5: drawRedPanda(context, x, y, r); break;
+                case 6: drawSheep(context, x, y, r); break;
+                case 7: drawBear(context, x, y, r); break;
+                case 8: drawLion(context, x, y, r); break;
+                case 9: drawElephant(context, x, y, r); break;
+            }
+
+            // ハイライト (光沢)
+            context.save();
+            context.fillStyle = 'rgba(255,255,255,0.5)';
+            context.beginPath();
+            context.ellipse(x - r * 0.35, y - r * 0.35, r * 0.25, r * 0.15, -Math.PI / 4, 0, Math.PI * 2);
+            context.fill();
+            context.restore();
+
+            // 回転終了
+            context.restore();
+        }
+
+        // --- 各動物の特徴描画 ---
+        function drawChick(ctx, x, y, r) {
+            // クチバシ
+            ctx.fillStyle = '#FFA500';
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + r * 0.4, y + r * 0.2);
+            ctx.lineTo(x, y + r * 0.4);
+            ctx.fill();
+            // 目
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(x - r * 0.25, y - r * 0.1, r * 0.12, 0, Math.PI * 2);
+            ctx.fill();
+            // 頭の羽
+            ctx.fillStyle = '#FFD700';
+            ctx.beginPath();
+            ctx.ellipse(x, y - r * 0.9, r * 0.15, r * 0.3, 0, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawHamster(ctx, x, y, r) {
+            // 耳
+            ctx.fillStyle = '#DEB887';
+            ctx.beginPath();
+            ctx.arc(x - r * 0.7, y - r * 0.5, r * 0.3, 0, Math.PI * 2);
+            ctx.arc(x + r * 0.7, y - r * 0.5, r * 0.3, 0, Math.PI * 2);
+            ctx.fill();
+            // ほっぺ
+            ctx.fillStyle = '#FFB6C1';
+            ctx.beginPath();
+            ctx.arc(x - r * 0.5, y + r * 0.2, r * 0.25, 0, Math.PI * 2);
+            ctx.arc(x + r * 0.5, y + r * 0.2, r * 0.25, 0, Math.PI * 2);
+            ctx.fill();
+            // 目
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(x - r * 0.3, y - r * 0.15, r * 0.1, 0, Math.PI * 2);
+            ctx.arc(x + r * 0.3, y - r * 0.15, r * 0.1, 0, Math.PI * 2);
+            ctx.fill();
+            // 鼻
+            ctx.fillStyle = '#FF69B4';
+            ctx.beginPath();
+            ctx.arc(x, y + r * 0.1, r * 0.08, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawRabbit(ctx, x, y, r) {
+            // 長い耳
+            ctx.fillStyle = '#FFB6C1';
+            ctx.beginPath();
+            ctx.ellipse(x - r * 0.4, y - r * 1.1, r * 0.2, r * 0.5, -0.2, 0, Math.PI * 2);
+            ctx.ellipse(x + r * 0.4, y - r * 1.1, r * 0.2, r * 0.5, 0.2, 0, Math.PI * 2);
+            ctx.fill();
+            // 耳の内側
+            ctx.fillStyle = '#FF69B4';
+            ctx.beginPath();
+            ctx.ellipse(x - r * 0.4, y - r * 1.1, r * 0.1, r * 0.35, -0.2, 0, Math.PI * 2);
+            ctx.ellipse(x + r * 0.4, y - r * 1.1, r * 0.1, r * 0.35, 0.2, 0, Math.PI * 2);
+            ctx.fill();
+            // 目
+            ctx.fillStyle = '#FF1493';
+            ctx.beginPath();
+            ctx.arc(x - r * 0.3, y - r * 0.1, r * 0.12, 0, Math.PI * 2);
+            ctx.arc(x + r * 0.3, y - r * 0.1, r * 0.12, 0, Math.PI * 2);
+            ctx.fill();
+            // 鼻
+            ctx.fillStyle = '#FFB6C1';
+            ctx.beginPath();
+            ctx.arc(x, y + r * 0.15, r * 0.1, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawCat(ctx, x, y, r) {
+            // 三角耳
+            ctx.fillStyle = '#DDA0DD';
+            ctx.beginPath();
+            ctx.moveTo(x - r * 0.7, y - r * 0.4);
+            ctx.lineTo(x - r * 0.4, y - r * 1);
+            ctx.lineTo(x - r * 0.1, y - r * 0.4);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(x + r * 0.7, y - r * 0.4);
+            ctx.lineTo(x + r * 0.4, y - r * 1);
+            ctx.lineTo(x + r * 0.1, y - r * 0.4);
+            ctx.fill();
+            // 目
+            ctx.fillStyle = '#32CD32';
+            ctx.beginPath();
+            ctx.ellipse(x - r * 0.3, y - r * 0.1, r * 0.15, r * 0.18, 0, 0, Math.PI * 2);
+            ctx.ellipse(x + r * 0.3, y - r * 0.1, r * 0.15, r * 0.18, 0, 0, Math.PI * 2);
+            ctx.fill();
+            // 瞳
+            ctx.fillStyle = '#000';
+            ctx.beginPath();
+            ctx.ellipse(x - r * 0.3, y - r * 0.1, r * 0.05, r * 0.12, 0, 0, Math.PI * 2);
+            ctx.ellipse(x + r * 0.3, y - r * 0.1, r * 0.05, r * 0.12, 0, 0, Math.PI * 2);
+            ctx.fill();
+            // 鼻
+            ctx.fillStyle = '#FF69B4';
+            ctx.beginPath();
+            ctx.moveTo(x, y + r * 0.05);
+            ctx.lineTo(x - r * 0.08, y + r * 0.18);
+            ctx.lineTo(x + r * 0.08, y + r * 0.18);
+            ctx.fill();
+            // ひげ
+            ctx.strokeStyle = '#666';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(x - r * 0.2, y + r * 0.15);
+            ctx.lineTo(x - r * 0.6, y + r * 0.1);
+            ctx.moveTo(x - r * 0.2, y + r * 0.25);
+            ctx.lineTo(x - r * 0.6, y + r * 0.25);
+            ctx.moveTo(x + r * 0.2, y + r * 0.15);
+            ctx.lineTo(x + r * 0.6, y + r * 0.1);
+            ctx.moveTo(x + r * 0.2, y + r * 0.25);
+            ctx.lineTo(x + r * 0.6, y + r * 0.25);
+            ctx.stroke();
+        }
+
+        function drawDog(ctx, x, y, r) {
+            // 垂れ耳
+            ctx.fillStyle = '#7CB9A8';
+            ctx.beginPath();
+            ctx.ellipse(x - r * 0.75, y - r * 0.2, r * 0.25, r * 0.45, -0.3, 0, Math.PI * 2);
+            ctx.ellipse(x + r * 0.75, y - r * 0.2, r * 0.25, r * 0.45, 0.3, 0, Math.PI * 2);
+            ctx.fill();
+            // 目
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(x - r * 0.3, y - r * 0.15, r * 0.12, 0, Math.PI * 2);
+            ctx.arc(x + r * 0.3, y - r * 0.15, r * 0.12, 0, Math.PI * 2);
+            ctx.fill();
+            // 目のハイライト
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(x - r * 0.26, y - r * 0.18, r * 0.04, 0, Math.PI * 2);
+            ctx.arc(x + r * 0.34, y - r * 0.18, r * 0.04, 0, Math.PI * 2);
+            ctx.fill();
+            // 鼻
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.ellipse(x, y + r * 0.15, r * 0.15, r * 0.1, 0, 0, Math.PI * 2);
+            ctx.fill();
+            // 舌
+            ctx.fillStyle = '#FF69B4';
+            ctx.beginPath();
+            ctx.ellipse(x, y + r * 0.4, r * 0.1, r * 0.15, 0, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawRedPanda(ctx, x, y, r) {
+            // 耳
+            ctx.fillStyle = '#8B4513';
+            ctx.beginPath();
+            ctx.arc(x - r * 0.7, y - r * 0.6, r * 0.25, 0, Math.PI * 2);
+            ctx.arc(x + r * 0.7, y - r * 0.6, r * 0.25, 0, Math.PI * 2);
+            ctx.fill();
+            // 白いマスク模様
+            ctx.fillStyle = '#FFFAF0';
+            ctx.beginPath();
+            ctx.ellipse(x, y + r * 0.1, r * 0.5, r * 0.35, 0, 0, Math.PI * 2);
+            ctx.fill();
+            // 目
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(x - r * 0.3, y - r * 0.1, r * 0.1, 0, Math.PI * 2);
+            ctx.arc(x + r * 0.3, y - r * 0.1, r * 0.1, 0, Math.PI * 2);
+            ctx.fill();
+            // 鼻
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(x, y + r * 0.15, r * 0.08, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawSheep(ctx, x, y, r) {
+            // もこもこ
+            ctx.fillStyle = '#FAFAFA';
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2;
+                const cx = x + Math.cos(angle) * r * 0.7;
+                const cy = y + Math.sin(angle) * r * 0.7;
+                ctx.beginPath();
+                ctx.arc(cx, cy, r * 0.35, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            // 顔
+            ctx.fillStyle = '#FFE4E1';
+            ctx.beginPath();
+            ctx.arc(x, y, r * 0.55, 0, Math.PI * 2);
+            ctx.fill();
+            // 耳
+            ctx.fillStyle = '#FFB6C1';
+            ctx.beginPath();
+            ctx.ellipse(x - r * 0.5, y - r * 0.15, r * 0.15, r * 0.25, -0.5, 0, Math.PI * 2);
+            ctx.ellipse(x + r * 0.5, y - r * 0.15, r * 0.15, r * 0.25, 0.5, 0, Math.PI * 2);
+            ctx.fill();
+            // 目
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(x - r * 0.2, y - r * 0.1, r * 0.07, 0, Math.PI * 2);
+            ctx.arc(x + r * 0.2, y - r * 0.1, r * 0.07, 0, Math.PI * 2);
+            ctx.fill();
+            // 鼻
+            ctx.fillStyle = '#FF69B4';
+            ctx.beginPath();
+            ctx.arc(x, y + r * 0.1, r * 0.06, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawBear(ctx, x, y, r) {
+            // 丸耳
+            ctx.fillStyle = '#8B4513';
+            ctx.beginPath();
+            ctx.arc(x - r * 0.7, y - r * 0.6, r * 0.3, 0, Math.PI * 2);
+            ctx.arc(x + r * 0.7, y - r * 0.6, r * 0.3, 0, Math.PI * 2);
+            ctx.fill();
+            // 耳の内側
+            ctx.fillStyle = '#BC8F8F';
+            ctx.beginPath();
+            ctx.arc(x - r * 0.7, y - r * 0.6, r * 0.18, 0, Math.PI * 2);
+            ctx.arc(x + r * 0.7, y - r * 0.6, r * 0.18, 0, Math.PI * 2);
+            ctx.fill();
+            // マズル
+            ctx.fillStyle = '#F5DEB3';
+            ctx.beginPath();
+            ctx.ellipse(x, y + r * 0.2, r * 0.35, r * 0.25, 0, 0, Math.PI * 2);
+            ctx.fill();
+            // 目
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(x - r * 0.3, y - r * 0.15, r * 0.1, 0, Math.PI * 2);
+            ctx.arc(x + r * 0.3, y - r * 0.15, r * 0.1, 0, Math.PI * 2);
+            ctx.fill();
+            // 鼻
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.ellipse(x, y + r * 0.15, r * 0.12, r * 0.08, 0, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawLion(ctx, x, y, r) {
+            // たてがみ
+            ctx.fillStyle = '#DAA520';
+            for (let i = 0; i < 12; i++) {
+                const angle = (i / 12) * Math.PI * 2;
+                const cx = x + Math.cos(angle) * r * 0.8;
+                const cy = y + Math.sin(angle) * r * 0.8;
+                ctx.beginPath();
+                ctx.arc(cx, cy, r * 0.35, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            // 顔
+            ctx.fillStyle = '#FFD700';
+            ctx.beginPath();
+            ctx.arc(x, y, r * 0.65, 0, Math.PI * 2);
+            ctx.fill();
+            // 目
+            ctx.fillStyle = '#8B4513';
+            ctx.beginPath();
+            ctx.arc(x - r * 0.25, y - r * 0.1, r * 0.1, 0, Math.PI * 2);
+            ctx.arc(x + r * 0.25, y - r * 0.1, r * 0.1, 0, Math.PI * 2);
+            ctx.fill();
+            // 鼻
+            ctx.fillStyle = '#8B4513';
+            ctx.beginPath();
+            ctx.moveTo(x, y + r * 0.05);
+            ctx.lineTo(x - r * 0.1, y + r * 0.2);
+            ctx.lineTo(x + r * 0.1, y + r * 0.2);
+            ctx.fill();
+            // 口
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(x, y + r * 0.2);
+            ctx.lineTo(x, y + r * 0.35);
+            ctx.moveTo(x - r * 0.15, y + r * 0.35);
+            ctx.quadraticCurveTo(x, y + r * 0.45, x + r * 0.15, y + r * 0.35);
+            ctx.stroke();
+        }
+
+        function drawElephant(ctx, x, y, r) {
+            // 大きな耳
+            ctx.fillStyle = '#A9A9A9';
+            ctx.beginPath();
+            ctx.ellipse(x - r * 0.85, y - r * 0.1, r * 0.45, r * 0.6, -0.3, 0, Math.PI * 2);
+            ctx.ellipse(x + r * 0.85, y - r * 0.1, r * 0.45, r * 0.6, 0.3, 0, Math.PI * 2);
+            ctx.fill();
+            // 耳の内側
+            ctx.fillStyle = '#FFB6C1';
+            ctx.beginPath();
+            ctx.ellipse(x - r * 0.85, y - r * 0.1, r * 0.3, r * 0.45, -0.3, 0, Math.PI * 2);
+            ctx.ellipse(x + r * 0.85, y - r * 0.1, r * 0.3, r * 0.45, 0.3, 0, Math.PI * 2);
+            ctx.fill();
+            // 鼻
+            ctx.fillStyle = '#B8B8B8';
+            ctx.beginPath();
+            ctx.moveTo(x - r * 0.15, y + r * 0.1);
+            ctx.quadraticCurveTo(x - r * 0.2, y + r * 0.5, x, y + r * 0.8);
+            ctx.quadraticCurveTo(x + r * 0.2, y + r * 0.5, x + r * 0.15, y + r * 0.1);
+            ctx.fill();
+            // 目
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(x - r * 0.3, y - r * 0.2, r * 0.08, 0, Math.PI * 2);
+            ctx.arc(x + r * 0.3, y - r * 0.2, r * 0.08, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // --- ゲームループ ---
+        function gameLoop() {
+            if (!isGameRunning) return;
+
+            // キャンバスクリア
+            ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+            // 動物描画
+            for (const body of animals) {
+                if (body.label === 'animal') {
+                    const animal = ANIMALS[body.animalIndex];
+                    drawAnimalShape(ctx, body.position.x, body.position.y, animal.radius, animal, body.animalIndex, body.angle);
+                }
+            }
+
+            // プレビュー描画
+            drawPreview();
+
+            // ゲームオーバー判定
+            checkGameOver();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        // --- 初期化実行 ---
+        init();
+    </script>
+</body>
+
+</html>

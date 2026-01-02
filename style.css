@@ -1,9 +1,35 @@
 @charset "UTF-8";
 
 /* ==========================================================================
-   1. 基本設定 (Fonts, Reset, Variables)
+   1. Modern App Reset & Variables (Premium Glassmorphism)
    ========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Mochiy+Pop+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+:root {
+    /* Premium Color Palette (Soft & Sophisticated) */
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --accent-color: #ff6b6b;
+    --text-main: #2d3436;
+    --text-muted: #636e72;
+    --bg-global: #f3f4f6;
+
+    /* Glassmorphism Tokens */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --glass-blur: blur(12px);
+    --shadow-soft: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    --shadow-raised: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.05);
+
+    /* Dimensions */
+    --header-height: 60px;
+    --bottom-nav-height: 80px;
+    /* Taller for better touch */
+    --radius-l: 24px;
+    --radius-m: 16px;
+
+    /* Font */
+    --font-base: 'Noto Sans JP', sans-serif;
+}
 
 *,
 *::before,
@@ -11,2200 +37,365 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    /* Remove tap highlight on mobile */
 }
 
-:root {
-    /* フォント */
-    --font-primary: 'Inter', 'Noto Sans JP', sans-serif;
-    --font-header: 'Mochiy Pop One', sans-serif;
-
-    /* テーマカラー */
-    --theme-friend: #7c3aed;
-    /* 運動/特典 (紫) */
-    --theme-disaster: #D90000;
-    /* 災害 (赤) */
-    --theme-nutrition: #00586A;
-    /* 栄養 (青緑) */
-    --theme-shunt: #059669;
-    /* シャント (緑) */
-    --theme-qa: #ea580c;
-    /* Q&A (オレンジ) */
-    --theme-foot: #06b6d4;
-    /* フットケア (水色) */
-    --theme-game: #db2777;
-    /* ゲーム (ピンク) */
-
-    /* 基本カラー */
-    --bg-color: #f3f4f6;
-    --text-color: #111827;
-    --white: #ffffff;
-    --gray-border: #e5e7eb;
-
-    /* レイアウト設定 */
-    --radius-main: 2rem;
-    --radius-card: 1rem;
-    --shadow-main: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    --shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-}
-
-/* ==========================================================================
-   2. ページレイアウト (Body, Container, Header, Footer)
-   ========================================================================== */
 body {
-    font-family: var(--font-primary);
-    line-height: 1.6;
-    color: var(--text-color);
-    background: url('files/common/background-main.png') no-repeat center center fixed;
-    background-size: cover;
-    background-color: var(--bg-color);
+    font-family: var(--font-base);
+    background-color: var(--bg-global);
+    /* Subtle background mesh gradient for premium feel */
+    background-image:
+        radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+        radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+        radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
+    background-color: #f3f4f6;
+    /* Fallback */
+    background-attachment: fixed;
+    color: var(--text-main);
+    line-height: 1.5;
+    padding-bottom: var(--bottom-nav-height);
+    /* Space for bottom nav */
+    padding-top: var(--header-height);
+    /* Space for fixed header */
     min-height: 100vh;
 }
 
-.container,
-.game-container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: var(--radius-main);
-    overflow: hidden;
-    box-shadow: var(--shadow-main);
-    backdrop-filter: blur(10px);
-}
-
-/* ゲーム用コンテナの調整 */
-.game-container {
-    max-width: 700px;
-    padding: 2rem;
-    border: 1px solid var(--gray-border);
-    text-align: center;
-}
-
-/* ヘッダー共通 */
-header,
-.portal-header {
-    text-align: center;
-    padding: 4rem 1.5rem 2rem;
-    position: relative;
-    z-index: 1;
-}
-
-header::before,
-.portal-header::before {
-    content: '';
-    position: absolute;
-    top: -20px;
-    left: -20px;
-    right: -20px;
-    bottom: -20px;
-    background-image: url('files/common/background-header.png');
-    background-size: cover;
-    background-position: center;
-    filter: blur(15px) brightness(0.85);
-    z-index: -1;
-}
-
-header h1,
-.portal-header h1 {
-    font-family: var(--font-header);
-    font-weight: 400;
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
-    color: var(--white);
-    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
-    margin-bottom: 1rem;
-}
-
-.portal-header p {
-    font-weight: bold;
-    color: rgba(255, 255, 255, 0.9);
-}
-
-footer {
-    text-align: center;
-    padding: 2rem;
-    background: #f3f4f6;
-    color: #4b5563;
-    font-size: 0.875rem;
-}
-
 /* ==========================================================================
-   3. 共通UIパーツ (Headings, Buttons, Lists, Info)
+   2. App Shell (Header & Bottom Nav)
    ========================================================================== */
-h2 {
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    font-weight: 900;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: var(--text-color);
-}
 
-h3 {
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin: 2rem 0 1rem;
-    border-bottom: 2px solid var(--gray-border);
-    padding-bottom: 0.5rem;
-}
-
-/* テーマ別 見出し色 */
-.theme-friend h3,
-.theme-friend .game-title {
-    color: var(--theme-friend);
-    border-color: var(--theme-friend);
-}
-
-.theme-disaster h3 {
-    color: var(--theme-disaster);
-    border-color: var(--theme-disaster);
-}
-
-.theme-nutrition h3 {
-    color: var(--theme-nutrition);
-    border-color: var(--theme-nutrition);
-}
-
-.theme-shunt h3 {
-    color: var(--theme-shunt);
-    border-color: var(--theme-shunt);
-}
-
-.theme-qa h3 {
-    color: var(--theme-qa);
-    border-color: var(--theme-qa);
-}
-
-/* 戻るボタン */
-.back-to-portal-button,
-.back-button,
-.back-to-main-button,
-.back-to-nutrition-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-    color: var(--white);
-    padding: 0.8rem 2rem;
-    margin: 2rem auto;
-    text-decoration: none;
-    border-radius: 0.5rem;
-    font-weight: bold;
-    transition: transform 0.2s, box-shadow 0.2s;
-    border: none;
-    cursor: pointer;
-    box-shadow: var(--shadow-card);
-}
-
-.back-to-portal-button:hover,
-.back-button:hover,
-.back-to-main-button:hover,
-.back-to-nutrition-button:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
-}
-
-.back-to-portal-button::before,
-.back-button::before,
-.back-to-main-button::before,
-.back-to-nutrition-button::before {
-    content: "←";
-    margin-right: 0.5rem;
-}
-
-/* イントロテキスト */
-.intro-text {
-    padding: 2rem 1.5rem;
-    background: #f9fafb;
-    text-align: center;
-}
-
-/* リスト */
-ul {
-    margin: 1rem 0 1rem 1.5rem;
-}
-
-li {
-    margin-bottom: 0.5rem;
-}
-
-/* NGリスト（×印） */
-.ng-list {
-    list-style: none;
-    padding-left: 0;
-    margin-top: 1rem;
-}
-
-.ng-list li {
-    position: relative;
-    padding-left: 1.8em;
-    margin-bottom: 0.8rem;
-    font-weight: 500;
-}
-
-.ng-list li::before {
-    content: '×';
-    position: absolute;
-    left: 0;
+/* Compact Glass Header */
+.app-header {
+    position: fixed;
     top: 0;
-    color: #e74c3c;
-    font-weight: bold;
-    font-size: 1.5em;
-    line-height: 1.2;
-}
-
-/* 案内ボックス（青） */
-.info-box {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #e7f3ff;
-    border-left: 5px solid #007bff;
-    border-radius: 8px;
-    color: #004085;
-}
-
-/* ==========================================================================
-   4. ナビゲーション (Tabs) & コンテンツエリア
-   ========================================================================== */
-.page-nav {
-    display: flex;
-    justify-content: center;
-    background: var(--white);
-    padding: 1rem 0.5rem 0;
-    /* 横パディングを減らす */
-    border-bottom: 1px solid var(--gray-border);
-    /* 重要: 縦スクロールを消す */
-    overflow-y: hidden;
-    overflow-x: auto;
-    /* スクロールバー自体を隠す（見た目を綺麗に） */
-    scrollbar-width: none;
-    /* Firefox */
-    -ms-overflow-style: none;
-    /* IE/Edge */
-}
-
-.page-nav::-webkit-scrollbar {
-    display: none;
-    /* Chrome/Safari */
-}
-
-.nav-button {
-    /* 高さや幅の計算によるズレを防ぐ */
-    flex: 1;
-    min-width: 100px;
-    max-width: 200px;
-    height: auto;
-    min-height: 3.5rem;
-    /* 高さを揃える */
-
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border-bottom: 1px solid var(--glass-border);
     display: flex;
     align-items: center;
     justify-content: center;
-
-    margin: 0 2px;
-    /* ボタン同士の隙間を狭く */
-    padding: 0.5rem;
-
-    font-size: 0.95rem;
-    line-height: 1.3;
-    white-space: normal;
-    /* 改行許可 */
-
-    border: 1px solid var(--gray-border);
-    border-bottom: none;
-    border-radius: 1rem 1rem 0 0;
-    background: #f3f4f6;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-.nav-button:hover {
-    background: #e5e7eb;
+.app-logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #333;
+    letter-spacing: 0.05em;
 }
 
-.nav-button.active {
-    background: #f9fafb;
-    color: var(--text-color);
-    border-top: 4px solid #333;
-    transform: scale(1.05) translateY(1px);
-    z-index: 2;
-}
-
-/* テーマ別タブ色 */
-.theme-friend .nav-button.active {
-    border-top-color: var(--theme-friend);
-    color: var(--theme-friend);
-}
-
-.theme-disaster .nav-button.active {
-    border-top-color: var(--theme-disaster);
-    color: var(--theme-disaster);
-}
-
-.theme-nutrition .nav-button.active {
-    border-top-color: var(--theme-nutrition);
-    color: var(--theme-nutrition);
-}
-
-.theme-shunt .nav-button.active {
-    border-top-color: var(--theme-shunt);
-    color: var(--theme-shunt);
-}
-
-#content-area {
-    padding: 2.5rem 1.5rem;
-    background: #f9fafb;
-    border-radius: 0 0 var(--radius-main) var(--radius-main);
-    min-height: 400px;
-}
-
-.content-section {
-    display: none;
-    animation: fadeIn 0.4s;
-}
-
-.content-section.active {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ==========================================================================
-   5. 統合グリッド & カードデザイン
-   ========================================================================== */
-/* グリッドコンテナ */
-.grid-layout,
-.exercise-grid,
-.check-grid,
-.prevention-grid,
-.portal-nav {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin: 2rem 0;
-    padding: 0;
-}
-
-.portal-nav {
-    padding: 2rem;
-}
-
-/* カード本体 */
-.card,
-.exercise-item,
-.check-item,
-.prevention-card,
-.portal-button {
-    display: flex;
-    flex-direction: column;
-    background: var(--white);
-    border: 1px solid var(--gray-border);
-    border-radius: var(--radius-card);
-    overflow: hidden;
-    box-shadow: var(--shadow-card);
-    transition: transform 0.3s, box-shadow 0.3s;
-    text-decoration: none;
-    color: var(--text-color);
-    cursor: pointer;
-    height: auto;
-    min-height: 100%;
-}
-
-.card:hover,
-.exercise-item:hover,
-.check-item:hover,
-.prevention-card:hover,
-.portal-button:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
-    border-color: transparent;
-}
-
-/* カード内画像コンテナ (箱) */
-.img-container,
-.prevention-card-img-wrapper,
-.portal-button-image {
-    width: 100%;
-    height: 180px;
-    /* 高さ固定 */
-    background: #f3f4f6;
-    position: relative;
-    overflow: hidden;
-    flex-shrink: 0;
-    border-bottom: none;
-}
-
-/* 画像とテキストの境界ぼかし */
-.img-container::after,
-.prevention-card-img-wrapper::after,
-.portal-button-image::after {
-    content: '';
-    position: absolute;
+/* Bottom Navigation Bar */
+.bottom-nav {
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 60px;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffff);
-    pointer-events: none;
-    z-index: 1;
+    height: var(--bottom-nav-height);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+    padding-bottom: env(safe-area-inset-bottom);
+    /* iPhone X+ support */
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
 }
 
-/* カード内の画像 (中身) */
-.exercise-icon,
-.check-icon,
-.prevention-card img,
-.portal-button-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s;
-    display: block;
-}
-
-/* ホバー時の画像ズーム */
-.exercise-item:hover .exercise-icon,
-.check-item:hover .check-icon,
-.prevention-card:hover img,
-.portal-button:hover .portal-button-image img {
-    transform: scale(1.05);
-}
-
-/* カード内テキストエリア */
-.card-body,
-.exercise-text,
-.check-text,
-.prevention-card-body,
-.portal-button-content {
-    padding: 1.5rem;
-    flex-grow: 1;
-    text-align: left;
+.nav-item {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-}
-
-/* カード内見出し */
-.exercise-item h4,
-.check-item h4,
-.prevention-card h3,
-.button-title {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.2rem;
-    font-weight: 700;
-    text-align: center;
-    line-height: 1.4;
-}
-
-.button-title {
-    font-family: var(--font-header);
-    font-size: 1.4rem;
-    font-weight: 900;
-}
-
-/* カード内説明文 */
-.button-desc {
-    display: block;
-    font-size: 0.95rem;
-    color: #4b5563;
-    line-height: 1.6;
-    margin-top: 0.5rem;
-    font-weight: normal;
-}
-
-/* カードテーマ色 */
-.theme-friend .exercise-item h4,
-.portal-button.theme-friend .button-title {
-    color: var(--theme-friend);
-}
-
-.theme-shunt .check-item h4,
-.portal-button.theme-shunt .button-title {
-    color: var(--theme-shunt);
-}
-
-.prevention-card h3,
-.portal-button.theme-disaster .button-title {
-    color: var(--theme-disaster);
-}
-
-.portal-button.theme-nutrition .button-title {
-    color: var(--theme-nutrition);
-}
-
-.portal-button.theme-footcare .button-title {
-    color: var(--theme-foot);
-}
-
-.portal-button.theme-qa .button-title {
-    color: var(--theme-qa);
-}
-
-.portal-button.theme-game .button-title {
-    color: var(--theme-game);
-}
-
-.portal-button.theme-exercise .button-title {
-    color: var(--theme-friend);
-}
-
-/* テキストのみボタン (トップページ用) */
-.portal-button:not(.with-image) {
-    padding: 2rem;
-    justify-content: center;
-    text-align: center;
-    border-left: 6px solid transparent;
-}
-
-.portal-button.theme-disaster:not(.with-image) {
-    border-left-color: var(--theme-disaster);
-}
-
-.portal-button.theme-friend:not(.with-image) {
-    border-left-color: var(--theme-friend);
-}
-
-.portal-button.theme-qa:not(.with-image) {
-    border-left-color: var(--theme-qa);
-}
-
-/* 再生マークオーバーレイ */
-.play-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 50%;
-    display: flex;
     align-items: center;
     justify-content: center;
-    pointer-events: none;
-    z-index: 2;
-}
-
-.play-overlay::after {
-    content: '';
-    border-left: 14px solid #fff;
-    border-top: 9px solid transparent;
-    border-bottom: 9px solid transparent;
-    margin-left: 4px;
-}
-
-.card:hover .play-overlay,
-.exercise-item:hover .play-overlay {
-    background: rgba(124, 58, 237, 0.9);
-}
-
-/* ==========================================================================
-   6. アコーディオン & PDF & モーダル
-   ========================================================================== */
-/* アコーディオン */
-.accordion,
-.collapsible-section,
-.pdf-collapsible,
-.evacuation-item {
-    background: var(--white);
-    border: 1px solid var(--gray-border);
-    border-radius: 0.5rem;
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-}
-
-.accordion-header,
-.collapsible-header-wrapper,
-.pdf-collapsible-header,
-.evacuation-item-header {
-    padding: 1rem;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: bold;
-    background: #f9fafb;
-    transition: background 0.2s;
-}
-
-.accordion-header:hover,
-.pdf-collapsible-header:hover {
-    background: #f3f4f6;
-}
-
-.accordion-content,
-.collapsible-content,
-.pdf-collapsible-content,
-.evacuation-item-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease;
-}
-
-.is-open .collapsible-content,
-.is-open .pdf-collapsible-content,
-.is-open .evacuation-item-content {
-    max-height: 2000px;
-}
-
-.pdf-collapsible-body,
-.evacuation-item-body {
-    padding: 1.5rem;
-}
-
-/* PDFローディング */
-.pdf-loading-container {
-    min-height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background: #f9fafb;
-    color: #6b7280;
-}
-
-.pdf-spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #007bff;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-    margin-bottom: 1rem;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-.pdf-embed-desktop {
-    width: 100%;
-    height: 600px;
-    display: none;
-    border: none;
-}
-
-/* モーダル (全画面オーバーレイ) */
-.modal-overlay,
-.modal,
-.game-over-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 2000;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(3px);
-}
-
-.modal-overlay.active,
-.modal[style*="display: block"] {
-    display: flex !important;
-    animation: fadeIn 0.3s;
-}
-
-/* モーダルの中身 */
-.modal-content,
-.game-over-box {
-    background: var(--white);
-    padding: 2rem;
-    border-radius: 1rem;
-    width: 90%;
-    max-width: 500px;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
-
-.modal-content.dark-mode {
-    background-color: #000;
-    padding: 0;
-    max-width: 800px;
-    overflow: hidden;
-}
-
-/* 動画ラッパー */
-.video-wrapper {
-    position: relative;
-    padding-bottom: 56.25%;
-    height: 0;
-    border-radius: 8px;
-    background: #000;
-}
-
-.video-wrapper video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-/* 閉じるボタン */
-.close-modal,
-.close-modal-btn {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    color: #aaa;
-    font-size: 30px;
-    cursor: pointer;
-    background: none;
-    border: none;
-    line-height: 1;
-}
-
-.close-modal {
-    top: -40px;
-    right: 0;
-    color: white;
-}
-
-/* ==========================================================================
-   7. クイズ & Q&A
-   ========================================================================== */
-
-/* --- クイズセクション (トップ/誘導用) --- */
-.quiz-section {
-    text-align: center;
-    padding: 3rem 1.5rem;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    border-radius: 1rem;
-    margin: 2rem 0;
-    box-shadow: var(--shadow-card);
-}
-
-.quiz-button {
-    display: inline-block;
-    padding: 1rem 3rem;
-    color: var(--white);
     text-decoration: none;
-    border-radius: 0.5rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    box-shadow: var(--shadow-card);
-    transition: transform 0.2s;
-    background: linear-gradient(135deg, var(--theme-friend), #4f46e5);
+    color: #9ca3af;
+    font-size: 0.7rem;
+    transition: all 0.3s ease;
+    width: 100%;
+    height: 100%;
 }
 
-.quiz-button:hover {
+.nav-item.active {
+    color: #764ba2;
+    /* Primary color */
+}
+
+.nav-icon {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    line-height: 24px;
+}
+
+/* Simple CSS Icons (replace with SVG later) */
+.icon-home::before {
+    content: '🏠';
+}
+
+.icon-disaster::before {
+    content: '⚠️';
+}
+
+.icon-friend::before {
+    content: '🎁';
+}
+
+.icon-qa::before {
+    content: '❓';
+}
+
+/* Active Indicator (Dot) */
+.nav-item.active .nav-icon {
     transform: translateY(-2px);
 }
 
-/* テーマ別クイズボタン色 */
-.theme-nutrition .quiz-button {
-    background: linear-gradient(135deg, var(--theme-nutrition), #0e7490);
-}
-
-.theme-shunt .quiz-button {
-    background: linear-gradient(135deg, var(--theme-shunt), #047857);
-}
-
-.theme-qa .quiz-button {
-    background: linear-gradient(135deg, var(--theme-qa), #c2410c);
+.nav-item.active::after {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background: #764ba2;
+    border-radius: 50%;
+    margin-top: 2px;
 }
 
 
-/* --- クイズページ詳細 (進行バー・選択肢・解説) --- */
-.quiz-progress-container {
-    width: 100%;
-    height: 10px;
-    background: #e5e7eb;
-    border-radius: 5px;
-    margin-bottom: 2rem;
+/* ==========================================================================
+   3. Content & Cards (Scroll Snap & Horizontal Lists)
+   ========================================================================== */
+
+.main-content {
+    padding: 1.5rem;
+    max-width: 600px;
+    /* Mobile focused max-width */
+    margin: 0 auto;
 }
 
-.quiz-progress-fill {
-    height: 100%;
-    background: var(--theme-friend);
-    width: 0%;
-    transition: width 0.3s;
-}
-
-.theme-nutrition .quiz-progress-fill {
-    background: var(--theme-nutrition);
-}
-
-.theme-shunt .quiz-progress-fill {
-    background: var(--theme-shunt);
-}
-
-.quiz-question-text {
+/* Section Titles */
+.section-title {
     font-size: 1.25rem;
     font-weight: 700;
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
+    margin: 2rem 0 1rem;
+    padding-left: 0.5rem;
+    border-left: 4px solid #764ba2;
 }
 
-.quiz-question-number {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    color: var(--theme-friend);
-}
-
-.theme-nutrition .quiz-question-number {
-    color: var(--theme-nutrition);
-}
-
-.theme-shunt .quiz-question-number {
-    color: var(--theme-shunt);
-}
-
-/* 選択肢 */
-.quiz-option {
-    padding: 1rem 1.5rem;
-    background: #fff;
-    border: 2px solid #e5e7eb;
-    border-radius: 1rem;
-    cursor: pointer;
-    margin-bottom: 1rem;
-    text-align: left;
-    font-weight: bold;
-    transition: all 0.2s;
-}
-
-.quiz-option:hover {
-    border-color: #d1d5db;
-    transform: translateX(5px);
-    background: #f9fafb;
-}
-
-.quiz-option.correct {
-    background: #dcfce7;
-    border-color: #22c55e;
-    color: #166534;
-}
-
-.quiz-option.incorrect {
-    background: #fee2e2;
-    border-color: #ef4444;
-    color: #991b1b;
-}
-
-.quiz-option.disabled {
-    pointer-events: none;
-    opacity: 0.7;
-}
-
-/* 解説エリア */
-.quiz-explanation {
-    margin-top: 1.5rem;
-    padding: 1.5rem;
-    background: #f0f9ff;
-    border-radius: 0.8rem;
-    border-left: 5px solid #333;
-    /* デフォルト */
-    display: none;
-    animation: fadeIn 0.5s;
-    text-align: left;
-}
-
-.quiz-explanation.show {
-    display: block;
-}
-
-.explanation-title {
-    font-weight: 900;
-    margin-bottom: 0.5rem;
-    display: block;
-}
-
-.theme-nutrition .quiz-explanation {
-    border-left-color: var(--theme-nutrition);
-    background: #ecfeff;
-}
-
-.theme-shunt .quiz-explanation {
-    border-left-color: var(--theme-shunt);
-    background: #ecfdf5;
-}
-
-/* 次へボタン */
-.quiz-next-btn {
-    display: block;
-    margin: 2rem auto 0;
-    padding: 1rem 3rem;
-    border: none;
-    border-radius: 0.5rem;
-    color: white;
-    font-weight: bold;
-    font-size: 1.1rem;
-    cursor: pointer;
-    background: var(--theme-friend);
-    transition: transform 0.2s;
-}
-
-.quiz-next-btn:hover {
-    transform: translateY(-2px);
-}
-
-.theme-nutrition .quiz-next-btn {
-    background: var(--theme-nutrition);
-}
-
-.theme-shunt .quiz-next-btn {
-    background: var(--theme-shunt);
-}
-
-/* クイズ結果画面 */
-.quiz-result-container {
-    text-align: center;
-    display: none;
-    animation: fadeIn 0.5s;
-}
-
-.quiz-result-container.show {
-    display: block;
-}
-
-.result-score {
-    font-size: 3rem;
-    font-weight: 900;
-    margin: 1rem 0;
-}
-
-.theme-nutrition .result-score {
-    color: var(--theme-nutrition);
-}
-
-.theme-shunt .result-score {
-    color: var(--theme-shunt);
-}
-
-.result-emoji {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-}
-
-
-/* --- Q&A 検索機能 --- */
-.qa-search-container {
+/* Hero Card (Welcome) */
+.hero-card {
+    background: var(--primary-gradient);
+    border-radius: var(--radius-l);
     padding: 2rem;
-    background: #fff;
-    text-align: center;
-    border-radius: 1rem;
-    margin-bottom: 2rem;
-    border: 1px solid var(--gray-border);
-}
-
-.qa-search-input {
-    width: 90%;
-    max-width: 600px;
-    padding: 1rem 1.5rem;
-    font-size: 1.2rem;
-    border: 2px solid var(--gray-border);
-    border-radius: 2rem;
-    outline: none;
-    transition: border-color 0.2s;
-}
-
-.qa-search-input:focus {
-    border-color: var(--theme-qa);
-}
-
-/* 人気ワードボタン */
-.qa-popular-keywords {
-    margin-top: 2rem;
-    text-align: center;
-    padding: 1.5rem;
-    background: #f8f8f8;
-    border-radius: 0.5rem;
-    border: 1px solid #eee;
-}
-
-.qa-popular-keywords h3 {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-    display: inline-block;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 5px;
-}
-
-.keyword-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-}
-
-.keyword-button {
-    background: var(--theme-friend);
-    /* デフォルト */
     color: white;
-    border: none;
-    border-radius: 1rem;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    font-weight: bold;
-    transition: transform 0.2s;
+    box-shadow: 0 10px 25px -5px rgba(118, 75, 162, 0.4);
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
 }
 
-.keyword-button:hover {
-    transform: translateY(-2px);
+.hero-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(45deg);
+    border-radius: 50%;
+}
+
+.hero-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.hero-sub {
+    font-size: 0.9rem;
     opacity: 0.9;
 }
 
-.theme-nutrition .keyword-button {
-    background: var(--theme-nutrition);
+/* Horizontal Scroll Container (Highlights) */
+.scroll-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    /* Space for scrollbar hide */
+    margin: 0 -1.5rem 1rem;
+    /* Breaking grid */
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
-.theme-shunt .keyword-button {
-    background: var(--theme-shunt);
+.scroll-container::-webkit-scrollbar {
+    display: none;
 }
 
-.theme-disaster .keyword-button {
-    background: var(--theme-disaster);
+.scroll-card {
+    flex: 0 0 80%;
+    /* Show part of next card */
+    scroll-snap-align: start;
+    background: white;
+    border-radius: var(--radius-m);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-raised);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transition: transform 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }
 
-.theme-qa .keyword-button {
-    background: var(--theme-qa);
+.scroll-card:active {
+    transform: scale(0.98);
 }
 
+.card-icon-large {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
 
-/* --- Q&A 検索結果リスト (カード型・左揃え) --- */
+.theme-disaster {
+    color: #e74c3c;
+}
+
+.theme-friend {
+    color: #8e44ad;
+}
+
+.theme-qa {
+    color: #e67e22;
+}
+
+.card-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Vertical List (Recent Updates/Links) */
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.menu-item {
+    background: white;
+    border-radius: var(--radius-m);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    color: var(--text-main);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.menu-item:hover {
+    border-color: #764ba2;
+    background: #fdfdfd;
+}
+
+.menu-item::after {
+    content: '>';
+    color: #ccc;
+    font-weight: bold;
+}
+
+/* Utilities */
+.text-center {
+    text-align: center;
+}
+
+.mt-2 {
+    margin-top: 2rem;
+}
+
+/* ==========================================================================
+   4. Q&A Styling (Accordion)
+   ========================================================================== */
 .qa-search-item {
-    background: #fff;
-    border: 2px solid #e5e7eb;
-    /* 枠線をくっきり */
+    background: white;
     border-radius: 12px;
-    margin-bottom: 1.5rem;
-    /* 間隔を広めに */
+    margin-bottom: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    text-align: left;
-    /* 強制左揃え */
+    border: 1px solid #eee;
+    transition: all 0.2s;
 }
 
 .qa-search-question {
-    padding: 1.5rem;
-    /* クリックエリアを広く */
-    min-height: 80px;
-    /* 最低高さを確保 */
-    font-weight: 700;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    cursor: pointer;
-    background: #f9fafb;
-    color: #374151;
-    display: flex;
-    justify-content: space-between;
-    /* 文字と矢印を左右に */
-    align-items: center;
-    text-align: left;
-    transition: background 0.2s;
-}
-
-.qa-search-question:hover {
-    background: #f3f4f6;
-}
-
-/* Qアイコン */
-.qa-search-question::before {
-    content: "Q.";
-    font-size: 1.3rem;
-    color: #9ca3af;
-    margin-right: 1rem;
-    flex-shrink: 0;
-}
-
-/* 矢印アイコン */
-.qa-search-question::after {
-    content: '▼';
-    font-size: 1.2rem;
-    color: #9ca3af;
-    margin-left: 1rem;
-    flex-shrink: 0;
-    transition: transform 0.3s;
-}
-
-/* 回答エリア */
-.qa-search-answer {
-    display: none;
-    padding: 1.5rem;
-    font-size: 1rem;
-    line-height: 1.8;
-    color: #374151;
-    text-align: left;
-    /* 強制左揃え */
-    border-top: 2px solid #e5e7eb;
+    padding: 1rem;
+    font-weight: bold;
+    color: #2d3436;
     background: #fff;
-    animation: fadeIn 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    padding-right: 2.5rem;
 }
 
-/* Aアイコン */
-.qa-search-answer::before {
-    content: "A. ";
-    font-weight: 900;
+.qa-search-question::after {
+    content: '+';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
     font-size: 1.2rem;
-    color: var(--theme-friend);
-    margin-right: 0.5rem;
+    color: #ccc;
+    font-weight: normal;
 }
 
-/* --- Q&A アクティブ時（開いた状態） --- */
-.qa-search-item.active .qa-search-answer {
-    display: block;
+.qa-search-item.active .qa-search-question {
+    background: #fafafa;
+    color: #e67e22;
+    /* QA Theme Color */
 }
 
 .qa-search-item.active .qa-search-question::after {
-    transform: rotate(180deg);
+    content: '−';
+    color: #e67e22;
 }
 
-/* テーマ別アクティブカラー */
-/* 栄養 */
-.theme-nutrition .qa-search-item.active .qa-search-question {
-    background: #ecfeff;
-    color: var(--theme-nutrition);
-}
-
-.theme-nutrition .qa-search-answer::before {
-    color: var(--theme-nutrition);
-}
-
-/* シャント */
-.theme-shunt .qa-search-item.active .qa-search-question {
-    background: #ecfdf5;
-    color: var(--theme-shunt);
-}
-
-.theme-shunt .qa-search-answer::before {
-    color: var(--theme-shunt);
-}
-
-/* 災害 */
-.theme-disaster .qa-search-item.active .qa-search-question {
-    background: #fef2f2;
-    color: var(--theme-disaster);
-}
-
-.theme-disaster .qa-search-answer::before {
-    color: var(--theme-disaster);
-}
-
-/* Q&A */
-.theme-qa .qa-search-item.active .qa-search-question {
-    background: #fff7ed;
-    color: var(--theme-qa);
-}
-
-.theme-qa .qa-search-answer::before {
-    color: var(--theme-qa);
-}
-
-.theme-qa .qa-search-input:focus {
-    border-color: var(--theme-qa);
-}
-
-/* ==========================================================================
-   8. その他 (ステータス, 緊急連絡, ゲーム)
-   ========================================================================== */
-.status-container {
-    display: grid;
-    /* 画面幅に応じて列数を自動調整（スマホ1列、PC3列など） */
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
-    justify-content: center;
-    margin-top: 1rem;
-}
-
-.status-item {
-    display: flex;
-    flex-direction: column;
-    background: #fff;
-    border: 2px solid #d1d5db;
-    /* 枠線をくっきり */
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* 施設名（ヘッダー部分） */
-.status-name {
-    background: #f3f4f6;
-    padding: 1rem;
-    font-size: 1.2rem;
-    font-weight: 900;
-    text-align: center;
-    border-bottom: 2px solid #d1d5db;
-
-    /* 2行になっても高さが揃うように */
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1.3;
-}
-
-/* ステータス値（OK/NG） */
-.status-value {
-    padding: 1.5rem 0;
-    font-size: 2rem;
-    /* 文字を特大に */
-    font-weight: 900;
-    text-align: center;
-    letter-spacing: 0.1em;
-}
-
-/* 透析可（緑背景で安心感を強調） */
-.status-ok {
-    background-color: #d1fae5;
-    /* 薄い緑 */
-    color: #065f46;
-    /* 濃い緑 */
-}
-
-/* 透析不可（赤背景で警告を強調） */
-.status-ng {
-    background-color: #fee2e2;
-    /* 薄い赤 */
-    color: #991b1b;
-    /* 濃い赤 */
-}
-
-/* 理由・備考欄 */
-.status-reason {
-    padding: 0.8rem;
-    text-align: center;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #4b5563;
-    min-height: 3rem;
-    /* 空でもスペースを確保して高さを揃える */
-    background: #fff;
-    border-top: 1px solid #e5e7eb;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* 緊急連絡先 */
-.emergency-btn {
-    display: block;
-    width: 100%;
-    max-width: 350px;
-    margin: 2rem auto;
-    padding: 1rem;
-    background: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 2rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.4);
-}
-
-.emergency-btn:hover {
-    transform: translateY(-2px);
-    background: #c0392b;
-}
-
-.contact-link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
-    background: #f8f9fa;
-    border: 2px solid #e9ecef;
-    border-radius: 0.8rem;
-    text-decoration: none;
-    color: #333;
-    margin-bottom: 1rem;
-}
-
-/* ゲーム画面共通 */
-.game-title {
-    color: #ec4899;
-    font-size: 1.8rem;
-    font-weight: 900;
-    margin-bottom: 1.5rem;
-    font-family: var(--font-header);
-}
-
-.game-canvas-wrapper {
-    position: relative;
-    display: inline-block;
-    margin: 0 auto 1.5rem;
-    width: 100%;
-    max-width: 600px;
-}
-
-.game-canvas {
-    background: #1a1a2e;
-    border-radius: 1rem;
-    width: 100%;
-    height: auto;
-    touch-action: none;
-    display: block;
-}
-
-.game-over-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 3px solid #ec4899;
-}
-
-.game-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.stat-box {
-    background: #f9fafb;
-    padding: 1rem;
-    border-radius: 0.8rem;
-    border: 1px solid var(--gray-border);
-}
-
-.stat-label {
-    font-size: 0.8rem;
-    color: #6b7280;
-    font-weight: 700;
-}
-
-.stat-value {
-    font-size: 1.25rem;
-    font-weight: 900;
-    color: var(--theme-friend);
-}
-
-/* ゲーム操作ボタン */
-.game-controls {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: center;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-}
-
-.game-btn {
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 0.8rem;
-    font-weight: 700;
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
-    font-size: 1rem;
-}
-
-.game-btn:active {
-    transform: translateY(4px);
-    box-shadow: none;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #ec4899, #be185d);
-}
-
-.btn-secondary {
-    background: linear-gradient(135deg, #6b7280, #4b5563);
-}
-
-/* モバイルパッド */
-.mobile-pad {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.8rem;
-    margin: 1rem auto;
-    max-width: 300px;
-}
-
-.pad-btn {
-    padding: 1rem;
-    font-size: 1.5rem;
-    background: #f3f4f6;
-    color: #374151;
-    border: 2px solid #e5e7eb;
-    border-radius: 0.8rem;
-    cursor: pointer;
-    touch-action: manipulation;
-    box-shadow: 0 4px 0 #d1d5db;
-}
-
-.pad-btn:active {
-    transform: translateY(4px);
-    box-shadow: none;
-}
-
-/* 反射神経ゲーム */
-.reaction-area {
-    width: 100%;
-    height: 300px;
-    border-radius: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: white;
-    cursor: pointer;
-    user-select: none;
-    margin-bottom: 1.5rem;
-}
-
-.reaction-area.idle {
-    background: var(--theme-friend);
-}
-
-.reaction-area.waiting {
-    background: #ef4444;
-}
-
-.reaction-area.ready {
-    background: #059669;
-}
-
-/* 注意事項 */
-.caution-box {
-    display: flex;
-    gap: 1.5rem;
-    background: var(--white);
-    padding: 2rem;
-    border-radius: 1rem;
-    border-left: 6px solid #fbbf24;
-    margin: 2rem 0;
-    align-items: start;
-}
-
-.caution-icon-img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 12px;
-}
-
-/* ==========================================================================
-   9. レスポンシブ対応 (Mobile)
-   ========================================================================== */
-@media (max-width: 768px) {
-
-    .container,
-    .game-container {
-        margin: 1rem;
-        border-radius: 1rem;
-        padding: 1rem;
-    }
-
-    .page-nav {
-        justify-content: start;
-    }
-
-    .grid-layout,
-    .exercise-grid,
-    .check-grid,
-    .prevention-grid,
-    .portal-nav {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    .caution-box {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .pdf-embed-desktop {
-        display: none;
-    }
-
-    .pdf-mobile-notice {
-        display: block;
-        margin-bottom: 1rem;
-        color: #007bff;
-        font-size: 0.9rem;
-    }
-
-    .mobile-pad {
-        display: grid;
-    }
-}
-
-@media (min-width: 769px) {
-    .pdf-embed-desktop {
-        display: block;
-    }
-
-    .pdf-mobile-notice,
-    .pdf-link-mobile-wrapper {
-        display: none;
-    }
-
-    .mobile-pad {
-        display: none;
-    }
-}
-
-/* =========================================
-   15. 落ちものパズル専用：レスポンシブ完全対応 (修正版)
-   ========================================= */
-
-/* --- 共通設定 --- */
-html.game-mode-lock,
-body.game-mode-fullscreen {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    position: fixed;
-    /* 画面固定 */
-    background: #111827;
-    touch-action: none;
-    overscroll-behavior: none;
-}
-
-/* 不要な要素を非表示 */
-body.game-mode-fullscreen .portal-header,
-body.game-mode-fullscreen footer,
-body.game-mode-fullscreen .back-to-portal-button,
-/* 従来の戻るボタンは消す */
-body.game-mode-fullscreen .game-title {
-    display: none !important;
-}
-
-/* メインコンテナ */
-body.game-mode-fullscreen .game-container {
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: transparent;
-    box-shadow: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-/* --- PCレイアウト (3カラム) --- */
-.puzzle-layout {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    /* 上揃え */
-    gap: 1.5rem;
-    width: 100%;
-    max-width: 900px;
-    /* 上下余白調整 */
-    padding-top: 2rem;
-}
-
-/* PC: 左カラム（ボタン類） */
-.side-panel-left {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    width: 180px;
-    flex-shrink: 0;
-}
-
-/* PC: 中央カラム（キャンバス） */
-.canvas-area {
-    position: relative;
-    border: 4px solid #374151;
-    border-radius: 4px;
-    background: #000;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    /* PCでの基本サイズ */
-    width: 288px;
-    height: 480px;
-}
-
-.game-canvas {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-}
-
-/* PC: 右カラム（情報） */
-.side-panel-right {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    width: 120px;
-    flex-shrink: 0;
-}
-
-.puzzle-stat-box {
-    background: #1f2937;
-    border: 1px solid #374151;
-    border-radius: 8px;
-    padding: 0.6rem;
-    text-align: center;
-    color: #fff;
-}
-
-.puzzle-stat-label {
-    font-size: 0.7rem;
-    color: #9ca3af;
-    font-weight: 700;
-    margin-bottom: 0.2rem;
-}
-
-.puzzle-stat-value {
-    font-size: 1.1rem;
-    font-weight: 900;
-    color: #ec4899;
-}
-
-#pcNextCanvas {
-    background: #000;
-    border-radius: 4px;
-    margin: 0 auto;
-    display: block;
-    border: 1px solid #374151;
-}
-
-/* ゲームオーバー画面 */
-.game-over-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    z-index: 20;
+.qa-search-answer {
     display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-}
-
-/* PC用操作説明 */
-.key-instruction-box {
-    background: #1f2937;
-    color: #d1d5db;
-    padding: 0.8rem;
-    border-radius: 8px;
-    border: 1px solid #374151;
-    font-size: 0.8rem;
-    text-align: left;
-}
-
-.key-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.3rem;
-    border-bottom: 1px solid #374151;
-}
-
-.key-name {
-    font-weight: bold;
-    color: #60a5fa;
-}
-
-/* --- モバイル専用レイアウト (768px以下) --- */
-@media (max-width: 768px) {
-
-    /* PC用パネル非表示 */
-    .side-panel-left,
-    .side-panel-right {
-        display: none !important;
-    }
-
-    /* レイアウト構成： ヘッダー(情報) -> ゲーム -> フッター(操作) */
-    body.game-mode-fullscreen .game-container {
-        justify-content: space-between;
-    }
-
-    /* 1. モバイルヘッダー (情報表示エリア) */
-    .mobile-header-stats {
-        height: 60px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 10px;
-        background: #1f2937;
-        color: white;
-        flex-shrink: 0;
-        border-bottom: 1px solid #374151;
-        width: 100%;
-    }
-
-    .mobile-next-area {
-        width: 44px;
-        height: 44px;
-        background: #000;
-        border: 1px solid #4b5563;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .mobile-stat-item {
-        text-align: center;
-        font-size: 0.7rem;
-        color: #9ca3af;
-    }
-
-    .mobile-stat-item span {
-        display: block;
-        font-weight: bold;
-        font-size: 1rem;
-        color: #ec4899;
-    }
-
-    /* 閉じるボタン */
-    .mobile-quit-btn {
-        background: #4b5563;
-        color: white;
-        border: none;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        font-weight: bold;
-        font-size: 1.2rem;
-    }
-
-    /* 2. ゲーム画面エリア (最大化) */
-    .puzzle-layout {
-        flex-grow: 1;
-        /* 余白を埋める */
-        width: 100%;
-        padding: 10px 0;
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .canvas-area {
-        width: auto;
-        height: 100%;
-        /* 高さ基準 */
-        /* アスペクト比固定 (12列x20行) */
-        aspect-ratio: 12 / 20;
-        background: #000;
-        border: 2px solid #4b5563;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
-
-    /* 3. モバイルコントローラー */
-    .mobile-pad {
-        height: auto;
-        padding: 10px;
-        /* iPhoneの下バー考慮 */
-        padding-bottom: max(20px, env(safe-area-inset-bottom));
-        background: #1f2937;
-        border-top: 1px solid #374151;
-        width: 100%;
-        flex-shrink: 0;
-
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: 55px 65px;
-        gap: 8px;
-    }
-
-    /* ボタン配置 */
-    /* 上段 */
-    #mobileStartBtn {
-        grid-column: 1 / 3;
-        grid-row: 1;
-        background: #059669;
-        color: white;
-        font-size: 1rem;
-    }
-
-    #rotateBtn {
-        grid-column: 3 / 5;
-        grid-row: 1;
-        background: #ec4899;
-        color: white;
-        font-size: 1.8rem;
-    }
-
-    /* 下段 */
-    #leftBtn {
-        grid-column: 1;
-        grid-row: 2;
-        border-radius: 12px 0 0 12px;
-    }
-
-    #downBtn {
-        grid-column: 2;
-        grid-row: 2;
-        border-radius: 0;
-    }
-
-    #rightBtn {
-        grid-column: 3;
-        grid-row: 2;
-        border-radius: 0 12px 12px 0;
-    }
-
-    #dropBtn {
-        grid-column: 4;
-        grid-row: 2;
-        background: #ef4444;
-        color: white;
-        border-radius: 12px;
-        font-size: 1.5rem;
-    }
-
-    .pad-btn {
-        border: none;
-        background: #f3f4f6;
-        color: #1f2937;
-        font-weight: bold;
-        font-size: 1.5rem;
-        box-shadow: 0 3px 0 #9ca3af;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .pad-btn:active {
-        transform: translateY(3px);
-        box-shadow: none;
-        background: #e5e7eb;
-    }
-}
-
-@media (min-width: 769px) {
-
-    .mobile-pad,
-    .mobile-header-stats {
-        display: none;
-    }
-}
-
-/* ==========================================
-   Admin Portal Styles (統合管理システム用)
-   ========================================== */
-
-.admin-body {
-    background: #f0f2f5;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #1a202c;
-    min-height: 100vh;
-}
-
-.admin-header {
-    background: #ffffff;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.admin-header h1 {
-    font-size: 1.5rem;
-    margin: 0;
-    color: #2d3748;
-}
-
-.admin-main {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Dashboard Cards */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-}
-
-.dashboard-card {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s, box-shadow 0.2s;
-    border: 1px solid #e2e8f0;
-}
-
-.dashboard-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-}
-
-.dashboard-card h3 {
-    margin-top: 0;
-    color: #2b6cb0;
-    font-size: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.dashboard-card p {
-    color: #4a5568;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-}
-
-.dashboard-card button {
-    width: 100%;
-    padding: 0.8rem;
-    border: none;
-    border-radius: 8px;
-    background: #3182ce;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.dashboard-card button:hover {
-    background: #2b6cb0;
-}
-
-.dashboard-card.disabled {
-    opacity: 0.6;
-    filter: grayscale(1);
-    cursor: not-allowed;
-}
-
-/* Layout Utilities */
-.admin-container {
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-}
-
-.editor-section {
-    background: white;
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    margin-bottom: 3rem;
-    border: 1px solid #e2e8f0;
-}
-
-.editor-section h2 {
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid #edf2f7;
-    padding-bottom: 1rem;
-    color: #2d3748;
-}
-
-/* Forms */
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-group label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #4a5568;
-}
-
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="password"],
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #cbd5e0;
-    border-radius: 6px;
-    font-size: 1rem;
-}
-
-.form-group textarea {
-    min-height: 120px;
-    resize: vertical;
-}
-
-.btn-primary {
-    background: #3182ce;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.btn-primary:hover {
-    background: #2b6cb0;
-}
-
-.btn-secondary {
-    background: #edf2f7;
-    color: #4a5568;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.btn-logout {
-    background: #e53e3e;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-/* List Items */
-.qa-list-item,
-.user-list-item {
-    background: #f7fafc;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    border-left: 4px solid #3182ce;
-}
-
-/* Portal Info Footer */
-.portal-footer {
-    margin-top: 3rem;
-    padding: 2rem;
-    text-align: center;
-    border-top: 1px solid #e2e8f0;
-}
-
-.admin-link-container {
-    margin-top: 1rem;
-}
-
-.admin-portal-link {
-    color: #718096;
-    text-decoration: none;
-    font-size: 0.85rem;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    border: 1px solid #e2e8f0;
-    transition: all 0.2s;
-}
-
-.admin-portal-link:hover {
-    background: #f7fafc;
-    color: #2d3748;
-    border-color: #cbd5e0;
-}
-
-/* Auth Pages (Login & Setup) */
-.auth-page-body {
-    background: #f4f7f6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-}
-
-.auth-container {
-    background: white;
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 450px;
-}
-
-.auth-header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.auth-header h1 {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-    color: #2d3748;
-}
-
-.auth-header p {
-    color: #718096;
-    margin-bottom: 2rem;
-}
-
-.btn-auth {
-    width: 100%;
     padding: 1rem;
-    background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: opacity 0.2s;
-}
-
-.btn-auth:hover {
-    opacity: 0.9;
-}
-
-.error-msg {
-    color: #e53e3e;
-    text-align: center;
-    margin-top: 1rem;
-    font-weight: 600;
-    display: none;
-}
-
-.setup-link {
-    margin-top: 1.5rem;
-    text-align: center;
+    border-top: 1px solid #eee;
+    color: #555;
     font-size: 0.9rem;
-    color: #718096;
+    line-height: 1.6;
+    background: #fdfdfd;
 }
 
-.setup-link a {
-    color: #3182ce;
-    text-decoration: none;
-    font-weight: bold;
+.qa-search-item.active .qa-search-answer {
+    display: block;
+    animation: fadeIn 0.3s ease;
 }
 
-/* Modal Overlay */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+.qa-initial-message,
+.qa-no-result {
+    text-align: center;
+    color: #888;
+    margin-top: 2rem;
+    font-size: 0.9rem;
 }

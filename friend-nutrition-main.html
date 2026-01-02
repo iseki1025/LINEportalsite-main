@@ -4,149 +4,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>透析情報ポータル | 栄養情報</title>
+    <title>栄養情報 | 梶本クリニック</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-layout.css">
+    <style>
+        .nutrition-list li {
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+            font-size: 0.9rem;
+            color: #444;
+        }
+
+        .nutrition-list strong {
+            color: #2c7be5;
+        }
+
+        /* Recipe Overrides */
+        #recipeContainer {
+            margin-top: 1rem;
+        }
+
+        .pdf-collapsible {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+
+        .pdf-collapsible-header {
+            padding: 1rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: #fafafa;
+        }
+
+        .pdf-collapsible-content {
+            display: none;
+            padding: 1rem;
+            background: white;
+        }
+
+        .pdf-collapsible.is-open .pdf-collapsible-content {
+            display: block;
+        }
+
+        .pdf-link-mobile {
+            display: inline-block;
+            background: #2c7be5;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body class="theme-nutrition app-mode">
+    <header class="app-header">
+        <a href="friend-main.html"
+            style="position:absolute; left:1rem; font-size:1.5rem; color:#333; text-decoration:none;">&lt;</a>
+        <div class="app-title">栄養情報</div>
+    </header>
+
+    <main class="app-content-scroll">
+        <nav class="app-segmented-control">
+            <button class="app-segmented-item active" onclick="switchTab('info')">基本</button>
+            <button class="app-segmented-item" onclick="switchTab('recipe')">レシピ</button>
+            <button class="app-segmented-item" onclick="switchTab('quiz')">クイズ</button>
+            <button class="app-segmented-item" onclick="switchTab('qa')">Q&A</button>
+        </nav>
+
+        <!-- Tab 1: Info -->
+        <section id="info" class="app-page-section active">
+            <div class="app-card-generic">
+                <h2 style="font-size:1.1rem; text-align:center; margin-bottom:0.8rem; color:#2c7be5;">食事療法の5つの基本</h2>
+                <ul class="nutrition-list" style="padding-left:1.2rem;">
+                    <li><strong>水分・塩分:</strong> 摂りすぎは血圧上昇や心負担の原因に。</li>
+                    <li><strong>カリウム:</strong> 野菜や果物は茹でこぼし等の工夫を。</li>
+                    <li><strong>リン:</strong> 加工食品や乳製品に注意しましょう。</li>
+                    <li><strong>たんぱく質:</strong> 摂りすぎると老廃物が増えます。</li>
+                    <li><strong>エネルギー:</strong> 炭水化物や脂質でしっかり確保。</li>
+                </ul>
+            </div>
+            <div class="app-card-generic" style="background:#e3f2fd; border-color:#bbdefb;">
+                <p style="font-size:0.9rem; text-align:center; margin:0; color:#0d47a1;">
+                    適切な食事管理は、透析を楽にし、合併症を予防します。
+                </p>
+            </div>
+        </section>
+
+        <!-- Tab 2: Recipe -->
+        <section id="recipe" class="app-page-section">
+            <h3 style="font-size:1rem; margin:0 0.5rem 0.5rem;">おすすめレシピ</h3>
+            <div id="recipeContainer">
+                <p style="text-align:center; padding:2rem; color:#888;">読み込み中...</p>
+            </div>
+        </section>
+
+        <!-- Tab 3: Quiz -->
+        <section id="quiz" class="app-page-section">
+            <div class="app-card-generic" style="text-align:center; padding:3rem 1.5rem;">
+                <h2 style="margin-bottom:1rem;">栄養クイズ</h2>
+                <p style="margin-bottom:2rem;">食事管理に役立つ知識をゲーム感覚で！</p>
+                <a href="friend-nutrition-quiz.html" class="quiz-button"
+                    style="display:inline-block; padding:12px 30px; background:#2c7be5; color:white; border-radius:30px; text-decoration:none; font-weight:bold; box-shadow:0 4px 10px rgba(44,123,229,0.3);">
+                    挑戦する
+                </a>
+            </div>
+        </section>
+
+        <!-- Tab 4: Q&A -->
+        <section id="qa" class="app-page-section qa-search-section" data-csv-path="files/data/qa-data.csv"
+            data-category="栄養">
+            <div class="qa-search-container" style="margin-bottom:1rem;">
+                <input type="search" class="qa-search-input" placeholder="キーワード (例: リン, 外食)" autocomplete="off"
+                    style="width:100%; padding:12px; border-radius:12px; border:1px solid #ddd; background:rgba(255,255,255,0.9);">
+            </div>
+            <div class="keyword-buttons" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:1.5rem;">
+                <button class="keyword-button" onclick="setKeyword('リン')"
+                    style="padding:6px 12px; border-radius:20px; border:none; background:#eee; font-size:0.8rem;">リン</button>
+                <button class="keyword-button" onclick="setKeyword('カリウム')"
+                    style="padding:6px 12px; border-radius:20px; border:none; background:#eee; font-size:0.8rem;">カリウム</button>
+                <button class="keyword-button" onclick="setKeyword('塩分')"
+                    style="padding:6px 12px; border-radius:20px; border:none; background:#eee; font-size:0.8rem;">塩分</button>
+            </div>
+            <div class="qa-results-container"></div>
+        </section>
+
+        <div style="height: 40px;"></div>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="friend-main.html" class="nav-item">
+            <span class="nav-icon">🎁</span>
+            <span>お友達</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <span class="nav-icon">❓</span>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
     <script>
-        if (window.location.protocol === 'file:') {
-            window.addEventListener('DOMContentLoaded', () => {
-                const container = document.getElementById('recipeContainer');
-                if (container) {
-                    container.innerHTML = '<p style="padding:1rem; color:#e53e3e; background:#fff5f5; border-radius:8px; text-align:center;">' +
-                        '<strong>⚠️ ローカル閲覧制限</strong><br>' +
-                        'レシピの読み込みには <code>http://</code> サーバーが必要です。<br>' +
-                        '<code>start_server.bat</code> を使用してください。</p>';
+        function switchTab(id) {
+            document.querySelectorAll('.app-page-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.app-segmented-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+
+            const buttons = document.querySelectorAll('.app-segmented-item');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('onclick').includes(id)) {
+                    btn.classList.add('active');
                 }
             });
         }
-    </script>
-</head>
-
-<body class="theme-nutrition">
-    <div class="container">
-        <header>
-            <h1>透析患者さんのための栄養情報</h1>
-        </header>
-        <nav class="page-nav">
-            <button class="nav-button active" onclick="switchTab('info')">栄養の基本</button>
-            <button class="nav-button" onclick="switchTab('recipe')">おすすめ<br>レシピ</button>
-            <button class="nav-button" onclick="switchTab('quiz')">栄養クイズ</button>
-            <button class="nav-button" onclick="switchTab('qa')">栄養Q&A</button>
-        </nav>
-
-        <main id="content-area">
-            <!-- ① 栄養の基本 -->
-            <section id="info" class="content-section active">
-                <h2>透析と食事のたいせつな関係</h2>
-                <div class="intro-text">
-                    <p>適切な食事管理は、透析による体の負担を減らし、合併症を予防します。</p>
-                </div>
-
-                <h3>食事療法の5つの基本ポイント</h3>
-                <ul>
-                    <li><strong>水分・塩分:</strong> 摂りすぎは血圧上昇や心負担の原因になります。</li>
-                    <li><strong>カリウム:</strong> 野菜や果物に多く含まれます。茹でこぼしなどで工夫を。</li>
-                    <li><strong>リン:</strong> 加工食品や乳製品に注意。骨や血管を守るために制限が必要です。</li>
-                    <li><strong>たんぱく質:</strong> 体を作る栄養素ですが、摂りすぎると老廃物が増えます。</li>
-                    <li><strong>エネルギー:</strong> 制限しつつも、炭水化物や脂質でしっかり確保しましょう。</li>
-                </ul>
-            </section>
-
-            <!-- ② おすすめレシピ -->
-            <section id="recipe" class="content-section">
-                <h2>おすすめレシピ</h2>
-                <div id="recipeContainer">
-                    <p style="text-align:center; padding:2rem;">読み込み中...</p>
-                </div>
-            </section>
-
-            <!-- ③ 栄養クイズ -->
-            <section id="quiz" class="content-section">
-                <div class="quiz-section">
-                    <h2>挑戦してみよう！透析栄養クイズ</h2>
-                    <p>食事管理に役立つ知識がゲーム感覚で身につきます。</p>
-                    <a href="friend-nutrition-quiz.html" class="quiz-button">クイズに挑戦する！</a>
-                    <p style="margin-top:1rem; font-size:0.9rem;">ランダムに5問出題されます。</p>
-                </div>
-            </section>
-
-            <!-- ④ 栄養Q&A -->
-            <section id="qa" class="content-section qa-search-section" data-csv-path="files/data/qa-data.csv"
-                data-category="栄養">
-                <h2>栄養についてのQ&A</h2>
-                <div class="qa-search-container">
-                    <input type="search" class="qa-search-input" placeholder="キーワード (例: リン, 外食)" autocomplete="off">
-                </div>
-                <div class="qa-popular-keywords">
-                    <h3>よく検索されるワード</h3>
-                    <div class="keyword-buttons">
-                        <button class="keyword-button" onclick="setKeyword('リン')">リン</button>
-                        <button class="keyword-button" onclick="setKeyword('カリウム')">カリウム</button>
-                        <button class="keyword-button" onclick="setKeyword('水分')">水分</button>
-                        <button class="keyword-button" onclick="setKeyword('塩分')">塩分</button>
-                    </div>
-                </div>
-                <div class="qa-results-container"></div>
-            </section>
-        </main>
-
-        <a href="friend-main.html" class="back-to-portal-button">特典ページへ戻る</a>
-        <footer>
-            <p><small>&copy; 2025 医療法人 好輝会 梶本クリニック</small></p>
-        </footer>
-    </div>
-
-    <!-- UI Logic: Global scope -->
-    <script>
-        // タブ切り替え
-        function switchTab(id) {
-            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-
-            const buttons = document.querySelectorAll('.nav-button');
-            for (let btn of buttons) {
-                if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(id)) {
-                    btn.classList.add('active');
-                }
-            }
-        }
         window.switchTab = switchTab;
 
-        // PDF開閉ロジック
-        function togglePdf(header) {
-            const container = header.parentElement;
-            const pdfUrl = container.getAttribute('data-pdf');
-            const content = container.querySelector('.pdf-collapsible-content');
-            const embed = container.querySelector('embed');
-            const loader = container.querySelector('.pdf-loading-container');
-
-            container.classList.toggle('is-open');
-
-            if (container.classList.contains('is-open') && !embed.src) {
-                setTimeout(() => {
-                    embed.src = pdfUrl + '#toolbar=0';
-                    setTimeout(() => {
-                        loader.style.display = 'none';
-                        embed.style.display = 'block';
-                    }, 1500);
-                }, 100);
-            }
-        }
-        window.togglePdf = togglePdf;
-
-        function setKeyword(word) {
-            const input = document.querySelector('.content-section.active .qa-search-input');
+        window.setKeyword = function (word) {
+            const input = document.querySelector('.qa-search-input');
             if (input) {
                 input.value = word;
                 input.dispatchEvent(new Event('input', { bubbles: true }));
             }
         }
-        window.setKeyword = setKeyword;
+
+        function togglePdf(header) {
+            const container = header.parentElement;
+            container.classList.toggle('is-open');
+        }
+        window.togglePdf = togglePdf;
     </script>
 
-    <!-- Data Logic: Modules -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-    <script src="js/qa/qa-script.js"></script>
+    <!-- Firebase Logic -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getFirestore, collection, getDocs, orderBy, query } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
@@ -163,7 +199,7 @@
                     const snapshot = await getDocs(q);
 
                     if (snapshot.empty) {
-                        container.innerHTML = '<p style="text-align:center;">現在、公開されているレシピはありません。</p>';
+                        container.innerHTML = '<p style="text-align:center;">レシピはありません。</p>';
                         return;
                     }
 
@@ -176,31 +212,27 @@
                                 <span>▼</span>
                             </div>
                             <div class="pdf-collapsible-content">
-                                <div class="pdf-collapsible-body">
-                                    <div class="pdf-mobile-notice">📱 下のボタンからPDFを開くのがおすすめです</div>
-                                    <div class="pdf-link-mobile-wrapper">
-                                        <a href="${data.storageUrl}" target="_blank" class="pdf-link-mobile">PDFを開く</a>
-                                    </div>
-                                    <div class="pdf-loading-container">
-                                        <div class="pdf-spinner"></div><p>読み込み中...</p>
-                                    </div>
-                                    <embed src="" type="application/pdf" class="pdf-embed-desktop">
+                                <p style="font-size:0.85rem; text-align:center; margin-bottom:1rem;">スマートフォンで見ることをおすすめします</p>
+                                <div style="text-align:center;">
+                                    <a href="${data.storageUrl}" target="_blank" class="pdf-link-mobile">PDFを開く</a>
                                 </div>
                             </div>
                         </div>
                         `;
                     }).join('');
                 } catch (error) {
-                    console.error('Recipe load error:', error);
-                    container.innerHTML = '<p style="padding:1rem; color:red;">レシピの取得に失敗しました。<br>(Local環境ではサーバー経由での閲覧が必要です)</p>';
+                    console.error('Recipe error:', error);
+                    container.innerHTML = '<p style="color:red; text-align:center;">レシピの取得に失敗しました</p>';
                 }
             }
             loadRecipes();
         } catch (e) {
             console.error('Firebase init error:', e);
-            document.getElementById('recipeContainer').innerHTML = '<p style="padding:1rem; color:red;">システムの初期化に失敗しました。</p>';
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="js/qa/qa-data-embedded.js"></script>
+    <script src="js/qa/qa-script.js"></script>
 </body>
 
 </html>

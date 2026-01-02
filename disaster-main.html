@@ -3,313 +3,500 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>災害情報ポータル</title>
     <link rel="stylesheet" href="style.css">
-    <script>
-        if (window.location.protocol === 'file:') {
-            window.addEventListener('DOMContentLoaded', () => {
-                const container = document.getElementById('dialysisStatusContainer');
-                if (container) {
-                    container.innerHTML = '<p style="padding:1rem; color:#e53e3e; background:#fff5f5; border-radius:8px;">' +
-                        '<strong>⚠️ ローカル閲覧制限</strong><br>' +
-                        'このページは <code>http://</code> でアクセスする必要があります。<br>' +
-                        '<code>start_server.bat</code> を使用してください。</p>';
-                }
-            });
+    <link rel="stylesheet" href="mobile-layout.css">
+    <style>
+        /* Specific Styles for Accordions and Tabs */
+        .evacuation-item,
+        .pdf-collapsible {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 1px solid #eee;
         }
-    </script>
+
+        .evacuation-item-header,
+        .pdf-collapsible-header {
+            padding: 1rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: #fafafa;
+        }
+
+        .evacuation-item-content,
+        .pdf-collapsible-content {
+            display: none;
+            padding: 1rem;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+
+        .evacuation-item.is-open .evacuation-item-content,
+        .pdf-collapsible.is-open .pdf-collapsible-content {
+            display: block;
+        }
+
+        .video-wrapper {
+            background: #000;
+            height: 200px;
+            border-radius: 8px;
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        .pdf-btn {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 24px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Search Styles */
+        .qa-search-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .qa-search-input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .qa-search-input:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+        }
+
+        .keyword-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .keyword-button {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            background: #fff;
+            color: #555;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        /* Dialysis Status Original Style Override */
+        #dialysis-status.collapsible-section {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            /* Stronger shadow */
+            overflow: hidden;
+            border: 2px solid #e0e0e0;
+            /* Explicit border */
+        }
+
+        /* Toggle Logic for Dialysis Status */
+        .collapsible-header-wrapper {
+            cursor: pointer;
+            /* Change cursor on hover */
+            transition: background-color 0.2s;
+        }
+
+        .collapsible-header-wrapper:hover {
+            background-color: #f9f9f9;
+        }
+
+        .collapsible-section .collapsible-content {
+            display: none;
+            padding: 1rem;
+            background: #fff;
+            border-top: 1px solid #eee;
+        }
+
+        .collapsible-section.is-open .collapsible-content {
+            display: block;
+        }
+
+        /* Dialysis Status Item Styles */
+        .status-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 1rem;
+            background: #f8f9fa;
+        }
+
+        .status-item {
+            display: flex;
+            flex-direction: column;
+            /* Stack header and reason */
+            background: white;
+            padding: 16px 18px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+            gap: 4px;
+            /* Small gap between header and reason */
+        }
+
+        .status-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .status-name {
+            font-weight: 800;
+            color: #222;
+            font-size: 1.1rem;
+            min-width: fit-content;
+            /* Allow content to dictate width */
+            white-space: nowrap;
+            /* Force single line */
+        }
+
+        .status-value {
+            font-weight: 800;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            letter-spacing: 0.05em;
+        }
+
+        .status-ok {
+            background-color: #d3f9e8;
+            color: #087f5b;
+            border: 2px solid #63e6be;
+        }
+
+        .status-ng {
+            background-color: #ffe3e3;
+            color: #c92a2a;
+            border: 2px solid #ffa8a8;
+        }
+
+        .status-reason {
+            font-size: 0.9rem;
+            color: #e03131;
+            width: 100%;
+            margin-top: 8px;
+            display: none;
+            font-weight: bold;
+        }
+
+        /* Ensure reason breaks into new line */
+        .status-item {
+            /* We need wrap ONLY if there is a reason? 
+             Actually, .status-reason is likely appended as a child of .status-item. 
+             But wait, in `admin.html` it was inside .status-item.
+             However, flex-wrap: nowrap prevents the reason from breaking initially if it's a direct child.
+             Let's check Javascript structure for reason.
+             If reason is a sibling of name/value, it will be in the row.
+             The user wants name/value on one line.
+             If there is a reason, it should probably be below.
+             Let's check how js renders it.
+             */
+            flex-direction: row;
+            flex-wrap: wrap;
+            /* Wait, if reason is there, we want wrap? 
+             The user said "Don't wrap name".
+             So name and value should be on one line.
+             If we use wrap, long names might wrap. 
+             If we specificy flex-basis or width, we control it.
+             
+             Better approach: 
+             Name and Value container? 
+             Or just `status-name` flex-grow 1?
+             
+             Let's stick to flex-wrap: wrap but force name to be nowrap.
+             */
+            flex-wrap: wrap;
+            /* Keep wrap for the 'reason' div to break to next line if needed */
+        }
+
+        .status-name {
+            flex: 1;
+            /* Take available space */
+            white-space: nowrap;
+            /* Don't wrap text inside */
+            min-width: 0;
+            /* Allow shrinking if needed, but we prefer full text */
+        }
+
+        /* Actually, if we use flex-wrap: wrap, and status-name + status-value < 100%, they stay on one line.
+           If we make status-name white-space: nowrap, it won't break usage.
+           Problem: "三国ヶ丘分院" is long.
+           If the screen is very small, it might force wrap.
+           But on most mobile screens (320px+), "三国ヶ丘分院" + "透析可" should fit.
+           
+           Let's explicitly trying to force name and value to be on the same 'row' if possible, or at least prevent the name itself from breaking.
+        */
+
+
+        .status-reason:not(:empty) {
+            display: block;
+            padding-top: 8px;
+            border-top: 2px solid #e9ecef;
+            /* Thicker, solid divider */
+        }
+
+        /* Facility Specific Accents */
+        .status-item.honin {
+            border-left: 6px solid #4263eb;
+        }
+
+        .status-item.nakamozu {
+            border-left: 6px solid #2ca9bc;
+        }
+
+        .status-item.mikunigaoka {
+            border-left: 6px solid #d6336c;
+        }
+    </style>
 </head>
 
-<body class="theme-disaster">
-    <div class="container">
-        <header>
-            <h1>災害情報ポータル</h1>
-        </header>
+<body class="app-mode theme-disaster">
 
-        <!-- 透析状況（アコーディオン） -->
-        <section id="dialysis-status" class="collapsible-section is-open" style="max-width:900px; margin:0 auto 2rem;">
+    <!-- 1. Fixed App Header -->
+    <header class="app-header">
+        <a href="index.html" class="back-button">◀</a>
+        <div class="app-title">災害情報ポータル</div>
+    </header>
+
+    <!-- 2. Main Scrollable Content -->
+    <main class="app-content-scroll">
+
+        <!-- Dialysis Status (Restored Accordion) -->
+        <section id="dialysis-status" class="collapsible-section is-open">
             <div class="collapsible-header-wrapper" onclick="this.parentElement.classList.toggle('is-open')"
                 style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1.5rem;">
-
-                <h2 style="margin:0; width:auto; border:none; padding:0;">現在の透析状況</h2>
-                <span class="collapse-hint" style="margin-top:0.5rem;">▼ タップで開閉</span>
+                <h2 style="margin:0; width:auto; border:none; padding:0; font-size: 1.1rem; color: #333;">現在の透析状況</h2>
+                <span class="collapse-hint" style="margin-top:0.5rem; font-size: 0.8rem; color: #888;">▼ タップで開閉</span>
             </div>
 
             <div class="collapsible-content">
                 <div class="status-container" id="dialysisStatusContainer">
                     <p style="text-align:center; padding:2rem; width:100%;">読み込み中...</p>
                 </div>
-                <p style="text-align:center; margin-top:1.5rem; font-size:0.9rem; color:#4b5563; font-weight:bold;">
+                <p style="text-align:center; margin: 1rem; font-size:0.8rem; color:#4b5563;">
                     ※この情報は災害時などに随時更新されます。
                 </p>
             </div>
         </section>
 
-        <!-- タブナビゲーション -->
-        <nav class="page-nav">
-            <button class="nav-button active" onclick="switchTab('info')">基本情報</button>
-            <button class="nav-button" onclick="switchTab('evacuation')">避難手段</button>
-            <button class="nav-button" onclick="switchTab('faq')">災害Q&A</button>
-        </nav>
-
-        <main id="content-area">
-
-            <!-- ① 基本情報 -->
-            <section id="info" class="content-section active">
-                <h2>災害への備え:基本情報</h2>
-                <div class="intro-text">
-                    <p>災害はいつ起こるかわかりません。日頃から適切な準備をしておくことで、いざという時に自分や家族の命を守ることができます。</p>
+        <!-- Guide Book PDF (Collapsible) -->
+        <div class="pdf-collapsible">
+            <div class="pdf-collapsible-header" onclick="this.parentElement.classList.toggle('is-open')">
+                <span>📖 防災ガイドブックを見る</span>
+                <span>▼</span>
+            </div>
+            <div class="pdf-collapsible-content">
+                <p style="margin-bottom:1rem; font-size:0.9rem; color:#555;">詳しい対策をPDFで確認できます。</p>
+                <div style="text-align: center;">
+                    <a href="files/pdf/disaster-guide-book.pdf" target="_blank" class="pdf-btn">PDFを開く</a>
                 </div>
-
-                <!-- 防災ハンドブック（PDF） -->
-                <div class="pdf-collapsible">
-                    <div class="pdf-collapsible-header" onclick="togglePdf()">
-                        <span>📖 梶本クリニック 防災ハンドブックを見る</span>
-                        <span>▼</span>
-                    </div>
-                    <div class="pdf-collapsible-content">
-                        <div class="pdf-collapsible-body">
-                            <p style="margin-bottom:1rem;">災害時にすべきこと、起こる前の備えについて詳しくまとめています。</p>
-
-                            <!-- スマホ用リンク -->
-                            <div class="pdf-mobile-notice">
-                                <strong>📱 スマートフォンでご覧の方へ</strong><br>
-                                下のボタンから別ページでPDFを開くことをおすすめします。
-                            </div>
-                            <div class="pdf-link-mobile-wrapper">
-                                <a href="files/pdf/disaster-guide-book.pdf" target="_blank"
-                                    class="back-to-portal-button" style="background:#007bff; border:none;">防災ハンドブックを開く
-                                    (PDF)</a>
-                            </div>
-
-                            <!-- PC用埋め込み -->
-                            <div class="pdf-loading-container" id="pdfLoadingContainer">
-                                <div class="pdf-spinner"></div>
-                                <p>防災ハンドブックを読み込んでいます...</p>
-                            </div>
-                            <embed id="pdfEmbed" src="" type="application/pdf" class="pdf-embed-desktop">
-                        </div>
-                    </div>
-                </div>
-
-                <h3>防災の基本4つのポイント</h3>
-
-                <div class="prevention-grid">
-                    <!-- 1. ハザードマップ -->
-                    <a href="disaster-hazardmap.html" class="prevention-card"
-                        style="text-decoration:none; color:inherit; display:block;">
-                        <div class="prevention-card-img-wrapper">
-                            <img src="files/disaster/Check the hazard map.png" alt="ハザードマップの確認">
-                        </div>
-                        <div class="prevention-card-body">
-                            <h3>ハザードマップの確認</h3>
-                            <p>お住まいの地域でどのような災害のリスクがあるかを確認し、避難場所や避難経路を家族で共有しておきましょう。<br><strong>(タップして詳細ページへ)</strong>
-                            </p>
-                        </div>
-                    </a>
-
-                    <!-- 2. 備蓄と非常用持ち出し袋 -->
-                    <a href="disaster-stock.html" class="prevention-card"
-                        style="text-decoration:none; color:inherit; display:block;">
-                        <div class="prevention-card-img-wrapper">
-                            <img src="files/disaster/Home stockpiles.png" alt="備蓄と非常用持ち出し袋">
-                        </div>
-                        <div class="prevention-card-body">
-                            <h3>備蓄と非常用持ち出し袋</h3>
-                            <p>断水・停電に備えた水や食料、避難時に必要な持ち出し袋の準備は命を守る基本です。透析患者様特有のリストも確認できます。<br><strong>(タップしてリストを見る)</strong>
-                            </p>
-                        </div>
-                    </a>
-
-                    <!-- 3. 家具の固定 -->
-                    <a href="disaster-furniture.html" class="prevention-card"
-                        style="text-decoration:none; color:inherit; display:block;">
-                        <div class="prevention-card-img-wrapper">
-                            <img src="files/disaster/fixing furniture.png" alt="家具の固定">
-                        </div>
-                        <div class="prevention-card-body">
-                            <h3>家具の固定</h3>
-                            <p>地震による家具の転倒を防ぐため、タンスや本棚などを壁に固定しましょう。具体的な固定方法はこちら。<br><strong>(タップして対策方法を見る)</strong></p>
-                        </div>
-                    </a>
-
-                    <!-- 4. 安否確認 (修正: リンクタグに変更) -->
-                    <a href="disaster-safety.html" class="prevention-card"
-                        style="text-decoration:none; color:inherit; display:block;">
-                        <div class="prevention-card-img-wrapper">
-                            <img src="files/disaster/Sharing methods for confirming safety.png" alt="安否確認方法の共有">
-                        </div>
-                        <div class="prevention-card-body">
-                            <h3>安否確認方法の共有</h3>
-                            <p>災害時には電話が繋がりにくくなります。災害用伝言ダイヤル(171)や当院への連絡先はこちらから確認できます。<br><strong>(タップして連絡先を見る)</strong>
-                            </p>
-                        </div>
-                    </a>
-                </div>
-
-            </section>
-
-            <!-- ③ 避難手段 -->
-            <section id="evacuation" class="content-section">
-                <h2>おひとりでは避難が難しい方へ</h2>
-                <p style="margin-bottom:2rem;">災害時、当院では様々な避難手段を用意しています。各設備の使用方法を事前に確認しておきましょう。</p>
-
-                <!-- イーバックチェア -->
-                <div class="evacuation-item">
-                    <div class="evacuation-item-header" onclick="this.parentElement.classList.toggle('is-open')">
-                        <span>イーバックチェア（階段避難車）</span>
-                        <span>▼</span>
-                    </div>
-                    <div class="evacuation-item-content">
-                        <div class="evacuation-item-body">
-                            <p><strong>概要:</strong>
-                                車椅子の方や歩行が困難な方を、階段を使って安全に避難させるための専用チェアです。キャタピラ式の構造により、介助者1〜2名で階段を降りることができます。</p>
-                            <p><strong>設置場所:</strong> 各階の避難経路入口付近</p>
-                            <div class="video-wrapper">
-                                <!-- 動画があればここにsrcを指定 -->
-                                <div
-                                    style="color:white; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
-                                    動画準備中</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- UDエスケープ -->
-                <div class="evacuation-item">
-                    <div class="evacuation-item-header" onclick="this.parentElement.classList.toggle('is-open')">
-                        <span>UDエスケープ（三国ヶ丘のみ）</span>
-                        <span>▼</span>
-                    </div>
-                    <div class="evacuation-item-content">
-                        <div class="evacuation-item-body">
-                            <p><strong>概要:</strong> ベランダから地上へ素早く避難するための乗り物です。エレベーターのような構造で、階段が使えない緊急時に使用します。</p>
-                            <p><strong>設置場所:</strong> 2階のベランダ北端（非常口表示あり）</p>
-                            <div class="video-wrapper">
-                                <div
-                                    style="color:white; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
-                                    動画準備中</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 外部の滑り台 -->
-                <div class="evacuation-item">
-                    <div class="evacuation-item-header" onclick="this.parentElement.classList.toggle('is-open')">
-                        <span>外部避難用滑り台（なかもず分院のみ）</span>
-                        <span>▼</span>
-                    </div>
-                    <div class="evacuation-item-content">
-                        <div class="evacuation-item-body">
-                            <p><strong>概要:</strong> 建物外部に設置された金属製の避難用滑り台です。火災などで建物内の避難経路が使えない場合に使用します。</p>
-                            <p><strong>設置場所:</strong> 建物南側2階・3階・4階・5階</p>
-                            <div class="video-wrapper">
-                                <div
-                                    style="color:white; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
-                                    動画準備中</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="info-box">
-                    <strong>⚠ 注意事項</strong><br>
-                    これらの避難手段は、職員の指示に従ってご使用ください。定期的に避難訓練を実施していますので、ぜひご参加ください。
-                </div>
-            </section>
-
-            <!-- ⑤ 災害Q&A -->
-            <section id="faq" class="content-section qa-search-section" data-csv-path="files/data/qa-data.csv"
-                data-category="災害">
-                <h2>災害対策についてのQ&A</h2>
-                <div class="qa-search-container">
-                    <input type="search" class="qa-search-input" placeholder="キーワード (例: 備蓄, 避難所)" autocomplete="off">
-                </div>
-
-                <!-- よく検索されるワード -->
-                <div class="qa-popular-keywords">
-                    <h3>よく検索されるワード</h3>
-                    <div class="keyword-buttons">
-                        <button class="keyword-button" onclick="setKeyword('備蓄')">備蓄</button>
-                        <button class="keyword-button" onclick="setKeyword('避難')">避難</button>
-                        <button class="keyword-button" onclick="setKeyword('連絡')">連絡</button>
-                        <button class="keyword-button" onclick="setKeyword('薬')">薬</button>
-                    </div>
-                </div>
-
-                <div class="qa-results-container">
-                    <!-- 検索結果はここに表示されます -->
-                </div>
-            </section>
-
-        </main>
-
-        <!-- <a href="index.html" class="back-to-portal-button">トップへ戻る</a> -->
-        <div style="margin-top: 3rem; text-align: center; opacity: 0.2; font-size: 0.8rem;">
-            <a href="index.html" style="color: inherit; text-decoration: none;">&copy; Kajimoto Clinic Portal</a>
+            </div>
         </div>
 
-        <footer>
-            <p><small>&copy; 2025 医療法人 好輝会 梶本クリニック</small></p>
-        </footer>
-    </div>
+        <!-- Tab Navigation -->
+        <nav class="app-segmented-control">
+            <button class="app-segmented-item active" onclick="switchTab('info')">基本情報</button>
+            <button class="app-segmented-item" onclick="switchTab('evacuation')">避難手段</button>
+            <button class="app-segmented-item" onclick="switchTab('faq')">Q&A</button>
+        </nav>
 
-    <!-- ライブラリとスクリプト -->
-    <!-- 1. UI制御用の標準スクリプト (moduleにしないことで onclick などから呼べるようにする) -->
+        <!-- Tab 1: Basic Info -->
+        <section id="info" class="app-page-section active">
+            <div class="app-grid">
+                <!-- 1. Hazard Map -->
+                <a href="disaster-hazardmap.html" class="app-card">
+                    <img src="files/disaster/Check the hazard map.png" alt="ハザードマップ" class="app-card-bg-img">
+                    <div class="app-card-overlay">
+                        <div class="app-card-title">ハザードマップ</div>
+                        <div class="app-card-desc">地域の危険度を確認</div>
+                    </div>
+                </a>
+
+                <!-- 2. Prevention/Stock -->
+                <a href="disaster-stock.html" class="app-card">
+                    <img src="files/disaster/Home stockpiles.png" alt="備蓄" class="app-card-bg-img">
+                    <div class="app-card-overlay">
+                        <div class="app-card-title">備蓄・持ち出し</div>
+                        <div class="app-card-desc">必要な物資リスト</div>
+                    </div>
+                </a>
+
+                <!-- 3. Furniture -->
+                <a href="disaster-furniture.html" class="app-card">
+                    <img src="files/disaster/fixing furniture.png" alt="家具固定" class="app-card-bg-img">
+                    <div class="app-card-overlay">
+                        <div class="app-card-title">家具の固定</div>
+                        <div class="app-card-desc">転倒防止対策</div>
+                    </div>
+                </a>
+
+                <!-- 4. Safety -->
+                <a href="disaster-safety.html" class="app-card">
+                    <img src="files/disaster/Sharing methods for confirming safety.png" alt="安否確認"
+                        class="app-card-bg-img">
+                    <div class="app-card-overlay">
+                        <div class="app-card-title">安否確認</div>
+                        <div class="app-card-desc">連絡方法の共有</div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Tab 2: Evacuation -->
+        <section id="evacuation" class="app-page-section">
+            <h2 style="font-size: 1.1rem; margin-bottom: 1rem; color: #333;">院内避難設備</h2>
+
+            <!-- イーバックチェア -->
+            <div class="evacuation-item">
+                <div class="evacuation-item-header" onclick="this.parentElement.classList.toggle('is-open')">
+                    <span>イーバックチェア（階段避難車）</span>
+                    <span>▼</span>
+                </div>
+                <div class="evacuation-item-content">
+                    <p><strong>概要:</strong>
+                        車椅子の方や歩行が困難な方を、階段を使って安全に避難させるための専用チェアです。</p>
+                    <p><strong>設置場所:</strong> 各階の避難経路入口付近</p>
+                    <div class="video-wrapper">
+                        <div style="color:white; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
+                            動画準備中</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UDエスケープ -->
+            <div class="evacuation-item">
+                <div class="evacuation-item-header" onclick="this.parentElement.classList.toggle('is-open')">
+                    <span>UDエスケープ（三国ヶ丘のみ）</span>
+                    <span>▼</span>
+                </div>
+                <div class="evacuation-item-content">
+                    <p><strong>概要:</strong> ベランダから地上へ素早く避難するための乗り物です。</p>
+                    <p><strong>設置場所:</strong> 2階のベランダ北端</p>
+                    <div class="video-wrapper">
+                        <div style="color:white; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
+                            動画準備中</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 外部の滑り台 -->
+            <div class="evacuation-item">
+                <div class="evacuation-item-header" onclick="this.parentElement.classList.toggle('is-open')">
+                    <span>外部避難用滑り台（なかもず分院のみ）</span>
+                    <span>▼</span>
+                </div>
+                <div class="evacuation-item-content">
+                    <p><strong>概要:</strong> 建物外部に設置された金属製の避難用滑り台です。</p>
+                    <p><strong>設置場所:</strong> 建物南側各階</p>
+                    <div class="video-wrapper">
+                        <div style="color:white; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
+                            動画準備中</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 3: FAQ -->
+        <section id="faq" class="app-page-section qa-search-section" data-csv-path="files/data/qa-data.csv"
+            data-category="災害">
+            <h2 style="font-size: 1.1rem; margin-bottom: 1rem; color: #333;">災害Q&A</h2>
+
+            <div class="qa-search-container">
+                <input type="search" class="qa-search-input" placeholder="キーワード (例: 備蓄, 避難所)" autocomplete="off">
+            </div>
+
+            <div class="keyword-buttons">
+                <button class="keyword-button" onclick="setKeyword('備蓄')">備蓄</button>
+                <button class="keyword-button" onclick="setKeyword('避難')">避難</button>
+                <button class="keyword-button" onclick="setKeyword('連絡')">連絡</button>
+                <button class="keyword-button" onclick="setKeyword('薬')">薬</button>
+            </div>
+
+            <div class="qa-results-container"></div>
+        </section>
+
+        <div style="height: 100px;"></div>
+
+        <div
+            style="text-align: center; font-size: 0.75rem; color: #666; margin-top: 2rem; opacity: 0.8; padding-bottom: 2rem;">
+            <a href="index.html" style="text-decoration: none; color: inherit; cursor: default;">&copy; 2025 Kajimoto
+                Clinic</a>
+        </div>
+
+    </main>
+
+    <!-- 3. Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="disaster-main.html" class="nav-item active">
+            <div class="nav-icon icon-disaster"></div>
+            <span>災害</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <div class="nav-icon icon-qa"></div>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
+    <!-- Scripts -->
     <script>
-        // タブ切り替え
         function switchTab(id) {
-            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.app-page-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.app-segmented-item').forEach(el => el.classList.remove('active'));
             document.getElementById(id).classList.add('active');
 
-            const buttons = document.querySelectorAll('.nav-button');
-            for (let btn of buttons) {
-                if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(id)) {
+            const buttons = document.querySelectorAll('.app-segmented-item');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('onclick').includes(id)) {
                     btn.classList.add('active');
                 }
-            }
+            });
         }
         window.switchTab = switchTab;
 
-        // PDF読み込み
-        let pdfLoaded = false;
-        function togglePdf() {
-            const container = document.querySelector('.pdf-collapsible');
-            container.classList.toggle('is-open');
-
-            if (container.classList.contains('is-open') && !pdfLoaded) {
-                const embed = document.getElementById('pdfEmbed');
-                const loader = document.getElementById('pdfLoadingContainer');
-
-                setTimeout(() => {
-                    embed.src = "files/pdf/disaster-guide-book.pdf#toolbar=0";
-                    pdfLoaded = true;
-                    setTimeout(() => {
-                        loader.style.display = 'none';
-                        embed.style.display = 'block';
-                    }, 1500);
-                }, 100);
-            }
-        }
-        window.togglePdf = togglePdf;
-
-        // 検索キーワード
-        function setKeyword(word) {
-            const input = document.querySelector('.content-section.active .qa-search-input');
+        window.setKeyword = function (word) {
+            const input = document.querySelector('.qa-search-input');
             if (input) {
                 input.value = word;
                 input.dispatchEvent(new Event('input', { bubbles: true }));
             }
         }
-        window.setKeyword = setKeyword;
     </script>
 
-    <!-- 2. Firestoreデータ読み込み用モジュール -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="js/qa/qa-data-embedded.js"></script>
     <script src="js/qa/qa-script.js"></script>
+
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getFirestore, collection, getDocs, orderBy, query } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
@@ -326,20 +513,26 @@
                     const snapshot = await getDocs(collection(db, 'dialysis_status'));
                     container.innerHTML = '';
 
-                    const facilities = ["本院", "なかもず分院", "三国ヶ丘分院"];
+                    const facilities = [
+                        { name: "本院", id: "honin" },
+                        { name: "なかもず分院", id: "nakamozu" },
+                        { name: "三国ヶ丘分院", id: "mikunigaoka" }
+                    ];
                     const dataMap = {};
                     snapshot.forEach(doc => dataMap[doc.id] = doc.data());
 
-                    facilities.forEach(name => {
-                        const data = dataMap[name] || { status: 'available', reason: '' };
+                    facilities.forEach(fac => {
+                        const data = dataMap[fac.name] || { status: 'available', reason: '' };
                         const statusClass = data.status === 'available' ? 'status-ok' : 'status-ng';
                         const statusText = data.status === 'available' ? '透析可' : '透析不可';
 
                         const item = document.createElement('div');
-                        item.className = 'status-item';
+                        item.className = `status-item ${fac.id}`; // Add facility ID as class
                         item.innerHTML = `
-                            <div class="status-name">${name.replace('分院', '<br>分院')}</div>
-                            <div class="status-value ${statusClass}">${statusText}</div>
+                            <div class="status-header-row">
+                                <div class="status-name">${fac.name}</div>
+                                <div class="status-value ${statusClass}">${statusText}</div>
+                            </div>
                             <div class="status-reason">${data.reason || ''}</div>
                         `;
                         container.appendChild(item);

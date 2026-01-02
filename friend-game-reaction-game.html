@@ -1,28 +1,571 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>反射神経ゲーム</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>侍・一刀両断</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .samurai-game-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .game-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #1a1a2e;
+        }
+
+        .game-instruction {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            padding: 0.8rem 1rem;
+            border-radius: 0.5rem;
+            color: #9a3412;
+            border-left: 4px solid #ea580c;
+            text-align: left;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        /* ゲームステージ - デフォルトは夕焼け */
+        .game-stage {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            background: linear-gradient(to bottom,
+                    #ff6b35 0%,
+                    #f7931e 20%,
+                    #ffcc66 40%,
+                    #87CEEB 60%,
+                    #3d7a3d 60%,
+                    #2d5a27 100%);
+            border-radius: 1rem;
+            overflow: hidden;
+            cursor: pointer;
+            touch-action: manipulation;
+            user-select: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: background 0.5s ease;
+        }
+
+        /* 待機中 - 夜空 */
+        .game-stage.waiting {
+            background: linear-gradient(to bottom,
+                    #0c1445 0%,
+                    #1a237e 30%,
+                    #283593 50%,
+                    #1a1a3e 60%,
+                    #151530 60%,
+                    #0a0a1a 100%);
+        }
+
+        /* 今だ！ - 緑に光る */
+        .game-stage.ready {
+            background: linear-gradient(to bottom,
+                    #1b5e20 0%,
+                    #2e7d32 30%,
+                    #43a047 50%,
+                    #1b4d1b 60%,
+                    #0d3d0d 60%,
+                    #052505 100%);
+        }
+
+        /* 斬った後 - 青空 */
+        .game-stage.success {
+            background: linear-gradient(to bottom,
+                    #64b5f6 0%,
+                    #42a5f5 30%,
+                    #2196f3 50%,
+                    #87CEEB 60%,
+                    #3d7a3d 60%,
+                    #2d5a27 100%);
+        }
+
+        /* 太陽/月 */
+        .sun {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #FFD700, #FF8C00);
+            border-radius: 50%;
+            box-shadow: 0 0 40px #FFD700, 0 0 80px #FF8C00;
+            transition: all 0.5s ease;
+        }
+
+        .game-stage.waiting .sun {
+            background: radial-gradient(circle, #f5f5dc, #e0e0e0);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(200, 200, 255, 0.3);
+        }
+
+        .game-stage.ready .sun {
+            background: radial-gradient(circle, #fff176, #ffee58);
+            box-shadow: 0 0 30px #fff176, 0 0 60px #81c784;
+        }
+
+        .game-stage.success .sun {
+            background: radial-gradient(circle, #fff59d, #ffeb3b);
+            box-shadow: 0 0 40px #ffeb3b, 0 0 80px #ffc107;
+        }
+
+        /* 星（夜のみ表示） */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .game-stage.waiting .stars {
+            opacity: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 4px white;
+        }
+
+        /* 竹 - 一本の竹として表示 */
+        .bamboo {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 45px;
+            height: 210px;
+        }
+
+        /* 竹の下半分（切られた後に残る部分） */
+        .bamboo-body {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(90deg,
+                    #1a6b1a 0%,
+                    #228B22 15%,
+                    #32CD32 40%,
+                    #228B22 60%,
+                    #1a6b1a 85%,
+                    #006400 100%);
+            border-radius: 0 0 8px 8px;
+        }
+
+        /* 竹の下半分の節 */
+        .bamboo-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg,
+                    #0d4d0d 0%,
+                    #1a6b1a 30%,
+                    #228B22 50%,
+                    #1a6b1a 70%,
+                    #0d4d0d 100%);
+        }
+
+        /* 竹の上部分（切られる部分） */
+        .bamboo-top {
+            position: absolute;
+            bottom: 50%;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(90deg,
+                    #1a6b1a 0%,
+                    #228B22 15%,
+                    #32CD32 40%,
+                    #228B22 60%,
+                    #1a6b1a 85%,
+                    #006400 100%);
+            border-radius: 5px 5px 0 0;
+            transform-origin: bottom left;
+            transition: transform 0.4s ease-out;
+            z-index: 2;
+        }
+
+        /* 竹の上半分の節 */
+        .bamboo-top::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg,
+                    #0d4d0d 0%,
+                    #1a6b1a 30%,
+                    #228B22 50%,
+                    #1a6b1a 70%,
+                    #0d4d0d 100%);
+        }
+
+        /* 竹の葉 */
+        .bamboo-top::after {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 20px solid #228B22;
+        }
+
+        /* 竹が切られた状態 */
+        .bamboo.cut .bamboo-top {
+            transform: rotate(-50deg) translateX(20px) translateY(-40px);
+        }
+
+        /* 切り口のエフェクト */
+        .bamboo.cut .bamboo-body::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg,
+                    #90EE90 0%,
+                    #98FB98 30%,
+                    #f0fff0 50%,
+                    #98FB98 70%,
+                    #90EE90 100%);
+            transform: translateY(-50%);
+            box-shadow: 0 0 10px rgba(144, 238, 144, 0.8);
+        }
+
+        /* サムライ（シルエット） */
+        .samurai {
+            position: absolute;
+            bottom: 40px;
+            left: 20%;
+            width: 80px;
+            height: 120px;
+            transform: translateX(-50%);
+        }
+
+        .samurai-body {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 70px;
+            background: #1a1a1a;
+            border-radius: 10px 10px 5px 5px;
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+        }
+
+        .samurai-head {
+            position: absolute;
+            bottom: 65px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 35px;
+            background: #1a1a1a;
+            border-radius: 50% 50% 40% 40%;
+        }
+
+        /* 髷（まげ） */
+        .samurai-head::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 15px;
+            background: #1a1a1a;
+            border-radius: 50% 50% 20% 20%;
+        }
+
+        /* 刀 */
+        .katana {
+            position: absolute;
+            bottom: 35px;
+            left: 55px;
+            width: 70px;
+            height: 6px;
+            background: linear-gradient(to right, #333 0%, #666 10%, #C0C0C0 15%, #fff 50%, #C0C0C0 85%, #666 90%, #333 100%);
+            border-radius: 0 3px 3px 0;
+            transform-origin: left center;
+            transform: rotate(-30deg);
+            transition: transform 0.15s ease-out;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 刀の柄 */
+        .katana::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: -3px;
+            width: 25px;
+            height: 12px;
+            background: linear-gradient(to right, #8B4513, #654321);
+            border-radius: 3px;
+        }
+
+        /* 鍔（つば） */
+        .katana::after {
+            content: '';
+            position: absolute;
+            left: 0px;
+            top: -5px;
+            width: 6px;
+            height: 16px;
+            background: #FFD700;
+            border-radius: 2px;
+        }
+
+        /* 構えポーズ */
+        .samurai.ready .katana {
+            transform: rotate(-80deg);
+        }
+
+        /* 斬りポーズ */
+        .samurai.slash .katana {
+            transform: rotate(30deg);
+            transition: transform 0.1s ease-out;
+        }
+
+        /* スラッシュエフェクト */
+        .slash-effect {
+            position: absolute;
+            top: 45%;
+            left: 25%;
+            width: 220px;
+            height: 5px;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.3) 10%,
+                    rgba(255, 255, 255, 0.95) 40%,
+                    rgba(200, 220, 255, 0.9) 60%,
+                    rgba(255, 255, 255, 0.3) 90%,
+                    transparent 100%);
+            transform: rotate(-15deg) scaleX(0);
+            transform-origin: left center;
+            opacity: 0;
+            pointer-events: none;
+            border-radius: 3px;
+            box-shadow:
+                0 0 15px rgba(255, 255, 255, 0.9),
+                0 0 30px rgba(100, 180, 255, 0.7),
+                0 0 50px rgba(100, 150, 255, 0.4);
+        }
+
+        .slash-effect.active {
+            animation: slashAnim 0.35s ease-out forwards;
+        }
+
+        @keyframes slashAnim {
+            0% {
+                transform: rotate(-15deg) scaleX(0);
+                opacity: 1;
+            }
+
+            40% {
+                transform: rotate(-15deg) scaleX(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: rotate(-15deg) scaleX(1.1);
+                opacity: 0;
+            }
+        }
+
+        /* ゲームメッセージ */
+        .game-message {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 10;
+        }
+
+        .game-message.visible {
+            opacity: 1;
+        }
+
+        .game-message.now {
+            color: #FFD700;
+            font-size: 2.5rem;
+            animation: pulse 0.3s ease-in-out infinite;
+            text-shadow:
+                2px 2px 4px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(255, 215, 0, 0.8),
+                0 0 40px rgba(255, 215, 0, 0.5);
+        }
+
+        .game-message.fail {
+            color: #ff6b6b;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        /* ステータス表示 */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 0.8rem 0.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+
+        .stat-value.best {
+            color: #f59e0b;
+        }
+
+        /* ボタン */
+        .game-btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        .btn-reset {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+        }
+
+        .btn-reset:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.6rem 1.5rem;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            background: #f8f9fa;
+            color: #333;
+        }
+    </style>
 </head>
+
 <body class="theme-friend">
-    <div class="game-container">
-        <h1 class="game-title">⚡ 反射神経ゲーム</h1>
-        
-        <div style="background:#fff7ed; padding:1rem; border-radius:0.5rem; color:#9a3412; border-left:4px solid #ea580c; text-align:left; font-size:0.9rem; margin-bottom:1rem;">
-            画面が<strong>赤色</strong>から<strong>緑色</strong>に変わったら、できるだけ早くクリック！
+    <div class="samurai-game-container">
+        <h1 class="game-title">⚔️ 侍・一刀両断</h1>
+
+        <div class="game-instruction">
+            空が<strong>緑色</strong>に変わり「<strong>今だ！</strong>」と出たら素早くタップ！
         </div>
 
-        <!-- 修正: style.cssの .reaction-area を使用 -->
-        <div id="gameArea" class="reaction-area idle">
-            クリックしてスタート
+        <div class="game-stage" id="gameStage">
+            <!-- 星（夜のみ表示） -->
+            <div class="stars">
+                <div class="star" style="top:10%; left:15%;"></div>
+                <div class="star" style="top:25%; left:45%;"></div>
+                <div class="star" style="top:8%; left:70%;"></div>
+                <div class="star" style="top:35%; left:25%;"></div>
+                <div class="star" style="top:18%; left:85%;"></div>
+                <div class="star" style="top:40%; left:60%;"></div>
+                <div class="star" style="top:5%; left:35%;"></div>
+            </div>
+
+            <!-- 太陽/月 -->
+            <div class="sun"></div>
+
+            <!-- 竹（一本の竹） -->
+            <div class="bamboo" id="bamboo">
+                <div class="bamboo-body"></div>
+                <div class="bamboo-top"></div>
+            </div>
+
+            <!-- サムライ -->
+            <div class="samurai" id="samurai">
+                <div class="samurai-head"></div>
+                <div class="samurai-body"></div>
+                <div class="katana"></div>
+            </div>
+
+            <!-- スラッシュエフェクト -->
+            <div class="slash-effect" id="slashEffect"></div>
+
+            <!-- メッセージ -->
+            <div class="game-message visible" id="gameMessage">タップでスタート</div>
         </div>
 
-        <div class="game-stats" style="grid-template-columns: 1fr 1fr;">
+        <div class="stats-container">
             <div class="stat-box">
                 <div class="stat-label">タイム</div>
                 <div class="stat-value" id="currentTime">-</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">ベスト</div>
+                <div class="stat-value best" id="bestTime">-</div>
             </div>
             <div class="stat-box">
                 <div class="stat-label">判定</div>
@@ -30,73 +573,169 @@
             </div>
         </div>
 
-        <button class="game-btn btn-secondary" onclick="resetStats()">記録をリセット</button>
+        <button class="game-btn btn-reset" onclick="resetStats()">記録をリセット</button>
 
         <br>
-        <!-- 戻るボタン修正 -->
-        <a href="friend-game-main.html" class="back-to-portal-button" style="margin-top:2rem;">ミニゲーム選択へ戻る</a>
+        <a href="friend-game-main.html" class="back-link">← ミニゲーム選択へ戻る</a>
     </div>
 
     <script>
-        let gameState = 'idle';
+        // ゲーム状態
+        let gameState = 'idle'; // idle, waiting, ready, result
         let startTime = 0;
         let timeoutId = null;
-        
-        const gameArea = document.getElementById('gameArea');
-        const timeDisplay = document.getElementById('currentTime');
+        let bestTime = null;
+
+        // DOM要素
+        const gameStage = document.getElementById('gameStage');
+        const gameMessage = document.getElementById('gameMessage');
+        const samurai = document.getElementById('samurai');
+        const bamboo = document.getElementById('bamboo');
+        const slashEffect = document.getElementById('slashEffect');
+        const currentTimeDisplay = document.getElementById('currentTime');
+        const bestTimeDisplay = document.getElementById('bestTime');
         const ageDisplay = document.getElementById('estimatedAge');
 
-        gameArea.addEventListener('click', handleClick);
-        // スマホのタップ遅延対策
-        gameArea.addEventListener('touchstart', (e) => { e.preventDefault(); handleClick(); });
+        // イベントリスナー
+        gameStage.addEventListener('click', handleTap);
+        gameStage.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            handleTap();
+        });
 
-        function handleClick() {
-            if (gameState === 'idle') {
-                startGame();
-            } else if (gameState === 'waiting') {
-                clearTimeout(timeoutId);
-                gameState = 'idle';
-                gameArea.className = 'reaction-area idle';
-                gameArea.textContent = '早すぎます！';
-            } else if (gameState === 'ready') {
-                const time = Date.now() - startTime;
-                timeDisplay.textContent = time + ' ms';
-                ageDisplay.textContent = getAge(time);
-                gameState = 'idle';
-                gameArea.className = 'reaction-area idle';
-                gameArea.textContent = 'もう一度挑戦';
+        function handleTap() {
+            switch (gameState) {
+                case 'idle':
+                case 'result':
+                    startGame();
+                    break;
+                case 'waiting':
+                    // 早すぎ
+                    clearTimeout(timeoutId);
+                    showFail();
+                    break;
+                case 'ready':
+                    // 成功！
+                    const reactionTime = Date.now() - startTime;
+                    showSuccess(reactionTime);
+                    break;
             }
         }
 
         function startGame() {
             gameState = 'waiting';
-            gameArea.className = 'reaction-area waiting';
-            gameArea.textContent = '待って...';
-            
+
+            // リセット
+            gameStage.className = 'game-stage waiting';
+            samurai.className = 'samurai ready';
+            bamboo.className = 'bamboo';
+            slashEffect.className = 'slash-effect';
+
+            gameMessage.textContent = '待て...';
+            gameMessage.className = 'game-message visible';
+
+            // ランダムな待機時間後に「今だ！」
+            const delay = 1500 + Math.random() * 3000;
             timeoutId = setTimeout(() => {
                 gameState = 'ready';
-                gameArea.className = 'reaction-area ready';
-                gameArea.textContent = '今だ！';
+                gameStage.className = 'game-stage ready';
+                gameMessage.textContent = '今だ！';
+                gameMessage.className = 'game-message visible now';
                 startTime = Date.now();
-            }, 2000 + Math.random() * 3000);
+            }, delay);
         }
 
-        function getAge(time) {
-            if (time < 200) return '神業！';
-            if (time < 250) return '20代級';
+        function showSuccess(time) {
+            gameState = 'result';
+
+            // 背景を青空に
+            gameStage.className = 'game-stage success';
+
+            // 斬り演出
+            samurai.className = 'samurai slash';
+            slashEffect.className = 'slash-effect active';
+
+            // 竹を切る
+            setTimeout(() => {
+                bamboo.className = 'bamboo cut';
+            }, 100);
+
+            // 結果表示
+            currentTimeDisplay.textContent = time + ' ms';
+            ageDisplay.textContent = getAgeRating(time);
+
+            // ベストタイム更新
+            if (bestTime === null || time < bestTime) {
+                bestTime = time;
+                bestTimeDisplay.textContent = bestTime + ' ms';
+            }
+
+            // メッセージ
+            setTimeout(() => {
+                gameMessage.textContent = getResultMessage(time);
+                gameMessage.className = 'game-message visible';
+            }, 500);
+
+            // リセット準備
+            setTimeout(() => {
+                gameMessage.textContent = 'タップで再挑戦';
+                samurai.className = 'samurai';
+            }, 1800);
+        }
+
+        function showFail() {
+            gameState = 'result';
+
+            // 夕焼けに戻す
+            gameStage.className = 'game-stage';
+            samurai.className = 'samurai';
+
+            gameMessage.textContent = '早すぎ！';
+            gameMessage.className = 'game-message visible fail';
+
+            setTimeout(() => {
+                gameMessage.textContent = 'タップで再挑戦';
+                gameMessage.className = 'game-message visible';
+            }, 1000);
+        }
+
+        function getAgeRating(time) {
+            if (time < 180) return '神業！👑';
+            if (time < 220) return '達人級';
+            if (time < 260) return '20代級';
             if (time < 300) return '30代級';
-            if (time < 400) return '40代級';
-            if (time < 500) return '60代級';
-            return '要練習';
+            if (time < 380) return '40代級';
+            if (time < 500) return '50代級';
+            return '要修行';
+        }
+
+        function getResultMessage(time) {
+            if (time < 180) return '神速！';
+            if (time < 250) return '見事！';
+            if (time < 350) return 'お見事！';
+            return '斬！';
         }
 
         function resetStats() {
-            timeDisplay.textContent = '-';
-            ageDisplay.textContent = '-';
             gameState = 'idle';
-            gameArea.className = 'reaction-area idle';
-            gameArea.textContent = 'クリックしてスタート';
+            bestTime = null;
+
+            clearTimeout(timeoutId);
+
+            // 夕焼けに戻す
+            gameStage.className = 'game-stage';
+            samurai.className = 'samurai';
+            bamboo.className = 'bamboo';
+            slashEffect.className = 'slash-effect';
+
+            currentTimeDisplay.textContent = '-';
+            bestTimeDisplay.textContent = '-';
+            ageDisplay.textContent = '-';
+
+            gameMessage.textContent = 'タップでスタート';
+            gameMessage.className = 'game-message visible';
         }
     </script>
 </body>
+
 </html>

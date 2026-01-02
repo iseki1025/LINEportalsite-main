@@ -3,101 +3,96 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>透析情報ポータル | お友達特典</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-layout.css">
 </head>
 
-<body class="theme-friend">
-    <div class="container">
-        <header class="portal-header">
-            <h1>お友達特典</h1>
-            <p>いつまでも健やかに過ごすために</p>
-        </header>
-        <main>
-            <div class="intro-text">
-                <p>透析治療を続けていく上で役立つ、健康維持のための情報や、頭の体操になる楽しいコンテンツをご紹介します。気になる項目を選んでご覧ください。</p>
-            </div>
+<body class="app-mode">
 
-            <nav class="portal-nav">
+    <!-- 1. Fixed App Header -->
+    <header class="app-header">
+        <div class="app-title">お友達特典</div>
+    </header>
 
-                <!-- 1. シャント管理 -->
-                <a href="friend-shunt-main.html" class="portal-button with-image theme-shunt">
-                    <!-- ★修正: 画像をdivの箱で囲みました -->
-                    <div class="portal-button-image">
-                        <img src="files/shunt/shunt-icon.png" alt="シャント管理"
-                            style="width:100%; height:100%; object-fit:cover;">
-                    </div>
-                    <div class="portal-button-content">
-                        <span class="button-title">シャント管理について</span>
-                        <span class="button-desc">透析に欠かせないシャントを長持ちさせるための、日常のケアや注意点を解説します。</span>
-                    </div>
-                </a>
+    <!-- 2. Main Scrollable Content -->
+    <main class="app-content">
 
-                <!-- 2. 運動療法 -->
-                <a href="friend-exercise-main.html" class="portal-button with-image theme-exercise">
-                    <!-- ★修正: 箱で囲みました -->
-                    <div class="portal-button-image">
-                        <img src="files/exercise/exercise-icon.png" alt="運動療法"
-                            style="width:100%; height:100%; object-fit:cover;">
-                    </div>
-                    <div class="portal-button-content">
-                        <span class="button-title">運動療法について</span>
-                        <span class="button-desc">体力の維持とQOL向上のための、安全な運動のポイントや体操動画をご紹介します。</span>
-                    </div>
-                </a>
+        <!-- Hero Message -->
+        <section class="app-hero">
+            <h1>いつまでも健やかに</h1>
+            <p>楽しいコンテンツで<br>心も体もリフレッシュしましょう。</p>
+        </section>
 
-                <!-- 3. 食事療法 -->
-                <a href="friend-nutrition-main.html" class="portal-button with-image theme-nutrition">
-                    <!-- ★修正: 箱で囲みました -->
-                    <div class="portal-button-image">
-                        <img src="files/nutrition/nutrition-icon.png" alt="食事療法"
-                            style="width:100%; height:100%; object-fit:cover;">
-                    </div>
-                    <div class="portal-button-content">
-                        <span class="button-title">食事療法について</span>
-                        <span class="button-desc">元気な体をつくるための、食事の基本や塩分・水分管理のコツ、レシピを掲載しています。</span>
-                    </div>
-                </a>
+        <!-- App Grid Navigation -->
+        <div class="app-grid">
+            <!-- 1. Shunt -->
+            <a href="friend-shunt-main.html" class="app-card">
+                <img src="files/shunt/shunt-icon.png" alt="シャント" class="app-card-bg-img">
+                <div class="app-card-overlay">
+                    <div class="app-card-title">シャント管理</div>
+                    <div class="app-card-desc">長持ちさせるケア方法</div>
+                </div>
+            </a>
 
-                <!-- 4. フットケア -->
-                <a href="friend-footcare-main.html" class="portal-button with-image theme-footcare">
-                    <!-- ★修正: 箱で囲みました -->
-                    <div class="portal-button-image">
-                        <img src="files/footcare/footcare-icon.png" alt="フットケア"
-                            style="width:100%; height:100%; object-fit:cover;">
-                    </div>
-                    <div class="portal-button-content">
-                        <span class="button-title">フットケアについて</span>
-                        <span class="button-desc">足のトラブルを防ぐための、毎日の観察ポイントと正しいケア方法を解説します。</span>
-                    </div>
-                </a>
+            <!-- 2. Exercise -->
+            <a href="friend-exercise-main.html" class="app-card">
+                <img src="files/exercise/exercise-icon.png" alt="運動" class="app-card-bg-img">
+                <div class="app-card-overlay">
+                    <div class="app-card-title">運動療法</div>
+                    <div class="app-card-desc">安全な運動ポイント</div>
+                </div>
+            </a>
 
-                <!-- 5. ゲーム選択 -->
-                <a href="friend-game-main.html" class="portal-button with-image theme-game">
-                    <!-- ★修正: 箱で囲みました -->
-                    <div class="portal-button-image">
-                        <img src="files/game/game-icon.png" alt="ミニゲーム"
-                            style="width:100%; height:100%; object-fit:cover;">
-                    </div>
-                    <div class="portal-button-content">
-                        <span class="button-title">ミニゲーム</span>
-                        <span class="button-desc">動体視力と集中力を鍛える、簡単なゲームで頭の体操をしましょう。</span>
-                    </div>
-                </a>
+            <!-- 3. Nutrition -->
+            <a href="friend-nutrition-main.html" class="app-card">
+                <img src="files/nutrition/nutrition-icon.png" alt="食事" class="app-card-bg-img">
+                <div class="app-card-overlay">
+                    <div class="app-card-title">食事療法</div>
+                    <div class="app-card-desc">基本とレシピ</div>
+                </div>
+            </a>
 
-            </nav>
-        </main>
+            <!-- 4. Footcare -->
+            <a href="friend-footcare-main.html" class="app-card">
+                <img src="files/footcare/footcare-icon.png" alt="フットケア" class="app-card-bg-img">
+                <div class="app-card-overlay">
+                    <div class="app-card-title">フットケア</div>
+                    <div class="app-card-desc">足のトラブル予防</div>
+                </div>
+            </a>
 
-        <!-- <a href="index.html" class="back-to-portal-button">総合情報ポータルへ戻る</a> -->
-        <div style="margin-top: 3rem; text-align: center; opacity: 0.2; font-size: 0.8rem;">
-            <a href="index.html" style="color: inherit; text-decoration: none;">&copy; Kajimoto Clinic Portal</a>
+            <!-- 5. Games -->
+            <a href="friend-game-main.html" class="app-card" style="grid-column: span 2;">
+                <img src="files/game/game-icon.png" alt="ゲーム" class="app-card-bg-img" style="object-position: center;">
+                <div class="app-card-overlay">
+                    <div class="app-card-title">ミニゲーム</div>
+                    <div class="app-card-desc">楽しみながら頭の体操</div>
+                </div>
+            </a>
         </div>
 
-        <footer>
-            <p><small>&copy; 2025 医療法人 好輝会 梶本クリニック</small></p>
-        </footer>
-    </div>
+        <div style="text-align: center; font-size: 0.75rem; color: #666; margin-top: 2rem; opacity: 0.8;">
+            <a href="index.html" style="color: inherit; text-decoration: none; cursor: default;">&copy; 2025 Kajimoto
+                Clinic</a>
+        </div>
+
+    </main>
+
+    <!-- 3. Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="friend-main.html" class="nav-item active">
+            <div class="nav-icon">🎁</div>
+            <span>特典トップ</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <div class="nav-icon">❓</div>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
 </body>
 
 </html>
