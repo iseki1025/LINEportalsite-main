@@ -1148,3 +1148,601 @@ body.theme-disaster .checklist-category h2 {
         padding-bottom: 0.8rem;
     }
 }
+
+/* ==========================================================================
+   PREMIUM UI ENHANCEMENT - Glassmorphism + Modern Design
+   ========================================================================== */
+
+/* --- Enhanced Typography --- */
+body {
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+p,
+li {
+    font-size: 1rem;
+    line-height: 1.75;
+}
+
+/* --- Premium Decorative Header (Sub-pages) --- */
+.premium-header {
+    position: relative;
+    background: linear-gradient(135deg, var(--page-primary, #0891B2) 0%, var(--page-primary-dark, #134E4A) 100%);
+    padding: 2rem 1.5rem 2.5rem;
+    margin: -1rem -1rem 1.5rem;
+    text-align: center;
+    overflow: hidden;
+}
+
+.premium-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.premium-header::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -20%;
+    width: 150px;
+    height: 150px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(10deg);
+    }
+}
+
+.premium-header-title {
+    position: relative;
+    z-index: 2;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.premium-header-subtitle {
+    position: relative;
+    z-index: 2;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+/* --- Oval Keyword Buttons (Matching main Q&A) --- */
+.keyword-button {
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.keyword-button:hover,
+.keyword-button:active {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* --- Enhanced Q&A Search Input --- */
+.qa-search-input {
+    font-size: 1rem;
+    padding: 16px 24px;
+    border-radius: 50px;
+    border: 2px solid #e5e7eb;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.qa-search-input:focus {
+    outline: none;
+    border-color: var(--page-primary, #0891B2);
+    box-shadow: 0 4px 20px rgba(8, 145, 178, 0.15);
+}
+
+/* --- Glassmorphism Cards --- */
+.glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* --- Enhanced Segmented Control --- */
+.app-segmented-control {
+    display: flex;
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+    padding: 4px;
+    margin-bottom: 1.5rem;
+}
+
+.app-segmented-item {
+    flex: 1;
+    padding: 12px 8px;
+    border: none;
+    background: transparent;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    line-height: 1.3;
+}
+
+.app-segmented-item.active {
+    background: white;
+    color: var(--page-primary-dark, #134E4A);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Enhanced App Card Generic --- */
+.app-card-generic {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.app-card-generic h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.app-card-generic h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+
+.app-card-generic p {
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.app-card-generic li {
+    font-size: 1rem;
+    margin-bottom: 0.6rem;
+    line-height: 1.6;
+}
+
+/* --- Quiz Button Enhancement --- */
+.quiz-button {
+    display: inline-block;
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.quiz-button:hover,
+.quiz-button:active {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* --- Emergency Button Enhancement --- */
+.emergency-btn {
+    display: block;
+    width: 100%;
+    padding: 18px 24px;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+    transition: all 0.3s ease;
+}
+
+.emergency-btn:active {
+    transform: scale(0.98);
+}
+
+/* --- Check Grid Enhancement (Shunt) --- */
+.check-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.check-item {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 1;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.check-item:active {
+    transform: scale(0.98);
+}
+
+.check-item .check-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.check-item .check-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+    color: white;
+}
+
+.check-overlay h4 {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    font-weight: 700;
+}
+
+.check-overlay p {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+/* --- NG List Enhancement --- */
+.ng-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ng-list li {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid #ef4444;
+}
+
+.ng-list li::before {
+    content: '✕';
+    color: #ef4444;
+    font-weight: bold;
+    margin-right: 0.75rem;
+    flex-shrink: 0;
+}
+
+/* --- Exercise Grid Enhancement --- */
+.exercise-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.exercise-item {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 1;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.exercise-item:active {
+    transform: scale(0.98);
+}
+
+.exercise-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.exercise-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
+    color: white;
+}
+
+.exercise-overlay h4 {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    font-weight: 700;
+}
+
+.exercise-overlay p {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+.exercise-note {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.play-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.exercise-item:hover .play-indicator {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* --- Back Arrow Enhancement --- */
+.back-arrow {
+    position: absolute;
+    left: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.back-arrow:active {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(0.95);
+}
+
+.back-arrow svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* --- Enhanced App Header for Sub-pages --- */
+body.theme-friend .app-header,
+body.app-mode .app-header {
+    background: linear-gradient(135deg, var(--page-primary, #0891B2) 0%, var(--page-primary-dark, #134E4A) 100%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-bottom: none;
+}
+
+body.theme-friend .app-header .app-title,
+body.app-mode .app-header .app-title {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+body.theme-friend .app-header .back-button,
+body.app-mode .app-header .back-button {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+/* --- Nutrition/Footcare List Enhancement --- */
+.nutrition-list,
+.footcare-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nutrition-list li,
+.footcare-list li {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.nutrition-list li:last-child,
+.footcare-list li:last-child {
+    border-bottom: none;
+}
+
+.nutrition-list strong,
+.footcare-list strong {
+    font-weight: 700;
+}
+
+/* --- Caution Box Enhancement --- */
+.caution-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 1px solid #fcd34d;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15);
+}
+
+.caution-icon-img {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+}
+
+.caution-content h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 0.3rem;
+    color: #92400e;
+}
+
+.caution-content p {
+    font-size: 0.95rem;
+    margin: 0;
+    color: #a16207;
+    line-height: 1.5;
+}
+
+/* --- Modal Overlay Enhancement --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 1rem;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 24px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    animation: modalSlideUp 0.3s ease;
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: #f1f5f9;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    color: #64748b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.close-modal-btn:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.contact-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #1e293b;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.contact-link:active {
+    background: #0891B2;
+    color: white;
+}
