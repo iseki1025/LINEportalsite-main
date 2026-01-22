@@ -1,33 +1,43 @@
 @charset "UTF-8";
-
-/* ==========================================================================
-   1. Modern App Reset & Variables (Premium Glassmorphism)
-   ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
+/* ==========================================================================
+   1. Design Tokens & Reset (Premium Teal Theme)
+   ========================================================================== */
 :root {
-    /* Premium Color Palette (Soft & Sophisticated) */
-    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --accent-color: #ff6b6b;
-    --text-main: #2d3436;
-    --text-muted: #636e72;
-    --bg-global: #f3f4f6;
+    /* Color Palette */
+    --color-primary: #0891B2;
+    /* Teal 600 */
+    --color-primary-light: #22D3EE;
+    /* Cyan 400 */
+    --color-primary-dark: #134E4A;
+    /* Teal 900 */
+    --color-accent: #F59E0B;
+    /* Amber 500 (Warmth) */
 
-    /* Glassmorphism Tokens */
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.5);
-    --glass-blur: blur(12px);
-    --shadow-soft: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-    --shadow-raised: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.05);
+    --bg-body: #F0FDFA;
+    /* Teal 50 */
+    --bg-surface: #FFFFFF;
+    --bg-surface-glass: rgba(255, 255, 255, 0.9);
 
-    /* Dimensions */
+    --text-main: #134E4A;
+    /* Deep Teal Black */
+    --text-muted: #64748B;
+    /* Slate 500 */
+    --text-on-primary: #FFFFFF;
+
+    /* Spacing & Layout */
     --header-height: 60px;
     --bottom-nav-height: 80px;
-    /* Taller for better touch */
     --radius-l: 24px;
     --radius-m: 16px;
+    --radius-s: 12px;
 
-    /* Font */
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(8, 145, 178, 0.1), 0 2px 4px -1px rgba(8, 145, 178, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(8, 145, 178, 0.1), 0 4px 6px -2px rgba(8, 145, 178, 0.05);
+
     --font-base: 'Noto Sans JP', sans-serif;
 }
 
@@ -38,144 +48,175 @@
     margin: 0;
     padding: 0;
     -webkit-tap-highlight-color: transparent;
-    /* Remove tap highlight on mobile */
 }
 
 body {
     font-family: var(--font-base);
-    background-color: var(--bg-global);
-    /* Subtle background mesh gradient for premium feel */
-    background-image:
-        radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
-        radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
-        radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
-    background-color: #f3f4f6;
-    /* Fallback */
-    background-attachment: fixed;
+    background-color: var(--bg-body);
     color: var(--text-main);
-    line-height: 1.5;
-    padding-bottom: var(--bottom-nav-height);
-    /* Space for bottom nav */
+    line-height: 1.6;
     padding-top: var(--header-height);
-    /* Space for fixed header */
+    padding-bottom: var(--bottom-nav-height);
     min-height: 100vh;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 /* ==========================================================================
-   2. App Shell (Header & Bottom Nav)
+   2. Components: Header & Nav
    ========================================================================== */
 
-/* Compact Glass Header */
+/* Fixed Header */
 .app-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: var(--header-height);
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    border-bottom: 1px solid var(--glass-border);
+    background: var(--bg-surface-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(8, 145, 178, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 0 1rem;
 }
 
-.app-logo {
-    font-size: 1.1rem;
+.app-title,
+.header-logo {
+    font-size: 1.125rem;
     font-weight: 700;
-    color: #333;
-    letter-spacing: 0.05em;
+    color: var(--color-primary-dark);
+    letter-spacing: 0.02em;
 }
 
-/* Bottom Navigation Bar */
+/* Back Button (for sub-pages) */
+.back-button {
+    position: absolute;
+    left: 1rem;
+    font-size: 1.25rem;
+    color: var(--color-primary);
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Bottom Nav */
 .bottom-nav {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     height: var(--bottom-nav-height);
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    background: var(--bg-surface);
+    border-top: 1px solid rgba(8, 145, 178, 0.1);
     display: flex;
     justify-content: space-around;
     align-items: center;
     z-index: 1000;
     padding-bottom: env(safe-area-inset-bottom);
-    /* iPhone X+ support */
-    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
 }
 
 .nav-item {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-decoration: none;
-    color: #9ca3af;
-    font-size: 0.7rem;
-    transition: all 0.3s ease;
-    width: 100%;
     height: 100%;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 
-.nav-item.active {
-    color: #764ba2;
-    /* Primary color */
+.nav-item svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
 }
 
+/* Icon Placeholders (if SVG not used inline in some generic pages) */
 .nav-icon {
     font-size: 1.5rem;
     margin-bottom: 4px;
-    width: 24px;
-    height: 24px;
-    text-align: center;
-    line-height: 24px;
+    line-height: 1;
 }
 
-/* Simple CSS Icons (replace with SVG later) */
-.icon-home::before {
-    content: '🏠';
+.nav-item.active {
+    color: var(--color-primary);
 }
 
-.icon-disaster::before {
-    content: '⚠️';
-}
-
-.icon-friend::before {
-    content: '🎁';
-}
-
-.icon-qa::before {
-    content: '❓';
-}
-
-/* Active Indicator (Dot) */
-.nav-item.active .nav-icon {
+.nav-item.active svg {
+    stroke-width: 2.5;
     transform: translateY(-2px);
 }
 
-.nav-item.active::after {
-    content: '';
-    width: 4px;
-    height: 4px;
-    background: #764ba2;
-    border-radius: 50%;
-    margin-top: 2px;
+/* ==========================================================================
+   3. Main Content Areas
+   ========================================================================== */
+.main-content,
+.app-content,
+.app-content-scroll {
+    padding: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
+/* Hero Section (Shared) */
+.hero-card,
+.app-hero {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    border-radius: var(--radius-l);
+    padding: 2rem;
+    color: var(--text-on-primary);
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
 
-/* ==========================================================================
-   3. Content & Cards (Scroll Snap & Horizontal Lists)
-   ========================================================================== */
+/* Decorative Circle */
+.hero-card::after,
+.app-hero::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    pointer-events: none;
+}
 
-.main-content {
-    padding: 1.5rem;
-    max-width: 600px;
-    /* Mobile focused max-width */
-    margin: 0 auto;
+.hero-title,
+.app-hero h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-sub,
+.app-hero p {
+    font-size: 0.95rem;
+    opacity: 0.95;
+    position: relative;
+    z-index: 2;
 }
 
 /* Section Titles */
@@ -183,219 +224,236 @@ body {
     font-size: 1.25rem;
     font-weight: 700;
     margin: 2rem 0 1rem;
-    padding-left: 0.5rem;
-    border-left: 4px solid #764ba2;
-}
-
-/* Hero Card (Welcome) */
-.hero-card {
-    background: var(--primary-gradient);
-    border-radius: var(--radius-l);
-    padding: 2rem;
-    color: white;
-    box-shadow: 0 10px 25px -5px rgba(118, 75, 162, 0.4);
-    margin-bottom: 2rem;
-    position: relative;
-    overflow: hidden;
-}
-
-.hero-card::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    transform: rotate(45deg);
-    border-radius: 50%;
-}
-
-.hero-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-.hero-sub {
-    font-size: 0.9rem;
-    opacity: 0.9;
-}
-
-/* Horizontal Scroll Container (Highlights) */
-.scroll-container {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 1rem;
-    padding-bottom: 1rem;
-    /* Space for scrollbar hide */
-    margin: 0 -1.5rem 1rem;
-    /* Breaking grid */
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-
-    /* Hide scrollbar */
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-
-.scroll-container::-webkit-scrollbar {
-    display: none;
-}
-
-.scroll-card {
-    flex: 0 0 80%;
-    /* Show part of next card */
-    scroll-snap-align: start;
-    background: white;
-    border-radius: var(--radius-m);
-    padding: 1.5rem;
-    box-shadow: var(--shadow-raised);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    transition: transform 0.2s;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-.scroll-card:active {
-    transform: scale(0.98);
-}
-
-.card-icon-large {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-
-.theme-disaster {
-    color: #e74c3c;
-}
-
-.theme-friend {
-    color: #8e44ad;
-}
-
-.theme-qa {
-    color: #e67e22;
-}
-
-.card-title {
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-}
-
-.card-desc {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-}
-
-/* Vertical List (Recent Updates/Links) */
-.menu-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.menu-item {
-    background: white;
-    border-radius: var(--radius-m);
-    padding: 1rem 1.5rem;
+    color: var(--color-primary-dark);
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    text-decoration: none;
-    color: var(--text-main);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
-    border: 1px solid transparent;
-    transition: all 0.2s;
+    gap: 0.5rem;
 }
 
-.menu-item:hover {
-    border-color: #764ba2;
-    background: #fdfdfd;
-}
-
-.menu-item::after {
-    content: '>';
-    color: #ccc;
-    font-weight: bold;
-}
-
-/* Utilities */
-.text-center {
-    text-align: center;
-}
-
-.mt-2 {
-    margin-top: 2rem;
+.section-title::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 24px;
+    background: var(--color-accent);
+    border-radius: 4px;
 }
 
 /* ==========================================================================
-   4. Q&A Styling (Accordion)
+   4. Bento Grid Layout (Replaces Horizontal Scroll & Standardise App Grid)
    ========================================================================== */
-.qa-search-item {
-    background: white;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
-    overflow: hidden;
-    border: 1px solid #eee;
-    transition: all 0.2s;
+.bento-grid,
+.app-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* 2 Columns */
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
-.qa-search-question {
-    padding: 1rem;
-    font-weight: bold;
-    color: #2d3436;
-    background: #fff;
+/* Card Styling */
+.bento-card,
+.app-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-m);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(8, 145, 178, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
     cursor: pointer;
     position: relative;
-    padding-right: 2.5rem;
+    overflow: hidden;
+    height: 100%;
+    min-height: 160px;
 }
 
-.qa-search-question::after {
-    content: '+';
+.bento-card:active,
+.app-card:active {
+    transform: scale(0.98);
+}
+
+/* Icons in Cards */
+.card-icon-container {
+    background: var(--bg-body);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: var(--color-primary);
+}
+
+.card-icon-container svg {
+    width: 32px;
+    height: 32px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+}
+
+/* Card Text */
+.card-title,
+.app-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    margin-bottom: 0.25rem;
+    line-height: 1.4;
+}
+
+.card-desc,
+.app-card-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* Specific Updates for Sub-page App Cards (Image backgrounds) 
+   We overlay a gradient to ensure text readability if images are used.
+*/
+.app-card-bg-img {
     position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.2rem;
-    color: #ccc;
-    font-weight: normal;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.9;
+    transition: transform 0.4s ease;
 }
 
-.qa-search-item.active .qa-search-question {
-    background: #fafafa;
-    color: #e67e22;
-    /* QA Theme Color */
+.app-card:hover .app-card-bg-img {
+    transform: scale(1.05);
 }
 
-.qa-search-item.active .qa-search-question::after {
-    content: '−';
-    color: #e67e22;
-}
-
-.qa-search-answer {
-    display: none;
+.app-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(19, 78, 74, 0.95) 0%, rgba(19, 78, 74, 0.0) 100%);
     padding: 1rem;
-    border-top: 1px solid #eee;
-    color: #555;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    background: #fdfdfd;
+    z-index: 1;
+    text-align: left;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
-.qa-search-item.active .qa-search-answer {
+/* If app-card has overlay, text is white */
+.app-card-overlay .app-card-title,
+.app-card-overlay .app-card-desc {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================================================
+   5. Utility Lists & Other Elements
+   ========================================================================== */
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.menu-item {
+    background: var(--bg-surface);
+    border-radius: var(--radius-s);
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow-sm);
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+.menu-item::after {
+    content: '';
     display: block;
-    animation: fadeIn 0.3s ease;
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid var(--text-muted);
+    border-right: 2px solid var(--text-muted);
+    transform: rotate(45deg);
+    margin-left: 0.5rem;
 }
 
-.qa-initial-message,
-.qa-no-result {
+/* Accordion (QA/Friend) - Compatible Classes */
+.evacuation-item,
+.pdf-collapsible,
+.qa-search-item,
+.collapsible-section {
+    background: var(--bg-surface);
+    border-radius: var(--radius-s);
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+}
+
+.evacuation-item-header,
+.pdf-collapsible-header,
+.qa-search-question,
+.collapsible-header-wrapper {
+    padding: 1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    background: var(--bg-surface);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.evacuation-item-content,
+.pdf-collapsible-content,
+.qa-search-answer,
+.collapsible-content {
+    background: #FAFAFA;
+    padding: 1rem;
+    border-top: 1px solid #EEE;
+    font-size: 0.95rem;
+}
+
+/* Tab/Segmented Control */
+.app-segmented-control {
+    display: flex;
+    background: #E2E8F0;
+    padding: 4px;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.app-segmented-item {
+    flex: 1;
     text-align: center;
-    color: #888;
-    margin-top: 2rem;
-    font-size: 0.9rem;
+    padding: 8px;
+    font-weight: 700;
+    color: var(--text-muted);
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.app-segmented-item.active {
+    background: white;
+    color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Hidden Link (Stealth) */
+.stealth-link {
+    color: inherit;
+    text-decoration: none;
+    cursor: default;
 }

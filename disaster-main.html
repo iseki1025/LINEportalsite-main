@@ -7,7 +7,6 @@
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>災害情報ポータル</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="mobile-layout.css">
     <style>
         /* Specific Styles for Accordions and Tabs */
         .evacuation-item,
@@ -54,7 +53,7 @@
 
         .pdf-btn {
             display: inline-block;
-            background: #007bff;
+            background: var(--color-primary, #007bff);
             color: white;
             padding: 12px 24px;
             border-radius: 24px;
@@ -83,8 +82,8 @@
 
         .qa-search-input:focus {
             outline: none;
-            border-color: #e74c3c;
-            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+            border-color: var(--color-primary, #e74c3c);
+            box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.2);
         }
 
         .keyword-buttons {
@@ -106,22 +105,18 @@
             transition: all 0.2s;
         }
 
-        /* Dialysis Status Original Style Override */
+        /* Dialysis Status Collapsible - FIXED */
         #dialysis-status.collapsible-section {
             background: white;
             border-radius: 12px;
             margin-bottom: 1rem;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            /* Stronger shadow */
             overflow: hidden;
             border: 2px solid #e0e0e0;
-            /* Explicit border */
         }
 
-        /* Toggle Logic for Dialysis Status */
         .collapsible-header-wrapper {
             cursor: pointer;
-            /* Change cursor on hover */
             transition: background-color 0.2s;
         }
 
@@ -151,15 +146,14 @@
 
         .status-item {
             display: flex;
-            flex-direction: column;
-            /* Stack header and reason */
+            flex-direction: row;
+            flex-wrap: wrap;
             background: white;
             padding: 16px 18px;
             border-radius: 10px;
             border: 1px solid #ddd;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
             gap: 4px;
-            /* Small gap between header and reason */
         }
 
         .status-header-row {
@@ -171,13 +165,12 @@
         }
 
         .status-name {
+            flex: 1;
             font-weight: 800;
             color: #222;
             font-size: 1.1rem;
-            min-width: fit-content;
-            /* Allow content to dictate width */
+            min-width: 0;
             white-space: nowrap;
-            /* Force single line */
         }
 
         .status-value {
@@ -210,60 +203,10 @@
             font-weight: bold;
         }
 
-        /* Ensure reason breaks into new line */
-        .status-item {
-            /* We need wrap ONLY if there is a reason? 
-             Actually, .status-reason is likely appended as a child of .status-item. 
-             But wait, in `admin.html` it was inside .status-item.
-             However, flex-wrap: nowrap prevents the reason from breaking initially if it's a direct child.
-             Let's check Javascript structure for reason.
-             If reason is a sibling of name/value, it will be in the row.
-             The user wants name/value on one line.
-             If there is a reason, it should probably be below.
-             Let's check how js renders it.
-             */
-            flex-direction: row;
-            flex-wrap: wrap;
-            /* Wait, if reason is there, we want wrap? 
-             The user said "Don't wrap name".
-             So name and value should be on one line.
-             If we use wrap, long names might wrap. 
-             If we specificy flex-basis or width, we control it.
-             
-             Better approach: 
-             Name and Value container? 
-             Or just `status-name` flex-grow 1?
-             
-             Let's stick to flex-wrap: wrap but force name to be nowrap.
-             */
-            flex-wrap: wrap;
-            /* Keep wrap for the 'reason' div to break to next line if needed */
-        }
-
-        .status-name {
-            flex: 1;
-            /* Take available space */
-            white-space: nowrap;
-            /* Don't wrap text inside */
-            min-width: 0;
-            /* Allow shrinking if needed, but we prefer full text */
-        }
-
-        /* Actually, if we use flex-wrap: wrap, and status-name + status-value < 100%, they stay on one line.
-           If we make status-name white-space: nowrap, it won't break usage.
-           Problem: "三国ヶ丘分院" is long.
-           If the screen is very small, it might force wrap.
-           But on most mobile screens (320px+), "三国ヶ丘分院" + "透析可" should fit.
-           
-           Let's explicitly trying to force name and value to be on the same 'row' if possible, or at least prevent the name itself from breaking.
-        */
-
-
         .status-reason:not(:empty) {
             display: block;
             padding-top: 8px;
             border-top: 2px solid #e9ecef;
-            /* Thicker, solid divider */
         }
 
         /* Facility Specific Accents */
@@ -278,10 +221,32 @@
         .status-item.mikunigaoka {
             border-left: 6px solid #d6336c;
         }
+
+        /* Section Visibility */
+        .app-page-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .app-page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 
-<body class="app-mode theme-disaster">
+<body class="theme-disaster">
 
     <!-- 1. Fixed App Header -->
     <header class="app-header">
@@ -290,7 +255,7 @@
     </header>
 
     <!-- 2. Main Scrollable Content -->
-    <main class="app-content-scroll">
+    <main class="main-content">
 
         <!-- Dialysis Status (Restored Accordion) -->
         <section id="dialysis-status" class="collapsible-section is-open">
@@ -333,7 +298,7 @@
 
         <!-- Tab 1: Basic Info -->
         <section id="info" class="app-page-section active">
-            <div class="app-grid">
+            <div class="bento-grid">
                 <!-- 1. Hazard Map -->
                 <a href="disaster-hazardmap.html" class="app-card">
                     <img src="files/disaster/Check the hazard map.png" alt="ハザードマップ" class="app-card-bg-img">
@@ -456,14 +421,14 @@
 
     </main>
 
-    <!-- 3. Bottom Navigation Bar -->
+    <!-- 3. Bottom Navigation Bar (Original - Disaster only) -->
     <nav class="bottom-nav">
         <a href="disaster-main.html" class="nav-item active">
-            <div class="nav-icon icon-disaster"></div>
+            <div class="nav-icon">⚠️</div>
             <span>災害</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <div class="nav-icon icon-qa"></div>
+            <div class="nav-icon">❓</div>
             <span>Q&A</span>
         </a>
     </nav>

@@ -2,19 +2,19 @@
 <html lang="ja">
 
 <head>
-    <!-- Meta for Mobile Optimization -->
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>梶本クリニック | 患者様ポータル</title>
     <link rel="stylesheet" href="style.css">
+    <!-- No mobile-layout.css needed -->
 </head>
 
 <body>
 
     <!-- 1. Fixed App Header -->
     <header class="app-header">
-        <div class="app-logo">Kajimoto Clinic Portal</div>
+        <div class="header-logo">Kajimoto Portal</div>
     </header>
 
     <!-- 2. Main Scrollable Content -->
@@ -26,37 +26,67 @@
             <p class="hero-sub">心地よい一日をお過ごしですか？<br>今日も健康をサポートします。</p>
         </section>
 
-        <!-- Key Features (Horizontal Scroll) -->
+        <!-- Key Features (Bento Grid) -->
         <h2 class="section-title">メニュー</h2>
-        <div class="scroll-container">
+
+        <div class="bento-grid">
             <!-- Friend/Benefits -->
-            <a href="friend-main.html" class="scroll-card">
-                <div class="card-icon-large theme-friend">🎁</div>
+            <a href="friend-main.html" class="bento-card">
+                <div class="card-icon-container">
+                    <!-- Icon: Gift -->
+                    <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                        <rect x="2" y="7" width="20" height="5"></rect>
+                        <line x1="12" y1="22" x2="12" y2="7"></line>
+                        <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                        <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+                    </svg>
+                </div>
                 <div class="card-title">お友達特典</div>
-                <div class="card-desc">運動・食事・脳トレで毎日を元気に。</div>
+                <div class="card-desc">運動・食事・脳トレ</div>
             </a>
 
             <!-- Disaster Info -->
-            <a href="disaster-main.html" class="scroll-card">
-                <div class="card-icon-large theme-disaster">⚠️</div>
+            <a href="disaster-main.html" class="bento-card">
+                <div class="card-icon-container" style="color: #e67e22;">
+                    <!-- Icon: Alert Triangle -->
+                    <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path
+                            d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                        </path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                </div>
                 <div class="card-title">災害情報</div>
-                <div class="card-desc">もしもの備えと避難場所の確認。</div>
+                <div class="card-desc">備えと避難場所</div>
             </a>
 
-            <!-- Q&A -->
-            <a href="qa-main.html" class="scroll-card">
-                <div class="card-icon-large theme-qa">❓</div>
-                <div class="card-title">Q&A 検索</div>
-                <div class="card-desc">よくある質問から回答を探す。</div>
+            <!-- Q&A Section -->
+            <a href="qa-main.html" class="bento-card"
+                style="grid-column: span 2; flex-direction: row; align-items: center; text-align: left; padding: 1.25rem;">
+                <div class="card-icon-container"
+                    style="width: 48px; height: 48px; margin-bottom: 0; margin-right: 1rem; color: #10B981;">
+                    <!-- Icon: Help Circle -->
+                    <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                </div>
+                <div>
+                    <div class="card-title" style="margin-bottom: 0.1rem;">Q&A 検索</div>
+                    <div class="card-desc">よくある質問から回答を探す</div>
+                </div>
             </a>
         </div>
 
         <!-- Recent/Utility List -->
         <h2 class="section-title">その他</h2>
         <div class="menu-list">
-            <a href="admin-login.html" class="menu-item">
-                <span>管理者ログイン</span>
-            </a>
             <a href="#" class="menu-item">
                 <span>クリニックからのお知らせ</span>
             </a>
@@ -65,8 +95,8 @@
             </a>
         </div>
 
-        <div class="text-center mt-2" style="font-size: 0.7rem; color: #aaa; padding-bottom: 2rem;">
-            &copy; 2025 Kajimoto Clinic
+        <div style="text-align: center; font-size: 0.75rem; color: #94a3b8; padding: 2rem 0;">
+            <a href="admin-login.html" class="stealth-link">&copy; 2025 Kajimoto Clinic</a>
         </div>
 
     </main>
@@ -74,19 +104,45 @@
     <!-- 3. Bottom Navigation Bar -->
     <nav class="bottom-nav">
         <a href="index.html" class="nav-item active">
-            <div class="nav-icon icon-home"></div>
+            <!-- Icon: Home -->
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
             <span>ホーム</span>
         </a>
         <a href="friend-main.html" class="nav-item">
-            <div class="nav-icon icon-friend"></div>
+            <!-- Icon: Gift -->
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                <rect x="2" y="7" width="20" height="5"></rect>
+                <line x1="12" y1="22" x2="12" y2="7"></line>
+                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+            </svg>
             <span>特典</span>
         </a>
         <a href="disaster-main.html" class="nav-item">
-            <div class="nav-icon icon-disaster"></div>
+            <!-- Icon: Alert -->
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                </path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
             <span>災害</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <div class="nav-icon icon-qa"></div>
+            <!-- Icon: Help -->
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
             <span>Q&A</span>
         </a>
     </nav>

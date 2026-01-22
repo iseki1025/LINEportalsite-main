@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,16 +8,20 @@
     <link rel="stylesheet" href="style.css">
     <style>
         /* ページ特有のスタイル */
-        body {
-            background-color: #f3f4f6;
-        }
         .page-header-simple {
-            background-color: #d9534f;
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
             color: white;
             padding: 1.5rem;
             text-align: center;
             margin-bottom: 2rem;
+            border-radius: 0 0 var(--radius-l, 24px) var(--radius-l, 24px);
         }
+
+        .page-header-simple h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
         .content-wrapper {
             padding: 0 1rem 3rem;
             max-width: 800px;
@@ -27,26 +32,29 @@
         .ntt-card {
             background: white;
             padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* 少し影を強調 */
+            border-radius: var(--radius-m, 16px);
+            box-shadow: var(--shadow-md, 0 4px 10px rgba(0, 0, 0, 0.1));
             text-align: center;
-            border-top: 5px solid #009688;
+            border-top: 5px solid var(--color-primary, #0891B2);
         }
+
         .ntt-card h3 {
             margin-top: 0;
-            color: #009688;
+            color: var(--color-primary, #0891B2);
             font-size: 1.4rem;
             margin-bottom: 1rem;
         }
+
         .ntt-desc {
             text-align: left;
             margin-bottom: 1.5rem;
             line-height: 1.8;
-            color: #333;
+            color: var(--text-main, #333);
         }
+
         .ntt-link-btn {
             display: block;
-            background-color: #009688;
+            background: var(--color-primary, #0891B2);
             color: white;
             padding: 1rem;
             border-radius: 8px;
@@ -57,8 +65,9 @@
             transition: opacity 0.3s;
             text-align: center;
         }
-        .ntt-link-btn:hover {
-            opacity: 0.9;
+
+        .ntt-link-btn:active {
+            opacity: 0.8;
         }
 
         /* --- クリニック連絡先 (控えめな表示) --- */
@@ -66,18 +75,21 @@
             margin-top: 3rem;
             background-color: #fff;
             padding: 1.5rem;
-            border-radius: 8px;
-            color: #666;
+            border-radius: var(--radius-m, 16px);
+            color: var(--text-muted, #666);
             font-size: 0.9rem;
+            box-shadow: var(--shadow-sm, 0 2px 5px rgba(0, 0, 0, 0.05));
         }
+
         .clinic-info-area h2 {
             font-size: 1.1rem;
-            color: #444;
+            color: var(--text-main, #444);
             border-bottom: 2px solid #ddd;
             padding-bottom: 0.5rem;
             margin-bottom: 1rem;
             margin-top: 0;
         }
+
         .clinic-row {
             display: flex;
             justify-content: space-between;
@@ -85,32 +97,51 @@
             padding: 0.8rem 0;
             border-bottom: 1px dashed #eee;
         }
+
         .clinic-row:last-child {
             border-bottom: none;
         }
+
         .clinic-name {
             font-weight: bold;
-            color: #333;
-        }
-        .clinic-number {
-            font-family: monospace; /* 数字を読みやすく */
-            font-size: 1rem;
-            color: #333;
-            user-select: all; /* コピーしやすく */
+            color: var(--text-main, #333);
         }
 
+        .clinic-number {
+            font-family: monospace;
+            font-size: 1rem;
+            color: var(--text-main, #333);
+            user-select: all;
+        }
+
+        /* 戻るボタン */
+        .back-to-portal-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--color-primary, #0891B2);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+
+        .back-to-portal-button:active {
+            opacity: 0.8;
+        }
     </style>
 </head>
+
 <body class="theme-disaster">
     <div class="container">
-        
+
         <!-- ヘッダー -->
         <header class="page-header-simple">
             <h1>安否確認・連絡先</h1>
         </header>
 
         <main class="content-wrapper">
-            
+
             <!-- 1. 災害用伝言ダイヤル (171) - 最優先表示 -->
             <section>
                 <div class="ntt-card">
@@ -135,17 +166,17 @@
                     ※災害時は回線混雑のため、つながりにくい場合があります。<br>
                     ※電話番号をタップしても発信されません。必要な場合は番号を入力してご利用ください。
                 </p>
-                
+
                 <div class="clinic-row">
                     <span class="clinic-name">本院</span>
                     <span class="clinic-number">072-252-0555</span>
                 </div>
-                
+
                 <div class="clinic-row">
                     <span class="clinic-name">なかもず分院</span>
                     <span class="clinic-number">072-250-2960</span>
                 </div>
-                
+
                 <div class="clinic-row">
                     <span class="clinic-name">三国ヶ丘分院</span>
                     <span class="clinic-number">072-275-8980</span>
@@ -159,9 +190,10 @@
 
         </main>
 
-        <footer>
+        <footer style="text-align: center; padding: 2rem 1rem; color: #94a3b8; font-size: 0.75rem;">
             <p><small>&copy; 2025 医療法人 好輝会 梶本クリニック</small></p>
         </footer>
     </div>
 </body>
+
 </html>
