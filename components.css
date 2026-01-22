@@ -1380,6 +1380,8 @@ li {
 .front-icon {
     width: 32px;
     height: 32px;
+    min-width: 32px;
+    /* Prevent shrinking */
     margin-bottom: 0.5rem;
     color: white;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
@@ -1396,6 +1398,12 @@ li {
     color: #db2777;
 }
 
+.check-icon-circle svg {
+    width: 64px;
+    /* Explicit size */
+    height: 64px;
+}
+
 /* Exercise Icons (Replaces photos) */
 .exercise-icon-circle {
     width: 100%;
@@ -1408,8 +1416,9 @@ li {
 }
 
 .exercise-icon-circle svg {
-    width: 40%;
-    height: 40%;
+    width: 64px;
+    /* Explicit size */
+    height: 64px;
 }
 
 
