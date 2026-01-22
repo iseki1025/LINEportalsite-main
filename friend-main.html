@@ -7,6 +7,48 @@
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>透析情報ポータル | お友達特典</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Card color themes matching sub-pages */
+        .app-card.theme-pink {
+            border: 3px solid #ec4899;
+        }
+
+        .app-card.theme-pink .app-card-overlay {
+            background: linear-gradient(to top, rgba(236, 72, 153, 0.95) 0%, rgba(236, 72, 153, 0.7) 50%, transparent 100%);
+        }
+
+        .app-card.theme-green {
+            border: 3px solid #10b981;
+        }
+
+        .app-card.theme-green .app-card-overlay {
+            background: linear-gradient(to top, rgba(16, 185, 129, 0.95) 0%, rgba(16, 185, 129, 0.7) 50%, transparent 100%);
+        }
+
+        .app-card.theme-orange {
+            border: 3px solid #f59e0b;
+        }
+
+        .app-card.theme-orange .app-card-overlay {
+            background: linear-gradient(to top, rgba(245, 158, 11, 0.95) 0%, rgba(245, 158, 11, 0.7) 50%, transparent 100%);
+        }
+
+        .app-card.theme-purple {
+            border: 3px solid #a855f7;
+        }
+
+        .app-card.theme-purple .app-card-overlay {
+            background: linear-gradient(to top, rgba(168, 85, 247, 0.95) 0%, rgba(168, 85, 247, 0.7) 50%, transparent 100%);
+        }
+
+        .app-card.theme-cyan {
+            border: 3px solid #0891b2;
+        }
+
+        .app-card.theme-cyan .app-card-overlay {
+            background: linear-gradient(to top, rgba(8, 145, 178, 0.95) 0%, rgba(8, 145, 178, 0.7) 50%, transparent 100%);
+        }
+    </style>
 </head>
 
 <body>
@@ -27,8 +69,8 @@
 
         <!-- App Grid Navigation -->
         <div class="bento-grid">
-            <!-- 1. Shunt -->
-            <a href="friend-shunt-main.html" class="app-card">
+            <!-- 1. Shunt - Pink -->
+            <a href="friend-shunt-main.html" class="app-card theme-pink">
                 <img src="files/shunt/shunt-icon.png" alt="シャント" class="app-card-bg-img">
                 <div class="app-card-overlay">
                     <div class="app-card-title">シャント管理</div>
@@ -36,8 +78,8 @@
                 </div>
             </a>
 
-            <!-- 2. Exercise -->
-            <a href="friend-exercise-main.html" class="app-card">
+            <!-- 2. Exercise - Green -->
+            <a href="friend-exercise-main.html" class="app-card theme-green">
                 <img src="files/exercise/exercise-icon.png" alt="運動" class="app-card-bg-img">
                 <div class="app-card-overlay">
                     <div class="app-card-title">運動療法</div>
@@ -45,8 +87,8 @@
                 </div>
             </a>
 
-            <!-- 3. Nutrition -->
-            <a href="friend-nutrition-main.html" class="app-card">
+            <!-- 3. Nutrition - Orange -->
+            <a href="friend-nutrition-main.html" class="app-card theme-orange">
                 <img src="files/nutrition/nutrition-icon.png" alt="食事" class="app-card-bg-img">
                 <div class="app-card-overlay">
                     <div class="app-card-title">食事療法</div>
@@ -54,8 +96,8 @@
                 </div>
             </a>
 
-            <!-- 4. Footcare -->
-            <a href="friend-footcare-main.html" class="app-card">
+            <!-- 4. Footcare - Purple -->
+            <a href="friend-footcare-main.html" class="app-card theme-purple">
                 <img src="files/footcare/footcare-icon.png" alt="フットケア" class="app-card-bg-img">
                 <div class="app-card-overlay">
                     <div class="app-card-title">フットケア</div>
@@ -63,8 +105,8 @@
                 </div>
             </a>
 
-            <!-- 5. Games -->
-            <a href="friend-game-main.html" class="app-card" style="grid-column: span 2;">
+            <!-- 5. Games - Cyan -->
+            <a href="friend-game-main.html" class="app-card theme-cyan" style="grid-column: span 2;">
                 <img src="files/game/game-icon.png" alt="ゲーム" class="app-card-bg-img" style="object-position: center;">
                 <div class="app-card-overlay">
                     <div class="app-card-title">ミニゲーム</div>

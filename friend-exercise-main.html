@@ -6,294 +6,181 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>運動療法 | 梶本クリニック</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-layout.css">
     <link rel="stylesheet" href="components.css">
     <style>
-        /* Video Modal - page specific */
-        #videoModal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 3000;
-            display: none;
-            align-items: center;
-            justify-content: center;
+        /* Exercise page theme: Green */
+        :root {
+            --page-primary: #10b981;
+            --page-primary-dark: #047857;
+            --page-bg-light: #d1fae5;
+            --page-bg-lighter: #ecfdf5;
         }
 
-        #videoModal .modal-content {
-            position: relative;
-            width: 95%;
-            max-width: 600px;
-            background: transparent;
+        .app-header {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
         }
 
-        #videoModal .close-modal {
-            position: absolute;
-            top: -45px;
-            right: 0;
+        .app-segmented-item.active {
+            background: var(--page-primary);
             color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            background: none;
-            border: none;
-            z-index: 10;
         }
 
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 12px;
+        /* Video Modal */
+        .modal {
+            background: rgba(0, 0, 0, 0.9);
         }
 
-        .video-wrapper video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Exercise Card with play button */
-        .exercise-card {
-            position: relative;
-            overflow: hidden;
-            min-height: 140px;
-            cursor: pointer;
-        }
-
-        .exercise-card::before {
-            content: '▶';
+        .modal .modal-content {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            color: #333;
-            z-index: 2;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s;
+            width: 95%;
+            max-width: 600px;
+            background: transparent;
+            padding: 0;
         }
 
-        .exercise-card:active::before {
-            transform: translate(-50%, -50%) scale(0.95);
-        }
-
-        .exercise-card img {
+        .close-modal {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.3;
-        }
-
-        .exercise-card .card-content {
-            position: relative;
-            z-index: 1;
-            padding-top: 55px;
-        }
-
-        /* Category badges */
-        .category-badge {
-            display: inline-block;
-            font-size: 0.65rem;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-weight: bold;
-            margin-bottom: 0.3rem;
-        }
-
-        .badge-sitting {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .badge-during {
-            background: #fce7f3;
-            color: #be185d;
-        }
-
-        .badge-off {
-            background: #dcfce7;
-            color: #15803d;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            background: none;
+            border: none;
         }
     </style>
 </head>
 
-<body>
-    <!-- Header -->
+<body class="theme-friend app-mode">
     <header class="app-header">
-        <a href="friend-main.html" class="back-arrow">
-            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-        </a>
-        <div class="header-logo">運動療法</div>
+        <a href="friend-main.html" class="back-button">&lt;</a>
+        <div class="app-title">運動療法</div>
     </header>
 
-    <main class="main-content">
-        <!-- Hero -->
-        <section class="hero-card" style="background: linear-gradient(135deg, #10b981 0%, #34d399 100%);">
-            <h1 class="hero-title" style="font-size: 1.3rem;">毎日の運動習慣</h1>
-            <p class="hero-sub">透析患者さん向けの安全で効果的な運動をご紹介します。</p>
+    <main class="app-content-scroll">
+        <div class="caution-box" style="background: var(--page-bg-light); border: 1px solid #6ee7b7;">
+            <img src="files/common/caution-icon.png" alt="注意" class="caution-icon-img">
+            <div class="caution-content">
+                <h3 style="color: var(--page-primary-dark);">運動の注意点</h3>
+                <p style="color: var(--page-primary-dark);">シャント側で重い物を持たないでください。体調が悪い日は無理せず休みましょう。</p>
+            </div>
+        </div>
+
+        <nav class="app-segmented-control">
+            <button class="app-segmented-item active" onclick="switchTab('sitting')">座って</button>
+            <button class="app-segmented-item" onclick="switchTab('during')">透析中</button>
+            <button class="app-segmented-item" onclick="switchTab('off-days')">透析日以外</button>
+        </nav>
+
+        <!-- Sitting -->
+        <section id="sitting" class="app-page-section active">
+            <div class="exercise-grid">
+                <div class="exercise-item"
+                    data-video="https://drive.google.com/file/d/1cIf72nCFqFuQ3Vw5TDe-2KnOFgxfOW7X/view?usp=sharing">
+                    <img src="files/exercise/guu-paa.png" alt="手指のグーパー" class="exercise-bg">
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>手指のグーパー運動</h4>
+                        <span class="exercise-note" style="background: var(--page-primary);">握力維持・血流促進</span>
+                        <p>1. 背筋を伸ばす
+                            2. 手を握って開くを繰り返す</p>
+                    </div>
+                </div>
+                <div class="exercise-item"
+                    data-video="https://drive.google.com/file/d/1uGux7Y_GsCEV9L7dds14DBTnu7UPWHoR/view?usp=sharing">
+                    <img src="files/exercise/kainai-kaigai.png" alt="前腕回内・回外" class="exercise-bg">
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>前腕回内・回外運動</h4>
+                        <span class="exercise-note" style="background: var(--page-primary);">ADL向上</span>
+                        <p>1. 肘を90度に曲げる
+                            2. 手のひらを上下に返す</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- Caution Box -->
-        <div style="padding: 0 1rem;">
-            <div class="caution-box" style="background: #fef3c7; border-left: 4px solid #f59e0b;">
-                <div class="caution-content">
-                    <h3 style="color: #92400e; margin: 0 0 0.3rem;">⚠️ 運動の注意点</h3>
-                    <p style="color: #92400e; margin: 0; font-size: 0.85rem;">シャント側で重い物を持たないでください。体調が悪い日は無理せず休みましょう。</p>
+        <!-- During -->
+        <section id="during" class="app-page-section">
+            <div class="exercise-grid">
+                <div class="exercise-item" data-video="files/movies/ankle_exercise.mp4">
+                    <img src="files/exercise/ankle-exercise-icon.png" alt="足首" class="exercise-bg">
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>足首の曲げ伸ばし</h4>
+                        <p>血行を促進し、むくみを改善します。</p>
+                    </div>
+                </div>
+                <div class="exercise-item" data-video="files/movies/ergometer.mp4">
+                    <img src="files/exercise/ergometer-icon.png" alt="エルゴメーター" class="exercise-bg">
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>エルゴメーター</h4>
+                        <p>ベッドサイドでできる自転車こぎ運動です。</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Sitting Exercises -->
-        <h2 class="section-title">🪑 座ってできる運動</h2>
-        <div class="bento-grid">
-            <div class="bento-card exercise-card" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);"
-                data-video="https://drive.google.com/file/d/1cIf72nCFqFuQ3Vw5TDe-2KnOFgxfOW7X/view?usp=sharing">
-                <img src="files/exercise/guu-paa.png" alt="手指のグーパー">
-                <div class="card-content">
-                    <span class="category-badge badge-sitting">握力維持</span>
-                    <div class="card-title" style="color: #1e40af;">手指のグーパー運動</div>
-                    <div class="card-desc">手を握って開くを繰り返す</div>
+        <!-- Off-days -->
+        <section id="off-days" class="app-page-section">
+            <div class="exercise-grid">
+                <div class="exercise-item" data-video="files/movies/dumbbell_exercise.mp4">
+                    <img src="files/exercise/dumbbell-exercise-icon.png" alt="おもり" class="exercise-bg">
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>軽いおもりの上げ下げ</h4>
+                        <p>腕や足の筋力を維持・強化します。</p>
+                    </div>
+                </div>
+                <div class="exercise-item" data-video="files/movies/walking.mp4">
+                    <img src="files/exercise/walking-icon.png" alt="ウォーキング" class="exercise-bg">
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>ウォーキング</h4>
+                        <p>1日15分程度から無理なく始めましょう。</p>
+                    </div>
+                </div>
+                <div class="exercise-item" data-video="files/movies/stretching.mp4">
+                    <img src="files/exercise/stretching-icon.png" alt="ストレッチ" class="exercise-bg">
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>ストレッチ</h4>
+                        <p>筋肉の緊張をほぐし、柔軟性を高めます。</p>
+                    </div>
+                </div>
+                <div class="exercise-item" data-video="files/movies/gymnastics.mp4">
+                    <img src="files/exercise/radio-exercise-icon.png" alt="体操" class="exercise-bg">
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>軽い体操</h4>
+                        <p>ラジオ体操などで全身を動かしましょう。</p>
+                    </div>
                 </div>
             </div>
-            <div class="bento-card exercise-card" style="background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);"
-                data-video="https://drive.google.com/file/d/1uGux7Y_GsCEV9L7dds14DBTnu7UPWHoR/view?usp=sharing">
-                <img src="files/exercise/kainai-kaigai.png" alt="前腕回内・回外">
-                <div class="card-content">
-                    <span class="category-badge badge-sitting">ADL向上</span>
-                    <div class="card-title" style="color: #4338ca;">前腕回内・回外運動</div>
-                    <div class="card-desc">手のひらを上下に返す</div>
-                </div>
-            </div>
-        </div>
+        </section>
 
-        <!-- During Dialysis -->
-        <h2 class="section-title">💉 透析中にできる運動</h2>
-        <div class="bento-grid">
-            <div class="bento-card exercise-card" style="background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);"
-                data-video="files/movies/ankle_exercise.mp4">
-                <img src="files/exercise/ankle-exercise-icon.png" alt="足首">
-                <div class="card-content">
-                    <span class="category-badge badge-during">血行促進</span>
-                    <div class="card-title" style="color: #be185d;">足首の曲げ伸ばし</div>
-                    <div class="card-desc">むくみを改善します</div>
-                </div>
-            </div>
-            <div class="bento-card exercise-card" style="background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);"
-                data-video="files/movies/ergometer.mp4">
-                <img src="files/exercise/ergometer-icon.png" alt="エルゴメーター">
-                <div class="card-content">
-                    <span class="category-badge badge-during">持久力UP</span>
-                    <div class="card-title" style="color: #db2777;">エルゴメーター</div>
-                    <div class="card-desc">ベッドサイドで自転車こぎ</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Off Days -->
-        <h2 class="section-title">🏃 透析日以外の運動</h2>
-        <div class="bento-grid">
-            <div class="bento-card exercise-card" style="background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);"
-                data-video="files/movies/dumbbell_exercise.mp4">
-                <img src="files/exercise/dumbbell-exercise-icon.png" alt="おもり">
-                <div class="card-content">
-                    <span class="category-badge badge-off">筋力維持</span>
-                    <div class="card-title" style="color: #15803d;">軽いおもりの上げ下げ</div>
-                    <div class="card-desc">腕や足の筋力を維持・強化</div>
-                </div>
-            </div>
-            <div class="bento-card exercise-card" style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);"
-                data-video="files/movies/walking.mp4">
-                <img src="files/exercise/walking-icon.png" alt="ウォーキング">
-                <div class="card-content">
-                    <span class="category-badge badge-off">有酸素</span>
-                    <div class="card-title" style="color: #059669;">ウォーキング</div>
-                    <div class="card-desc">1日15分程度から始める</div>
-                </div>
-            </div>
-            <div class="bento-card exercise-card" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);"
-                data-video="files/movies/stretching.mp4">
-                <img src="files/exercise/stretching-icon.png" alt="ストレッチ">
-                <div class="card-content">
-                    <span class="category-badge badge-off">柔軟性</span>
-                    <div class="card-title" style="color: #047857;">ストレッチ</div>
-                    <div class="card-desc">筋肉の緊張をほぐす</div>
-                </div>
-            </div>
-            <div class="bento-card exercise-card" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);"
-                data-video="files/movies/gymnastics.mp4">
-                <img src="files/exercise/radio-exercise-icon.png" alt="体操">
-                <div class="card-content">
-                    <span class="category-badge badge-off">全身運動</span>
-                    <div class="card-title" style="color: #166534;">軽い体操</div>
-                    <div class="card-desc">ラジオ体操で全身を動かす</div>
-                </div>
-            </div>
-        </div>
-
-        <div style="text-align: center; font-size: 0.75rem; color: #94a3b8; padding: 2rem 0;">
-            &copy; 2025 Kajimoto Clinic
-        </div>
+        <div style="height: 40px;"></div>
     </main>
 
-    <!-- Bottom Nav -->
     <nav class="bottom-nav">
-        <a href="index.html" class="nav-item">
-            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-            <span>ホーム</span>
-        </a>
-        <a href="friend-main.html" class="nav-item active">
-            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
-                <polyline points="20 12 20 22 4 22 4 12"></polyline>
-                <rect x="2" y="7" width="20" height="5"></rect>
-                <line x1="12" y1="22" x2="12" y2="7"></line>
-                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
-                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
-            </svg>
-            <span>特典</span>
-        </a>
-        <a href="disaster-main.html" class="nav-item">
-            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
-                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
-                </path>
-                <line x1="12" y1="9" x2="12" y2="13"></line>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
-            <span>災害</span>
+        <a href="friend-main.html" class="nav-item">
+            <div class="nav-icon">🎁</div>
+            <span>お友達</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
+            <div class="nav-icon">❓</div>
             <span>Q&A</span>
         </a>
     </nav>
 
-    <!-- Video Modal -->
-    <div id="videoModal">
+    <div id="videoModal" class="modal">
         <div class="modal-content">
-            <button class="close-modal">&times;</button>
+            <span class="close-modal">&times;</span>
             <div class="video-wrapper">
                 <video id="popupVideo" controls playsinline>
                     <source src="" type="video/mp4">
@@ -303,27 +190,30 @@
     </div>
 
     <script>
+        function switchTab(id) {
+            document.querySelectorAll('.app-page-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.app-segmented-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            const buttons = document.querySelectorAll('.app-segmented-item');
+            buttons.forEach(btn => { if (btn.getAttribute('onclick').includes(id)) btn.classList.add('active'); });
+        }
+        window.switchTab = switchTab;
+
         const modal = document.getElementById("videoModal");
         const video = document.getElementById("popupVideo");
-        const closeBtn = document.querySelector("#videoModal .close-modal");
+        const closeBtn = document.querySelector(".close-modal");
 
-        document.querySelectorAll(".exercise-card").forEach(item => {
+        document.querySelectorAll(".exercise-item").forEach(item => {
             item.addEventListener("click", function () {
                 const src = this.getAttribute("data-video");
                 if (src) {
-                    if (src.includes('drive.google.com')) {
-                        window.open(src, '_blank');
-                    } else {
-                        video.src = src;
-                        modal.style.display = "flex";
-                        video.play().catch(() => { });
-                    }
+                    if (src.includes('drive.google.com')) { window.open(src, '_blank'); }
+                    else { video.src = src; modal.style.display = "block"; video.play().catch(() => { }); }
                 }
             });
         });
-
-        closeBtn.onclick = () => { modal.style.display = "none"; video.pause(); video.src = ""; };
-        window.onclick = (e) => { if (e.target === modal) { modal.style.display = "none"; video.pause(); video.src = ""; } };
+        closeBtn.onclick = () => { modal.style.display = "none"; video.pause(); };
+        window.onclick = (e) => { if (e.target == modal) { modal.style.display = "none"; video.pause(); } };
     </script>
 </body>
 
