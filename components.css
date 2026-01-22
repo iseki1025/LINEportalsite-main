@@ -4,26 +4,6 @@
    components.css - Shared Components for Sub-pages (DRY Consolidation)
    ========================================================================== */
 
-/* --- Page Header (Simple colored bar) --- */
-.page-header-simple {
-    background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-    color: white;
-    padding: 1.5rem;
-    text-align: center;
-    margin-bottom: 2rem;
-    border-radius: 0 0 var(--radius-l, 24px) var(--radius-l, 24px);
-}
-
-.page-header-simple h1 {
-    margin: 0;
-    font-size: 1.3rem;
-    font-weight: 700;
-}
-
-/* Friend theme header (Purple) */
-body.theme-friend .page-header-simple {
-    background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
-}
 
 /* --- Content Wrapper --- */
 .content-wrapper {
@@ -31,6 +11,7 @@ body.theme-friend .page-header-simple {
     max-width: 800px;
     margin: 0 auto;
 }
+
 
 /* --- Link Cards (External links) --- */
 .link-card {
@@ -310,85 +291,17 @@ body.theme-disaster .checklist-category h2 {
    Friend Portal Specific Components
    ========================================================================== */
 
-/* --- Check Grid (Shunt) --- */
+/* --- Check Grid & Exercise Grid (Shared Layout) --- */
 .check-grid,
 .exercise-grid {
     display: grid;
     gap: 1rem;
 }
 
-.check-item,
-.exercise-item {
-    position: relative;
-    border-radius: var(--radius-m, 16px);
-    overflow: hidden;
-    min-height: 240px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    box-shadow: var(--shadow-md, 0 4px 15px rgba(0, 0, 0, 0.1));
-    background: #000;
-    text-decoration: none;
-    color: white;
-    cursor: pointer;
-}
-
-.check-item:active,
-.exercise-item:active {
-    transform: scale(0.98);
-}
-
-.check-item img.check-bg,
-.exercise-item img.exercise-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-    opacity: 0.85;
-}
-
-.check-overlay,
-.exercise-overlay {
-    position: relative;
-    z-index: 1;
-    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 20%, rgba(0, 0, 0, 0.95) 100%);
-    padding: 1.5rem;
-    padding-top: 3rem;
-}
-
-.exercise-overlay {
-    height: 30%;
-    padding: 1.2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-}
-
-.check-overlay h4,
-.exercise-overlay h4 {
-    font-size: 1.1rem;
-    margin: 0 0 0.5rem;
-    font-weight: bold;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-    color: white;
-}
-
-.check-overlay p,
-.exercise-overlay p {
-    font-size: 0.95rem;
-    margin: 0;
-    line-height: 1.5;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-    color: rgba(255, 255, 255, 0.95);
-}
-
-/* --- Play Button Indicator --- */
+/* Play indicator for video items */
 .play-indicator {
     position: absolute;
-    top: 45%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 60px;
@@ -454,17 +367,6 @@ body.theme-disaster .checklist-category h2 {
     box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
     margin-top: 2rem;
     cursor: pointer;
-}
-
-.quiz-button {
-    display: inline-block;
-    padding: 12px 30px;
-    background: var(--color-primary, #0891B2);
-    color: white;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: bold;
-    box-shadow: 0 4px 10px rgba(8, 145, 178, 0.3);
 }
 
 /* --- Modal Overlay --- */
@@ -1393,55 +1295,123 @@ li {
     transform: scale(0.98);
 }
 
-/* --- Check Grid Enhancement (Shunt) --- */
-.check-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
 
-.check-item {
+/* --- Premium Icon Card (No Image) --- */
+.app-card-no-img {
+    height: 160px;
     position: relative;
     border-radius: 20px;
     overflow: hidden;
-    aspect-ratio: 1;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    cursor: pointer;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    text-decoration: none;
+    border: none !important;
+    /* Override theme borders if any */
 }
 
-.check-item:active {
-    transform: scale(0.98);
+.app-card-no-img:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
 
-.check-item .check-bg {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.check-item .check-overlay {
+/* Background Icon (Decorative) */
+.bg-icon-large {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1rem;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+    top: -10px;
+    right: -10px;
+    width: 120px;
+    height: 120px;
+    opacity: 0.15;
+    transform: rotate(15deg);
+    pointer-events: none;
     color: white;
 }
 
-.check-overlay h4 {
-    font-size: 1rem;
-    margin-bottom: 0.3rem;
-    font-weight: 700;
+/* Gradients for each theme */
+.gradient-pink {
+    background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
 }
 
-.check-overlay p {
-    font-size: 0.85rem;
-    opacity: 0.9;
-    line-height: 1.4;
+.gradient-green {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
 }
+
+.gradient-orange {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.gradient-purple {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+}
+
+.gradient-cyan {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+}
+
+.gradient-disaster {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.card-content-icon {
+    position: relative;
+    z-index: 2;
+    color: white;
+}
+
+.card-content-icon h3 {
+    font-size: 1.3rem;
+    margin: 0 0 0.3rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-content-icon p {
+    font-size: 0.95rem;
+    margin: 0;
+    opacity: 0.95;
+    font-weight: 500;
+}
+
+/* Main Icon (Small, front) */
+.front-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 0.5rem;
+    color: white;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Shunt Check Icons (Replaces photos) */
+.check-icon-circle {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #fce7f3 0%, #fdf2f8 100%);
+    color: #db2777;
+}
+
+/* Exercise Icons (Replaces photos) */
+.exercise-icon-circle {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%);
+    color: #059669;
+}
+
+.exercise-icon-circle svg {
+    width: 40%;
+    height: 40%;
+}
+
 
 /* --- NG List Enhancement --- */
 .ng-list {
