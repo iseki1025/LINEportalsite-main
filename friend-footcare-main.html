@@ -6,145 +6,176 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>フットケア | 梶本クリニック</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="mobile-layout.css">
     <link rel="stylesheet" href="components.css">
-    <style>
-        /* Footcare-specific theme colors */
-        .footcare-list li {
-            margin-bottom: 0.8rem;
-            line-height: 1.5;
-            font-size: 0.9rem;
-            color: var(--text-main, #444);
-        }
-
-        .footcare-list strong {
-            color: #d81b60;
-        }
-
-        /* Themed caution box */
-        .caution-box.theme-pink {
-            background: #fce4ec;
-            border: 1px solid #f8bbd0;
-        }
-
-        .caution-box.theme-pink .caution-content h3,
-        .caution-box.theme-pink .caution-content p {
-            color: #880e4f;
-        }
-
-        /* Themed PDF button */
-        .pdf-btn.theme-pink {
-            background: #d81b60;
-            box-shadow: 0 4px 10px rgba(216, 27, 96, 0.3);
-        }
-    </style>
 </head>
 
-<body class="theme-friend app-mode">
+<body>
+    <!-- Header -->
     <header class="app-header">
-        <a href="friend-main.html" class="back-button">&lt;</a>
-        <div class="app-title">フットケア</div>
+        <a href="friend-main.html" class="back-arrow">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </a>
+        <div class="header-logo">フットケア</div>
     </header>
 
-    <main class="app-content-scroll">
-        <nav class="app-segmented-control">
-            <button class="app-segmented-item active" onclick="switchTab('basic')">基本</button>
-            <button class="app-segmented-item" onclick="switchTab('initiatives')">取り組み</button>
-        </nav>
-
-        <!-- Tab 1: Basic -->
-        <section id="basic" class="app-page-section active">
-            <div class="app-card-generic">
-                <h2 style="font-size:1.1rem; text-align:center; margin-bottom:0.8rem; color:#d81b60;">毎日のチェックポイント</h2>
-                <ul class="footcare-list" style="padding-left:1.2rem;">
-                    <li>傷、切り傷、靴擦れがないか</li>
-                    <li>水ぶくれ、たこ、うおのめはないか</li>
-                    <li>皮膚の赤み、腫れ、色の変化がないか</li>
-                </ul>
-            </div>
-
-            <div class="app-card-generic">
-                <h3 style="font-size:1rem; margin-bottom:0.8rem;">正しい足のケア</h3>
-                <ul class="footcare-list" style="padding-left:1.2rem;">
-                    <li><strong>洗い方:</strong> 石鹸をよく泡立て優しく洗う。</li>
-                    <li><strong>乾かし方:</strong> 擦らず押さえるように拭く。</li>
-                    <li><strong>保湿:</strong> 乾燥時は保湿剤を（指の間は避ける）。</li>
-                    <li><strong>爪切り:</strong> 深爪せずスクエアカットに。</li>
-                </ul>
-            </div>
-
-            <div class="caution-box theme-pink">
-                <img src="files/common/caution-icon.png" alt="注意" class="caution-icon-img">
-                <div class="caution-content">
-                    <h3>すぐに相談を</h3>
-                    <p>傷、色の変化、痛みや腫れがある場合は、自己判断せずすぐにスタッフへ！</p>
-                </div>
-            </div>
+    <main class="main-content">
+        <!-- Hero - Purple/Magenta theme -->
+        <section class="hero-card" style="background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);">
+            <h1 class="hero-title" style="font-size: 1.3rem;">足元から健康管理</h1>
+            <p class="hero-sub">透析患者さんにとって足のケアは<br>とても大切です。</p>
         </section>
 
-        <!-- Tab 2: Initiatives -->
-        <section id="initiatives" class="app-page-section">
-            <div class="app-card-generic">
-                <h3 style="font-size:1rem; margin-bottom:1rem;">当院のフットケアサービス</h3>
-                <ul class="footcare-list" style="padding-left:1.2rem;">
-                    <li><strong>定期観察:</strong> 透析時に足をチェックします。</li>
-                    <li><strong>専門ケア:</strong> 必要に応じて爪切りや角質ケア。</li>
-                    <li><strong>患者教育:</strong> セルフケアの指導。</li>
-                </ul>
+        <!-- Daily Check Points -->
+        <h2 class="section-title">👁️ 毎日のチェックポイント</h2>
+        <div class="bento-grid">
+            <div class="bento-card" style="background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);">
+                <div class="card-icon-container" style="color: #7c3aed;">🩹</div>
+                <div class="card-title" style="color: #6d28d9;">傷・切り傷</div>
+                <div class="card-desc">靴擦れがないか確認</div>
             </div>
+            <div class="bento-card" style="background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);">
+                <div class="card-icon-container" style="color: #9333ea;">💧</div>
+                <div class="card-title" style="color: #7e22ce;">水ぶくれ・たこ</div>
+                <div class="card-desc">うおのめはないか</div>
+            </div>
+            <div class="bento-card" style="background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%);">
+                <div class="card-icon-container" style="color: #a855f7;">🔴</div>
+                <div class="card-title" style="color: #9333ea;">皮膚の変化</div>
+                <div class="card-desc">赤み、腫れ、色の変化</div>
+            </div>
+        </div>
 
-            <div class="pdf-collapsible">
-                <div class="pdf-collapsible-header" onclick="togglePdf(this)">
-                    <span>📖 ガイドブックを見る</span>
-                    <span>▼</span>
+        <!-- Correct Care -->
+        <h2 class="section-title">✨ 正しい足のケア</h2>
+        <div class="menu-list" style="padding: 0 1rem;">
+            <div class="menu-item" style="border-left: 4px solid #a855f7;">
+                <span><strong style="color: #7c3aed;">洗い方</strong>：石鹸をよく泡立て優しく洗う</span>
+            </div>
+            <div class="menu-item" style="border-left: 4px solid #a855f7;">
+                <span><strong style="color: #7c3aed;">乾かし方</strong>：擦らず押さえるように拭く</span>
+            </div>
+            <div class="menu-item" style="border-left: 4px solid #a855f7;">
+                <span><strong style="color: #7c3aed;">保湿</strong>：乾燥時は保湿剤を（指の間は避ける）</span>
+            </div>
+            <div class="menu-item" style="border-left: 4px solid #a855f7;">
+                <span><strong style="color: #7c3aed;">爪切り</strong>：深爪せずスクエアカットに</span>
+            </div>
+        </div>
+
+        <!-- Caution Box -->
+        <div style="padding: 1rem;">
+            <div class="bento-card"
+                style="background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); flex-direction: row; text-align: left; border-left: 5px solid #ec4899; padding: 1rem;">
+                <div style="font-size: 1.5rem; margin-right: 0.8rem;">⚠️</div>
+                <div>
+                    <div class="card-title" style="color: #be185d; margin-bottom: 0.3rem;">すぐに相談を</div>
+                    <div class="card-desc" style="color: #9d174d;">傷、色の変化、痛みや腫れがある場合は、自己判断せずすぐにスタッフへ！</div>
                 </div>
-                <div class="pdf-collapsible-content">
-                    <p style="margin-bottom:1rem; font-size:0.9rem; color:#555;">詳しいケア方法をPDFで確認できます。</p>
-                    <a href="files/pdf/footcare-guide-book.pdf" target="_blank" class="pdf-link-mobile"
-                        style="background:#d81b60;">PDFを開く</a>
+            </div>
+        </div>
+
+        <!-- Clinic Services -->
+        <h2 class="section-title">🏥 当院のフットケアサービス</h2>
+        <div class="bento-grid">
+            <div class="bento-card" style="background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);">
+                <div class="card-icon-container" style="color: #7c3aed;">🔍</div>
+                <div class="card-title" style="color: #6d28d9;">定期観察</div>
+                <div class="card-desc">透析時に足をチェック</div>
+            </div>
+            <div class="bento-card" style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);">
+                <div class="card-icon-container" style="color: #9333ea;">✂️</div>
+                <div class="card-title" style="color: #7e22ce;">専門ケア</div>
+                <div class="card-desc">爪切りや角質ケア</div>
+            </div>
+            <div class="bento-card" style="background: linear-gradient(135deg, #fae8ff 0%, #f5d0fe 100%);">
+                <div class="card-icon-container" style="color: #a855f7;">📚</div>
+                <div class="card-title" style="color: #9333ea;">患者教育</div>
+                <div class="card-desc">セルフケアの指導</div>
+            </div>
+        </div>
+
+        <!-- PDF Guide -->
+        <div style="padding: 0 1rem;">
+            <div class="pdf-collapsible" style="border: 2px solid #c084fc; border-radius: 12px; overflow: hidden;">
+                <div class="pdf-collapsible-header" onclick="togglePdf(this)"
+                    style="background: #f5f3ff; padding: 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-weight: bold; color: #7c3aed;">📖 ガイドブックを見る</span>
+                    <span style="color: #9333ea;">▼</span>
+                </div>
+                <div class="pdf-collapsible-content" style="display: none; padding: 1rem; background: white;">
+                    <p style="margin-bottom:1rem; font-size:0.9rem; color:#555; text-align: center;">詳しいケア方法をPDFで確認できます。
+                    </p>
+                    <div style="text-align:center;">
+                        <a href="files/pdf/footcare-guide-book.pdf" target="_blank" class="pdf-link-mobile"
+                            style="background: linear-gradient(135deg, #a855f7, #9333ea);">PDFを開く</a>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="app-card-generic" style="background:#fce4ec; border-color:#f8bbd0; text-align:center;">
-                <h3 style="font-size:1rem; color:#880e4f;">💡 ご相談ください</h3>
-                <p style="font-size:0.9rem; color:#880e4f; margin:0;">
-                    足のことで気になることがあれば、遠慮なくスタッフにお声がけください。
-                </p>
+        <!-- Consultation Card -->
+        <div style="padding: 1rem;">
+            <div class="bento-card" style="background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);">
+                <div class="card-icon-container" style="color: #7c3aed;">💡</div>
+                <div class="card-title" style="color: #6d28d9;">ご相談ください</div>
+                <div class="card-desc">足のことで気になることがあれば、遠慮なくスタッフにお声がけください。</div>
             </div>
-        </section>
+        </div>
 
-        <div style="height: 40px;"></div>
+        <div style="text-align: center; font-size: 0.75rem; color: #94a3b8; padding: 2rem 0;">
+            &copy; 2025 Kajimoto Clinic
+        </div>
     </main>
 
+    <!-- Bottom Nav -->
     <nav class="bottom-nav">
-        <a href="friend-main.html" class="nav-item">
-            <div class="nav-icon">🎁</div>
-            <span>お友達</span>
+        <a href="index.html" class="nav-item">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>ホーム</span>
+        </a>
+        <a href="friend-main.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+                <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                <rect x="2" y="7" width="20" height="5"></rect>
+                <line x1="12" y1="22" x2="12" y2="7"></line>
+                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+            </svg>
+            <span>特典</span>
+        </a>
+        <a href="disaster-main.html" class="nav-item">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                </path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span>災害</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <div class="nav-icon">❓</div>
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
             <span>Q&A</span>
         </a>
     </nav>
 
     <script>
-        function switchTab(id) {
-            document.querySelectorAll('.app-page-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.app-segmented-item').forEach(el => el.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-
-            const buttons = document.querySelectorAll('.app-segmented-item');
-            buttons.forEach(btn => {
-                if (btn.getAttribute('onclick').includes(id)) {
-                    btn.classList.add('active');
-                }
-            });
-        }
-        window.switchTab = switchTab;
-
         function togglePdf(header) {
             const container = header.parentElement;
-            container.classList.toggle('is-open');
+            const content = container.querySelector('.pdf-collapsible-content');
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+            } else {
+                content.style.display = 'none';
+            }
         }
         window.togglePdf = togglePdf;
     </script>

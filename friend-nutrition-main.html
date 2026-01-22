@@ -6,113 +6,155 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>栄養情報 | 梶本クリニック</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="mobile-layout.css">
     <link rel="stylesheet" href="components.css">
 </head>
 
-<body class="theme-friend app-mode">
+<body>
+    <!-- Header -->
     <header class="app-header">
-        <a href="friend-main.html" class="back-button">&lt;</a>
-        <div class="app-title">栄養情報</div>
+        <a href="friend-main.html" class="back-arrow">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </a>
+        <div class="header-logo">栄養情報</div>
     </header>
 
-    <main class="app-content-scroll">
-        <nav class="app-segmented-control">
-            <button class="app-segmented-item active" onclick="switchTab('info')">基本</button>
-            <button class="app-segmented-item" onclick="switchTab('recipe')">レシピ</button>
-            <button class="app-segmented-item" onclick="switchTab('quiz')">クイズ</button>
-            <button class="app-segmented-item" onclick="switchTab('qa')">Q&A</button>
-        </nav>
-
-        <!-- Tab 1: Info -->
-        <section id="info" class="app-page-section active">
-            <div class="app-card-generic">
-                <h2 style="font-size:1.1rem; text-align:center; margin-bottom:0.8rem; color:var(--color-primary);">
-                    食事療法の5つの基本</h2>
-                <ul class="nutrition-list" style="padding-left:1.2rem;">
-                    <li><strong>水分・塩分:</strong> 摂りすぎは血圧上昇や心負担の原因に。</li>
-                    <li><strong>カリウム:</strong> 野菜や果物は茹でこぼし等の工夫を。</li>
-                    <li><strong>リン:</strong> 加工食品や乳製品に注意しましょう。</li>
-                    <li><strong>たんぱく質:</strong> 摂りすぎると老廃物が増えます。</li>
-                    <li><strong>エネルギー:</strong> 炭水化物や脂質でしっかり確保。</li>
-                </ul>
-            </div>
-            <div class="app-card-generic" style="background:#e0f2fe; border-color:#7dd3fc;">
-                <p style="font-size:0.9rem; text-align:center; margin:0; color:#0284c7;">
-                    適切な食事管理は、透析を楽にし、合併症を予防します。
-                </p>
-            </div>
+    <main class="main-content">
+        <!-- Hero - Orange/Amber theme -->
+        <section class="hero-card" style="background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);">
+            <h1 class="hero-title" style="font-size: 1.3rem;">食事療法の基本</h1>
+            <p class="hero-sub">適切な食事管理で透析を楽にし、<br>合併症を予防しましょう。</p>
         </section>
 
-        <!-- Tab 2: Recipe -->
-        <section id="recipe" class="app-page-section">
-            <h3 style="font-size:1rem; margin:0 0.5rem 0.5rem;">おすすめレシピ</h3>
-            <div id="recipeContainer">
-                <p style="text-align:center; padding:2rem; color:#888;">読み込み中...</p>
+        <!-- 5 Basics Grid -->
+        <h2 class="section-title">🍽️ 食事療法の5つの基本</h2>
+        <div class="bento-grid">
+            <div class="bento-card" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);">
+                <div class="card-icon-container" style="color: #d97706;">💧</div>
+                <div class="card-title" style="color: #b45309;">水分・塩分</div>
+                <div class="card-desc">摂りすぎは血圧上昇や心負担の原因に</div>
             </div>
-        </section>
-
-        <!-- Tab 3: Quiz -->
-        <section id="quiz" class="app-page-section">
-            <div class="app-card-generic" style="text-align:center; padding:3rem 1.5rem;">
-                <h2 style="margin-bottom:1rem;">栄養クイズ</h2>
-                <p style="margin-bottom:2rem;">食事管理に役立つ知識をゲーム感覚で！</p>
-                <a href="friend-nutrition-quiz.html" class="quiz-button">挑戦する</a>
+            <div class="bento-card" style="background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);">
+                <div class="card-icon-container" style="color: #c2410c;">🍌</div>
+                <div class="card-title" style="color: #9a3412;">カリウム</div>
+                <div class="card-desc">野菜や果物は茹でこぼし等の工夫を</div>
             </div>
-        </section>
+            <div class="bento-card" style="background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%);">
+                <div class="card-icon-container" style="color: #ea580c;">🧀</div>
+                <div class="card-title" style="color: #c2410c;">リン</div>
+                <div class="card-desc">加工食品や乳製品に注意しましょう</div>
+            </div>
+            <div class="bento-card" style="background: linear-gradient(135deg, #fef9c3 0%, #fef08a 100%);">
+                <div class="card-icon-container" style="color: #ca8a04;">🥩</div>
+                <div class="card-title" style="color: #a16207;">たんぱく質</div>
+                <div class="card-desc">摂りすぎると老廃物が増えます</div>
+            </div>
+        </div>
 
-        <!-- Tab 4: Q&A -->
-        <section id="qa" class="app-page-section qa-search-section" data-csv-path="files/data/qa-data.csv"
-            data-category="栄養">
+        <!-- Energy card (full width) -->
+        <div style="padding: 0 1rem;">
+            <div class="bento-card"
+                style="background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%); flex-direction: row; text-align: left; padding: 1rem;">
+                <div class="card-icon-container"
+                    style="color: #d97706; width: 48px; height: 48px; margin-right: 1rem; margin-bottom: 0;">⚡</div>
+                <div>
+                    <div class="card-title" style="color: #b45309; margin-bottom: 0.2rem;">エネルギー</div>
+                    <div class="card-desc">炭水化物や脂質でしっかり確保しましょう</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recipe Section -->
+        <h2 class="section-title">🍳 おすすめレシピ</h2>
+        <div id="recipeContainer" style="padding: 0 1rem;">
+            <p style="text-align:center; padding:2rem; color:#888;">読み込み中...</p>
+        </div>
+
+        <!-- Quiz Link -->
+        <h2 class="section-title">📝 知識をチェック</h2>
+        <div style="padding: 0 1rem;">
+            <a href="friend-nutrition-quiz.html" class="bento-card"
+                style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); text-decoration: none;">
+                <div class="card-icon-container" style="color: #d97706;">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                </div>
+                <div class="card-title" style="color: #b45309;">栄養クイズに挑戦</div>
+                <div class="card-desc">食事管理に役立つ知識をゲーム感覚で！</div>
+            </a>
+        </div>
+
+        <!-- Q&A Section -->
+        <h2 class="section-title">❓ 栄養Q&A</h2>
+        <section class="qa-search-section" data-csv-path="files/data/qa-data.csv" data-category="栄養"
+            style="padding: 0 1rem 1rem;">
             <div class="qa-search-container" style="margin-bottom:1rem;">
                 <input type="search" class="qa-search-input" placeholder="キーワード (例: リン, 外食)" autocomplete="off"
-                    style="width:100%; padding:12px; border-radius:12px; border:1px solid #ddd; background:rgba(255,255,255,0.9);">
+                    style="width:100%; padding:12px; border-radius:12px; border:2px solid #fbbf24; background:white;">
             </div>
             <div class="keyword-buttons" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:1.5rem;">
-                <button class="keyword-button" onclick="setKeyword('リン')">リン</button>
-                <button class="keyword-button" onclick="setKeyword('カリウム')">カリウム</button>
-                <button class="keyword-button" onclick="setKeyword('塩分')">塩分</button>
+                <button class="keyword-button" onclick="setKeyword('リン')"
+                    style="background: #fef3c7; color: #b45309;">リン</button>
+                <button class="keyword-button" onclick="setKeyword('カリウム')"
+                    style="background: #fef3c7; color: #b45309;">カリウム</button>
+                <button class="keyword-button" onclick="setKeyword('塩分')"
+                    style="background: #fef3c7; color: #b45309;">塩分</button>
             </div>
             <div class="qa-results-container"></div>
         </section>
 
-        <div style="height: 40px;"></div>
+        <div style="text-align: center; font-size: 0.75rem; color: #94a3b8; padding: 2rem 0;">
+            &copy; 2025 Kajimoto Clinic
+        </div>
     </main>
 
+    <!-- Bottom Nav -->
     <nav class="bottom-nav">
-        <a href="friend-main.html" class="nav-item">
-            <div class="nav-icon">🎁</div>
-            <span>お友達</span>
+        <a href="index.html" class="nav-item">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>ホーム</span>
+        </a>
+        <a href="friend-main.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+                <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                <rect x="2" y="7" width="20" height="5"></rect>
+                <line x1="12" y1="22" x2="12" y2="7"></line>
+                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+            </svg>
+            <span>特典</span>
+        </a>
+        <a href="disaster-main.html" class="nav-item">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                </path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span>災害</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <div class="nav-icon">❓</div>
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
             <span>Q&A</span>
         </a>
     </nav>
 
     <script>
-        function switchTab(id) {
-            document.querySelectorAll('.app-page-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.app-segmented-item').forEach(el => el.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-
-            const buttons = document.querySelectorAll('.app-segmented-item');
-            buttons.forEach(btn => {
-                if (btn.getAttribute('onclick').includes(id)) {
-                    btn.classList.add('active');
-                }
-            });
-        }
-        window.switchTab = switchTab;
-
         window.setKeyword = function (word) {
             const input = document.querySelector('.qa-search-input');
-            if (input) {
-                input.value = word;
-                input.dispatchEvent(new Event('input', { bubbles: true }));
-            }
+            if (input) { input.value = word; input.dispatchEvent(new Event('input', { bubbles: true })); }
         }
-
         function togglePdf(header) {
             const container = header.parentElement;
             container.classList.toggle('is-open');
@@ -137,22 +179,21 @@
                     const snapshot = await getDocs(q);
 
                     if (snapshot.empty) {
-                        container.innerHTML = '<p style="text-align:center;">レシピはありません。</p>';
+                        container.innerHTML = '<p style="text-align:center; color:#888;">レシピはありません。</p>';
                         return;
                     }
 
                     container.innerHTML = snapshot.docs.map(doc => {
                         const data = doc.data();
                         return `
-                        <div class="pdf-collapsible" data-pdf="${data.storageUrl}">
-                            <div class="pdf-collapsible-header" onclick="togglePdf(this)">
-                                <span>🍳 ${data.title}</span>
-                                <span>▼</span>
+                        <div class="pdf-collapsible" style="border: 2px solid #fbbf24; border-radius: 12px; margin-bottom: 0.75rem; overflow: hidden;">
+                            <div class="pdf-collapsible-header" onclick="togglePdf(this)" style="background: #fef3c7; padding: 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-weight: bold; color: #b45309;">🍳 ${data.title}</span>
+                                <span style="color: #d97706;">▼</span>
                             </div>
-                            <div class="pdf-collapsible-content">
-                                <p style="font-size:0.85rem; text-align:center; margin-bottom:1rem;">スマートフォンで見ることをおすすめします</p>
+                            <div class="pdf-collapsible-content" style="display: none; padding: 1rem; background: white;">
                                 <div style="text-align:center;">
-                                    <a href="${data.storageUrl}" target="_blank" class="pdf-link-mobile">PDFを開く</a>
+                                    <a href="${data.storageUrl}" target="_blank" class="pdf-link-mobile" style="background: #f59e0b;">PDFを開く</a>
                                 </div>
                             </div>
                         </div>
