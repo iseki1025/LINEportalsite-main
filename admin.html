@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>透析状況 更新ツール</title>
     <!-- メインのstyle.cssを使用 -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-layout.css">
+    <link rel="stylesheet" href="components.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-    
+
     <!-- admin専用の追加スタイル -->
     <style>
         body {
             background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
         }
-        
+
         .admin-container {
             max-width: 700px;
             margin: 20px auto;
@@ -27,7 +30,7 @@
             border: 1px solid var(--border-light);
             overflow: hidden;
         }
-        
+
         .admin-header {
             text-align: center;
             padding: 40px 40px 20px 40px;
@@ -35,17 +38,17 @@
             color: white;
             margin-bottom: 0;
         }
-        
+
         .admin-header h1 {
             margin: 0;
             font-size: clamp(1.8rem, 4vw, 2.4rem);
             font-weight: 700;
         }
-        
+
         .admin-content {
             padding: 40px;
         }
-        
+
         .clinic-group {
             margin-bottom: 32px;
             padding: 24px;
@@ -55,12 +58,12 @@
             box-shadow: var(--shadow);
             transition: all 0.3s ease;
         }
-        
+
         .clinic-group:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
         }
-        
+
         .clinic-group label {
             font-weight: 600;
             display: block;
@@ -68,7 +71,7 @@
             color: var(--text-primary);
             font-size: 1.1em;
         }
-        
+
         .clinic-group select,
         .clinic-group input {
             width: 100%;
@@ -81,18 +84,18 @@
             transition: all 0.3s ease;
             background-color: var(--surface);
         }
-        
+
         .clinic-group select:focus,
         .clinic-group input:focus {
             outline: none;
             border-color: var(--c-status);
             box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
         }
-        
+
         .clinic-group input {
             margin-top: 12px;
         }
-        
+
         .generate-button {
             display: block;
             width: 100%;
@@ -108,22 +111,22 @@
             box-shadow: var(--shadow-lg);
             font-family: var(--font-family);
         }
-        
+
         .generate-button:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-xl);
         }
-        
+
         .output-area {
             margin-top: 40px;
             display: none;
         }
-        
+
         .output-area.show {
             display: block;
             animation: fadeInUp 0.6s ease-out;
         }
-        
+
         .output-area h2 {
             font-size: 1.4em;
             margin-bottom: 16px;
@@ -134,7 +137,7 @@
             margin-top: 0;
             border: none;
         }
-        
+
         .generated-code {
             width: 100%;
             height: 280px;
@@ -149,13 +152,13 @@
             resize: vertical;
             box-shadow: var(--shadow-sm);
         }
-        
+
         .generated-code:focus {
             outline: none;
             border-color: var(--c-status);
             box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
         }
-        
+
         .copy-button {
             display: block;
             width: 100%;
@@ -172,12 +175,12 @@
             box-shadow: var(--shadow);
             font-family: var(--font-family);
         }
-        
+
         .copy-button:hover {
             transform: translateY(-1px);
             box-shadow: var(--shadow-lg);
         }
-        
+
         .instructions {
             margin-top: 24px;
             padding: 24px;
@@ -187,7 +190,7 @@
             font-size: 0.95em;
             box-shadow: var(--shadow);
         }
-        
+
         .instructions h2 {
             margin: 0 0 16px 0;
             font-size: 1.2em;
@@ -196,18 +199,18 @@
             padding: 0;
             border: none;
         }
-        
+
         .instructions ol {
             margin: 0;
             padding-left: 20px;
             line-height: 1.7;
         }
-        
+
         .instructions li {
             margin-bottom: 8px;
             color: #78350f;
         }
-        
+
         .back-link {
             display: inline-flex;
             align-items: center;
@@ -221,60 +224,62 @@
             transition: all 0.3s ease;
             box-shadow: var(--shadow);
         }
-        
+
         .back-link::before {
             content: "←";
             margin-right: 8px;
             font-weight: 700;
         }
-        
+
         .back-link:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
             text-decoration: none;
         }
-        
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        
+
         /* レスポンシブデザイン */
         @media (max-width: 768px) {
             .admin-container {
                 margin: 10px;
                 border-radius: var(--border-radius-lg);
             }
-            
+
             .admin-header {
                 padding: 30px 20px 20px 20px;
             }
-            
+
             .admin-content {
                 padding: 20px;
             }
-            
+
             .clinic-group {
                 padding: 20px;
                 margin-bottom: 24px;
             }
-            
+
             .generate-button {
                 padding: 16px;
             }
-            
+
             .instructions {
                 padding: 20px;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="admin-container">
         <header class="admin-header">
@@ -379,7 +384,7 @@
             const textarea = document.getElementById('generated-code');
             textarea.select();
             textarea.setSelectionRange(0, 99999); // モバイル対応
-            
+
             try {
                 document.execCommand('copy');
                 // フィードバック表示
@@ -387,7 +392,7 @@
                 const originalText = button.textContent;
                 button.textContent = 'コピーしました！';
                 button.style.background = 'linear-gradient(135deg, var(--c-shunt) 0%, var(--c-shunt-dark) 100%)';
-                
+
                 setTimeout(() => {
                     button.textContent = originalText;
                     button.style.background = 'linear-gradient(135deg, var(--c-shunt) 0%, var(--c-shunt-dark) 100%)';
@@ -398,4 +403,5 @@
         }
     </script>
 </body>
+
 </html>
