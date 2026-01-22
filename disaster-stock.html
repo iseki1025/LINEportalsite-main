@@ -1,299 +1,113 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>防災袋チェックリスト | 災害情報ポータル</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* ページ特有のスタイル */
-        body {
-            background-color: #f3f4f6;
-        }
-        .page-header-simple {
-            background-color: #d9534f;
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .content-wrapper {
-            padding: 0 1rem 3rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* チェックリストのスタイル */
-        .checklist-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .checklist-category {
-            margin-bottom: 2.5rem;
-        }
-        .checklist-category h2 {
-            border-left: 6px solid #d9534f;
-            padding-left: 10px;
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            color: #333;
-            background-color: #ffeaea;
-            padding-top: 5px;
-            padding-bottom: 5px;
-        }
-        .checklist-item {
-            display: block;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px dashed #eee;
-        }
-        .checklist-item:last-child {
-            border-bottom: none;
-        }
-        .checklist-item label {
-            display: flex;
-            align-items: flex-start;
-            cursor: pointer;
-            font-size: 1.05rem;
-            font-weight: bold;
-            color: #333;
-        }
-        /* 画面表示用のチェックボックススタイル */
-        .checklist-item input[type="checkbox"] {
-            transform: scale(1.5);
-            margin-right: 12px;
-            margin-top: 4px;
-            flex-shrink: 0;
-            cursor: pointer;
-        }
-        .item-note {
-            display: block;
-            margin-top: 4px;
-            margin-left: 32px;
-            font-size: 0.9rem;
-            font-weight: normal;
-            color: #666;
-            line-height: 1.5;
-        }
-        .highlight-note {
-            background-color: #fff3cd;
-            padding: 0.5rem;
-            border-radius: 4px;
-            margin-top: 0.5rem;
-            margin-left: 32px;
-            font-size: 0.9rem;
-            color: #856404;
-        }
-
-        /* PDF保存ボタン */
-        .pdf-download-btn {
-            display: block;
-            width: 100%;
-            max-width: 300px;
-            margin: 0 auto 2rem;
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .pdf-download-btn:hover {
-            background-color: #555;
-        }
-        .pdf-download-btn::before {
-            content: "🖨️ ";
-        }
-
-        /* --- 印刷用スタイル --- */
-        @media print {
-            body {
-                background-color: white;
-                color: black;
-                /* 【修正】互換性のため標準プロパティを追加 */
-                -webkit-print-color-adjust: exact; 
-                print-color-adjust: exact;
-            }
-            .page-header-simple, .nav-back-container, .pdf-download-btn, footer {
-                display: none !important;
-            }
-            .container {
-                width: 100%;
-                max-width: 100%;
-                margin: 0;
-                padding: 0;
-            }
-            .content-wrapper {
-                max-width: 100%;
-                padding: 0;
-                margin: 0;
-            }
-            .checklist-container {
-                box-shadow: none;
-                padding: 0;
-            }
-            .checklist-category h2 {
-                background-color: transparent;
-                border-bottom: 2px solid #333;
-                border-left: none;
-                padding-left: 0;
-            }
-            
-            /* チェックボックスの表示設定 */
-            .checklist-item input[type="checkbox"] {
-                -webkit-appearance: checkbox !important;
-                appearance: checkbox !important;
-                display: inline-block;
-                transform: scale(1.3);
-                margin-right: 10px;
-            }
-            
-            /* 改ページ設定 */
-            .checklist-item {
-                page-break-inside: avoid;
-                margin-bottom: 0.8rem;
-                padding-bottom: 0.8rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="components.css">
 </head>
+
 <body class="theme-disaster">
     <div class="container">
-        
+
         <!-- ヘッダー -->
         <header class="page-header-simple">
             <h1>防災袋に入れる物<br>チェックリスト</h1>
         </header>
 
         <main class="content-wrapper">
-            
+
             <!-- PDF保存ボタン -->
             <button onclick="window.print()" class="pdf-download-btn">
                 チェック状態を保存して印刷 (PDF)
             </button>
-            <p style="text-align:center; font-size:0.9rem; margin-bottom:2rem; color:#666;">
+            <p style="text-align:center; font-size:0.9rem; margin-bottom:2rem; color:var(--text-muted);">
                 ※チェックボックスをクリックしてチェックを入れてから上記のボタンを押すと、<br>チェックが入った状態で保存できます。
             </p>
 
             <div class="checklist-container">
-                
+
                 <!-- 1. 一般的な用品 -->
                 <section class="checklist-category">
                     <h2>一般的な用品</h2>
-                    
+
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 懐中電灯
-                        </label>
+                        <label><input type="checkbox"> 懐中電灯</label>
                         <span class="item-note">電池が長持ちするLEDライトがおすすめです。</span>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 乾電池
-                        </label>
+                        <label><input type="checkbox"> 乾電池</label>
                         <span class="item-note">懐中電灯・ラジオ用。サイズを確認しましょう。</span>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 携帯電話充電器
-                        </label>
+                        <label><input type="checkbox"> 携帯電話充電器</label>
                         <span class="item-note">乾電池式やソーラー充電式があると安心です。</span>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 日常の必需品
-                        </label>
+                        <label><input type="checkbox"> 日常の必需品</label>
                         <span class="item-note">メガネ、入れ歯など。ケースに入れると壊れにくくなります。</span>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 靴
-                        </label>
+                        <label><input type="checkbox"> 靴</label>
                         <span class="item-note">履き慣れたものを用意しましょう。</span>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> タオル、下着、衣類
-                        </label>
+                        <label><input type="checkbox"> タオル、下着、衣類</label>
                         <span class="item-note">少量でもあると安心です。</span>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> ブランケット、毛布類
-                        </label>
+                        <label><input type="checkbox"> ブランケット、毛布類</label>
                         <span class="item-note">避難先で寒さから身を守るために必要です。</span>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> ティッシュ、ウェットティッシュ
-                        </label>
+                        <label><input type="checkbox"> ティッシュ、ウェットティッシュ</label>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> マスク
-                        </label>
+                        <label><input type="checkbox"> マスク</label>
                         <span class="item-note">がれきのホコリから喉を守り、避難所での感染を防ぎます。</span>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 雨具（レインコートなど）
-                        </label>
+                        <label><input type="checkbox"> 雨具（レインコートなど）</label>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 手袋
-                        </label>
+                        <label><input type="checkbox"> 手袋</label>
                         <span class="item-note">特殊軍手や革手袋だと、ガラス片などでも怪我をしにくくなります。</span>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> ビニール袋、ごみポリ袋
-                        </label>
+                        <label><input type="checkbox"> ビニール袋、ごみポリ袋</label>
                         <span class="item-note">防寒、防水、ゴミ処理など色々な用途に使え重宝します。</span>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 笛（ホイッスル）
-                        </label>
+                        <label><input type="checkbox"> 笛（ホイッスル）</label>
                         <span class="item-note">声を出す元気がなくても救助を求められる命綱です。</span>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 水
-                        </label>
+                        <label><input type="checkbox"> 水</label>
                         <span class="item-note">ペットボトル1～2本程度。</span>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 現金
-                        </label>
+                        <label><input type="checkbox"> 現金</label>
                         <span class="item-note">自動販売機や公衆電話のために、小銭（特に10円・100円）が多いと便利です。</span>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 貴重品・身分証明書
-                        </label>
+                        <label><input type="checkbox"> 貴重品・身分証明書</label>
                         <span class="item-note">預金通帳、印鑑、保険証書、本人確認ができる免許証のコピーなど。</span>
                     </div>
                 </section>
@@ -304,9 +118,7 @@
                     <h2>透析者として特別に用意すべき重要な用品</h2>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 保険証・各種受給者証（コピー）
-                        </label>
+                        <label><input type="checkbox"> 保険証・各種受給者証（コピー）</label>
                         <span class="item-note">
                             コピーを全部揃えておくと、被災時にスムーズに医療を受けられます。<br>
                             ※書き換えがあったら、速やかにコピーを取り直してください。
@@ -314,27 +126,21 @@
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 自宅近くの透析施設の情報
-                        </label>
+                        <label><input type="checkbox"> 自宅近くの透析施設の情報</label>
                         <span class="item-note">
                             自宅の近くにある透析施設の「所在地」「電話番号」をメモしておくと便利です。
                         </span>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 普段飲んでいる薬
-                        </label>
+                        <label><input type="checkbox"> 普段飲んでいる薬</label>
                         <span class="highlight-note">
                             透析者は薬が切れると体が苦しくなったり、急激に体調を崩したりするおそれがあります。
                         </span>
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 透析条件カード
-                        </label>
+                        <label><input type="checkbox"> 透析条件カード</label>
                         <span class="item-note">
                             患者様それぞれの透析条件をはじめとした患者情報が記載されたカードです。<br>
                             災害時、他の医療機関で透析を受ける際に情報を正確に提供できます。
@@ -342,9 +148,7 @@
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 非常食・保存食
-                        </label>
+                        <label><input type="checkbox"> 非常食・保存食</label>
                         <span class="item-note">
                             <strong>カリウム、塩分を考慮したもの。</strong><br>
                             体調を悪化させずに必要なカロリーを摂取できる食品（ビスケット、クッキー、飴など）。
@@ -352,9 +156,7 @@
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> AM / FMラジオ
-                        </label>
+                        <label><input type="checkbox"> AM / FMラジオ</label>
                         <span class="item-note">
                             乾電池だけで長時間稼働する機種が推奨です。<br>
                             停電時やテレビが見られない時の重要な情報源です。阪神大震災の際もラジオから透析情報が流されました。<br>
@@ -364,9 +166,7 @@
                     </div>
 
                     <div class="checklist-item">
-                        <label>
-                            <input type="checkbox"> 10円玉（公衆電話用）
-                        </label>
+                        <label><input type="checkbox"> 10円玉（公衆電話用）</label>
                         <span class="item-note">
                             災害時優先電話である公衆電話は、携帯が使えない時の命綱です。<br>
                             <strong>停電するとテレホンカードは使えない</strong>ため、10円玉を多めに用意しましょう。
@@ -383,19 +183,16 @@
 
         </main>
 
-        <footer>
+        <footer class="page-footer">
             <p><small>&copy; 2025 医療法人 好輝会 梶本クリニック</small></p>
         </footer>
     </div>
 
     <!-- 印刷時にチェック状態を確実に反映させるためのスクリプト -->
     <script>
-        // 印刷（またはPDF保存）の直前に実行されるイベント
         window.addEventListener('beforeprint', () => {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             checkboxes.forEach(box => {
-                // チェックされている場合、HTMLの属性として 'checked="checked"' を明示的に付与する
-                // これにより、プリンタドライバやPDF変換エンジンが状態を認識しやすくなります
                 if (box.checked) {
                     box.setAttribute('checked', 'checked');
                 } else {
@@ -405,4 +202,5 @@
         });
     </script>
 </body>
+
 </html>

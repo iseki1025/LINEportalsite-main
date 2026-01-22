@@ -7,165 +7,33 @@
     <title>栄養クイズ | 梶本クリニック</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="mobile-layout.css">
+    <link rel="stylesheet" href="components.css">
     <style>
-        /* Quiz-specific styles */
-        .quiz-progress-container {
-            width: 100%;
-            height: 6px;
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 3px;
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-        }
-
+        /* Theme-specific override for nutrition quiz */
         .quiz-progress-fill {
-            height: 100%;
             background: linear-gradient(90deg, #34a853, #fbbc04);
-            border-radius: 3px;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .quiz-question-number {
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 0.5rem;
-            text-align: center;
-        }
-
-        .quiz-question-text {
-            font-size: 1.15rem;
-            font-weight: bold;
-            color: #333;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
-        }
-
-        .quiz-options {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .quiz-option {
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 1rem;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-        }
-
-        .quiz-option:active {
-            transform: scale(0.98);
-        }
-
-        .quiz-option.correct {
-            background: #d4edda;
-            border-color: #28a745;
-            color: #155724;
-        }
-
-        .quiz-option.incorrect {
-            background: #f8d7da;
-            border-color: #dc3545;
-            color: #721c24;
-        }
-
-        .quiz-option.disabled {
-            pointer-events: none;
-            opacity: 0.7;
-        }
-
-        .quiz-explanation {
-            background: #fff3cd;
-            border-radius: 12px;
-            padding: 1rem;
-            margin-top: 1rem;
-            display: none;
-        }
-
-        .quiz-explanation.show {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .explanation-title {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: #856404;
         }
 
         .quiz-next-btn {
-            width: 100%;
-            padding: 1rem;
             background: linear-gradient(135deg, #34a853, #1e8e3e);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 1.5rem;
             box-shadow: 0 4px 12px rgba(52, 168, 83, 0.3);
-            transition: transform 0.2s;
-        }
-
-        .quiz-next-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* Result Container */
-        .quiz-result-container {
-            display: none;
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .quiz-result-container.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .result-emoji {
-            font-size: 4rem;
-            margin-bottom: 1rem;
         }
 
         .result-score {
-            font-size: 2.5rem;
-            font-weight: bold;
             color: #34a853;
-            margin: 1rem 0;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
     </style>
 </head>
 
-<body class="theme-nutrition app-mode">
+<body class="theme-friend app-mode">
     <header class="app-header">
-        <a href="friend-nutrition-main.html"
-            style="position:absolute; left:1rem; font-size:1.5rem; color:#333; text-decoration:none;">&lt;</a>
+        <a href="friend-nutrition-main.html" class="back-button">&lt;</a>
         <div class="app-title">栄養クイズ</div>
     </header>
 
     <main class="app-content-scroll">
         <div class="app-card-generic" style="text-align:center; margin-bottom:1.5rem;">
-            <p style="margin:0; font-size:0.9rem; color:#666;">30問からランダムに5問出題されます</p>
+            <p style="margin:0; font-size:0.9rem; color:var(--text-muted);">30問からランダムに5問出題されます</p>
         </div>
 
         <div class="quiz-progress-container">
@@ -187,11 +55,11 @@
 
     <nav class="bottom-nav">
         <a href="friend-main.html" class="nav-item">
-            <span class="nav-icon">🎁</span>
+            <div class="nav-icon">🎁</div>
             <span>お友達</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <span class="nav-icon">❓</span>
+            <div class="nav-icon">❓</div>
             <span>Q&A</span>
         </a>
     </nav>

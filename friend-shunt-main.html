@@ -7,154 +7,12 @@
     <title>シャント管理 | 梶本クリニック</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="mobile-layout.css">
-    <style>
-        /* Full Image Card Style (Friend Portal Look) */
-        .check-grid {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .check-item {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            min-height: 240px;
-            /* Taller to fit text */
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            background: #000;
-            text-decoration: none;
-            color: white;
-        }
-
-        .check-item img.check-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 0;
-            opacity: 0.9;
-        }
-
-        .check-overlay {
-            position: relative;
-            z-index: 1;
-            /* Gradient similar to Friend Portal but adapting to content height */
-            background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 20%, rgba(0, 0, 0, 0.95) 100%);
-            padding: 1.5rem;
-            padding-top: 3rem;
-            /* Push content down initially */
-        }
-
-        .check-overlay h4 {
-            font-size: 1.1rem;
-            margin: 0 0 0.5rem;
-            font-weight: bold;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-            color: white;
-        }
-
-        .check-overlay p {
-            font-size: 0.95rem;
-            margin: 0;
-            line-height: 1.5;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-            color: rgba(255, 255, 255, 0.95);
-        }
-
-        /* List & Buttons */
-        .ng-list {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            list-style: none;
-        }
-
-        .ng-list li {
-            position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.8rem;
-            font-size: 0.95rem;
-            color: #444;
-            line-height: 1.5;
-        }
-
-        .ng-list li::before {
-            content: '✖';
-            position: absolute;
-            left: 0;
-            color: #e53e3e;
-            font-weight: bold;
-        }
-
-        .emergency-btn {
-            width: 100%;
-            padding: 1rem;
-            background: #e53e3e;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-weight: bold;
-            box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
-            margin-top: 2rem;
-            cursor: pointer;
-        }
-
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
-            z-index: 2000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: white;
-            width: 90%;
-            max-width: 400px;
-            border-radius: 20px;
-            padding: 2rem;
-            position: relative;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .contact-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .contact-link {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 12px;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="components.css">
 </head>
 
-<body class="theme-shunt app-mode">
+<body class="theme-friend app-mode">
     <header class="app-header">
-        <a href="friend-main.html"
-            style="position:absolute; left:1rem; font-size:1.5rem; color:#333; text-decoration:none;">&lt;</a>
+        <a href="friend-main.html" class="back-button">&lt;</a>
         <div class="app-title">シャント管理</div>
     </header>
 
@@ -167,12 +25,12 @@
 
         <!-- ① Info -->
         <section id="info" class="app-page-section active">
-            <div class="app-card-generic">
-                <h2 style="font-size:1.1rem; text-align:center; margin-bottom:0.5rem; color:#1a73e8;">シャントは「命綱」</h2>
-                <p style="text-align:center; font-size:0.95rem; line-height:1.6;">日頃の自己管理が非常に重要です。</p>
+            <div class="app-card-generic" style="text-align:center;">
+                <h2 style="font-size:1.1rem; margin-bottom:0.5rem; color:var(--color-primary);">シャントは「命綱」</h2>
+                <p style="font-size:0.95rem; line-height:1.6;">日頃の自己管理が非常に重要です。</p>
             </div>
 
-            <h3 style="margin: 1.5rem 0.5rem 1rem; font-size:1rem; color:#444;">毎日のチェックポイント</h3>
+            <h3 style="margin: 1.5rem 0.5rem 1rem; font-size:1rem; color:var(--text-main);">毎日のチェックポイント</h3>
 
             <div class="check-grid">
                 <!-- Look -->
@@ -201,7 +59,7 @@
                 </div>
             </div>
 
-            <h3 style="margin: 1.5rem 0.5rem 1rem; font-size:1rem; color:#444;">日常生活の注意点</h3>
+            <h3 style="margin: 1.5rem 0.5rem 1rem; font-size:1rem; color:var(--text-main);">日常生活の注意点</h3>
             <ul class="ng-list">
                 <li>シャント側で重いものを持たない</li>
                 <li>シャント側で血圧測定や採血をしない</li>
@@ -217,10 +75,7 @@
             <div class="app-card-generic" style="text-align:center; padding:3rem 1.5rem;">
                 <h2 style="margin-bottom:1rem;">シャント管理クイズ</h2>
                 <p style="margin-bottom:2rem;">ゲーム感覚で楽しく知識が身につきます。</p>
-                <a href="friend-shunt-quiz.html" class="quiz-button"
-                    style="display:inline-block; padding:12px 30px; background:#1a73e8; color:white; border-radius:30px; text-decoration:none; font-weight:bold; box-shadow:0 4px 10px rgba(26,115,232,0.3);">
-                    クイズに挑戦
-                </a>
+                <a href="friend-shunt-quiz.html" class="quiz-button">クイズに挑戦</a>
             </div>
         </section>
 
@@ -233,12 +88,9 @@
                     style="width:100%; padding:12px; border-radius:12px; border:1px solid #ddd; background:rgba(255,255,255,0.9);">
             </div>
             <div class="keyword-buttons" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:1.5rem;">
-                <button class="keyword-button" onclick="setKeyword('痛み')"
-                    style="padding:6px 12px; border-radius:20px; border:none; background:#eee; font-size:0.8rem;">痛み</button>
-                <button class="keyword-button" onclick="setKeyword('閉塞')"
-                    style="padding:6px 12px; border-radius:20px; border:none; background:#eee; font-size:0.8rem;">閉塞</button>
-                <button class="keyword-button" onclick="setKeyword('感染')"
-                    style="padding:6px 12px; border-radius:20px; border:none; background:#eee; font-size:0.8rem;">感染</button>
+                <button class="keyword-button" onclick="setKeyword('痛み')">痛み</button>
+                <button class="keyword-button" onclick="setKeyword('閉塞')">閉塞</button>
+                <button class="keyword-button" onclick="setKeyword('感染')">感染</button>
             </div>
             <div class="qa-results-container"></div>
         </section>
@@ -248,11 +100,11 @@
 
     <nav class="bottom-nav">
         <a href="friend-main.html" class="nav-item">
-            <span class="nav-icon">🎁</span>
+            <div class="nav-icon">🎁</div>
             <span>お友達</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <span class="nav-icon">❓</span>
+            <div class="nav-icon">❓</div>
             <span>Q&A</span>
         </a>
     </nav>
@@ -260,8 +112,7 @@
     <!-- Modal Logic -->
     <div class="modal-overlay" id="contactOverlay">
         <div class="modal-content">
-            <button class="close-modal-btn" id="closeContactModal"
-                style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:1.5rem; color:#aaa;">&times;</button>
+            <button class="close-modal-btn" id="closeContactModal">&times;</button>
             <h3 style="text-align:center; margin-bottom:0;">連絡先を選択</h3>
             <div class="contact-list">
                 <a href="tel:0664519010" class="contact-link"><span>本院</span><span>📞</span></a>

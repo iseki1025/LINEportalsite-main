@@ -7,84 +7,34 @@
     <title>フットケア | 梶本クリニック</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="mobile-layout.css">
+    <link rel="stylesheet" href="components.css">
     <style>
+        /* Footcare-specific theme colors */
         .footcare-list li {
             margin-bottom: 0.8rem;
             line-height: 1.5;
             font-size: 0.9rem;
-            color: #444;
+            color: var(--text-main, #444);
         }
 
         .footcare-list strong {
             color: #d81b60;
         }
 
-        .caution-box {
+        /* Themed caution box */
+        .caution-box.theme-pink {
             background: #fce4ec;
             border: 1px solid #f8bbd0;
-            border-radius: 12px;
-            padding: 1rem;
-            display: flex;
-            gap: 1rem;
-            align-items: start;
         }
 
-        .caution-icon-img {
-            width: 24px;
-            height: 24px;
-        }
-
-        .caution-content h3 {
+        .caution-box.theme-pink .caution-content h3,
+        .caution-box.theme-pink .caution-content p {
             color: #880e4f;
-            margin: 0 0 0.5rem;
-            font-size: 0.95rem;
         }
 
-        .caution-content p {
-            color: #880e4f;
-            margin: 0;
-            font-size: 0.85rem;
-        }
-
-        /* PDF styles similar to other pages */
-        .pdf-collapsible {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-            border: 1px solid #eee;
-        }
-
-        .pdf-collapsible-header {
-            padding: 1rem;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            background: #fafafa;
-        }
-
-        .pdf-collapsible-content {
-            display: none;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .pdf-collapsible.is-open .pdf-collapsible-content {
-            display: block;
-        }
-
-        .pdf-btn {
-            display: inline-block;
+        /* Themed PDF button */
+        .pdf-btn.theme-pink {
             background: #d81b60;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 24px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.9rem;
             box-shadow: 0 4px 10px rgba(216, 27, 96, 0.3);
         }
     </style>
@@ -92,8 +42,7 @@
 
 <body class="theme-friend app-mode">
     <header class="app-header">
-        <a href="friend-main.html"
-            style="position:absolute; left:1rem; font-size:1.5rem; color:#333; text-decoration:none;">&lt;</a>
+        <a href="friend-main.html" class="back-button">&lt;</a>
         <div class="app-title">フットケア</div>
     </header>
 
@@ -124,7 +73,7 @@
                 </ul>
             </div>
 
-            <div class="caution-box">
+            <div class="caution-box theme-pink">
                 <img src="files/common/caution-icon.png" alt="注意" class="caution-icon-img">
                 <div class="caution-content">
                     <h3>すぐに相談を</h3>
@@ -151,7 +100,8 @@
                 </div>
                 <div class="pdf-collapsible-content">
                     <p style="margin-bottom:1rem; font-size:0.9rem; color:#555;">詳しいケア方法をPDFで確認できます。</p>
-                    <a href="files/pdf/footcare-guide-book.pdf" target="_blank" class="pdf-btn">PDFを開く</a>
+                    <a href="files/pdf/footcare-guide-book.pdf" target="_blank" class="pdf-link-mobile"
+                        style="background:#d81b60;">PDFを開く</a>
                 </div>
             </div>
 
@@ -168,11 +118,11 @@
 
     <nav class="bottom-nav">
         <a href="friend-main.html" class="nav-item">
-            <span class="nav-icon">🎁</span>
+            <div class="nav-icon">🎁</div>
             <span>お友達</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <span class="nav-icon">❓</span>
+            <div class="nav-icon">❓</div>
             <span>Q&A</span>
         </a>
     </nav>

@@ -7,69 +7,12 @@
     <title>栄養情報 | 梶本クリニック</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="mobile-layout.css">
-    <style>
-        .nutrition-list li {
-            margin-bottom: 0.8rem;
-            line-height: 1.5;
-            font-size: 0.9rem;
-            color: #444;
-        }
-
-        .nutrition-list strong {
-            color: #2c7be5;
-        }
-
-        /* Recipe Overrides */
-        #recipeContainer {
-            margin-top: 1rem;
-        }
-
-        .pdf-collapsible {
-            background: white;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            border: 1px solid #eee;
-        }
-
-        .pdf-collapsible-header {
-            padding: 1rem;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            background: #fafafa;
-        }
-
-        .pdf-collapsible-content {
-            display: none;
-            padding: 1rem;
-            background: white;
-        }
-
-        .pdf-collapsible.is-open .pdf-collapsible-content {
-            display: block;
-        }
-
-        .pdf-link-mobile {
-            display: inline-block;
-            background: #2c7be5;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-    </style>
+    <link rel="stylesheet" href="components.css">
 </head>
 
-<body class="theme-nutrition app-mode">
+<body class="theme-friend app-mode">
     <header class="app-header">
-        <a href="friend-main.html"
-            style="position:absolute; left:1rem; font-size:1.5rem; color:#333; text-decoration:none;">&lt;</a>
+        <a href="friend-main.html" class="back-button">&lt;</a>
         <div class="app-title">栄養情報</div>
     </header>
 
@@ -84,7 +27,8 @@
         <!-- Tab 1: Info -->
         <section id="info" class="app-page-section active">
             <div class="app-card-generic">
-                <h2 style="font-size:1.1rem; text-align:center; margin-bottom:0.8rem; color:#2c7be5;">食事療法の5つの基本</h2>
+                <h2 style="font-size:1.1rem; text-align:center; margin-bottom:0.8rem; color:var(--color-primary);">
+                    食事療法の5つの基本</h2>
                 <ul class="nutrition-list" style="padding-left:1.2rem;">
                     <li><strong>水分・塩分:</strong> 摂りすぎは血圧上昇や心負担の原因に。</li>
                     <li><strong>カリウム:</strong> 野菜や果物は茹でこぼし等の工夫を。</li>
@@ -93,8 +37,8 @@
                     <li><strong>エネルギー:</strong> 炭水化物や脂質でしっかり確保。</li>
                 </ul>
             </div>
-            <div class="app-card-generic" style="background:#e3f2fd; border-color:#bbdefb;">
-                <p style="font-size:0.9rem; text-align:center; margin:0; color:#0d47a1;">
+            <div class="app-card-generic" style="background:#e0f2fe; border-color:#7dd3fc;">
+                <p style="font-size:0.9rem; text-align:center; margin:0; color:#0284c7;">
                     適切な食事管理は、透析を楽にし、合併症を予防します。
                 </p>
             </div>
@@ -113,10 +57,7 @@
             <div class="app-card-generic" style="text-align:center; padding:3rem 1.5rem;">
                 <h2 style="margin-bottom:1rem;">栄養クイズ</h2>
                 <p style="margin-bottom:2rem;">食事管理に役立つ知識をゲーム感覚で！</p>
-                <a href="friend-nutrition-quiz.html" class="quiz-button"
-                    style="display:inline-block; padding:12px 30px; background:#2c7be5; color:white; border-radius:30px; text-decoration:none; font-weight:bold; box-shadow:0 4px 10px rgba(44,123,229,0.3);">
-                    挑戦する
-                </a>
+                <a href="friend-nutrition-quiz.html" class="quiz-button">挑戦する</a>
             </div>
         </section>
 
@@ -128,12 +69,9 @@
                     style="width:100%; padding:12px; border-radius:12px; border:1px solid #ddd; background:rgba(255,255,255,0.9);">
             </div>
             <div class="keyword-buttons" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:1.5rem;">
-                <button class="keyword-button" onclick="setKeyword('リン')"
-                    style="padding:6px 12px; border-radius:20px; border:none; background:#eee; font-size:0.8rem;">リン</button>
-                <button class="keyword-button" onclick="setKeyword('カリウム')"
-                    style="padding:6px 12px; border-radius:20px; border:none; background:#eee; font-size:0.8rem;">カリウム</button>
-                <button class="keyword-button" onclick="setKeyword('塩分')"
-                    style="padding:6px 12px; border-radius:20px; border:none; background:#eee; font-size:0.8rem;">塩分</button>
+                <button class="keyword-button" onclick="setKeyword('リン')">リン</button>
+                <button class="keyword-button" onclick="setKeyword('カリウム')">カリウム</button>
+                <button class="keyword-button" onclick="setKeyword('塩分')">塩分</button>
             </div>
             <div class="qa-results-container"></div>
         </section>
@@ -143,11 +81,11 @@
 
     <nav class="bottom-nav">
         <a href="friend-main.html" class="nav-item">
-            <span class="nav-icon">🎁</span>
+            <div class="nav-icon">🎁</div>
             <span>お友達</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <span class="nav-icon">❓</span>
+            <div class="nav-icon">❓</div>
             <span>Q&A</span>
         </a>
     </nav>

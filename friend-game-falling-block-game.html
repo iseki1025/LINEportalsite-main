@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>オリジナルパズル</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="components.css">
     <style>
         /* スクロール完全禁止 */
-        html, body { overflow: hidden; height: 100%; width: 100%; touch-action: none; user-select: none; }
+        html,
+        body {
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+            touch-action: none;
+            user-select: none;
+        }
     </style>
 </head>
+
 <body class="theme-friend game-mode-fullscreen">
-    
+
     <div class="game-container" id="mainContainer">
-        
+
         <!-- 【スマホ用】上部ヘッダー (情報表示) -->
         <div class="mobile-header-stats">
             <div class="mobile-next-area">
@@ -27,15 +37,15 @@
 
         <!-- 【PC用】タイトル (スマホでは非表示) -->
         <h1 class="game-title" style="margin-bottom:1rem; font-size:1.5rem;">🧩 オリジナルパズル</h1>
-        
+
         <!-- メインレイアウト -->
         <div class="puzzle-layout">
-            
+
             <!-- 【PC用】左パネル (ボタン & 説明) -->
             <div class="side-panel-left">
                 <button class="game-btn btn-primary" id="pcStartBtn">スタート</button>
                 <button class="game-btn btn-secondary" onclick="resetGame()">リセット</button>
-                
+
                 <!-- PC用 戻るボタン -->
                 <button class="game-btn" style="background:#4b5563;" onclick="quitGame()">← 戻る</button>
 
@@ -50,7 +60,7 @@
             <!-- 【共通】ゲーム画面 -->
             <div class="canvas-area">
                 <canvas id="gameCanvas"></canvas>
-                
+
                 <!-- ゲームオーバー画面 -->
                 <div id="gameOver" class="game-over-overlay">
                     <h2 style="color:#ef4444; margin-bottom:1rem; font-size:2rem;">GAME OVER</h2>
@@ -85,7 +95,7 @@
         <div class="mobile-pad">
             <button class="pad-btn mobile-start-btn" id="mobileStartBtn">START</button>
             <button class="pad-btn" id="rotateBtn">↻</button>
-            
+
             <button class="pad-btn" id="leftBtn">◀</button>
             <button class="pad-btn" id="downBtn">▼</button>
             <button class="pad-btn" id="rightBtn">▶</button>
@@ -99,7 +109,7 @@
             const vh = window.innerHeight;
             document.body.style.height = vh + 'px';
             const container = document.getElementById('mainContainer');
-            if(container) container.style.height = vh + 'px';
+            if (container) container.style.height = vh + 'px';
         }
         window.addEventListener('resize', fixViewport);
         fixViewport();
@@ -112,32 +122,32 @@
         const mobileNextCanvas = document.getElementById('mobileNextCanvas');
         const gameOverDiv = document.getElementById('gameOver');
         const finalScoreEl = document.getElementById('finalScore');
-        
+
         // スコア表示用
         const scoreEls = [document.getElementById('pc-score'), document.getElementById('m-score')];
         const levelEls = [document.getElementById('pc-level'), document.getElementById('m-level')];
         const linesEls = [document.getElementById('pc-lines'), document.getElementById('m-lines')];
 
         // 設定 (著作権対策: 12列)
-        const COLS = 12; 
+        const COLS = 12;
         const ROWS = 20;
-        let BLOCK_SIZE = 24; 
+        let BLOCK_SIZE = 24;
 
         // リサイズ処理
         function resizeGame() {
             const container = document.querySelector('.canvas-area');
-            if(!container) return;
+            if (!container) return;
             const w = container.clientWidth;
             const h = container.clientHeight;
-            
+
             let size = Math.floor(h / ROWS);
             if (size * COLS > w) size = Math.floor(w / COLS);
-            
+
             BLOCK_SIZE = Math.max(10, size);
             canvas.width = BLOCK_SIZE * COLS;
             canvas.height = BLOCK_SIZE * ROWS;
-            
-            if(typeof board !== 'undefined') draw();
+
+            if (typeof board !== 'undefined') draw();
         }
         window.addEventListener('resize', resizeGame);
         setTimeout(resizeGame, 200);
@@ -195,11 +205,11 @@
             '#ef4444'  // 赤
         ];
 
-        let board = Array.from({length: ROWS}, () => Array(COLS).fill(0));
+        let board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
         let score = 0, lines = 0, level = 1;
         let dropInterval = 1000, lastTime = 0, dropCounter = 0;
         let isPaused = true, isGameOver = false;
-        
+
         let player = {
             matrix: null, x: 0, y: 0, color: '',
             nextMatrix: null, nextColor: ''
@@ -221,9 +231,9 @@
             }
             player.y = 0;
             player.x = (Math.floor(COLS / 2)) - (Math.floor(player.matrix[0].length / 2));
-            
+
             drawNext();
-            
+
             if (collide(board, player)) {
                 isGameOver = true; isPaused = true;
                 finalScoreEl.textContent = score;
@@ -237,7 +247,7 @@
             const N = matrix.length;
             const M = matrix[0].length;
             // 90度回転後のサイズ (MxN)
-            const newMatrix = Array.from({length: M}, () => Array(N).fill(0));
+            const newMatrix = Array.from({ length: M }, () => Array(N).fill(0));
 
             for (let y = 0; y < N; y++) {
                 for (let x = 0; x < M; x++) {
@@ -256,7 +266,7 @@
         function playerRotate(dir) {
             const pos = player.x;
             let offset = 1;
-            
+
             // 回転後のマトリックスを計算
             const rotated = rotateMatrix(player.matrix, dir);
             const original = player.matrix;
@@ -278,12 +288,12 @@
         // 他の描画・衝突判定ロジック
         function drawNext() {
             [pcNextCanvas, mobileNextCanvas].forEach(cnv => {
-                if(!cnv || cnv.offsetParent === null) return;
+                if (!cnv || cnv.offsetParent === null) return;
                 const c = cnv.getContext('2d');
                 c.fillStyle = '#111827'; c.fillRect(0, 0, cnv.width, cnv.height);
                 const m = player.nextMatrix;
-                if(!m) return;
-                
+                if (!m) return;
+
                 // プレビューのサイズ調整
                 const blockSize = 8;
                 const w = m[0].length * blockSize;
@@ -315,19 +325,19 @@
         function draw() {
             ctx.fillStyle = '#111827';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
+
             // 固定ブロック
             board.forEach((row, y) => {
                 row.forEach((value, x) => {
                     if (value !== 0) {
                         ctx.fillStyle = '#4b5563';
-                        ctx.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE-1, BLOCK_SIZE-1);
+                        ctx.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE - 1, BLOCK_SIZE - 1);
                         ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-                        ctx.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE-1, BLOCK_SIZE-1);
+                        ctx.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE - 1, BLOCK_SIZE - 1);
                     }
                 });
             });
-            
+
             // プレイヤー
             if (player.matrix) {
                 player.matrix.forEach((row, y) => {
@@ -379,9 +389,9 @@
         }
 
         function updateUI() {
-            scoreEls.forEach(el => { if(el) el.textContent = score; });
-            linesEls.forEach(el => { if(el) el.textContent = lines; });
-            levelEls.forEach(el => { if(el) el.textContent = level; });
+            scoreEls.forEach(el => { if (el) el.textContent = score; });
+            linesEls.forEach(el => { if (el) el.textContent = lines; });
+            levelEls.forEach(el => { if (el) el.textContent = level; });
         }
 
         function update(time = 0) {
@@ -400,13 +410,13 @@
                 update();
                 const pcBtn = document.getElementById('pcStartBtn');
                 const mBtn = document.getElementById('mobileStartBtn');
-                if(pcBtn) pcBtn.textContent = '再開';
-                if(mBtn) { mBtn.textContent = '中'; mBtn.disabled = true; }
+                if (pcBtn) pcBtn.textContent = '再開';
+                if (mBtn) { mBtn.textContent = '中'; mBtn.disabled = true; }
             }
         }
 
         function resetGame() {
-            board = Array.from({length: ROWS}, () => Array(COLS).fill(0));
+            board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
             score = 0; lines = 0; level = 1; dropInterval = 1000;
             player.nextMatrix = null;
             isGameOver = false; isPaused = true;
@@ -416,7 +426,7 @@
         }
 
         function quitGame() {
-            if(confirm('ゲームを終了して戻りますか？')) {
+            if (confirm('ゲームを終了して戻りますか？')) {
                 location.href = 'friend-game-main.html';
             }
         }
@@ -429,7 +439,7 @@
             if (isPaused || isSoftDropping) return;
             isSoftDropping = true;
             function loop() {
-                if(!isSoftDropping || isPaused) return;
+                if (!isSoftDropping || isPaused) return;
                 playerDrop(); draw();
                 softDropTimer = setTimeout(loop, 50); // 50ms間隔
             }
@@ -439,12 +449,12 @@
 
         function attachBtn(id, action, isHold = false) {
             const btn = document.getElementById(id);
-            if(!btn) return;
-            const start = (e) => { e.preventDefault(); if(isHold) action.start(); else action(); };
-            const end = (e) => { e.preventDefault(); if(isHold) action.stop(); };
+            if (!btn) return;
+            const start = (e) => { e.preventDefault(); if (isHold) action.start(); else action(); };
+            const end = (e) => { e.preventDefault(); if (isHold) action.stop(); };
             btn.addEventListener('mousedown', start);
-            btn.addEventListener('touchstart', start, {passive:false});
-            if(isHold) {
+            btn.addEventListener('touchstart', start, { passive: false });
+            if (isHold) {
                 btn.addEventListener('mouseup', end); btn.addEventListener('mouseleave', end); btn.addEventListener('touchend', end);
             }
         }
@@ -452,9 +462,9 @@
         attachBtn('leftBtn', () => playerMove(-1));
         attachBtn('rightBtn', () => playerMove(1));
         attachBtn('rotateBtn', () => playerRotate(1));
-        attachBtn('downBtn', {start: startSoftDrop, stop: stopSoftDrop}, true);
+        attachBtn('downBtn', { start: startSoftDrop, stop: stopSoftDrop }, true);
         attachBtn('dropBtn', () => {
-            while(!collide(board, player)) { player.y++; }
+            while (!collide(board, player)) { player.y++; }
             player.y--; merge(board, player); arenaSweep(); playerReset();
         });
 
@@ -468,7 +478,7 @@
             else if (e.keyCode === 40) startSoftDrop();
             else if (event.keyCode === 38) playerRotate(1);
             else if (e.keyCode === 32) {
-                while(!collide(board, player)) { player.y++; }
+                while (!collide(board, player)) { player.y++; }
                 player.y--; merge(board, player); arenaSweep(); playerReset();
             }
         });
@@ -478,4 +488,5 @@
         draw();
     </script>
 </body>
+
 </html>

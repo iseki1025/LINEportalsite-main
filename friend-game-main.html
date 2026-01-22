@@ -7,19 +7,19 @@
     <title>ミニゲーム | 梶本クリニック</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="mobile-layout.css">
+    <link rel="stylesheet" href="components.css">
     <style>
+        /* Game Card Styles */
         .game-card {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.85);
-            /* border: 1px solid rgba(255,255,255,0.5); */
-            /* Removed subtle border preference to shadow */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: var(--shadow-md, 0 4px 15px rgba(0, 0, 0, 0.05));
+            border-radius: var(--radius-m, 16px);
             padding: 1.2rem;
             margin-bottom: 1rem;
             text-decoration: none;
-            color: #333;
+            color: var(--text-main, #333);
             transition: transform 0.2s, box-shadow 0.2s;
             position: relative;
             overflow: hidden;
@@ -38,8 +38,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f0f2f5;
-            border-radius: 12px;
+            background: var(--bg-body, #F0FDFA);
+            border-radius: var(--radius-s, 12px);
         }
 
         .game-info {
@@ -56,7 +56,7 @@
         .game-desc {
             display: block;
             font-size: 0.8rem;
-            color: #666;
+            color: var(--text-muted, #666);
             line-height: 1.4;
         }
 
@@ -70,14 +70,13 @@
 
 <body class="theme-friend app-mode">
     <header class="app-header">
-        <a href="friend-main.html"
-            style="position:absolute; left:1rem; font-size:1.5rem; color:#333; text-decoration:none;">&lt;</a>
+        <a href="friend-main.html" class="back-button">&lt;</a>
         <div class="app-title">ミニゲーム</div>
     </header>
 
     <main class="app-content-scroll">
         <div style="margin-bottom: 1.5rem; padding: 0 0.5rem;">
-            <p style="font-size: 0.9rem; color: #555; text-align: center;">
+            <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center;">
                 楽しみながら脳トレやリフレッシュ！<br>
                 待ち時間の気分転換にどうぞ。
             </p>
@@ -130,11 +129,11 @@
 
     <nav class="bottom-nav">
         <a href="friend-main.html" class="nav-item">
-            <span class="nav-icon">🎁</span>
+            <div class="nav-icon">🎁</div>
             <span>お友達</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <span class="nav-icon">❓</span>
+            <div class="nav-icon">❓</div>
             <span>Q&A</span>
         </a>
     </nav>

@@ -1,84 +1,64 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ハザードマップの確認 | 災害情報ポータル</title>
-    <!-- 元のスタイルシートを読み込みます -->
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* このページ特有のレイアウト調整 */
-        body {
-            background-color: #f3f4f6;
-        }
-        .page-header-simple {
-            background-color: #d9534f; /* 災害テーマカラー */
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .page-header-simple h1 {
-            margin: 0;
-            font-size: 1.5rem;
-        }
-        .content-wrapper {
-            padding: 0 1rem 3rem;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        /* 戻るボタンの調整 */
-        .nav-back-container {
-            text-align: center;
-            margin-top: 3rem;
-        }
-    </style>
+    <link rel="stylesheet" href="components.css">
 </head>
+
 <body class="theme-disaster">
     <div class="container">
-        
+
         <!-- ヘッダー -->
         <header class="page-header-simple">
             <h1>ハザードマップの確認</h1>
         </header>
 
         <main class="content-wrapper">
-            
-            <!-- ▼▼▼ 元のファイルから切り出したコンテンツ ▼▼▼ -->
-            <section class="content-section active" style="display:block;">
-                <h2>お近くの避難場所を確認しましょう</h2>
-                <div class="intro-text">
+
+            <section>
+                <h2 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--text-main);">お近くの避難場所を確認しましょう</h2>
+                <div class="intro-text" style="margin-bottom: 2rem; line-height: 1.8; color: var(--text-main);">
                     <p>お住まいの市区町村が公開しているハザードマップで、指定された避難場所や安全な避難経路を事前に確認しておくことが非常に重要です。</p>
                 </div>
-                
-                <div class="quiz-section" style="margin-top:2rem;">
-                    <h3 style="margin-bottom: 1.5rem; color: #333;">各市の防災マップ</h3>
+
+                <div style="margin-top:2rem;">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--text-main); font-size: 1.1rem;">各市の防災マップ</h3>
                     <div style="display:flex; flex-direction:column; gap:1rem; align-items:center;">
-                        <a href="https://www.city.osaka.lg.jp/kikikanrishitsu/page/0000139402.html" target="_blank" class="back-to-portal-button" style="margin:0; width:250px;">大阪市防災マップ</a>
-                        <a href="https://www.city.sakai.lg.jp/kurashi/bosai/kangaeru/pamphlet/bosai/bousai-map2703.html" target="_blank" class="back-to-portal-button" style="margin:0; width:250px;">堺市防災マップ</a>
-                        <a href="https://www.city.matsubara.lg.jp/docs/page2464.html" target="_blank" class="back-to-portal-button" style="margin:0; width:250px;">松原市防災マップ</a>
+                        <a href="https://www.city.osaka.lg.jp/kikikanrishitsu/page/0000139402.html" target="_blank"
+                            class="back-to-portal-button" style="margin:0; width:250px;">大阪市防災マップ</a>
+                        <a href="https://www.city.sakai.lg.jp/kurashi/bosai/kangaeru/pamphlet/bosai/bousai-map2703.html"
+                            target="_blank" class="back-to-portal-button" style="margin:0; width:250px;">堺市防災マップ</a>
+                        <a href="https://www.city.matsubara.lg.jp/docs/page2464.html" target="_blank"
+                            class="back-to-portal-button" style="margin:0; width:250px;">松原市防災マップ</a>
                     </div>
                 </div>
 
-                <div class="quiz-section" style="margin-top:2rem;">
-                    <h3 style="margin-bottom: 1.5rem; color: #333;">全国のハザードマップ</h3>
-                    <a href="https://disaportal.gsi.go.jp/" target="_blank" class="back-to-portal-button" style="margin:0; width:300px; background:#D90000;">ハザードマップポータルサイト</a>
-                    <p style="margin-top: 1rem; font-size: 0.9em;">(※国土交通省のサイトが新しいウィンドウで開きます)</p>
+                <div style="margin-top:2rem;">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--text-main); font-size: 1.1rem;">全国のハザードマップ</h3>
+                    <div style="text-align: center;">
+                        <a href="https://disaportal.gsi.go.jp/" target="_blank" class="back-to-portal-button"
+                            style="margin:0; width:300px; background:#dc2626;">ハザードマップポータルサイト</a>
+                        <p style="margin-top: 1rem; font-size: 0.9em; color: var(--text-muted);">
+                            (※国土交通省のサイトが新しいウィンドウで開きます)</p>
+                    </div>
                 </div>
             </section>
-            <!-- ▲▲▲ 切り出しここまで ▲▲▲ -->
 
             <!-- ポータルに戻るボタン -->
             <div class="nav-back-container">
-                <!-- ブラウザの戻る機能を使ってポータルへ戻ります -->
                 <a href="#" onclick="history.back(); return false;" class="back-to-portal-button">災害情報ポータルへ戻る</a>
             </div>
 
         </main>
 
-        <footer>
+        <footer class="page-footer">
             <p><small>&copy; 2025 医療法人 好輝会 梶本クリニック</small></p>
         </footer>
     </div>
 </body>
+
 </html>

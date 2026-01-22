@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ダッシュボード - 梶本クリニック 統合管理システム</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="components.css">
 </head>
 
 <body class="admin-body">
@@ -23,14 +24,6 @@
 
     <main class="admin-main">
         <div class="dashboard-grid">
-            <!-- Q&A Card (Removed per user request - 2025-12-26)
-            <div id="qaCard" class="dashboard-card">
-                <h3>📋 Q&A編集</h3>
-                <p>あなたが編集可能な質問・回答を管理できます。</p>
-                <button onclick="location.href='admin-qa-editor.html'">編集する</button>
-            </div>
-            -->
-
             <!-- Dialysis Status Card -->
             <div id="dialysisCard" class="dashboard-card">
                 <h3>💉 透析状況更新</h3>
@@ -93,8 +86,10 @@
 
         function disableCard(id) {
             const card = document.getElementById(id);
-            card.classList.add('disabled');
-            card.querySelector('button').disabled = true;
+            if (card) {
+                card.classList.add('disabled');
+                card.querySelector('button').disabled = true;
+            }
         }
 
         // ログアウト
