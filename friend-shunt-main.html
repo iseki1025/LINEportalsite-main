@@ -3,229 +3,385 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>シャント管理 | 梶本クリニック</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="mobile-layout.css">
-    <link rel="stylesheet" href="components.css">
+    <link rel="stylesheet" href="portal-design.css">
     <style>
-        /* Shunt page theme: Pink */
-        :root {
-            --page-primary: #ec4899;
-            --page-primary-dark: #be185d;
-            --page-bg-light: #fce7f3;
-            --page-bg-lighter: #fdf2f8;
+        /* Shunt theme: Pink */
+        .hero-section.theme-shunt {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(219, 39, 119, 0.08) 100%);
         }
 
-        .app-header {
-            background: linear-gradient(135deg, #ec4899 0%, #db2777 50%, #be185d 100%);
-            position: relative;
-            overflow: hidden;
+        .hero-section.theme-shunt .hero-title {
+            color: #be185d;
         }
 
-        .app-header::before {
-            content: '';
-            position: absolute;
-            top: -30px;
-            right: -30px;
-            width: 100px;
-            height: 100px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
+        .tab-nav {
+            display: flex;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-lg);
+            background: var(--bg-card);
+            padding: var(--spacing-xs);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
         }
 
-        .app-header::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 20%;
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
+        .tab-btn {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-xs);
+            border-radius: var(--radius-md);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-align: center;
+            transition: all var(--transition-fast);
+            cursor: pointer;
         }
 
-        .app-segmented-item.active {
+        .tab-btn.active {
             background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
             color: white;
         }
 
-        .quiz-button {
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Check Grid */
+        .check-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .check-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            text-align: center;
+        }
+
+        .check-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto var(--spacing-sm);
+            background: rgba(236, 72, 153, 0.1);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ec4899;
+        }
+
+        .check-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .check-title {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .check-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* NG List */
+        .ng-list {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .ng-list h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .ng-list ul {
+            padding-left: var(--spacing-lg);
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Contact Button */
+        .contact-btn {
+            display: block;
+            width: 100%;
+            padding: var(--spacing-md);
+            background: #be185d;
+            color: white;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            text-align: center;
+            transition: all var(--transition-normal);
+            cursor: pointer;
+        }
+
+        .contact-btn:hover {
+            background: #9d174d;
+        }
+
+        /* Quiz Card */
+        .quiz-card {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(219, 39, 119, 0.08) 100%);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            text-align: center;
+        }
+
+        .quiz-btn {
+            display: inline-block;
+            padding: var(--spacing-md) var(--spacing-2xl);
             background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+            color: white;
+            border-radius: var(--radius-full);
+            font-weight: 600;
             box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
+            transition: all var(--transition-normal);
         }
 
-        .keyword-button {
-            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
-            color: var(--page-primary-dark);
+        .quiz-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.5);
         }
 
-        .keyword-button:active {
-            background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
-            color: white;
+        /* Q&A Section */
+        .qa-section-intro {
+            background: rgba(236, 72, 153, 0.08);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
         }
 
-        .qa-search-input {
+        .qa-section-intro .search-input {
             border: 2px solid #f9a8d4;
         }
 
-        .qa-search-input:focus {
+        .qa-section-intro .search-input:focus {
             border-color: #ec4899;
-            box-shadow: 0 4px 20px rgba(236, 72, 153, 0.2);
         }
 
-        .section-heading {
-            display: flex;
+        .keyword-btn.pink {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            border: 1px solid #f9a8d4;
+            color: #be185d;
+        }
+
+        .keyword-btn.pink:hover {
+            background: #fce7f3;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
             align-items: center;
-            gap: 0.5rem;
-            margin: 1.5rem 0 1rem;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--page-primary-dark);
+            justify-content: center;
+            z-index: 1000;
+            padding: var(--spacing-md);
         }
 
-        .section-heading svg {
-            width: 24px;
-            height: 24px;
-            color: var(--page-primary);
+        .modal-content {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            width: 100%;
+            max-width: 320px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: var(--spacing-sm);
+            right: var(--spacing-md);
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-lg);
+        }
+
+        .contact-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            background: var(--bg-main);
+            border-radius: var(--radius-md);
+            font-weight: 500;
         }
     </style>
 </head>
 
-<body class="theme-friend app-mode">
+<body>
+    <!-- Header -->
     <header class="app-header">
-        <a href="friend-main.html" class="back-button">&lt;</a>
-        <div class="app-title">💗 シャント管理</div>
+        <a href="friend-main.html" class="header-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </a>
+        <div class="header-title">シャント管理</div>
+        <div style="width: 36px;"></div>
     </header>
 
-    <main class="app-content-scroll">
-        <nav class="app-segmented-control">
-            <button class="app-segmented-item active" onclick="switchTab('info')">シャント<br>管理の基本</button>
-            <button class="app-segmented-item" onclick="switchTab('quiz')">シャント<br>クイズ</button>
-            <button class="app-segmented-item" onclick="switchTab('qa')">シャント<br>Q&A</button>
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Hero -->
+        <section class="hero-section theme-shunt">
+            <h1 class="hero-title">シャントは「命綱」</h1>
+            <p class="hero-subtitle">日頃の自己管理が非常に重要です。</p>
+        </section>
+
+        <!-- Tab Navigation -->
+        <nav class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('info')">管理の基本</button>
+            <button class="tab-btn" onclick="switchTab('quiz')">クイズ</button>
+            <button class="tab-btn" onclick="switchTab('qa')">Q&A</button>
         </nav>
 
-        <!-- ① Info -->
-        <section id="info" class="app-page-section active">
-            <div class="app-card-generic" style="text-align:center; background: var(--page-bg-lighter);">
-                <h2 style="font-size:1.1rem; margin-bottom:0.5rem; color: var(--page-primary-dark);">シャントは「命綱」</h2>
-                <p style="font-size:0.95rem; line-height:1.6;">日頃の自己管理が非常に重要です。</p>
-            </div>
-
-            <h3 style="margin: 1.5rem 0.5rem 1rem; font-size:1rem; color:var(--text-main);">毎日のチェックポイント</h3>
+        <!-- Tab 1: Info -->
+        <section id="info" class="tab-content active">
+            <h3 class="section-title">毎日のチェックポイント</h3>
 
             <div class="check-grid">
-                <!-- Look -->
                 <div class="check-item">
-                    <div class="check-icon-circle">
+                    <div class="check-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                             <circle cx="12" cy="12" r="3"></circle>
                         </svg>
                     </div>
-                    <div class="check-overlay">
-                        <h4>見る（視診）</h4>
-                        <p>赤み、腫れ、傷、出血などがないか確認します。</p>
-                    </div>
+                    <div class="check-title">見る</div>
+                    <div class="check-desc">赤み・腫れ・傷がないか</div>
                 </div>
-                <!-- Listen -->
                 <div class="check-item">
-                    <div class="check-icon-circle">
+                    <div class="check-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M2 13a6 6 0 0 1 6-6 6 6 0 0 1 6 6v1a6 6 0 0 1-6 6H2"></path>
-                            <path d="M22 17a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2z"></path>
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="23"></line>
                         </svg>
                     </div>
-                    <div class="check-overlay">
-                        <h4>聴く（聴診）</h4>
-                        <p>「ザーザー」という音が連続して聴こえるか確認します。</p>
-                    </div>
+                    <div class="check-title">聴く</div>
+                    <div class="check-desc">ザーザー音があるか</div>
                 </div>
-                <!-- Touch -->
                 <div class="check-item">
-                    <div class="check-icon-circle">
+                    <div class="check-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
-                            <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v6"></path>
-                            <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path>
+                            <path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"></path>
+                            <path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v6"></path>
+                            <path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"></path>
                         </svg>
                     </div>
-                    <div class="check-overlay">
-                        <h4>触る（触診）</h4>
-                        <p>指で軽く触れて、スリル（振動）があるか確認します。</p>
-                    </div>
+                    <div class="check-title">触る</div>
+                    <div class="check-desc">振動(スリル)があるか</div>
                 </div>
             </div>
 
-            <h3 style="margin: 1.5rem 0.5rem 1rem; font-size:1rem; color:var(--text-main);">日常生活の注意点</h3>
-            <ul class="ng-list">
-                <li>シャント側で重いものを持たない</li>
-                <li>シャント側で血圧測定や採血をしない</li>
-                <li>腕を体の下にして寝ない</li>
-                <li>シャント部を清潔に保つ</li>
-            </ul>
+            <div class="ng-list">
+                <h3>日常生活の注意点</h3>
+                <ul>
+                    <li>シャント側で重いものを持たない</li>
+                    <li>シャント側で血圧測定や採血をしない</li>
+                    <li>腕を体の下にして寝ない</li>
+                    <li>シャント部を清潔に保つ</li>
+                </ul>
+            </div>
 
-            <button class="emergency-btn" id="openContactModal">各施設への連絡先はこちら</button>
+            <button class="contact-btn" id="openContactModal">各施設への連絡先はこちら</button>
         </section>
 
-        <!-- ② Quiz -->
-        <section id="quiz" class="app-page-section">
-            <div class="app-card-generic"
-                style="text-align:center; padding:3rem 1.5rem; background: var(--page-bg-lighter);">
-                <h2 style="margin-bottom:1rem; color: var(--page-primary-dark);">シャント管理クイズ</h2>
-                <p style="margin-bottom:2rem;">ゲーム感覚で楽しく知識が身につきます。</p>
-                <a href="friend-shunt-quiz.html" class="quiz-button">クイズに挑戦</a>
+        <!-- Tab 2: Quiz -->
+        <section id="quiz" class="tab-content">
+            <div class="quiz-card">
+                <h2 style="color: #be185d; margin-bottom: var(--spacing-md);">シャント管理クイズ</h2>
+                <p style="color: var(--text-secondary); margin-bottom: var(--spacing-xl);">ゲーム感覚で楽しく知識が身につきます。</p>
+                <a href="friend-shunt-quiz.html" class="quiz-btn">クイズに挑戦</a>
             </div>
         </section>
 
-        <!-- ③ Q&A - Matching qa-main.html design with pink theme -->
-        <section id="qa" class="app-page-section qa-search-section" data-csv-path="files/data/qa-data.csv"
-            data-category="シャント">
-            <div class="app-card-generic"
-                style="text-align:center; padding: 1.5rem 1rem; background: var(--page-bg-lighter);">
-                <p style="font-size:0.95rem; color:#555; margin-bottom:1rem;">
-                    キーワードを入力して、シャント関連の質問を検索できます。
+        <!-- Tab 3: Q&A (Compatible with qa-script.js) -->
+        <section id="qa" class="tab-content qa-search-section" data-category="シャント">
+            <div class="qa-section-intro">
+                <p style="color: var(--text-secondary); margin-bottom: var(--spacing-md);">キーワードを入力して、シャント関連の質問を検索できます。
                 </p>
-
-                <div class="qa-search-container" style="margin-bottom:1.5rem;">
-                    <input type="search" class="qa-search-input" placeholder="キーワード (例: 痛み, 閉塞)" autocomplete="off"
-                        style="width:100%; padding:14px; border-radius:30px; border:2px solid #f9a8d4; background:white; box-shadow:0 4px 10px rgba(0,0,0,0.05);">
+                <input type="search" class="search-input qa-search-input" placeholder="キーワード (例: 痛み, 閉塞)"
+                    autocomplete="off">
+                <div class="keyword-buttons mt-md">
+                    <button class="keyword-btn pink" onclick="setKeyword('痛み')">痛み</button>
+                    <button class="keyword-btn pink" onclick="setKeyword('閉塞')">閉塞</button>
+                    <button class="keyword-btn pink" onclick="setKeyword('感染')">感染</button>
                 </div>
-
-                <div class="qa-popular-keywords">
-                    <h3 style="font-size:0.9rem; color:#666; margin-bottom:0.8rem;">よく検索されるワード</h3>
-                    <div class="keyword-buttons" style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
-                        <button class="keyword-button" onclick="setKeyword('痛み')">痛み</button>
-                        <button class="keyword-button" onclick="setKeyword('閉塞')">閉塞</button>
-                        <button class="keyword-button" onclick="setKeyword('感染')">感染</button>
-                    </div>
-                </div>
-
-                <div class="qa-results-container" style="text-align:left; margin-top:2rem;"></div>
+            </div>
+            <div class="qa-results-container">
+                <!-- Q&A items loaded here by qa-script.js -->
             </div>
         </section>
 
-        <div style="height: 40px;"></div>
+        <!-- Copyright -->
+        <footer class="copyright mt-xl">
+            <a href="index.html" class="stealth-link">© 2025 Kajimoto Clinic</a>
+        </footer>
+
     </main>
 
+    <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="friend-main.html" class="nav-item">
-            <div class="nav-icon">🎁</div>
-            <span>お友達</span>
+        <a href="friend-main.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                <rect x="2" y="7" width="20" height="5"></rect>
+            </svg>
+            <span>特典トップ</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <div class="nav-icon">❓</div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
             <span>Q&A</span>
         </a>
     </nav>
 
-    <!-- Modal Logic -->
+    <!-- Contact Modal -->
     <div class="modal-overlay" id="contactOverlay">
         <div class="modal-content">
-            <button class="close-modal-btn" id="closeContactModal">&times;</button>
-            <h3 style="text-align:center; margin-bottom:0;">連絡先を選択</h3>
+            <span class="modal-close" id="closeContactModal">&times;</span>
+            <h3 style="text-align: center;">連絡先を選択</h3>
             <div class="contact-list">
-                <a href="tel:0664519010" class="contact-link"><span>本院</span><span>📞</span></a>
+                <a href="tel:0722520555" class="contact-link"><span>本院</span><span>📞</span></a>
                 <a href="tel:0722502960" class="contact-link"><span>なかもず分院</span><span>📞</span></a>
                 <a href="tel:0722758980" class="contact-link"><span>三国ヶ丘分院</span><span>📞</span></a>
             </div>
@@ -233,35 +389,39 @@
     </div>
 
     <!-- Scripts -->
-    <script>
-        function switchTab(id) {
-            document.querySelectorAll('.app-page-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.app-segmented-item').forEach(el => el.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            const buttons = document.querySelectorAll('.app-segmented-item');
-            buttons.forEach(btn => {
-                if (btn.getAttribute('onclick').includes(id)) {
-                    btn.classList.add('active');
-                }
-            });
-        }
-        window.switchTab = switchTab;
-        window.setKeyword = function (word) {
-            const input = document.querySelector('.qa-search-input');
-            if (input) { input.value = word; input.dispatchEvent(new Event('input', { bubbles: true })); }
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            const openBtn = document.getElementById('openContactModal');
-            const closeBtn = document.getElementById('closeContactModal');
-            const overlay = document.getElementById('contactOverlay');
-            if (openBtn) openBtn.onclick = () => overlay.style.display = 'flex';
-            if (closeBtn) closeBtn.onclick = () => overlay.style.display = 'none';
-            if (overlay) overlay.onclick = (e) => { if (e.target === overlay) overlay.style.display = 'none'; };
-        });
-    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <script src="js/qa/qa-data-embedded.js"></script>
     <script src="js/qa/qa-script.js"></script>
+    <script>
+        function switchTab(id) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function setKeyword(word) {
+            const input = document.querySelector('.qa-search-input');
+            if (input) {
+                input.value = word;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        }
+
+        // Modal
+        document.getElementById('openContactModal').onclick = () => {
+            document.getElementById('contactOverlay').style.display = 'flex';
+        };
+        document.getElementById('closeContactModal').onclick = () => {
+            document.getElementById('contactOverlay').style.display = 'none';
+        };
+        document.getElementById('contactOverlay').onclick = (e) => {
+            if (e.target === document.getElementById('contactOverlay')) {
+                document.getElementById('contactOverlay').style.display = 'none';
+            }
+        };
+    </script>
+
 </body>
 
 </html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A 検索 | 梶本クリニック</title>
+    <!-- 共通スタイル -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-layout.css">
+    <link rel="stylesheet" href="components.css">
+</head>
+
+<body class="theme-qa app-mode">
+    <!-- 1. App Header -->
+    <header class="app-header">
+        <div class="app-title">Q&A 検索</div>
+    </header>
+
+    <!-- 2. Main Content (Scrollable) -->
+    <main class="app-content-scroll">
+
+        <div class="app-card-generic" style="text-align:center; padding: 1.5rem 1rem;">
+            <p style="font-size:0.95rem; color:#555; margin-bottom:1rem;">
+                キーワードを入力して、よくある質問を検索できます。<br>
+                <span style="font-size:0.8rem; color:#888;">(例: 食事, 災害, シャント, 運動 など)</span>
+            </p>
+
+            <!-- Search Section -->
+            <section class="qa-search-section" data-csv-path="files/data/qa-data.csv">
+                <div class="qa-search-container" style="margin-bottom:1.5rem;">
+                    <input type="search" class="qa-search-input" placeholder="キーワードを入力..." autocomplete="off"
+                        style="width:100%; padding:14px; border-radius:30px; border:1px solid #ddd; background:rgba(255,255,255,0.9); box-shadow:0 4px 10px rgba(0,0,0,0.05);">
+                </div>
+
+                <!-- Popular Keywords -->
+                <div class="qa-popular-keywords">
+                    <h3 style="font-size:0.9rem; color:#666; margin-bottom:0.8rem;">よく検索されるワード</h3>
+                    <div class="keyword-buttons" style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
+                        <button class="keyword-button" onclick="setKeyword('食事')"
+                            style="padding:8px 16px; border-radius:20px; border:none; background:#f0f2f5; font-size:0.85rem; color:#555; font-weight:bold; cursor:pointer;">食事</button>
+                        <button class="keyword-button" onclick="setKeyword('水分')"
+                            style="padding:8px 16px; border-radius:20px; border:none; background:#f0f2f5; font-size:0.85rem; color:#555; font-weight:bold; cursor:pointer;">水分</button>
+                        <button class="keyword-button" onclick="setKeyword('シャント')"
+                            style="padding:8px 16px; border-radius:20px; border:none; background:#f0f2f5; font-size:0.85rem; color:#555; font-weight:bold; cursor:pointer;">シャント</button>
+                        <button class="keyword-button" onclick="setKeyword('災害')"
+                            style="padding:8px 16px; border-radius:20px; border:none; background:#f0f2f5; font-size:0.85rem; color:#555; font-weight:bold; cursor:pointer;">災害</button>
+                        <button class="keyword-button" onclick="setKeyword('運動')"
+                            style="padding:8px 16px; border-radius:20px; border:none; background:#f0f2f5; font-size:0.85rem; color:#555; font-weight:bold; cursor:pointer;">運動</button>
+                    </div>
+                </div>
+
+                <div class="qa-results-container" style="text-align:left; margin-top:2rem;">
+                    <!-- Results will be injected here -->
+                </div>
+            </section>
+        </div>
+
+        <div style="height: 40px;"></div>
+    </main>
+
+    <!-- 3. Bottom Navigation (Fixed) - Links to Friend and Disaster -->
+    <nav class="bottom-nav">
+        <a href="friend-main.html" class="nav-item">
+            <div class="nav-icon">🎁</div>
+            <span>お友達</span>
+        </a>
+        <a href="disaster-main.html" class="nav-item">
+            <div class="nav-icon">⚠️</div>
+            <span>災害対策</span>
+        </a>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="js/qa/qa-data-embedded.js"></script>
+    <script src="js/qa/qa-script.js"></script>
+
+    <script>
+        window.setKeyword = function (word) {
+            const input = document.querySelector('.qa-search-input');
+            if (input) {
+                input.value = word;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        }
+    </script>
+</body>
+
+</html>

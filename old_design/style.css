@@ -1,0 +1,460 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+/* ==========================================================================
+   1. Design Tokens & Reset (Premium Teal Theme)
+   ========================================================================== */
+:root {
+    /* Color Palette */
+    --color-primary: #0891B2;
+    /* Teal 600 */
+    --color-primary-light: #22D3EE;
+    /* Cyan 400 */
+    --color-primary-dark: #134E4A;
+    /* Teal 900 */
+    --color-accent: #F59E0B;
+    /* Amber 500 (Warmth) */
+
+    --bg-body: #F0FDFA;
+    /* Teal 50 */
+    --bg-surface: #FFFFFF;
+    --bg-surface-glass: rgba(255, 255, 255, 0.9);
+
+    --text-main: #134E4A;
+    /* Deep Teal Black */
+    --text-muted: #64748B;
+    /* Slate 500 */
+    --text-on-primary: #FFFFFF;
+
+    /* Spacing & Layout */
+    --header-height: 60px;
+    --bottom-nav-height: 80px;
+    --radius-l: 24px;
+    --radius-m: 16px;
+    --radius-s: 12px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(8, 145, 178, 0.1), 0 2px 4px -1px rgba(8, 145, 178, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(8, 145, 178, 0.1), 0 4px 6px -2px rgba(8, 145, 178, 0.05);
+
+    --font-base: 'Noto Sans JP', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: var(--font-base);
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    line-height: 1.7;
+    font-size: 16px;
+    padding-top: var(--header-height);
+    padding-bottom: var(--bottom-nav-height);
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ==========================================================================
+   2. Components: Header & Nav
+   ========================================================================== */
+
+/* Fixed Header */
+.app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    background: var(--bg-surface-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(8, 145, 178, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 0 1rem;
+}
+
+.app-title,
+.header-logo {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    letter-spacing: 0.02em;
+}
+
+/* Back Button (for sub-pages) */
+.back-button {
+    position: absolute;
+    left: 1rem;
+    font-size: 1.25rem;
+    color: var(--color-primary);
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Bottom Nav */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--bottom-nav-height);
+    background: var(--bg-surface);
+    border-top: 1px solid rgba(8, 145, 178, 0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+    padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.nav-item svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+}
+
+/* Icon Placeholders (if SVG not used inline in some generic pages) */
+.nav-icon {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+    line-height: 1;
+}
+
+.nav-item.active {
+    color: var(--color-primary);
+}
+
+.nav-item.active svg {
+    stroke-width: 2.5;
+    transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   3. Main Content Areas
+   ========================================================================== */
+.main-content,
+.app-content,
+.app-content-scroll {
+    padding: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Hero Section (Shared) */
+.hero-card,
+.app-hero {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    border-radius: var(--radius-l);
+    padding: 2rem;
+    color: var(--text-on-primary);
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* Decorative Circle */
+.hero-card::after,
+.app-hero::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.hero-title,
+.app-hero h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-sub,
+.app-hero p {
+    font-size: 0.95rem;
+    opacity: 0.95;
+    position: relative;
+    z-index: 2;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 2rem 0 1rem;
+    color: var(--color-primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-title::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 24px;
+    background: var(--color-accent);
+    border-radius: 4px;
+}
+
+/* ==========================================================================
+   4. Bento Grid Layout (Replaces Horizontal Scroll & Standardise App Grid)
+   ========================================================================== */
+.bento-grid,
+.app-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* 2 Columns */
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+/* Card Styling */
+.bento-card,
+.app-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-m);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(8, 145, 178, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    min-height: 160px;
+}
+
+.bento-card:active,
+.app-card:active {
+    transform: scale(0.98);
+}
+
+/* Icons in Cards */
+.card-icon-container {
+    background: var(--bg-body);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: var(--color-primary);
+}
+
+.card-icon-container svg {
+    width: 32px;
+    height: 32px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+}
+
+/* Card Text */
+.card-title,
+.app-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    margin-bottom: 0.25rem;
+    line-height: 1.4;
+}
+
+.card-desc,
+.app-card-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* Specific Updates for Sub-page App Cards (Image backgrounds) 
+   We overlay a gradient to ensure text readability if images are used.
+*/
+.app-card-bg-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.9;
+    transition: transform 0.4s ease;
+}
+
+.app-card:hover .app-card-bg-img {
+    transform: scale(1.05);
+}
+
+.app-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(19, 78, 74, 0.95) 0%, rgba(19, 78, 74, 0.0) 100%);
+    padding: 1rem;
+    z-index: 1;
+    text-align: left;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* If app-card has overlay, text is white */
+.app-card-overlay .app-card-title,
+.app-card-overlay .app-card-desc {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================================================
+   5. Utility Lists & Other Elements
+   ========================================================================== */
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.menu-item {
+    background: var(--bg-surface);
+    border-radius: var(--radius-s);
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow-sm);
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+.menu-item::after {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid var(--text-muted);
+    border-right: 2px solid var(--text-muted);
+    transform: rotate(45deg);
+    margin-left: 0.5rem;
+}
+
+/* Accordion (QA/Friend) - Compatible Classes */
+.evacuation-item,
+.pdf-collapsible,
+.qa-search-item,
+.collapsible-section {
+    background: var(--bg-surface);
+    border-radius: var(--radius-s);
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+}
+
+.evacuation-item-header,
+.pdf-collapsible-header,
+.qa-search-question,
+.collapsible-header-wrapper {
+    padding: 1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    background: var(--bg-surface);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.evacuation-item-content,
+.pdf-collapsible-content,
+.qa-search-answer,
+.collapsible-content {
+    background: #FAFAFA;
+    padding: 1rem;
+    border-top: 1px solid #EEE;
+    font-size: 0.95rem;
+}
+
+/* Tab/Segmented Control */
+.app-segmented-control {
+    display: flex;
+    background: #E2E8F0;
+    padding: 4px;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.app-segmented-item {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+    font-weight: 700;
+    color: var(--text-muted);
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.app-segmented-item.active {
+    background: white;
+    color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Hidden Link (Stealth) */
+.stealth-link {
+    color: inherit;
+    text-decoration: none;
+    cursor: default;
+}

@@ -1,0 +1,133 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   Mobile Layout - Compatibility Layer for Sub-pages
+   ========================================================================== */
+
+/* Body mode class for app-like pages */
+body.app-mode {
+    font-family: var(--font-base, 'Noto Sans JP', sans-serif);
+    background-color: var(--bg-body, #F0FDFA);
+    color: var(--text-main, #134E4A);
+    padding-bottom: var(--bottom-nav-height, 80px) !important;
+    padding-top: var(--header-height, 60px) !important;
+    min-height: 100vh;
+}
+
+/* Background image support for pages that use it */
+body.app-mode.with-bg {
+    background: url('files/common/background-main.png') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Hero with background image */
+.app-hero {
+    position: relative;
+    border-radius: var(--radius-l, 24px);
+    padding: 2.5rem 1.5rem;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin-bottom: 2rem;
+    text-align: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--color-primary, #0891B2) 0%, var(--color-primary-dark, #134E4A) 100%);
+}
+
+.app-hero h1 {
+    position: relative;
+    z-index: 2;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.app-hero p {
+    position: relative;
+    z-index: 2;
+    color: #eee;
+    font-size: 0.85rem;
+}
+
+/* Generic glass card */
+.app-card-generic {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: var(--radius-m, 16px);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(8, 145, 178, 0.1));
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.app-card-generic h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    color: var(--text-main, #333);
+}
+
+.app-card-generic p {
+    font-size: 0.9rem;
+    color: var(--text-muted, #555);
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+/* Scroll wrapper for pages with fixed header/footer */
+.app-content-scroll {
+    padding-top: calc(var(--header-height, 60px) + 1rem);
+    padding-bottom: calc(var(--bottom-nav-height, 80px) + 1rem);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Page section visibility (for tabs) */
+.app-page-section {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.app-page-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* QA Theme Color Override */
+body.theme-qa .app-header {
+    border-bottom-color: rgba(16, 185, 129, 0.2);
+}
+
+/* Disaster Theme Color Override */
+body.theme-disaster .app-header {
+    border-bottom-color: rgba(239, 68, 68, 0.2);
+}
+
+/* Back to portal button */
+.back-to-portal-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background: var(--color-primary, #0891B2);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: opacity 0.2s;
+}
+
+.back-to-portal-button:active {
+    opacity: 0.8;
+}

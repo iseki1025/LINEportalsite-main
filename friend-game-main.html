@@ -3,27 +3,50 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>ミニゲーム | 梶本クリニック</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="mobile-layout.css">
-    <link rel="stylesheet" href="components.css">
+    <link rel="stylesheet" href="portal-design.css">
     <style>
-        /* Game Card Styles */
+        /* Game theme: Cyan */
+        .hero-section.theme-game {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(8, 145, 178, 0.08) 100%);
+        }
+
+        .hero-section.theme-game .hero-title {
+            color: #0e7490;
+        }
+
+        .intro-text {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-xl);
+            line-height: 1.6;
+        }
+
+        .game-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
         .game-card {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: var(--shadow-md, 0 4px 15px rgba(0, 0, 0, 0.05));
-            border-radius: var(--radius-m, 16px);
-            padding: 1.2rem;
-            margin-bottom: 1rem;
-            text-decoration: none;
-            color: var(--text-main, #333);
-            transition: transform 0.2s, box-shadow 0.2s;
+            padding: var(--spacing-lg);
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-normal);
+            cursor: pointer;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
+        }
+
+        .game-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
         .game-card:active {
@@ -32,14 +55,15 @@
 
         .game-icon {
             font-size: 2rem;
-            margin-right: 1rem;
             width: 50px;
             height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--bg-body, #F0FDFA);
-            border-radius: var(--radius-s, 12px);
+            background: var(--bg-main);
+            border-radius: var(--radius-md);
+            margin-right: var(--spacing-md);
+            flex-shrink: 0;
         }
 
         .game-info {
@@ -49,39 +73,67 @@
         .game-title {
             display: block;
             font-size: 1rem;
-            font-weight: bold;
-            margin-bottom: 0.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
         }
 
         .game-desc {
             display: block;
-            font-size: 0.8rem;
-            color: var(--text-muted, #666);
+            font-size: 0.85rem;
+            color: var(--text-muted);
             line-height: 1.4;
         }
 
         .game-arrow {
             font-size: 1.2rem;
-            color: #ddd;
-            margin-left: 0.5rem;
+            color: var(--border-medium);
+            margin-left: var(--spacing-sm);
+        }
+
+        .tip-card {
+            background: rgba(6, 182, 212, 0.08);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+
+        .tip-card h3 {
+            color: #0e7490;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .tip-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
     </style>
 </head>
 
-<body class="theme-friend app-mode">
+<body>
+    <!-- Header -->
     <header class="app-header">
-        <a href="friend-main.html" class="back-button">&lt;</a>
-        <div class="app-title">ミニゲーム</div>
+        <a href="friend-main.html" class="header-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </a>
+        <div class="header-title">ミニゲーム</div>
+        <div style="width: 36px;"></div>
     </header>
 
-    <main class="app-content-scroll">
-        <div style="margin-bottom: 1.5rem; padding: 0 0.5rem;">
-            <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center;">
-                楽しみながら脳トレやリフレッシュ！<br>
-                待ち時間の気分転換にどうぞ。
-            </p>
-        </div>
+    <!-- Main Content -->
+    <main class="main-content">
 
+        <!-- Intro -->
+        <p class="intro-text">
+            楽しみながら脳トレやリフレッシュ！<br>
+            待ち時間の気分転換にどうぞ。
+        </p>
+
+        <!-- Game List -->
         <div class="game-list">
             <!-- 1. Reaction -->
             <a href="friend-game-reaction-game.html" class="game-card">
@@ -124,19 +176,38 @@
             </a>
         </div>
 
-        <div style="height: 40px;"></div>
+        <!-- Tip -->
+        <div class="tip-card">
+            <h3>🧠 脳トレのすすめ</h3>
+            <p>毎日少しずつ遊ぶことで、脳の活性化につながります。<br>透析中の時間にもおすすめです。</p>
+        </div>
+
+        <!-- Copyright -->
+        <footer class="copyright mt-xl">
+            <a href="index.html" class="stealth-link">© 2025 Kajimoto Clinic</a>
+        </footer>
+
     </main>
 
+    <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="friend-main.html" class="nav-item">
-            <div class="nav-icon">🎁</div>
-            <span>お友達</span>
+        <a href="friend-main.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                <rect x="2" y="7" width="20" height="5"></rect>
+            </svg>
+            <span>特典トップ</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <div class="nav-icon">❓</div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
             <span>Q&A</span>
         </a>
     </nav>
+
 </body>
 
 </html>

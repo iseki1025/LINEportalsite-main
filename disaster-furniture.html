@@ -3,68 +3,148 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>家具の固定について | 災害情報ポータル</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="components.css">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>家具の固定 | 災害情報ポータル</title>
+    <link rel="stylesheet" href="portal-design.css">
+    <style>
+        .link-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-md);
+        }
+
+        .link-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .external-link-btn {
+            display: block;
+            text-align: center;
+            padding: var(--spacing-md);
+            background: var(--color-primary);
+            color: var(--text-inverse);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            transition: all var(--transition-normal);
+        }
+
+        .external-link-btn:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .intro-text {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .back-btn-container {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+    </style>
 </head>
 
-<body class="theme-disaster">
-    <div class="container">
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <a href="disaster-main.html" class="header-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </a>
+        <div class="header-title">家具の固定</div>
+        <div style="width: 36px;"></div>
+    </header>
 
-        <!-- ヘッダー -->
-        <header class="page-header-simple">
-            <h1>家具の固定について</h1>
-        </header>
+    <!-- Main Content -->
+    <main class="main-content">
 
-        <main class="content-wrapper">
+        <!-- Hero -->
+        <section class="hero-section theme-disaster">
+            <h1 class="hero-title">転倒防止対策</h1>
+            <p class="hero-subtitle">
+                家具の固定で<br>
+                安全な住まいを
+            </p>
+        </section>
 
-            <section>
-                <div class="intro-text" style="margin-bottom: 2rem; line-height: 1.8; color: var(--text-main);">
-                    <p>大地震が発生した際、家具の転倒は怪我だけでなく、避難経路を塞ぐ原因にもなります。ご自宅の状況に合わせて対策を行いましょう。</p>
-                    <p>詳しい対策方法については、以下の公的機関のページ（外部サイト）をご参照ください。</p>
-                </div>
+        <!-- Intro -->
+        <div class="intro-text">
+            <p>大地震が発生した際、家具の転倒は怪我だけでなく、避難経路を塞ぐ原因にもなります。</p>
+            <p>ご自宅の状況に合わせて対策を行いましょう。詳しい対策方法については、以下の公的機関のページをご参照ください。</p>
+        </div>
 
-                <!-- リンク1: 総務省消防庁 -->
-                <div class="link-card">
-                    <h3>総務省消防庁「家具の転倒防止対策」</h3>
-                    <a href="https://www.fdma.go.jp/publication/database/kagu/post1.html" target="_blank"
-                        class="external-link-btn">
-                        ページを開く ❐
-                    </a>
-                </div>
+        <!-- Link Cards -->
+        <div class="link-card">
+            <h3>総務省消防庁「家具の転倒防止対策」</h3>
+            <a href="https://www.fdma.go.jp/publication/database/kagu/post1.html" target="_blank"
+                class="external-link-btn">
+                ページを開く →
+            </a>
+        </div>
 
-                <!-- リンク2: 首相官邸 -->
-                <div class="link-card">
-                    <h3>首相官邸「災害に対するご家庭での備え」</h3>
-                    <a href="https://www.kantei.go.jp/jp/headline/bousai/sonae.html" target="_blank"
-                        class="external-link-btn">
-                        ページを開く ❐
-                    </a>
-                </div>
+        <div class="link-card">
+            <h3>首相官邸「災害に対するご家庭での備え」</h3>
+            <a href="https://www.kantei.go.jp/jp/headline/bousai/sonae.html" target="_blank" class="external-link-btn">
+                ページを開く →
+            </a>
+        </div>
 
-                <!-- リンク3: 政府広報オンライン -->
-                <div class="link-card">
-                    <h3>政府広報オンライン「地震などの災害に備えて」</h3>
-                    <a href="https://www.gov-online.go.jp/article/201108/entry-8072.html" target="_blank"
-                        class="external-link-btn">
-                        ページを開く ❐
-                    </a>
-                </div>
+        <div class="link-card">
+            <h3>政府広報オンライン「地震などの災害に備えて」</h3>
+            <a href="https://www.gov-online.go.jp/article/201108/entry-8072.html" target="_blank"
+                class="external-link-btn">
+                ページを開く →
+            </a>
+        </div>
 
-            </section>
+        <!-- Back Button -->
+        <div class="back-btn-container">
+            <a href="disaster-main.html" class="btn btn-secondary">
+                災害情報ポータルへ戻る
+            </a>
+        </div>
 
-            <!-- ポータルに戻るボタン -->
-            <div class="nav-back-container">
-                <a href="#" onclick="history.back(); return false;" class="back-to-portal-button">災害情報ポータルへ戻る</a>
-            </div>
-
-        </main>
-
-        <footer class="page-footer">
-            <p><small>&copy; 2025 医療法人 好輝会 梶本クリニック</small></p>
+        <!-- Copyright -->
+        <footer class="copyright">
+            <a href="index.html" class="stealth-link">
+                © 2025 Kajimoto Clinic
+            </a>
         </footer>
-    </div>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="disaster-main.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                </path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span>災害トップ</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
 </body>
 
 </html>

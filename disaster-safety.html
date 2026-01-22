@@ -3,101 +3,98 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>安否確認・連絡先 | 災害情報ポータル</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="mobile-layout.css">
-    <link rel="stylesheet" href="components.css">
+    <link rel="stylesheet" href="portal-design.css">
     <style>
-        /* ページ特有のスタイル */
-        .page-header-simple {
-            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-            color: white;
-            padding: 1.5rem;
+        /* Page specific styles */
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .info-card.featured {
+            border-top: 4px solid var(--color-primary);
+        }
+
+        .info-card-title {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-md);
             text-align: center;
-            margin-bottom: 2rem;
-            border-radius: 0 0 var(--radius-l, 24px) var(--radius-l, 24px);
         }
 
-        .page-header-simple h1 {
-            font-size: 1.3rem;
-            font-weight: 700;
-        }
-
-        .content-wrapper {
-            padding: 0 1rem 3rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* --- NTT 171 紹介カード (メイン) --- */
-        .ntt-card {
-            background: white;
-            padding: 2rem;
-            border-radius: var(--radius-m, 16px);
-            box-shadow: var(--shadow-md, 0 4px 10px rgba(0, 0, 0, 0.1));
-            text-align: center;
-            border-top: 5px solid var(--color-primary, #0891B2);
-        }
-
-        .ntt-card h3 {
-            margin-top: 0;
-            color: var(--color-primary, #0891B2);
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-        }
-
-        .ntt-desc {
-            text-align: left;
-            margin-bottom: 1.5rem;
+        .info-card-content {
+            color: var(--text-secondary);
             line-height: 1.8;
-            color: var(--text-main, #333);
         }
 
-        .ntt-link-btn {
+        .info-card-content ul {
+            margin: var(--spacing-md) 0;
+            padding-left: var(--spacing-lg);
+        }
+
+        .info-card-content li {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .external-link-btn {
             display: block;
-            background: var(--color-primary, #0891B2);
-            color: white;
-            padding: 1rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-top: 1rem;
-            transition: opacity 0.3s;
             text-align: center;
+            padding: var(--spacing-md);
+            background: var(--color-primary);
+            color: var(--text-inverse);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            margin-top: var(--spacing-lg);
+            transition: all var(--transition-normal);
         }
 
-        .ntt-link-btn:active {
-            opacity: 0.8;
+        .external-link-btn:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-2px);
         }
 
-        /* --- クリニック連絡先 (控えめな表示) --- */
-        .clinic-info-area {
-            margin-top: 3rem;
-            background-color: #fff;
-            padding: 1.5rem;
-            border-radius: var(--radius-m, 16px);
-            color: var(--text-muted, #666);
-            font-size: 0.9rem;
-            box-shadow: var(--shadow-sm, 0 2px 5px rgba(0, 0, 0, 0.05));
+        /* Clinic Contact List */
+        .clinic-list {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
         }
 
-        .clinic-info-area h2 {
-            font-size: 1.1rem;
-            color: var(--text-main, #444);
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1rem;
-            margin-top: 0;
+        .clinic-list-header {
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--bg-glass-dark);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .clinic-list-header h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .clinic-list-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: var(--spacing-xs);
         }
 
         .clinic-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.8rem 0;
-            border-bottom: 1px dashed #eee;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-bottom: 1px dashed var(--border-light);
         }
 
         .clinic-row:last-child {
@@ -105,97 +102,124 @@
         }
 
         .clinic-name {
-            font-weight: bold;
-            color: var(--text-main, #333);
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
         .clinic-number {
             font-family: monospace;
             font-size: 1rem;
-            color: var(--text-main, #333);
+            color: var(--text-secondary);
             user-select: all;
         }
 
-        /* 戻るボタン */
-        .back-to-portal-button {
-            display: inline-block;
-            padding: 12px 24px;
-            background: var(--color-primary, #0891B2);
-            color: white;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: opacity 0.2s;
-        }
-
-        .back-to-portal-button:active {
-            opacity: 0.8;
+        .back-btn-container {
+            text-align: center;
+            margin-top: var(--spacing-xl);
         }
     </style>
 </head>
 
-<body class="theme-disaster">
-    <div class="container">
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <a href="disaster-main.html" class="header-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </a>
+        <div class="header-title">安否確認・連絡先</div>
+        <div style="width: 36px;"></div>
+    </header>
 
-        <!-- ヘッダー -->
-        <header class="page-header-simple">
-            <h1>安否確認・連絡先</h1>
-        </header>
+    <!-- Main Content -->
+    <main class="main-content">
 
-        <main class="content-wrapper">
+        <!-- Hero -->
+        <section class="hero-section theme-disaster">
+            <h1 class="hero-title">災害時の連絡方法</h1>
+            <p class="hero-subtitle">
+                電話がつながりにくい時は<br>
+                災害用伝言ダイヤルを活用
+            </p>
+        </section>
 
-            <!-- 1. 災害用伝言ダイヤル (171) - 最優先表示 -->
-            <section>
-                <div class="ntt-card">
-                    <h3>災害用伝言ダイヤル（171）</h3>
-                    <div class="ntt-desc">
-                        <p>災害時は電話がつながりにくくなります。NTTの「災害用伝言ダイヤル」を利用して、ご家族や親戚と安否情報を共有してください。</p>
-                        <ul style="margin-top:1rem; padding-left:1.5rem;">
-                            <li><strong>録音:</strong> 171 → 1 → 電話番号</li>
-                            <li><strong>再生:</strong> 171 → 2 → 電話番号</li>
-                        </ul>
-                    </div>
-                    <a href="https://group.ntt/jp/disaster/service/171.html" target="_blank" class="ntt-link-btn">
-                        NTT ご利用方法のページへ ❐
-                    </a>
-                </div>
-            </section>
-
-            <!-- 2. クリニック連絡先 (下部に小さく表示・直接発信不可) -->
-            <section class="clinic-info-area">
-                <h2>当院の電話番号（参考）</h2>
-                <p style="margin-bottom:1rem;">
-                    ※災害時は回線混雑のため、つながりにくい場合があります。<br>
-                    ※電話番号をタップしても発信されません。必要な場合は番号を入力してご利用ください。
-                </p>
-
-                <div class="clinic-row">
-                    <span class="clinic-name">本院</span>
-                    <span class="clinic-number">072-252-0555</span>
-                </div>
-
-                <div class="clinic-row">
-                    <span class="clinic-name">なかもず分院</span>
-                    <span class="clinic-number">072-250-2960</span>
-                </div>
-
-                <div class="clinic-row">
-                    <span class="clinic-name">三国ヶ丘分院</span>
-                    <span class="clinic-number">072-275-8980</span>
-                </div>
-            </section>
-
-            <!-- ポータルに戻るボタン -->
-            <div class="nav-back-container" style="text-align: center; margin-top: 3rem;">
-                <a href="#" onclick="history.back(); return false;" class="back-to-portal-button">災害情報ポータルへ戻る</a>
+        <!-- NTT 171 Card -->
+        <div class="info-card featured">
+            <h2 class="info-card-title">災害用伝言ダイヤル（171）</h2>
+            <div class="info-card-content">
+                <p>災害時は電話がつながりにくくなります。NTTの「災害用伝言ダイヤル」を利用して、ご家族や親戚と安否情報を共有してください。</p>
+                <ul>
+                    <li><strong>録音:</strong> 171 → 1 → 電話番号</li>
+                    <li><strong>再生:</strong> 171 → 2 → 電話番号</li>
+                </ul>
             </div>
+            <a href="https://group.ntt/jp/disaster/service/171.html" target="_blank" class="external-link-btn">
+                NTT ご利用方法のページへ →
+            </a>
+        </div>
 
-        </main>
+        <!-- Clinic Contact List -->
+        <div class="clinic-list">
+            <div class="clinic-list-header">
+                <h3>当院の電話番号（参考）</h3>
+                <p class="clinic-list-note">
+                    ※災害時は回線混雑のため、つながりにくい場合があります。<br>
+                    ※電話番号をタップしても発信されません。
+                </p>
+            </div>
+            <div class="clinic-row">
+                <span class="clinic-name">本院</span>
+                <span class="clinic-number">072-252-0555</span>
+            </div>
+            <div class="clinic-row">
+                <span class="clinic-name">なかもず分院</span>
+                <span class="clinic-number">072-250-2960</span>
+            </div>
+            <div class="clinic-row">
+                <span class="clinic-name">三国ヶ丘分院</span>
+                <span class="clinic-number">072-275-8980</span>
+            </div>
+        </div>
 
-        <footer style="text-align: center; padding: 2rem 1rem; color: #94a3b8; font-size: 0.75rem;">
-            <p><small>&copy; 2025 医療法人 好輝会 梶本クリニック</small></p>
+        <!-- Back Button -->
+        <div class="back-btn-container">
+            <a href="disaster-main.html" class="btn btn-secondary">
+                災害情報ポータルへ戻る
+            </a>
+        </div>
+
+        <!-- Copyright -->
+        <footer class="copyright">
+            <a href="index.html" class="stealth-link">
+                © 2025 Kajimoto Clinic
+            </a>
         </footer>
-    </div>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="disaster-main.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                </path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span>災害トップ</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
 </body>
 
 </html>

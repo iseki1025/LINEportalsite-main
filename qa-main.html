@@ -3,88 +3,343 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Q&A 検索 | 梶本クリニック</title>
-    <!-- 共通スタイル -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="mobile-layout.css">
-    <link rel="stylesheet" href="components.css">
+    <link rel="stylesheet" href="portal-design.css">
+    <style>
+        /* Q&A specific styles */
+        .qa-category-tabs {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            overflow-x: auto;
+            padding-bottom: var(--spacing-sm);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .qa-tab {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .qa-tab:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .qa-tab.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: var(--text-inverse);
+        }
+
+        .qa-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .qa-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .qa-question {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md) var(--spacing-lg);
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+
+        .qa-question:hover {
+            background: var(--bg-glass-dark);
+        }
+
+        .qa-question-icon {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: var(--accent-qa);
+            color: white;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .qa-question-text {
+            flex: 1;
+            font-weight: 500;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .qa-toggle-icon {
+            color: var(--text-muted);
+            transition: transform var(--transition-normal);
+        }
+
+        .qa-item.open .qa-toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .qa-answer {
+            display: none;
+            padding: var(--spacing-md) var(--spacing-lg);
+            padding-left: calc(var(--spacing-lg) + 28px + var(--spacing-md));
+            background: var(--bg-main);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .qa-item.open .qa-answer {
+            display: block;
+        }
+
+        .qa-answer-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: var(--color-primary);
+            color: white;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-right: var(--spacing-sm);
+            vertical-align: top;
+        }
+
+        .qa-answer-text {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: var(--spacing-2xl);
+            color: var(--text-muted);
+        }
+    </style>
 </head>
 
-<body class="theme-qa app-mode">
-    <!-- 1. App Header -->
+<body>
+    <!-- Header -->
     <header class="app-header">
-        <div class="app-title">Q&A 検索</div>
+        <a href="javascript:history.back()" class="header-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </a>
+        <div class="header-title">Q&A 検索</div>
+        <div style="width: 36px;"></div>
     </header>
 
-    <!-- 2. Main Content (Scrollable) -->
-    <main class="app-content-scroll">
+    <!-- Main Content -->
+    <main class="main-content">
 
-        <div class="app-card-generic" style="text-align:center; padding: 1.5rem 1rem;">
-            <p style="font-size:0.95rem; color:#555; margin-bottom:1rem;">
-                キーワードを入力して、よくある質問を検索できます。<br>
-                <span style="font-size:0.8rem; color:#888;">(例: 食事, 災害, シャント, 運動 など)</span>
-            </p>
-
-            <!-- Search Section -->
-            <section class="qa-search-section" data-csv-path="files/data/qa-data.csv">
-                <div class="qa-search-container" style="margin-bottom:1.5rem;">
-                    <input type="search" class="qa-search-input" placeholder="キーワードを入力..." autocomplete="off"
-                        style="width:100%; padding:14px; border-radius:30px; border:1px solid #ddd; background:rgba(255,255,255,0.9); box-shadow:0 4px 10px rgba(0,0,0,0.05);">
-                </div>
-
-                <!-- Popular Keywords -->
-                <div class="qa-popular-keywords">
-                    <h3 style="font-size:0.9rem; color:#666; margin-bottom:0.8rem;">よく検索されるワード</h3>
-                    <div class="keyword-buttons" style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
-                        <button class="keyword-button" onclick="setKeyword('食事')"
-                            style="padding:8px 16px; border-radius:20px; border:none; background:#f0f2f5; font-size:0.85rem; color:#555; font-weight:bold; cursor:pointer;">食事</button>
-                        <button class="keyword-button" onclick="setKeyword('水分')"
-                            style="padding:8px 16px; border-radius:20px; border:none; background:#f0f2f5; font-size:0.85rem; color:#555; font-weight:bold; cursor:pointer;">水分</button>
-                        <button class="keyword-button" onclick="setKeyword('シャント')"
-                            style="padding:8px 16px; border-radius:20px; border:none; background:#f0f2f5; font-size:0.85rem; color:#555; font-weight:bold; cursor:pointer;">シャント</button>
-                        <button class="keyword-button" onclick="setKeyword('災害')"
-                            style="padding:8px 16px; border-radius:20px; border:none; background:#f0f2f5; font-size:0.85rem; color:#555; font-weight:bold; cursor:pointer;">災害</button>
-                        <button class="keyword-button" onclick="setKeyword('運動')"
-                            style="padding:8px 16px; border-radius:20px; border:none; background:#f0f2f5; font-size:0.85rem; color:#555; font-weight:bold; cursor:pointer;">運動</button>
-                    </div>
-                </div>
-
-                <div class="qa-results-container" style="text-align:left; margin-top:2rem;">
-                    <!-- Results will be injected here -->
-                </div>
-            </section>
+        <!-- Search -->
+        <div class="search-container">
+            <input type="text" class="search-input" id="qaSearchInput" placeholder="キーワードで検索...">
+            <div class="keyword-buttons" id="keywordButtons">
+                <button class="keyword-btn" onclick="setKeyword('水分')">水分</button>
+                <button class="keyword-btn" onclick="setKeyword('塩分')">塩分</button>
+                <button class="keyword-btn" onclick="setKeyword('シャント')">シャント</button>
+                <button class="keyword-btn" onclick="setKeyword('運動')">運動</button>
+                <button class="keyword-btn" onclick="setKeyword('緊急')">緊急</button>
+            </div>
         </div>
 
-        <div style="height: 40px;"></div>
-    </main>
+        <!-- Category Tabs -->
+        <div class="qa-category-tabs" id="categoryTabs">
+            <button class="qa-tab active" data-category="all">すべて</button>
+            <button class="qa-tab" data-category="nutrition">食事</button>
+            <button class="qa-tab" data-category="shunt">シャント</button>
+            <button class="qa-tab" data-category="exercise">運動</button>
+            <button class="qa-tab" data-category="disaster">災害</button>
+        </div>
 
-    <!-- 3. Bottom Navigation (Fixed) - Links to Friend and Disaster -->
-    <nav class="bottom-nav">
-        <a href="friend-main.html" class="nav-item">
-            <div class="nav-icon">🎁</div>
-            <span>お友達</span>
-        </a>
-        <a href="disaster-main.html" class="nav-item">
-            <div class="nav-icon">⚠️</div>
-            <span>災害対策</span>
-        </a>
-    </nav>
+        <!-- Q&A List -->
+        <div class="qa-list" id="qaList">
+            <p class="no-results">読み込み中...</p>
+        </div>
+
+        <!-- Copyright -->
+        <footer class="copyright">
+            <a href="index.html" class="stealth-link">
+                © 2025 Kajimoto Clinic
+            </a>
+        </footer>
+
+    </main>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <script src="js/qa/qa-data-embedded.js"></script>
-    <script src="js/qa/qa-script.js"></script>
-
     <script>
-        window.setKeyword = function (word) {
-            const input = document.querySelector('.qa-search-input');
-            if (input) {
-                input.value = word;
-                input.dispatchEvent(new Event('input', { bubbles: true }));
+        // Global functions
+        function setKeyword(word) {
+            const input = document.getElementById('qaSearchInput');
+            input.value = word;
+            filterQA();
+        }
+
+        function toggleQA(element) {
+            element.closest('.qa-item').classList.toggle('open');
+        }
+
+        // Category tab switching
+        document.getElementById('categoryTabs').addEventListener('click', (e) => {
+            if (e.target.classList.contains('qa-tab')) {
+                document.querySelectorAll('.qa-tab').forEach(tab => tab.classList.remove('active'));
+                e.target.classList.add('active');
+                filterQA();
+            }
+        });
+
+        // Search input
+        document.getElementById('qaSearchInput').addEventListener('input', filterQA);
+
+        // Filter Q&A
+        function filterQA() {
+            const searchTerm = document.getElementById('qaSearchInput').value.toLowerCase();
+            const activeCategory = document.querySelector('.qa-tab.active').dataset.category;
+
+            const items = document.querySelectorAll('.qa-item');
+            let visibleCount = 0;
+
+            items.forEach(item => {
+                const question = item.querySelector('.qa-question-text').textContent.toLowerCase();
+                const answer = item.querySelector('.qa-answer-text').textContent.toLowerCase();
+                const keywords = (item.dataset.keywords || '').toLowerCase();
+                const category = item.dataset.category;
+
+                const matchesSearch = !searchTerm ||
+                    question.includes(searchTerm) ||
+                    answer.includes(searchTerm) ||
+                    keywords.includes(searchTerm);
+                const matchesCategory = activeCategory === 'all' || category === activeCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Show "no results" if needed
+            const noResults = document.querySelector('.no-results');
+            if (noResults) {
+                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
             }
         }
+
+        // Category mapping
+        function getCategoryFromData(categoryField) {
+            if (!categoryField) return 'general';
+            const cat = categoryField.toLowerCase();
+            if (cat.includes('栄養') || cat.includes('食事')) return 'nutrition';
+            if (cat.includes('シャント')) return 'shunt';
+            if (cat.includes('運動')) return 'exercise';
+            if (cat.includes('災害')) return 'disaster';
+            return 'general';
+        }
+
+        // Load Q&A data from CSV
+        function loadQAData() {
+            const container = document.getElementById('qaList');
+
+            // Check if embedded CSV data exists
+            if (typeof QA_CSV_CONTENT !== 'undefined' && QA_CSV_CONTENT) {
+                Papa.parse(QA_CSV_CONTENT, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function (results) {
+                        // Filter only items with Question and Answer
+                        const qaData = results.data
+                            .filter(row => row.Question && row.Question.trim() && row.Answer && row.Answer.trim())
+                            .map(row => ({
+                                question: row.Question.trim(),
+                                answer: row.Answer.trim(),
+                                category: getCategoryFromData(row.Category),
+                                keywords: row.Keyword || ''
+                            }));
+
+                        if (qaData.length > 0) {
+                            renderQAList(qaData);
+                        } else {
+                            container.innerHTML = '<p class="no-results">Q&Aデータがありません</p>';
+                        }
+                    },
+                    error: function (error) {
+                        console.error('CSV parse error:', error);
+                        container.innerHTML = '<p class="no-results">Q&Aデータの読み込みに失敗しました</p>';
+                    }
+                });
+            } else {
+                container.innerHTML = '<p class="no-results">Q&Aデータがありません</p>';
+            }
+        }
+
+        function renderQAList(data) {
+            const container = document.getElementById('qaList');
+            container.innerHTML = '';
+
+            if (!data || data.length === 0) {
+                container.innerHTML = '<p class="no-results">Q&Aデータがありません</p>';
+                return;
+            }
+
+            data.forEach((item, index) => {
+                const qaItem = document.createElement('div');
+                qaItem.className = 'qa-item';
+                qaItem.dataset.category = item.category || 'general';
+                qaItem.dataset.keywords = item.keywords || '';
+
+                qaItem.innerHTML = `
+                    <div class="qa-question" onclick="toggleQA(this)">
+                        <span class="qa-question-icon">Q</span>
+                        <span class="qa-question-text">${item.question}</span>
+                        <span class="qa-toggle-icon">▼</span>
+                    </div>
+                    <div class="qa-answer">
+                        <span class="qa-answer-icon">A</span>
+                        <span class="qa-answer-text">${item.answer}</span>
+                    </div>
+                `;
+
+                container.appendChild(qaItem);
+            });
+
+            // Add "no results" element (hidden by default)
+            const noResults = document.createElement('p');
+            noResults.className = 'no-results';
+            noResults.textContent = '該当するQ&Aがありません';
+            noResults.style.display = 'none';
+            container.appendChild(noResults);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadQAData);
     </script>
+
 </body>
 
 </html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>シャント管理クイズ | 梶本クリニック</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-layout.css">
+    <link rel="stylesheet" href="components.css">
+</head>
+
+<body class="theme-friend app-mode">
+    <header class="app-header">
+        <a href="friend-shunt-main.html" class="back-button">&lt;</a>
+        <div class="app-title">シャント管理クイズ</div>
+    </header>
+
+    <main class="app-content-scroll">
+        <div class="app-card-generic" style="text-align:center; margin-bottom:1.5rem;">
+            <p style="margin:0; font-size:0.9rem; color:var(--text-muted);">10問からランダムに5問出題されます</p>
+        </div>
+
+        <div class="quiz-progress-container">
+            <div class="quiz-progress-fill" id="progressFill"></div>
+        </div>
+
+        <div id="quizContainer" class="app-card-generic">
+            <!-- Questions inserted here -->
+        </div>
+
+        <div id="resultContainer" class="quiz-result-container app-card-generic">
+            <!-- Results shown here -->
+        </div>
+
+        <button id="nextButton" class="quiz-next-btn" style="display: none;">次の問題へ</button>
+
+        <div style="height: 40px;"></div>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="friend-main.html" class="nav-item">
+            <div class="nav-icon">🎁</div>
+            <span>お友達</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <div class="nav-icon">❓</div>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
+    <script>
+        const quizData = [
+            { question: "シャントに最も適した観察方法はどれ？", options: ["指で触って鼓動(スリル)を確認する", "目で見るだけ", "毎日押さえて止める"], correct: 0, explanation: "毎日スリル(振動)を触れて確認することが重要です。ザーザーという音が正常です。" },
+            { question: "シャント側の腕で「やってはいけないこと」はどれ？", options: ["血圧測定", "買い物袋を軽く持つ", "手を洗う"], correct: 0, explanation: "血圧測定、採血、腕時計などは血管を圧迫し、閉塞の原因になるため避けます。" },
+            { question: "シャントの閉塞が疑われる症状は？", options: ["スリルが触れない", "少しかゆい", "冷たくない"], correct: 0, explanation: "スリル(振動)や音が消失した場合、閉塞の可能性が高いです。直ちに連絡してください。" },
+            { question: "シャント感染を疑うサインは？", options: ["発赤・熱感・痛み", "皮膚が乾燥している", "少しむくんでいるだけ"], correct: 0, explanation: "赤み、腫れ、痛み、熱感は感染の兆候です。放置せず受診しましょう。" },
+            { question: "透析後の止血方法として正しいのは？", options: ["適度な圧で押さえる", "強く押す", "テープだけ貼る"], correct: 0, explanation: "強すぎる圧迫は血管を潰してしまいます。出血が止まる程度の「適度な圧」で押さえます。" },
+            { question: "寒い季節の血流管理は？", options: ["冷やさない", "水で冷やす", "血流を止める"], correct: 0, explanation: "血管は冷えると収縮します。冬場はサポーターやカイロ(直接当てない)で保温しましょう。" },
+            { question: "透析中にシャント肢がしびれたら？", options: ["スタッフに報告する", "自分でマッサージする", "そのまま様子を見る"], correct: 0, explanation: "しびれは血流障害のサインです。すぐにスタッフに知らせましょう。" },
+            { question: "シャントの音を聞くのに適した道具は？", options: ["聴診器", "体温計", "血圧計"], correct: 0, explanation: "聴診器でザーザーという連続音(スリル音)を確認します。" },
+            { question: "シャント部の清潔を保つために大切なのは？", options: ["毎日石鹸で優しく洗う", "消毒液を毎日塗る", "テープでずっと覆う"], correct: 0, explanation: "清潔を保つには、毎日石鹸で優しく洗い、清潔なタオルで拭くことが基本です。" },
+            { question: "シャント側の腕に腕時計をしても良い？", options: ["いいえ、避けるべき", "はい、問題ない", "たまになら良い"], correct: 0, explanation: "腕時計や締め付けるアクセサリーは血流を妨げるため避けましょう。" }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+        let selectedQuestions = [];
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function selectRandomQuestions() {
+            const shuffled = shuffleArray(quizData);
+            selectedQuestions = shuffled.slice(0, 5);
+        }
+
+        function loadQuestion() {
+            answered = false;
+            const quizContainer = document.getElementById('quizContainer');
+            const data = selectedQuestions[currentQuestion];
+
+            const progress = ((currentQuestion + 1) / selectedQuestions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+
+            const shuffledOptions = shuffleArray(data.options.map((option, index) => ({
+                text: option,
+                isCorrect: index === data.correct
+            })));
+
+            quizContainer.innerHTML = `
+                <div class="quiz-question-number">問題 ${currentQuestion + 1} / ${selectedQuestions.length}</div>
+                <div class="quiz-question-text">${data.question}</div>
+                <div class="quiz-options">
+                    ${shuffledOptions.map((option, index) => `
+                        <div class="quiz-option" onclick="selectOption(${index}, ${option.isCorrect}, this)">
+                            ${option.text}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="quiz-explanation" id="explanation">
+                    <div class="explanation-title">📝 解説</div>
+                    <div>${data.explanation}</div>
+                </div>
+            `;
+            document.getElementById('nextButton').style.display = 'none';
+        }
+
+        function selectOption(selectedIndex, isCorrect, element) {
+            if (answered) return;
+            answered = true;
+            document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.add('disabled'));
+
+            if (isCorrect) {
+                element.classList.add('correct');
+                score++;
+            } else {
+                element.classList.add('incorrect');
+                document.querySelectorAll('.quiz-option').forEach(opt => {
+                    if (opt.getAttribute('onclick').includes('true')) opt.classList.add('correct');
+                });
+            }
+
+            document.getElementById('explanation').classList.add('show');
+            const nextButton = document.getElementById('nextButton');
+            nextButton.style.display = 'block';
+            nextButton.textContent = currentQuestion < selectedQuestions.length - 1 ? '次の問題へ' : '結果を見る';
+            nextButton.onclick = nextQuestion;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < selectedQuestions.length) loadQuestion();
+            else showResults();
+        }
+
+        function showResults() {
+            const quizContainer = document.getElementById('quizContainer');
+            const resultContainer = document.getElementById('resultContainer');
+            const percentage = (score / selectedQuestions.length) * 100;
+            let emoji = percentage === 100 ? '🏆' : (percentage < 60 ? '📚' : '🎉');
+            let message = percentage === 100 ? 'パーフェクト!' : 'お疲れ様でした!';
+
+            quizContainer.style.display = 'none';
+            resultContainer.innerHTML = `
+                <div class="result-emoji">${emoji}</div>
+                <h2>${message}</h2>
+                <div class="result-score">${score} / ${selectedQuestions.length}</div>
+                <p>正答率: ${percentage.toFixed(0)}%</p>
+                <button class="quiz-next-btn" onclick="restartQuiz()">もう一度挑戦する</button>
+            `;
+            resultContainer.classList.add('show');
+            document.getElementById('nextButton').style.display = 'none';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0; score = 0; answered = false;
+            selectRandomQuestions();
+            document.getElementById('quizContainer').style.display = 'block';
+            document.getElementById('resultContainer').classList.remove('show');
+            loadQuestion();
+        }
+
+        selectRandomQuestions();
+        loadQuestion();
+    </script>
+</body>
+
+</html>

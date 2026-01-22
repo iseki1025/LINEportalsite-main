@@ -3,233 +3,63 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>栄養クイズ | 梶本クリニック</title>
-    <link rel="stylesheet" href="portal-design.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-layout.css">
+    <link rel="stylesheet" href="components.css">
     <style>
-        /* Quiz Styles - Orange theme */
-        .quiz-info {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .quiz-progress {
-            height: 8px;
-            background: var(--border-light);
-            border-radius: var(--radius-full);
-            margin-bottom: var(--spacing-xl);
-            overflow: hidden;
-        }
-
+        /* Theme-specific override for nutrition quiz */
         .quiz-progress-fill {
-            height: 100%;
             background: linear-gradient(90deg, #34a853, #fbbc04);
-            border-radius: var(--radius-full);
-            transition: width 0.3s ease;
-        }
-
-        .quiz-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-xl);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .quiz-number {
-            font-size: 0.85rem;
-            color: #f59e0b;
-            font-weight: 600;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .quiz-question {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            line-height: 1.5;
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .quiz-options {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-sm);
-        }
-
-        .quiz-option {
-            padding: var(--spacing-md) var(--spacing-lg);
-            background: var(--bg-main);
-            border: 2px solid var(--border-light);
-            border-radius: var(--radius-md);
-            font-weight: 500;
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .quiz-option:hover:not(.disabled) {
-            border-color: #fcd34d;
-            background: rgba(245, 158, 11, 0.05);
-        }
-
-        .quiz-option.correct {
-            border-color: #10b981;
-            background: rgba(16, 185, 129, 0.1);
-            color: #047857;
-        }
-
-        .quiz-option.incorrect {
-            border-color: #ef4444;
-            background: rgba(239, 68, 68, 0.1);
-            color: #b91c1c;
-        }
-
-        .quiz-option.disabled {
-            cursor: default;
-            opacity: 0.7;
-        }
-
-        .quiz-explanation {
-            display: none;
-            margin-top: var(--spacing-lg);
-            padding: var(--spacing-md);
-            background: rgba(245, 158, 11, 0.08);
-            border-radius: var(--radius-md);
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .quiz-explanation.show {
-            display: block;
-        }
-
-        .quiz-explanation-title {
-            font-weight: 600;
-            color: #b45309;
-            margin-bottom: var(--spacing-xs);
         }
 
         .quiz-next-btn {
-            display: none;
-            width: 100%;
-            padding: var(--spacing-md);
-            background: linear-gradient(135deg, #34a853 0%, #1e8e3e 100%);
-            color: white;
-            border-radius: var(--radius-md);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition-normal);
-        }
-
-        .quiz-next-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(52, 168, 83, 0.4);
-        }
-
-        /* Result */
-        .quiz-result {
-            display: none;
-            text-align: center;
-            padding: var(--spacing-2xl);
-        }
-
-        .quiz-result.show {
-            display: block;
-        }
-
-        .result-emoji {
-            font-size: 4rem;
-            margin-bottom: var(--spacing-md);
-        }
-
-        .result-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: var(--spacing-md);
+            background: linear-gradient(135deg, #34a853, #1e8e3e);
+            box-shadow: 0 4px 12px rgba(52, 168, 83, 0.3);
         }
 
         .result-score {
-            font-size: 2rem;
-            font-weight: 700;
             color: #34a853;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .result-percent {
-            color: var(--text-muted);
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .restart-btn {
-            display: inline-block;
-            padding: var(--spacing-md) var(--spacing-2xl);
-            background: linear-gradient(135deg, #34a853 0%, #1e8e3e 100%);
-            color: white;
-            border-radius: var(--radius-full);
-            font-weight: 600;
-            cursor: pointer;
         }
     </style>
 </head>
 
-<body>
-    <!-- Header -->
+<body class="theme-friend app-mode">
     <header class="app-header">
-        <a href="friend-nutrition-main.html" class="header-back">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-        </a>
-        <div class="header-title">栄養クイズ</div>
-        <div style="width: 36px;"></div>
+        <a href="friend-nutrition-main.html" class="back-button">&lt;</a>
+        <div class="app-title">栄養クイズ</div>
     </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-
-        <p class="quiz-info">10問からランダムに5問出題されます</p>
-
-        <div class="quiz-progress">
-            <div class="quiz-progress-fill" id="progressFill" style="width: 20%;"></div>
+    <main class="app-content-scroll">
+        <div class="app-card-generic" style="text-align:center; margin-bottom:1.5rem;">
+            <p style="margin:0; font-size:0.9rem; color:var(--text-muted);">30問からランダムに5問出題されます</p>
         </div>
 
-        <div class="quiz-card" id="quizContainer">
+        <div class="quiz-progress-container">
+            <div class="quiz-progress-fill" id="progressFill"></div>
+        </div>
+
+        <div id="quizContainer" class="app-card-generic">
             <!-- Questions inserted here -->
         </div>
 
-        <button class="quiz-next-btn" id="nextButton">次の問題へ</button>
-
-        <div class="quiz-card quiz-result" id="resultContainer">
+        <div id="resultContainer" class="quiz-result-container app-card-generic">
             <!-- Results shown here -->
         </div>
 
-        <!-- Copyright -->
-        <footer class="copyright mt-xl">
-            <a href="index.html" class="stealth-link">© 2025 Kajimoto Clinic</a>
-        </footer>
+        <button id="nextButton" class="quiz-next-btn" style="display: none;">次の問題へ</button>
 
+        <div style="height: 40px;"></div>
     </main>
 
-    <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="friend-main.html" class="nav-item active">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 12 20 22 4 22 4 12"></polyline>
-                <rect x="2" y="7" width="20" height="5"></rect>
-            </svg>
-            <span>特典トップ</span>
+        <a href="friend-main.html" class="nav-item">
+            <div class="nav-icon">🎁</div>
+            <span>お友達</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
+            <div class="nav-icon">❓</div>
             <span>Q&A</span>
         </a>
     </nav>
@@ -263,30 +93,35 @@
         }
 
         function selectRandomQuestions() {
-            selectedQuestions = shuffleArray(quizData).slice(0, 5);
+            const shuffled = shuffleArray(quizData);
+            selectedQuestions = shuffled.slice(0, 5);
         }
 
         function loadQuestion() {
             answered = false;
             const quizContainer = document.getElementById('quizContainer');
             const data = selectedQuestions[currentQuestion];
+
             const progress = ((currentQuestion + 1) / selectedQuestions.length) * 100;
             document.getElementById('progressFill').style.width = progress + '%';
 
             const shuffledOptions = shuffleArray(data.options.map((option, index) => ({
-                text: option, isCorrect: index === data.correct
+                text: option,
+                isCorrect: index === data.correct
             })));
 
             quizContainer.innerHTML = `
-                <div class="quiz-number">問題 ${currentQuestion + 1} / ${selectedQuestions.length}</div>
-                <div class="quiz-question">${data.question}</div>
+                <div class="quiz-question-number">問題 ${currentQuestion + 1} / ${selectedQuestions.length}</div>
+                <div class="quiz-question-text">${data.question}</div>
                 <div class="quiz-options">
                     ${shuffledOptions.map((option, index) => `
-                        <div class="quiz-option" onclick="selectOption(${index}, ${option.isCorrect}, this)">${option.text}</div>
+                        <div class="quiz-option" onclick="selectOption(${index}, ${option.isCorrect}, this)">
+                            ${option.text}
+                        </div>
                     `).join('')}
                 </div>
                 <div class="quiz-explanation" id="explanation">
-                    <div class="quiz-explanation-title">📝 解説</div>
+                    <div class="explanation-title">📝 解説</div>
                     <div>${data.explanation}</div>
                 </div>
             `;
@@ -322,21 +157,22 @@
         }
 
         function showResults() {
-            document.getElementById('quizContainer').style.display = 'none';
-            document.getElementById('nextButton').style.display = 'none';
+            const quizContainer = document.getElementById('quizContainer');
             const resultContainer = document.getElementById('resultContainer');
             const percentage = (score / selectedQuestions.length) * 100;
             let emoji = percentage === 100 ? '🏆' : (percentage < 60 ? '📚' : '🎉');
             let message = percentage === 100 ? 'パーフェクト!' : 'お疲れ様でした!';
 
+            quizContainer.style.display = 'none';
             resultContainer.innerHTML = `
                 <div class="result-emoji">${emoji}</div>
-                <div class="result-title">${message}</div>
+                <h2>${message}</h2>
                 <div class="result-score">${score} / ${selectedQuestions.length}</div>
-                <div class="result-percent">正答率: ${percentage.toFixed(0)}%</div>
-                <button class="restart-btn" onclick="restartQuiz()">もう一度挑戦する</button>
+                <p>正答率: ${percentage.toFixed(0)}%</p>
+                <button class="quiz-next-btn" onclick="restartQuiz()">もう一度挑戦する</button>
             `;
             resultContainer.classList.add('show');
+            document.getElementById('nextButton').style.display = 'none';
         }
 
         function restartQuiz() {
@@ -350,7 +186,6 @@
         selectRandomQuestions();
         loadQuestion();
     </script>
-
 </body>
 
 </html>

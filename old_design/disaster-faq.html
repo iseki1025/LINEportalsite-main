@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>災害情報ポータル | 災害Q&A</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-layout.css">
+    <link rel="stylesheet" href="components.css">
+    <style>
+        .qa-search-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .qa-search-input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .qa-search-input:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+        }
+
+        .qa-popular-keywords {
+            margin-bottom: 2rem;
+        }
+
+        .qa-popular-keywords h3 {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.8rem;
+        }
+
+        .keyword-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .keyword-button {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            background: #fff;
+            color: #555;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .keyword-button:active {
+            transform: scale(0.95);
+            background: #eee;
+        }
+    </style>
+</head>
+
+<body class="app-mode theme-disaster">
+
+    <!-- 1. Fixed App Header -->
+    <header class="app-header page-header-decorative"
+        style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);">
+        <div class="header-decor">
+            <div class="decor-circle" style="background: rgba(255,255,255,0.1);"></div>
+            <div class="decor-circle" style="background: rgba(255,255,255,0.08);"></div>
+        </div>
+        <a href="disaster-main.html" class="back-button">◀</a>
+        <div class="app-title">🚨 災害Q&A</div>
+    </header>
+
+    <!-- 2. Main Scrollable Content -->
+    <main class="app-content-scroll">
+
+        <section id="faq" class="app-page-section active qa-search-section" data-csv-path="files/data/qa-data.csv"
+            data-category="災害">
+
+            <div class="app-card-generic"
+                style="text-align:center; padding: 1.5rem 1rem; background: rgba(254, 226, 226, 0.5);">
+                <p style="font-size:0.95rem; color:#555; margin-bottom:1rem;">
+                    キーワードを入力して、災害関連の質問を検索できます。
+                </p>
+
+                <div class="qa-search-container" style="margin-bottom:1.5rem;">
+                    <input type="search" class="qa-search-input" placeholder="キーワード (例: 備蓄, 避難所)" autocomplete="off"
+                        style="width:100%; padding:14px; border-radius:30px; border:2px solid #fca5a5; background:white; box-shadow:0 4px 10px rgba(0,0,0,0.05);">
+                </div>
+
+                <div class="qa-popular-keywords">
+                    <h3 style="font-size:0.9rem; color:#666; margin-bottom:0.8rem;">よく検索されるワード</h3>
+                    <div class="keyword-buttons" style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
+                        <button class="keyword-button"
+                            style="background: linear-gradient(135deg, #fef2f2, #fee2e2); border: 1px solid #fca5a5; color: #b91c1c;"
+                            onclick="setKeyword('備蓄')">備蓄</button>
+                        <button class="keyword-button"
+                            style="background: linear-gradient(135deg, #fef2f2, #fee2e2); border: 1px solid #fca5a5; color: #b91c1c;"
+                            onclick="setKeyword('避難')">避難</button>
+                        <button class="keyword-button"
+                            style="background: linear-gradient(135deg, #fef2f2, #fee2e2); border: 1px solid #fca5a5; color: #b91c1c;"
+                            onclick="setKeyword('連絡')">連絡</button>
+                        <button class="keyword-button"
+                            style="background: linear-gradient(135deg, #fef2f2, #fee2e2); border: 1px solid #fca5a5; color: #b91c1c;"
+                            onclick="setKeyword('薬')">薬</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="qa-results-container" style="margin-top: 1rem;">
+                <!-- 検索結果はここに表示されます -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 3. Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <div class="nav-icon icon-home"></div>
+            <span>ホーム</span>
+        </a>
+        <a href="friend-main.html" class="nav-item">
+            <div class="nav-icon icon-friend"></div>
+            <span>特典</span>
+        </a>
+        <a href="disaster-main.html" class="nav-item active">
+            <div class="nav-icon icon-disaster"></div>
+            <span>災害</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <div class="nav-icon icon-qa"></div>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
+    <!-- ライブラリとスクリプト -->
+    <script>
+        // 検索キーワード
+        function setKeyword(word) {
+            const input = document.querySelector('.content-section.active .qa-search-input');
+            if (input) {
+                input.value = word;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        }
+        window.setKeyword = setKeyword;
+    </script>
+
+    <!-- Firestoreデータ読み込み用モジュール -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="js/qa/qa-script.js"></script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, getDocs, orderBy, query } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from './js/firebase-config.js';
+
+        try {
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+            // Q&A logic is handled in qa-script.js and standard event listeners
+        } catch (e) {
+            console.error('Firebase init error:', e);
+        }
+    </script>
+
+</body>
+
+</html>

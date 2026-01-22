@@ -5,152 +5,308 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>災害情報ポータル | 災害Q&A</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="mobile-layout.css">
-    <link rel="stylesheet" href="components.css">
+    <title>災害Q&A | 災害情報ポータル</title>
+    <link rel="stylesheet" href="portal-design.css">
     <style>
-        .qa-search-container {
-            margin-bottom: 1.5rem;
+        .qa-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-md);
+            overflow: hidden;
         }
 
-        .qa-search-input {
+        .qa-question {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md) var(--spacing-lg);
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+
+        .qa-question:hover {
+            background: var(--bg-glass-dark);
+        }
+
+        .qa-icon {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-disaster);
+            color: white;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .qa-icon.answer {
+            background: var(--color-primary);
+        }
+
+        .qa-text {
+            flex: 1;
+            font-weight: 500;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .qa-toggle {
+            color: var(--text-muted);
+            transition: transform var(--transition-normal);
+        }
+
+        .qa-item.open .qa-toggle {
+            transform: rotate(180deg);
+        }
+
+        .qa-answer {
+            display: none;
+            padding: var(--spacing-md) var(--spacing-lg);
+            padding-left: calc(var(--spacing-lg) + 28px + var(--spacing-md));
+            background: var(--bg-main);
+            border-top: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .qa-item.open .qa-answer {
+            display: block;
+        }
+
+        .search-box {
+            background: var(--accent-disaster-bg);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .search-box p {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .disaster-search-input {
             width: 100%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: 1px solid #ddd;
-            background: rgba(255, 255, 255, 0.9);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-full);
+            border: 2px solid var(--accent-disaster-light);
+            background: white;
             font-size: 1rem;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            appearance: none;
-            -webkit-appearance: none;
+            box-shadow: var(--shadow-sm);
         }
 
-        .qa-search-input:focus {
+        .disaster-search-input:focus {
             outline: none;
-            border-color: #e74c3c;
-            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
-        }
-
-        .qa-popular-keywords {
-            margin-bottom: 2rem;
-        }
-
-        .qa-popular-keywords h3 {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 0.8rem;
+            border-color: var(--accent-disaster);
         }
 
         .keyword-buttons {
             display: flex;
-            gap: 8px;
+            justify-content: center;
             flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
         }
 
-        .keyword-button {
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: none;
-            background: #fff;
-            color: #555;
-            font-size: 0.85rem;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            cursor: pointer;
-            transition: all 0.2s;
+        .keyword-btn.disaster {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border: 1px solid #fca5a5;
+            color: #b91c1c;
         }
 
-        .keyword-button:active {
-            transform: scale(0.95);
-            background: #eee;
+        .keyword-btn.disaster:hover {
+            background: #fee2e2;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: var(--spacing-xl);
+            color: var(--text-muted);
+            display: none;
+        }
+
+        .back-btn-container {
+            text-align: center;
+            margin-top: var(--spacing-xl);
         }
     </style>
 </head>
 
-<body class="app-mode theme-disaster">
-
-    <!-- 1. Fixed App Header -->
+<body>
+    <!-- Header -->
     <header class="app-header">
-        <a href="disaster-main.html" class="back-button">◀</a>
-        <div class="app-title">災害Q&A</div>
+        <a href="disaster-main.html" class="header-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </a>
+        <div class="header-title">災害Q&A</div>
+        <div style="width: 36px;"></div>
     </header>
 
-    <!-- 2. Main Scrollable Content -->
-    <main class="app-content">
+    <!-- Main Content -->
+    <main class="main-content">
 
-        <section id="faq" class="content-section active QA-search-section" data-csv-path="files/data/qa-data.csv"
-            data-category="災害" style="padding: 1rem;">
-            <h2>災害対策についてのQ&A</h2>
-            <div class="qa-search-container">
-                <input type="search" class="qa-search-input" placeholder="キーワード (例: 備蓄, 避難所)" autocomplete="off">
+        <!-- Hero -->
+        <section class="hero-section theme-disaster">
+            <h1 class="hero-title">災害に関する質問</h1>
+            <p class="hero-subtitle">
+                よくある質問から<br>
+                回答を探す
+            </p>
+        </section>
+
+        <!-- Search Box -->
+        <div class="search-box">
+            <p>キーワードを入力して、災害関連の質問を検索できます。</p>
+            <input type="search" class="disaster-search-input" id="disasterSearchInput" placeholder="キーワード (例: 備蓄, 避難所)"
+                autocomplete="off">
+            <div class="keyword-buttons">
+                <button class="keyword-btn disaster" onclick="setKeyword('備蓄')">備蓄</button>
+                <button class="keyword-btn disaster" onclick="setKeyword('避難')">避難</button>
+                <button class="keyword-btn disaster" onclick="setKeyword('連絡')">連絡</button>
+                <button class="keyword-btn disaster" onclick="setKeyword('薬')">薬</button>
             </div>
+        </div>
 
-            <!-- よく検索されるワード -->
-            <div class="qa-popular-keywords">
-                <h3>よく検索されるワード</h3>
-                <div class="keyword-buttons">
-                    <button class="keyword-button" onclick="setKeyword('備蓄')">備蓄</button>
-                    <button class="keyword-button" onclick="setKeyword('避難')">避難</button>
-                    <button class="keyword-button" onclick="setKeyword('連絡')">連絡</button>
-                    <button class="keyword-button" onclick="setKeyword('薬')">薬</button>
+        <!-- Q&A List -->
+        <div id="qaList">
+            <div class="qa-item" data-keywords="備蓄 水 食料">
+                <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+                    <span class="qa-icon">Q</span>
+                    <span class="qa-text">備蓄はどのくらい用意すべきですか？</span>
+                    <span class="qa-toggle">▼</span>
+                </div>
+                <div class="qa-answer">
+                    透析患者の方は、最低3日分の水・食料・薬を用意することをお勧めします。特に透析に影響のある薬は、多めに持っておくと安心です。
                 </div>
             </div>
 
-            <div class="qa-results-container">
-                <!-- 検索結果はここに表示されます -->
+            <div class="qa-item" data-keywords="避難 避難所 場所">
+                <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+                    <span class="qa-icon">Q</span>
+                    <span class="qa-text">避難所はどこに行けばいいですか？</span>
+                    <span class="qa-toggle">▼</span>
+                </div>
+                <div class="qa-answer">
+                    まずはお住まいの市区町村が指定する避難所へ向かってください。事前にハザードマップで最寄りの避難所を確認しておくことをお勧めします。
+                </div>
             </div>
-        </section>
+
+            <div class="qa-item" data-keywords="連絡 電話 安否">
+                <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+                    <span class="qa-icon">Q</span>
+                    <span class="qa-text">災害時にクリニックへ連絡がつかない場合は？</span>
+                    <span class="qa-toggle">▼</span>
+                </div>
+                <div class="qa-answer">
+                    災害用伝言ダイヤル（171）をご利用ください。電話番号を指定してメッセージを録音・再生できます。また、最寄りの透析施設への連絡も検討してください。
+                </div>
+            </div>
+
+            <div class="qa-item" data-keywords="薬 服薬 持ち出し">
+                <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+                    <span class="qa-icon">Q</span>
+                    <span class="qa-text">薬が切れた場合はどうすればいいですか？</span>
+                    <span class="qa-toggle">▼</span>
+                </div>
+                <div class="qa-answer">
+                    お薬手帳や透析条件カードを持参し、最寄りの病院や避難所の医療班に相談してください。透析患者であることを必ずお伝えください。
+                </div>
+            </div>
+
+            <div class="qa-item" data-keywords="透析 できない 中断">
+                <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+                    <span class="qa-icon">Q</span>
+                    <span class="qa-text">透析ができない場合はどうすればいいですか？</span>
+                    <span class="qa-toggle">▼</span>
+                </div>
+                <div class="qa-answer">
+                    水分・塩分・カリウムの摂取を控え、体調管理に努めてください。ラジオで透析情報を確認し、他の透析施設への受け入れ情報を待ちましょう。
+                </div>
+            </div>
+        </div>
+
+        <p class="no-results" id="noResults">該当するQ&Aがありません</p>
+
+        <!-- Back Button -->
+        <div class="back-btn-container">
+            <a href="disaster-main.html" class="btn btn-secondary">
+                災害情報ポータルへ戻る
+            </a>
+        </div>
+
+        <!-- Copyright -->
+        <footer class="copyright">
+            <a href="index.html" class="stealth-link">
+                © 2025 Kajimoto Clinic
+            </a>
+        </footer>
 
     </main>
 
-    <!-- 3. Bottom Navigation Bar -->
+    <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="index.html" class="nav-item">
-            <div class="nav-icon icon-home"></div>
-            <span>ホーム</span>
-        </a>
-        <a href="friend-main.html" class="nav-item">
-            <div class="nav-icon icon-friend"></div>
-            <span>特典</span>
-        </a>
         <a href="disaster-main.html" class="nav-item active">
-            <div class="nav-icon icon-disaster"></div>
-            <span>災害</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                </path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span>災害トップ</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <div class="nav-icon icon-qa"></div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
             <span>Q&A</span>
         </a>
     </nav>
 
-    <!-- ライブラリとスクリプト -->
+    <!-- Scripts -->
     <script>
-        // 検索キーワード
         function setKeyword(word) {
-            const input = document.querySelector('.content-section.active .qa-search-input');
-            if (input) {
-                input.value = word;
-                input.dispatchEvent(new Event('input', { bubbles: true }));
-            }
+            const input = document.getElementById('disasterSearchInput');
+            input.value = word;
+            filterQA();
         }
-        window.setKeyword = setKeyword;
-    </script>
 
-    <!-- Firestoreデータ読み込み用モジュール -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-    <script src="js/qa/qa-script.js"></script>
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, getDocs, orderBy, query } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-        import { firebaseConfig } from './js/firebase-config.js';
+        function filterQA() {
+            const searchTerm = document.getElementById('disasterSearchInput').value.toLowerCase();
+            const items = document.querySelectorAll('.qa-item');
+            let visibleCount = 0;
 
-        try {
-            const app = initializeApp(firebaseConfig);
-            const db = getFirestore(app);
-            // Q&A logic is handled in qa-script.js and standard event listeners
-        } catch (e) {
-            console.error('Firebase init error:', e);
+            items.forEach(item => {
+                const question = item.querySelector('.qa-text').textContent.toLowerCase();
+                const answer = item.querySelector('.qa-answer').textContent.toLowerCase();
+                const keywords = (item.dataset.keywords || '').toLowerCase();
+
+                const matchesSearch = !searchTerm ||
+                    question.includes(searchTerm) ||
+                    answer.includes(searchTerm) ||
+                    keywords.includes(searchTerm);
+
+                if (matchesSearch) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
         }
+
+        document.getElementById('disasterSearchInput').addEventListener('input', filterQA);
     </script>
 
 </body>

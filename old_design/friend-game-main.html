@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ミニゲーム | 梶本クリニック</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-layout.css">
+    <link rel="stylesheet" href="components.css">
+    <style>
+        /* Game Card Styles */
+        .game-card {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: var(--shadow-md, 0 4px 15px rgba(0, 0, 0, 0.05));
+            border-radius: var(--radius-m, 16px);
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            text-decoration: none;
+            color: var(--text-main, #333);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-card:active {
+            transform: scale(0.98);
+        }
+
+        .game-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-body, #F0FDFA);
+            border-radius: var(--radius-s, 12px);
+        }
+
+        .game-info {
+            flex: 1;
+        }
+
+        .game-title {
+            display: block;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+
+        .game-desc {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted, #666);
+            line-height: 1.4;
+        }
+
+        .game-arrow {
+            font-size: 1.2rem;
+            color: #ddd;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+
+<body class="theme-friend app-mode">
+    <header class="app-header">
+        <a href="friend-main.html" class="back-button">&lt;</a>
+        <div class="app-title">ミニゲーム</div>
+    </header>
+
+    <main class="app-content-scroll">
+        <div style="margin-bottom: 1.5rem; padding: 0 0.5rem;">
+            <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center;">
+                楽しみながら脳トレやリフレッシュ！<br>
+                待ち時間の気分転換にどうぞ。
+            </p>
+        </div>
+
+        <div class="game-list">
+            <!-- 1. Reaction -->
+            <a href="friend-game-reaction-game.html" class="game-card">
+                <div class="game-icon">⚡</div>
+                <div class="game-info">
+                    <span class="game-title">反応速度ゲーム</span>
+                    <span class="game-desc">色が変わったらタップ！反射神経を鍛えます。</span>
+                </div>
+                <span class="game-arrow">&gt;</span>
+            </a>
+
+            <!-- 2. Dodge -->
+            <a href="friend-game-ball-dodge-game.html" class="game-card">
+                <div class="game-icon">⚽</div>
+                <div class="game-info">
+                    <span class="game-title">ボール避けゲーム</span>
+                    <span class="game-desc">飛んでくるボールを避けて動体視力をアップ！</span>
+                </div>
+                <span class="game-arrow">&gt;</span>
+            </a>
+
+            <!-- 3. Puzzle -->
+            <a href="friend-game-falling-block-game.html" class="game-card">
+                <div class="game-icon">🧱</div>
+                <div class="game-info">
+                    <span class="game-title">落ち物パズル</span>
+                    <span class="game-desc">ブロックを積み上げて消す、定番の脳トレ。</span>
+                </div>
+                <span class="game-arrow">&gt;</span>
+            </a>
+
+            <!-- 4. Animal Merge -->
+            <a href="friend-game-animal-merge.html" class="game-card">
+                <div class="game-icon">🐼</div>
+                <div class="game-info">
+                    <span class="game-title">アニマル・マージ</span>
+                    <span class="game-desc">同じ動物をくっつけて進化させよう！</span>
+                </div>
+                <span class="game-arrow">&gt;</span>
+            </a>
+        </div>
+
+        <div style="height: 40px;"></div>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="friend-main.html" class="nav-item">
+            <div class="nav-icon">🎁</div>
+            <span>お友達</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <div class="nav-icon">❓</div>
+            <span>Q&A</span>
+        </a>
+    </nav>
+</body>
+
+</html>

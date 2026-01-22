@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>フットケア | 梶本クリニック</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-layout.css">
+    <link rel="stylesheet" href="components.css">
+    <style>
+        /* Footcare page theme: Purple */
+        :root {
+            --page-primary: #a855f7;
+            --page-primary-dark: #7c3aed;
+            --page-bg-light: #f3e8ff;
+            --page-bg-lighter: #faf5ff;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, #a855f7 0%, #9333ea 50%, #7c3aed 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-header::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .app-header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 20%;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+        }
+
+        .app-segmented-item.active {
+            background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+            color: white;
+        }
+
+        .footcare-list strong {
+            color: var(--page-primary-dark);
+        }
+
+        .caution-box.theme-purple {
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+            border: 1px solid #d8b4fe;
+        }
+
+        .caution-box.theme-purple .caution-content h3,
+        .caution-box.theme-purple .caution-content p {
+            color: var(--page-primary-dark);
+        }
+    </style>
+</head>
+
+<body class="theme-friend app-mode">
+    <header class="app-header">
+        <a href="friend-main.html" class="back-button">&lt;</a>
+        <div class="app-title">💜 フットケア</div>
+    </header>
+
+    <main class="app-content-scroll">
+        <nav class="app-segmented-control">
+            <button class="app-segmented-item active" onclick="switchTab('basic')">基本</button>
+            <button class="app-segmented-item" onclick="switchTab('initiatives')">取り組み</button>
+        </nav>
+
+        <!-- Tab 1: Basic -->
+        <section id="basic" class="app-page-section active">
+            <div class="app-card-generic" style="background: var(--page-bg-lighter);">
+                <h2 style="font-size:1.1rem; text-align:center; margin-bottom:0.8rem; color: var(--page-primary-dark);">
+                    毎日のチェックポイント</h2>
+                <ul class="footcare-list" style="padding-left:1.2rem;">
+                    <li>傷、切り傷、靴擦れがないか</li>
+                    <li>水ぶくれ、たこ、うおのめはないか</li>
+                    <li>皮膚の赤み、腫れ、色の変化がないか</li>
+                </ul>
+            </div>
+
+            <div class="app-card-generic" style="background: var(--page-bg-lighter);">
+                <h3 style="font-size:1rem; margin-bottom:0.8rem; color: var(--page-primary-dark);">正しい足のケア</h3>
+                <ul class="footcare-list" style="padding-left:1.2rem;">
+                    <li><strong>洗い方:</strong> 石鹸をよく泡立て優しく洗う。</li>
+                    <li><strong>乾かし方:</strong> 擦らず押さえるように拭く。</li>
+                    <li><strong>保湿:</strong> 乾燥時は保湿剤を（指の間は避ける）。</li>
+                    <li><strong>爪切り:</strong> 深爪せずスクエアカットに。</li>
+                </ul>
+            </div>
+
+            <div class="caution-box theme-purple">
+                <img src="files/common/caution-icon.png" alt="注意" class="caution-icon-img">
+                <div class="caution-content">
+                    <h3>すぐに相談を</h3>
+                    <p>傷、色の変化、痛みや腫れがある場合は、自己判断せずすぐにスタッフへ！</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 2: Initiatives -->
+        <section id="initiatives" class="app-page-section">
+            <div class="app-card-generic" style="background: var(--page-bg-lighter);">
+                <h3 style="font-size:1rem; margin-bottom:1rem; color: var(--page-primary-dark);">当院のフットケアサービス</h3>
+                <ul class="footcare-list" style="padding-left:1.2rem;">
+                    <li><strong>定期観察:</strong> 透析時に足をチェックします。</li>
+                    <li><strong>専門ケア:</strong> 必要に応じて爪切りや角質ケア。</li>
+                    <li><strong>患者教育:</strong> セルフケアの指導。</li>
+                </ul>
+            </div>
+
+            <div class="pdf-collapsible">
+                <div class="pdf-collapsible-header" onclick="togglePdf(this)" style="background: var(--page-bg-light);">
+                    <span>📖 ガイドブックを見る</span>
+                    <span>▼</span>
+                </div>
+                <div class="pdf-collapsible-content">
+                    <p style="margin-bottom:1rem; font-size:0.9rem; color:#555;">詳しいケア方法をPDFで確認できます。</p>
+                    <a href="files/pdf/footcare-guide-book.pdf" target="_blank" class="pdf-link-mobile"
+                        style="background: var(--page-primary);">PDFを開く</a>
+                </div>
+            </div>
+
+            <div class="app-card-generic"
+                style="background: var(--page-bg-light); border-color:#d8b4fe; text-align:center;">
+                <h3 style="font-size:1rem; color: var(--page-primary-dark);">💡 ご相談ください</h3>
+                <p style="font-size:0.9rem; color: var(--page-primary-dark); margin:0;">
+                    足のことで気になることがあれば、遠慮なくスタッフにお声がけください。
+                </p>
+            </div>
+        </section>
+
+        <div style="height: 40px;"></div>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="friend-main.html" class="nav-item">
+            <div class="nav-icon">🎁</div>
+            <span>お友達</span>
+        </a>
+        <a href="qa-main.html" class="nav-item">
+            <div class="nav-icon">❓</div>
+            <span>Q&A</span>
+        </a>
+    </nav>
+
+    <script>
+        function switchTab(id) {
+            document.querySelectorAll('.app-page-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.app-segmented-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            const buttons = document.querySelectorAll('.app-segmented-item');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('onclick').includes(id)) btn.classList.add('active');
+            });
+        }
+        window.switchTab = switchTab;
+
+        function togglePdf(header) {
+            const container = header.parentElement;
+            container.classList.toggle('is-open');
+        }
+        window.togglePdf = togglePdf;
+    </script>
+</body>
+
+</html>

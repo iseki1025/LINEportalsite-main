@@ -3,103 +3,208 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>栄養情報 | 梶本クリニック</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="mobile-layout.css">
-    <link rel="stylesheet" href="components.css">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>食事療法 | 梶本クリニック</title>
+    <link rel="stylesheet" href="portal-design.css">
     <style>
-        /* Nutrition page theme: Orange/Amber */
-        :root {
-            --page-primary: #f59e0b;
-            --page-primary-dark: #b45309;
-            --page-bg-light: #fef3c7;
-            --page-bg-lighter: #fffbeb;
+        /* Nutrition theme: Orange */
+        .hero-section.theme-nutrition {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.08) 100%);
         }
 
-        .app-header {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
-            position: relative;
+        .hero-section.theme-nutrition .hero-title {
+            color: #b45309;
+        }
+
+        .tab-nav {
+            display: flex;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-lg);
+            background: var(--bg-card);
+            padding: var(--spacing-xs);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-xs);
+            border-radius: var(--radius-md);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-align: center;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Info Card */
+        .info-card {
+            background: rgba(245, 158, 11, 0.08);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .info-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #b45309;
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+        }
+
+        .info-card ul {
+            padding-left: var(--spacing-lg);
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .info-card ul strong {
+            color: #b45309;
+        }
+
+        .tip-card {
+            background: #fef3c7;
+            border: 1px solid #fcd34d;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            text-align: center;
+            color: #b45309;
+            font-size: 0.9rem;
+        }
+
+        /* Recipe Card */
+        .recipe-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .recipe-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
             overflow: hidden;
         }
 
-        .app-header::before {
-            content: '';
-            position: absolute;
-            top: -30px;
-            right: -30px;
-            width: 100px;
-            height: 100px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
+        .recipe-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: rgba(245, 158, 11, 0.08);
+            cursor: pointer;
         }
 
-        .app-header::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 20%;
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
+        .recipe-title {
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .app-segmented-item.active {
+        .recipe-content {
+            display: none;
+            padding: var(--spacing-md) var(--spacing-lg);
+            text-align: center;
+        }
+
+        .recipe-item.open .recipe-content {
+            display: block;
+        }
+
+        .pdf-btn {
+            display: inline-block;
+            padding: var(--spacing-sm) var(--spacing-xl);
+            background: #f59e0b;
+            color: white;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+        }
+
+        /* Quiz Card */
+        .quiz-card {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.08) 100%);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            text-align: center;
+        }
+
+        .quiz-btn {
+            display: inline-block;
+            padding: var(--spacing-md) var(--spacing-2xl);
             background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
             color: white;
-        }
-
-        .quiz-button {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-radius: var(--radius-full);
+            font-weight: 600;
             box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
         }
 
-        .keyword-button {
+        /* Q&A */
+        .qa-section-intro {
+            background: rgba(245, 158, 11, 0.08);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .keyword-btn.orange {
             background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-            color: var(--page-primary-dark);
-        }
-
-        .keyword-button:active {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: white;
-        }
-
-        .qa-search-input {
-            border: 2px solid #fcd34d;
-        }
-
-        .qa-search-input:focus {
-            border-color: #f59e0b;
-            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.2);
-        }
-
-        .nutrition-list strong {
-            color: var(--page-primary-dark);
+            border: 1px solid #fcd34d;
+            color: #b45309;
         }
     </style>
 </head>
 
-<body class="theme-friend app-mode">
+<body>
+    <!-- Header -->
     <header class="app-header">
-        <a href="friend-main.html" class="back-button">&lt;</a>
-        <div class="app-title">🧡 栄養情報</div>
+        <a href="friend-main.html" class="header-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </a>
+        <div class="header-title">食事療法</div>
+        <div style="width: 36px;"></div>
     </header>
 
-    <main class="app-content-scroll">
-        <nav class="app-segmented-control">
-            <button class="app-segmented-item active" onclick="switchTab('info')">基本</button>
-            <button class="app-segmented-item" onclick="switchTab('recipe')">レシピ</button>
-            <button class="app-segmented-item" onclick="switchTab('quiz')">クイズ</button>
-            <button class="app-segmented-item" onclick="switchTab('qa')">Q&A</button>
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Hero -->
+        <section class="hero-section theme-nutrition">
+            <h1 class="hero-title">食事療法の基本</h1>
+            <p class="hero-subtitle">適切な食事管理で透析を楽に。</p>
+        </section>
+
+        <!-- Tab Navigation -->
+        <nav class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('info')">基本</button>
+            <button class="tab-btn" onclick="switchTab('recipe')">レシピ</button>
+            <button class="tab-btn" onclick="switchTab('quiz')">クイズ</button>
+            <button class="tab-btn" onclick="switchTab('qa')">Q&A</button>
         </nav>
 
         <!-- Tab 1: Info -->
-        <section id="info" class="app-page-section active">
-            <div class="app-card-generic" style="background: var(--page-bg-lighter);">
-                <h2 style="font-size:1.1rem; text-align:center; margin-bottom:0.8rem; color: var(--page-primary-dark);">
-                    食事療法の5つの基本</h2>
-                <ul class="nutrition-list" style="padding-left:1.2rem;">
+        <section id="info" class="tab-content active">
+            <div class="info-card">
+                <h3>食事療法の5つの基本</h3>
+                <ul>
                     <li><strong>水分・塩分:</strong> 摂りすぎは血圧上昇や心負担の原因に。</li>
                     <li><strong>カリウム:</strong> 野菜や果物は茹でこぼし等の工夫を。</li>
                     <li><strong>リン:</strong> 加工食品や乳製品に注意しましょう。</li>
@@ -107,99 +212,98 @@
                     <li><strong>エネルギー:</strong> 炭水化物や脂質でしっかり確保。</li>
                 </ul>
             </div>
-            <div class="app-card-generic" style="background: var(--page-bg-light); border-color:#fcd34d;">
-                <p style="font-size:0.9rem; text-align:center; margin:0; color: var(--page-primary-dark);">
-                    適切な食事管理は、透析を楽にし、合併症を予防します。
-                </p>
+            <div class="tip-card">
+                適切な食事管理は、透析を楽にし、合併症を予防します。
             </div>
         </section>
 
         <!-- Tab 2: Recipe -->
-        <section id="recipe" class="app-page-section">
-            <h3 style="font-size:1rem; margin:0 0.5rem 0.5rem;">おすすめレシピ</h3>
-            <div id="recipeContainer">
-                <p style="text-align:center; padding:2rem; color:#888;">読み込み中...</p>
+        <section id="recipe" class="tab-content">
+            <h3 class="section-title">おすすめレシピ</h3>
+            <div class="recipe-list" id="recipeContainer">
+                <p style="text-align: center; color: var(--text-muted); padding: var(--spacing-xl);">読み込み中...</p>
             </div>
         </section>
 
         <!-- Tab 3: Quiz -->
-        <section id="quiz" class="app-page-section">
-            <div class="app-card-generic"
-                style="text-align:center; padding:3rem 1.5rem; background: var(--page-bg-lighter);">
-                <h2 style="margin-bottom:1rem; color: var(--page-primary-dark);">栄養クイズ</h2>
-                <p style="margin-bottom:2rem;">食事管理に役立つ知識をゲーム感覚で！</p>
-                <a href="friend-nutrition-quiz.html" class="quiz-button">挑戦する</a>
+        <section id="quiz" class="tab-content">
+            <div class="quiz-card">
+                <h2 style="color: #b45309; margin-bottom: var(--spacing-md);">栄養クイズ</h2>
+                <p style="color: var(--text-secondary); margin-bottom: var(--spacing-xl);">食事管理に役立つ知識をゲーム感覚で！</p>
+                <a href="friend-nutrition-quiz.html" class="quiz-btn">挑戦する</a>
             </div>
         </section>
 
-        <!-- Tab 4: Q&A - Matching qa-main.html design with orange theme -->
-        <section id="qa" class="app-page-section qa-search-section" data-csv-path="files/data/qa-data.csv"
-            data-category="栄養">
-            <div class="app-card-generic"
-                style="text-align:center; padding: 1.5rem 1rem; background: var(--page-bg-lighter);">
-                <p style="font-size:0.95rem; color:#555; margin-bottom:1rem;">
-                    キーワードを入力して、栄養関連の質問を検索できます。
+        <!-- Tab 4: Q&A (Compatible with qa-script.js) -->
+        <section id="qa" class="tab-content qa-search-section" data-category="栄養">
+            <div class="qa-section-intro">
+                <p style="color: var(--text-secondary); margin-bottom: var(--spacing-md);">キーワードを入力して、栄養関連の質問を検索できます。
                 </p>
-
-                <div class="qa-search-container" style="margin-bottom:1.5rem;">
-                    <input type="search" class="qa-search-input" placeholder="キーワード (例: リン, 外食)" autocomplete="off"
-                        style="width:100%; padding:14px; border-radius:30px; border:2px solid #fcd34d; background:white; box-shadow:0 4px 10px rgba(0,0,0,0.05);">
+                <input type="search" class="search-input qa-search-input" placeholder="キーワード (例: リン, 外食)"
+                    autocomplete="off">
+                <div class="keyword-buttons mt-md">
+                    <button class="keyword-btn orange" onclick="setKeyword('リン')">リン</button>
+                    <button class="keyword-btn orange" onclick="setKeyword('カリウム')">カリウム</button>
+                    <button class="keyword-btn orange" onclick="setKeyword('塩分')">塩分</button>
                 </div>
-
-                <div class="qa-popular-keywords">
-                    <h3 style="font-size:0.9rem; color:#666; margin-bottom:0.8rem;">よく検索されるワード</h3>
-                    <div class="keyword-buttons" style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
-                        <button class="keyword-button" onclick="setKeyword('リン')">リン</button>
-                        <button class="keyword-button" onclick="setKeyword('カリウム')">カリウム</button>
-                        <button class="keyword-button" onclick="setKeyword('塩分')">塩分</button>
-                    </div>
-                </div>
-
-                <div class="qa-results-container" style="text-align:left; margin-top:2rem;"></div>
+            </div>
+            <div class="qa-results-container">
+                <!-- Q&A items loaded here by qa-script.js -->
             </div>
         </section>
 
-        <div style="height: 40px;"></div>
+        <!-- Copyright -->
+        <footer class="copyright mt-xl">
+            <a href="index.html" class="stealth-link">© 2025 Kajimoto Clinic</a>
+        </footer>
+
     </main>
 
+    <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="friend-main.html" class="nav-item">
-            <div class="nav-icon">🎁</div>
-            <span>お友達</span>
+        <a href="friend-main.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                <rect x="2" y="7" width="20" height="5"></rect>
+            </svg>
+            <span>特典トップ</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <div class="nav-icon">❓</div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
             <span>Q&A</span>
         </a>
     </nav>
 
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="js/qa/qa-data-embedded.js"></script>
+    <script src="js/qa/qa-script.js"></script>
     <script>
         function switchTab(id) {
-            document.querySelectorAll('.app-page-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.app-segmented-item').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            const buttons = document.querySelectorAll('.app-segmented-item');
-            buttons.forEach(btn => {
-                if (btn.getAttribute('onclick').includes(id)) {
-                    btn.classList.add('active');
-                }
-            });
+            event.target.classList.add('active');
         }
-        window.switchTab = switchTab;
 
-        window.setKeyword = function (word) {
+        function setKeyword(word) {
             const input = document.querySelector('.qa-search-input');
-            if (input) { input.value = word; input.dispatchEvent(new Event('input', { bubbles: true })); }
+            if (input) {
+                input.value = word;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
         }
 
-        function togglePdf(header) {
-            const container = header.parentElement;
-            container.classList.toggle('is-open');
+        function toggleRecipe(header) {
+            header.parentElement.classList.toggle('open');
         }
-        window.togglePdf = togglePdf;
     </script>
 
-    <!-- Firebase Logic -->
+    <!-- Firebase Recipe Loading -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getFirestore, collection, getDocs, orderBy, query } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
@@ -216,30 +320,28 @@
                     const snapshot = await getDocs(q);
 
                     if (snapshot.empty) {
-                        container.innerHTML = '<p style="text-align:center;">レシピはありません。</p>';
+                        container.innerHTML = '<p style="text-align:center; color: var(--text-muted);">レシピはありません。</p>';
                         return;
                     }
 
                     container.innerHTML = snapshot.docs.map(doc => {
                         const data = doc.data();
                         return `
-                        <div class="pdf-collapsible" data-pdf="${data.storageUrl}">
-                            <div class="pdf-collapsible-header" onclick="togglePdf(this)" style="background: var(--page-bg-light);">
-                                <span>🍳 ${data.title}</span>
+                        <div class="recipe-item">
+                            <div class="recipe-header" onclick="toggleRecipe(this)">
+                                <span class="recipe-title">🍳 ${data.title}</span>
                                 <span>▼</span>
                             </div>
-                            <div class="pdf-collapsible-content">
-                                <p style="font-size:0.85rem; text-align:center; margin-bottom:1rem;">スマートフォンで見ることをおすすめします</p>
-                                <div style="text-align:center;">
-                                    <a href="${data.storageUrl}" target="_blank" class="pdf-link-mobile" style="background: var(--page-primary);">PDFを開く</a>
-                                </div>
+                            <div class="recipe-content">
+                                <p style="font-size: 0.85rem; margin-bottom: var(--spacing-md); color: var(--text-muted);">スマートフォンで見ることをおすすめします</p>
+                                <a href="${data.storageUrl}" target="_blank" class="pdf-btn">PDFを開く</a>
                             </div>
                         </div>
                         `;
                     }).join('');
                 } catch (error) {
                     console.error('Recipe error:', error);
-                    container.innerHTML = '<p style="color:red; text-align:center;">レシピの取得に失敗しました</p>';
+                    container.innerHTML = '<p style="color: var(--accent-disaster); text-align:center;">レシピの取得に失敗しました</p>';
                 }
             }
             loadRecipes();
@@ -247,9 +349,7 @@
             console.error('Firebase init error:', e);
         }
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-    <script src="js/qa/qa-data-embedded.js"></script>
-    <script src="js/qa/qa-script.js"></script>
+
 </body>
 
 </html>
