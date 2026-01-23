@@ -13,14 +13,16 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
+            padding-top: 50px;
+            box-sizing: border-box;
         }
 
         .samurai-game-container {
             width: 100%;
             max-width: 400px;
             margin: 0 auto;
-            padding: 1rem;
+            padding: 0.5rem 1rem;
             text-align: center;
             height: 100%;
             display: flex;
@@ -29,7 +31,7 @@
 
         .game-title {
             font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             color: #1a1a2e;
             margin-top: 0;
             flex-shrink: 0;
@@ -37,13 +39,13 @@
 
         .game-instruction {
             background: linear-gradient(135deg, #fff7ed, #ffedd5);
-            padding: 0.8rem 1rem;
+            padding: 0.6rem 0.8rem;
             border-radius: 0.5rem;
             color: #9a3412;
             border-left: 4px solid #ea580c;
             text-align: left;
-            font-size: 0.85rem;
-            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
             flex-shrink: 0;
         }
 
@@ -52,9 +54,7 @@
             position: relative;
             width: 100%;
             flex-grow: 1;
-            /* Automatically fill available space */
-            max-height: 400px;
-            /* But don't get too tall */
+            max-height: 500px;
             min-height: 200px;
             background: linear-gradient(to bottom,
                     #ff6b35 0%,
