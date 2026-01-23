@@ -316,12 +316,32 @@
             return matrix;
         }
 
+        function getGhostY() {
+            let ghostY = player.pos.y;
+            // Simulate dropping until collision
+            while (!collide(board, { matrix: player.matrix, pos: { x: player.pos.x, y: ghostY + 1 } })) {
+                ghostY++;
+            }
+            return ghostY;
+        }
+
         function draw() {
             // Clear canvas
             context.fillStyle = 'rgba(0, 0, 0, 0.3)';
             context.fillRect(0, 0, canvas.width, canvas.height);
 
             drawMatrix(board, { x: 0, y: 0 });
+
+            // Ghost Piece
+            if (player.matrix && !isGameOver) {
+                const ghostY = getGhostY();
+                context.save();
+                context.globalAlpha = 0.2; // Translucent
+                drawMatrix(player.matrix, { x: player.pos.x, y: ghostY });
+                context.restore();
+            }
+
+            // Actual Player Piece
             drawMatrix(player.matrix, player.pos);
         }
 

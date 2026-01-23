@@ -986,7 +986,8 @@
             ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
             // 動物描画
-            for (const body of animals) {
+            const bodies = Matter.Composite.allBodies(world);
+            for (const body of bodies) {
                 if (body.label === 'animal') {
                     const animal = ANIMALS[body.animalIndex];
                     drawAnimalShape(ctx, body.position.x, body.position.y, animal.radius, animal, body.animalIndex, body.angle);
