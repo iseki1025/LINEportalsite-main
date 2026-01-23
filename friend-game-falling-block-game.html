@@ -61,30 +61,7 @@
         }
 
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            margin-top: 60px;
-            /* Added to avoid overlap with Back button */
-        }
-
-        .score-box h2 {
-            margin: 0;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.8;
-        }
-
-        .score-box p {
-            margin: 0;
-            font-size: 1.5rem;
-            font-weight: 800;
+            display: none;
         }
 
         .main-stage {
@@ -100,18 +77,52 @@
             align-items: center;
         }
 
+        /* In-game Stats */
+        .stat-overlay {
+            position: absolute;
+            bottom: 15px;
+            /* Moved up slightly */
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-left {
+            left: 20px;
+            align-items: flex-start;
+        }
+
+        .stat-right {
+            right: 20px;
+            align-items: flex-end;
+            text-align: right;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-bottom: -5px;
+        }
+
         canvas {
-            height: 95%;
-            aspect-ratio: 12 / 20;
+            height: 100%;
+            width: auto;
+            max-width: 100%;
             image-rendering: pixelated;
         }
 
         .controls {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(2, 1fr);
-            gap: 10px;
-            padding-bottom: 20px;
+            grid-template-rows: repeat(2, 50px);
+            gap: 8px;
+            padding-bottom: 5px;
+            flex-shrink: 0;
         }
 
         .unified-back-btn {
@@ -141,10 +152,10 @@
             background: var(--glass);
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
-            border-radius: 15px;
+            border-radius: 12px;
             color: white;
-            padding: 15px;
-            font-size: 1.1rem;
+            padding: 0;
+            font-size: 0.9rem;
             font-weight: 600;
             display: flex;
             justify-content: center;
@@ -152,7 +163,6 @@
             transition: all 0.1s;
             cursor: pointer;
             touch-action: none;
-            /* Prevent default touch actions like scroll */
         }
 
         .btn:active {
@@ -161,7 +171,7 @@
         }
 
         .btn-drop {
-            grid-column: span 3;
+            grid-column: span 2;
             background: rgba(0, 242, 255, 0.15);
         }
 
@@ -213,18 +223,16 @@
     <a href="friend-game-main.html" class="unified-back-btn">戻る</a>
 
     <div id="game-container">
-        <div class="header">
-            <div class="score-box">
-                <h2>Score</h2>
-                <p id="score">0</p>
-            </div>
-            <div class="score-box" style="text-align: right;">
-                <h2>Lines</h2>
-                <p id="lines">0</p>
-            </div>
-        </div>
-
         <div class="main-stage">
+            <div class="stat-overlay stat-left">
+                <span class="stat-label">Score</span>
+                <span id="score">0</span>
+            </div>
+            <div class="stat-overlay stat-right">
+                <span class="stat-label">Lines</span>
+                <span id="lines">0</span>
+            </div>
+
             <canvas id="game"></canvas>
             <div id="overlay">
                 <h1>POLY DROP</h1>
@@ -272,18 +280,19 @@
 
         const COLORS = [
             null,
-            '#FF355E', // Neon Red
-            '#AAF0D1', // Magic Mint
-            '#50BFE6', // Blue Bolt
-            '#FF6EFF', // Shocking Pink
-            '#CCFF00', // Electric Lime
-            '#FF9933', // Neon Orange
-            '#00FFFF', // Cyan
-            '#FFFF00', // Yellow
-            '#710193', // Deep Purple
-            '#00FF9F', // Spring Green
-            '#FF007F', // Rose
-            '#3333FF'  // Blue
+            '#FF355E', // 1
+            '#AAF0D1', // 2
+            '#50BFE6', // 3
+            '#FF6EFF', // 4
+            '#CCFF00', // 5
+            '#FF9933', // 6
+            '#00FFFF', // 7
+            '#FFFF00', // 8
+            '#710193', // 9
+            '#00FF9F', // 10
+            '#FF007F', // 11
+            '#3333FF', // 12
+            '#FF00FF'  // 13 (Extra buffer)
         ];
 
         let board = createMatrix(COLS, ROWS);
@@ -384,7 +393,14 @@
 
         function playerReset() {
             const pieceIdx = (SHAPES.length * Math.random()) | 0;
-            player.matrix = SHAPES[pieceIdx];
+            // Assign color based on shape index (1-based because 0 is empty)
+            const colorIndex = pieceIdx + 1;
+
+            // Create a new matrix with the specific color index
+            player.matrix = SHAPES[pieceIdx].map(row =>
+                row.map(value => value ? colorIndex : 0)
+            );
+
             player.pos.y = 0;
             player.pos.x = ((board[0].length / 2) | 0) - ((player.matrix[0].length / 2) | 0);
 

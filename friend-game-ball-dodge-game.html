@@ -108,8 +108,8 @@
         }
 
         .game-title {
-            margin-top: 3.5rem !important;
-            /* Make space for back button */
+            margin-top: 0 !important;
+            margin-bottom: 0.2rem !important;
         }
     </style>
 </head>
@@ -150,11 +150,22 @@
         function resizeCanvas() {
             const containerWidth = document.querySelector('.game-container').clientWidth;
             // 画面高さから他の要素分を引いてキャンバス最大サイズを計算
-            // タイトル(約35px) + パネル(約55px) + 戻るボタン(約40px) + マージン/パディング(約50px) = 約180px
-            const availableHeight = window.innerHeight - 180;
-            const maxSize = Math.min(containerWidth - 16, availableHeight, 450);
-            canvas.width = maxSize;
-            canvas.height = maxSize;
+            // タイトル(約30px) + パネル(約55px) + マージン(約20px) = 約105px
+            // 戻るボタンはfixedなので高さ計算には影響しないが、重ならないように上部にスペースが必要か？
+            // ユーザーは「上に詰めて」と言っているため、タイトルを最上部に。戻るボタンと重なるならタイトルを少し右にずらすか？
+            // しかしReaction Gameでは被っていない。とりあえず高さを最大化。
+            const availableHeight = window.innerHeight - 110;
+
+            // 幅はコンテナいっぱい、高さは計算した残りスペース
+            let width = containerWidth;
+            let height = availableHeight;
+
+            // アスペクト比を少し縦長に維持したいが、画面に収めるのが優先
+            // 幅が広すぎるときは制限する
+            if (width > 450) width = 450;
+
+            canvas.width = width;
+            canvas.height = height;
         }
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
@@ -480,7 +491,7 @@
             const distance = Math.floor(currentTime * currentSpeed * 2);
             scoreDisplay.textContent = distance + 'm';
 
-            const newLevel = Math.floor(currentTime / 8) + 1;
+            const newLevel = Math.floor(currentTime / 3) + 1;
             if (newLevel > level) {
                 level = newLevel;
                 currentSpeed += 0.8;
