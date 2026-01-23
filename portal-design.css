@@ -763,35 +763,74 @@ button {
     color: var(--text-muted);
 }
 
-/* Keyword Buttons */
+/* Keyword Buttons - Updates for distinction */
 .keyword-buttons {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-sm);
-    margin-top: var(--spacing-md);
+    margin-top: var(--spacing-xs);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px dashed var(--border-light); /* Separator */
 }
 
 .keyword-btn {
-    padding: var(--spacing-sm) var(--spacing-md);
-
-    background: var(--bg-card);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-full);
-
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-
+    padding: 4px 12px;
+    background: transparent;
+    border: 1px solid var(--border-medium);
+    border-radius: 4px; /* Square corners for tags */
+    font-size: 0.8rem;
+    color: var(--text-muted);
     transition: all var(--transition-fast);
 }
 
 .keyword-btn:hover {
-    background: var(--color-primary-bg);
+    background: var(--bg-main);
     border-color: var(--color-primary);
     color: var(--color-primary);
 }
 
+.keyword-btn::before {
+    content: '#';
+    margin-right: 2px;
+    opacity: 0.5;
+}
+
 /* ========================================
-   16. UTILITIES
+   16. MOBILE LINK AFFORDANCE
+   ======================================== */
+/* Add arrow to clickable cards (links) */
+a.card {
+    position: relative;
+    padding-right: var(--spacing-xl);
+}
+
+a.card::after {
+    content: '→';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--color-primary);
+    opacity: 0.4;
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+a.card:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(4px);
+}
+
+/* Ensure wide cards also have the arrow nicely placed */
+a.card.wide::after {
+    right: 20px;
+}
+
+/* ========================================
+   17. UTILITIES
    ======================================== */
 .text-center {
     text-align: center;

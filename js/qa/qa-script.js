@@ -135,7 +135,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 qaItem.className = 'qa-search-item';
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'qa-search-question';
-                questionDiv.textContent = item.question;
+                // Add flexible layout for text and arrow
+                questionDiv.style.display = 'flex';
+                questionDiv.style.justifyContent = 'space-between';
+                questionDiv.style.alignItems = 'center';
+                questionDiv.innerHTML = `<span>${item.question}</span><span style="opacity:0.5; font-size:0.8rem;">▼</span>`;
+
                 const answerDiv = document.createElement('div');
                 answerDiv.className = 'qa-search-answer';
                 answerDiv.innerHTML = item.answer.replace(/\n/g, '<br>');

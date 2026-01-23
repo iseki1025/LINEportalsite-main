@@ -157,6 +157,9 @@
         <!-- Search -->
         <div class="search-container">
             <input type="text" class="search-input" id="qaSearchInput" placeholder="キーワードで検索...">
+
+            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:1rem; margin-bottom:0.5rem;">よく検索されるキーワード:
+            </div>
             <div class="keyword-buttons" id="keywordButtons">
                 <button class="keyword-btn" onclick="setKeyword('水分')">水分</button>
                 <button class="keyword-btn" onclick="setKeyword('塩分')">塩分</button>
@@ -167,6 +170,8 @@
         </div>
 
         <!-- Category Tabs -->
+        <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.5rem; padding-left:0.25rem;">カテゴリで絞り込み:
+        </div>
         <div class="qa-category-tabs" id="categoryTabs">
             <button class="qa-tab active" data-category="all">すべて</button>
             <button class="qa-tab" data-category="nutrition">食事</button>
