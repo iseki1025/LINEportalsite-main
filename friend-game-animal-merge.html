@@ -105,7 +105,8 @@
 
         .game-header h1 {
             position: fixed;
-            top: 10px;
+            top: 25px;
+            /* Moved down slightly */
             left: 0;
             width: 100%;
             text-align: center;
@@ -118,6 +119,17 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             pointer-events: none;
+        }
+
+        .game-area {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            /* Align left to accommodate HUD on right/overlay */
+            align-items: center;
+            padding-left: 20px;
+            /* Add some padding */
         }
     </style>
 </head>
