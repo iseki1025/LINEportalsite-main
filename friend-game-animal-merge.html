@@ -128,10 +128,16 @@
             width: 100%;
             height: calc(100% - 60px);
             display: flex;
-            justify-content: flex-start;
+            justify-content: center;
+            /* Start with center */
             align-items: center;
-            padding-left: 20px;
             box-sizing: border-box;
+        }
+
+        .game-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
         }
 
         /* ゲームボックス */
@@ -221,7 +227,7 @@
             margin-bottom: 20px;
         }
 
-        /* HUDパネル - 右側縦配置 */
+        /* HUDパネル */
         .info-panel {
             position: fixed;
             right: 15px;
@@ -237,6 +243,42 @@
             padding: 15px 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* サイドバー */
+        .game-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            z-index: 100;
+        }
+
+        @media (max-width: 799px) {
+            .game-sidebar {
+                /* モバイルでは中身が fixed なので、レイアウトに影響させない */
+                width: 0;
+                height: 0;
+                margin: 0;
+                padding: 0;
+            }
+        }
+
+        @media (min-width: 800px) {
+            .game-sidebar {
+                margin-left: 30px;
+                /* ボックスとの間隔 */
+            }
+
+            .game-sidebar .info-panel,
+            .game-sidebar .controls {
+                position: static;
+                transform: none;
+                display: flex;
+            }
+
+            /* 元の fixed 要素は非表示（この構造では sidebar 内にしかないため、
+               実際には PC 用の static 表示に切り替わるだけ） */
         }
 
         .info-section {
@@ -348,47 +390,43 @@
         <h1>🐾 ぷにぷにアニマル</h1>
     </header>
 
-    <!-- HUD Information Panel (Vertical) -->
-    <div class="info-panel">
-        <!-- NEXT (Top) -->
-        <div class="info-section">
-            <span class="label-text">NEXT</span>
-            <canvas id="nextCanvas" width="45" height="45"></canvas>
-        </div>
-
-        <div class="separator"></div>
-
-        <!-- BEST (Middle) -->
-        <div class="info-section">
-            <span class="label-text">BEST</span>
-            <span class="best-val" id="bestScore">0</span>
-        </div>
-
-        <div class="separator"></div>
-
-        <!-- SCORE (Bottom) -->
-        <div class="info-section">
-            <span class="label-text">SCORE</span>
-            <span class="score-val" id="score">0</span>
-        </div>
-    </div>
-
-    <!-- HUD Controls (Bottom Right) -->
-    <div class="controls">
-        <button class="game-btn btn-start" id="startBtn">スタート</button>
-    </div>
-
     <!-- Game Container -->
     <div class="game-container">
         <div class="game-area">
-            <div class="game-box" id="gameBox">
-                <div class="deadline"></div>
-                <canvas id="gameCanvas"></canvas>
-                <div class="glass-overlay"></div>
-                <div class="game-over-overlay" id="gameOverOverlay">
-                    <h2>🎮 Game Over</h2>
-                    <p>スコア: <span id="finalScore">0</span></p>
-                    <button class="game-btn btn-start" id="restartBtn">もう一度</button>
+            <div class="game-wrapper">
+                <!-- Game Box -->
+                <div class="game-box" id="gameBox">
+                    <div class="deadline"></div>
+                    <canvas id="gameCanvas"></canvas>
+                    <div class="glass-overlay"></div>
+                    <div class="game-over-overlay" id="gameOverOverlay">
+                        <h2>🎮 Game Over</h2>
+                        <p>スコア: <span id="finalScore">0</span></p>
+                        <button class="game-btn btn-start" id="restartBtn">もう一度</button>
+                    </div>
+                </div>
+
+                <!-- HUD Elements (Common) -->
+                <div class="game-sidebar">
+                    <div class="info-panel">
+                        <div class="info-section">
+                            <span class="label-text">NEXT</span>
+                            <canvas id="nextCanvas" width="45" height="45"></canvas>
+                        </div>
+                        <div class="separator"></div>
+                        <div class="info-section">
+                            <span class="label-text">BEST</span>
+                            <span class="best-val" id="bestScore">0</span>
+                        </div>
+                        <div class="separator"></div>
+                        <div class="info-section">
+                            <span class="label-text">SCORE</span>
+                            <span class="score-val" id="score">0</span>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <button class="game-btn btn-start" id="startBtn">スタート</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -489,12 +527,11 @@
             const container = document.querySelector('.game-area');
             if (!container) return;
 
-            // 少し余白を設ける (上下左右)
-            // 左寄せ戦略: 右側のHUD(約80px)を避けて、左側のスペースで最大化する
-            // 幅: 全幅 - 右マージン(90px) - 左パディング(15px)
-            // 高さ: 全高 - 上下マージン(50px: ヘッダーや安全マージン)
-            const maxWidth = container.clientWidth - 105;
-            const maxHeight = container.clientHeight - 50;
+            // 幅: 全幅 - 右マージン - 左パディング
+            // PCでは中央に寄せるため、少し多めに引く
+            const horizontalMargin = window.innerWidth > 800 ? 250 : 105;
+            const maxWidth = container.clientWidth - horizontalMargin;
+            const maxHeight = container.clientHeight - 60;
 
             // アスペクト比維持で最大化
             let w = maxHeight * ASPECT_RATIO;
