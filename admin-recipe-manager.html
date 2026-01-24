@@ -35,10 +35,13 @@
                 </div>
                 <button type="submit" id="uploadBtn" class="btn-primary">アップロード</button>
                 <div id="uploadProgress" style="margin-top:1rem; display:none;">
-                    <div class="spinner"
-                        style="width:20px; height:20px; border-width:2px; display:inline-block; vertical-align:middle;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div class="spinner" style="width:20px; height:20px; border-width:2px;"></div>
+                        <progress id="uploadProgressBar" value="0" max="100"
+                            style="flex-grow: 1; height: 10px;"></progress>
+                        <span id="progressText" style="font-size: 0.9rem; min-width: 40px;">0%</span>
                     </div>
-                    <span style="margin-left:0.5rem;">処理中...</span>
+                    <p id="uploadStatusText" style="margin-top: 0.5rem; font-size: 0.8rem; color: #666;">処理中...</p>
                 </div>
             </form>
         </section>
@@ -61,7 +64,7 @@
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getAuth, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
         import { getFirestore, collection, addDoc, getDocs, query, orderBy, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+        import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
         import { firebaseConfig } from './js/firebase-config.js';
 
         const app = initializeApp(firebaseConfig);
@@ -127,13 +130,43 @@
 
             uploadBtn.disabled = true;
             uploadProgress.style.display = 'block';
+            const progressBar = document.getElementById('uploadProgressBar');
+            const progressText = document.getElementById('progressText');
+            const statusText = document.getElementById('uploadStatusText');
 
             try {
-                const filename = `${Date.now()}-${file.name.replace(/[^\x00-\x7F]/g, "")}`; // Remove non-ascii to avoid issues
+                // ファイル名生成の改善: 日本語を安全に処理しつつ拡張子を保持
+                const extension = file.name.split('.').pop();
+                const safeBaseName = file.name
+                    .replace(`.${extension}`, '')
+                    .replace(/[^\x00-\x7F]/g, "_")
+                    .replace(/\s+/g, "_");
+                const filename = `${Date.now()}-${safeBaseName}.${extension}`;
                 const storageRef = ref(storage, `recipes/${filename}`);
 
-                // Storageへアップロード
-                await uploadBytes(storageRef, file);
+                // Storageへアップロード (Resumable)
+                const uploadTask = uploadBytesResumable(storageRef, file);
+
+                await new Promise((resolve, reject) => {
+                    uploadTask.on('state_changed',
+                        (snapshot) => {
+                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            const rounded = Math.round(progress);
+                            progressBar.value = rounded;
+                            progressText.textContent = `${rounded}%`;
+                            statusText.textContent = `アップロード中... (${rounded}%)`;
+                        },
+                        (error) => {
+                            console.error('Storage upload error:', error);
+                            let message = 'アップロード中にエラーが発生しました';
+                            if (error.code === 'storage/unauthorized') message = 'アップロード権限がありません。';
+                            if (error.code === 'storage/canceled') message = 'キャンセルされました。';
+                            reject(new Error(message));
+                        },
+                        () => resolve()
+                    );
+                });
+
                 const storageUrl = await getDownloadURL(storageRef);
 
                 // Firestoreにメタデータ保存
@@ -144,18 +177,20 @@
                     fileSize: file.size,
                     uploadedAt: new Date(),
                     uploadedBy: user.uid,
-                    uploadedByDisplayName: user.displayName
+                    uploadedByDisplayName: user.displayName || '管理者'
                 });
 
                 showSuccess('レシピをアップロードしました');
                 recipeForm.reset();
                 loadRecipes();
             } catch (error) {
-                console.error('Upload error:', error);
-                alert('アップロード中にエラーが発生しました');
+                console.error('Final upload error:', error);
+                alert(error.message || '予期せぬエラーが発生しました');
             } finally {
                 uploadBtn.disabled = false;
                 uploadProgress.style.display = 'none';
+                progressBar.value = 0;
+                progressText.textContent = '0%';
             }
         });
 

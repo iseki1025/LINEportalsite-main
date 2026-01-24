@@ -133,6 +133,208 @@
             padding-left: 20px;
             box-sizing: border-box;
         }
+
+        /* ゲームボックス */
+        .game-box {
+            position: relative;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border: 4px solid rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.15),
+                inset 0 2px 4px rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        .game-box canvas {
+            display: block;
+            background: transparent;
+        }
+
+        /* デッドライン */
+        .deadline {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 100, 100, 0.6), transparent);
+            z-index: 10;
+        }
+
+        .deadline::before {
+            content: '⚠️';
+            position: absolute;
+            right: 5px;
+            top: -10px;
+            font-size: 0.7rem;
+        }
+
+        /* ガラスオーバーレイ */
+        .glass-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            border-radius: 16px;
+        }
+
+        /* ゲームオーバーオーバーレイ */
+        .game-over-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            border-radius: 16px;
+            z-index: 100;
+        }
+
+        .game-over-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .game-over-overlay h2 {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .game-over-overlay p {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        /* HUDパネル - 右側縦配置 */
+        .info-panel {
+            position: fixed;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+            padding: 15px 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .info-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .label-text {
+            font-size: 0.6rem;
+            color: #888;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .score-val,
+        .best-val {
+            font-size: 1rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .separator {
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(160, 140, 200, 0.3), transparent);
+            margin: 0 auto;
+        }
+
+        #nextCanvas {
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* コントロールボタン - 右下 */
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            right: 15px;
+            z-index: 100;
+        }
+
+        .game-btn {
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: "Noto Sans JP", sans-serif;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(161, 140, 209, 0.4);
+        }
+
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(161, 140, 209, 0.5);
+        }
+
+        .btn-start:active {
+            transform: translateY(0);
+        }
+
+        /* マージエフェクト */
+        .merge-effect {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 200, 220, 0.4) 50%, transparent 70%);
+            animation: merge-pop 0.4s ease-out forwards;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        @keyframes merge-pop {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 
