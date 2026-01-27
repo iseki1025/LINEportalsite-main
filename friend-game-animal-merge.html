@@ -8,35 +8,29 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="components.css">
     <style>
-        /* スクロール禁止 & 全画面固定 */
+        /* ===== 基本リセット ===== */
         html,
         body {
-            overflow: hidden;
-            height: 100%;
-            width: 100%;
-            touch-action: none;
-            user-select: none;
             margin: 0;
             padding: 0;
-            position: fixed;
+            height: 100dvh;
+            width: 100%;
+            overflow: hidden;
+            touch-action: none;
+            user-select: none;
         }
 
+        /* ===== レイヤー1: 背景 ===== */
         .game-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background: linear-gradient(135deg, #e0c3fc 0%, #c9b1ff 25%, #b8d4e3 50%, #b5ead7 75%, #ffc8dd 100%);
             z-index: 0;
         }
 
         .particles {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             pointer-events: none;
             z-index: 1;
             overflow: hidden;
@@ -69,87 +63,25 @@
             }
         }
 
-        /* コンテナ類 */
-        .game-container {
+        /* ===== レイヤー2: ゲーム本体 (中央配置) ===== */
+        .game-main {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100dvh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            inset: 0;
             z-index: 10;
-        }
-
-        .unified-back-btn {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            z-index: 1000;
-            padding: 8px 16px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
-            color: #333;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.1s;
-            font-family: "Noto Sans JP", sans-serif;
-        }
-
-        .unified-back-btn:active {
-            transform: scale(0.95);
-        }
-
-        .game-header h1 {
-            position: fixed;
-            top: 25px;
-            /* Moved down slightly */
-            left: 0;
-            width: 100%;
-            text-align: center;
-            margin: 0;
-            font-size: 1.1rem;
-            z-index: 50;
-            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
-            background: linear-gradient(135deg, #ff9a9e, #a18cd1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            pointer-events: none;
-        }
-
-        .game-area {
-            width: 100%;
-            height: calc(100% - 60px);
             display: flex;
             justify-content: center;
-            /* Start with center */
             align-items: center;
+            padding: 60px 20px 20px;
             box-sizing: border-box;
         }
 
-        .game-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        /* ゲームボックス */
         .game-box {
             position: relative;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
             border: 4px solid rgba(255, 255, 255, 0.6);
             border-radius: 20px;
             overflow: hidden;
-            box-shadow:
-                0 8px 32px rgba(0, 0, 0, 0.15),
-                inset 0 2px 4px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(8px);
         }
 
@@ -158,7 +90,6 @@
             background: transparent;
         }
 
-        /* デッドライン */
         .deadline {
             position: absolute;
             top: 60px;
@@ -177,25 +108,18 @@
             font-size: 0.7rem;
         }
 
-        /* ガラスオーバーレイ */
         .glass-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             pointer-events: none;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
             border-radius: 16px;
         }
 
-        /* ゲームオーバーオーバーレイ */
+        /* ゲームオーバー */
         .game-over-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(8px);
             display: flex;
@@ -227,16 +151,16 @@
             margin-bottom: 20px;
         }
 
-        /* HUDパネル */
-        .info-panel {
+        /* ===== レイヤー3: HUD (固定オーバーレイ) ===== */
+        .game-hud {
             position: fixed;
             right: 15px;
             top: 50%;
             transform: translateY(-50%);
+            z-index: 100;
             display: flex;
             flex-direction: column;
             gap: 12px;
-            z-index: 100;
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(8px);
             border-radius: 16px;
@@ -245,58 +169,21 @@
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
-        /* サイドバー */
-        .game-sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-            z-index: 100;
-        }
-
-        @media (max-width: 799px) {
-            .game-sidebar {
-                /* モバイルでは中身が fixed なので、レイアウトに影響させない */
-                width: 0;
-                height: 0;
-                margin: 0;
-                padding: 0;
-            }
-        }
-
-        @media (min-width: 800px) {
-            .game-sidebar {
-                margin-left: 30px;
-                /* ボックスとの間隔 */
-            }
-
-            .game-sidebar .info-panel,
-            .game-sidebar .controls {
-                position: static;
-                transform: none;
-                display: flex;
-            }
-
-            /* 元の fixed 要素は非表示（この構造では sidebar 内にしかないため、
-               実際には PC 用の static 表示に切り替わるだけ） */
-        }
-
-        .info-section {
+        .hud-section {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 4px;
         }
 
-        .label-text {
+        .hud-label {
             font-size: 0.6rem;
             color: #888;
             font-weight: bold;
             letter-spacing: 1px;
         }
 
-        .score-val,
-        .best-val {
+        .hud-value {
             font-size: 1rem;
             font-weight: bold;
             background: linear-gradient(135deg, #a18cd1, #fbc2eb);
@@ -305,7 +192,7 @@
             background-clip: text;
         }
 
-        .separator {
+        .hud-separator {
             width: 80%;
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(160, 140, 200, 0.3), transparent);
@@ -317,8 +204,48 @@
             background: rgba(255, 255, 255, 0.5);
         }
 
-        /* コントロールボタン - 右下 */
-        .controls {
+        /* ===== 固定UI要素 ===== */
+        .unified-back-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1000;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.1s;
+            font-family: "Noto Sans JP", sans-serif;
+        }
+
+        .unified-back-btn:active {
+            transform: scale(0.95);
+        }
+
+        .game-title {
+            position: fixed;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            margin: 0;
+            font-size: 1.1rem;
+            z-index: 50;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, #ff9a9e, #a18cd1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            pointer-events: none;
+        }
+
+        .game-controls {
             position: fixed;
             bottom: 20px;
             right: 15px;
@@ -334,20 +261,17 @@
             cursor: pointer;
             transition: all 0.2s ease;
             font-family: "Noto Sans JP", sans-serif;
-        }
-
-        .btn-start {
             background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
             color: #fff;
             box-shadow: 0 4px 15px rgba(161, 140, 209, 0.4);
         }
 
-        .btn-start:hover {
+        .game-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(161, 140, 209, 0.5);
         }
 
-        .btn-start:active {
+        .game-btn:active {
             transform: translateY(0);
         }
 
@@ -380,56 +304,50 @@
     </style>
 </head>
 
-<body class="theme-friend game-mode-fullscreen">
-    <a href="friend-game-main.html" class="unified-back-btn">戻る</a>
+<body class="theme-friend">
+    <!-- レイヤー1: 背景 -->
     <div class="game-bg"></div>
     <div class="particles" id="particles"></div>
 
-    <!-- HUDレイヤー -->
-    <header class="game-header">
-        <h1>🐾 ぷにぷにアニマル</h1>
-    </header>
+    <!-- 固定UI -->
+    <a href="friend-game-main.html" class="unified-back-btn">戻る</a>
+    <h1 class="game-title">🐾 ぷにぷにアニマル</h1>
 
-    <!-- Game Container -->
-    <div class="game-container">
-        <div class="game-area">
-            <div class="game-wrapper">
-                <!-- Game Box -->
-                <div class="game-box" id="gameBox">
-                    <div class="deadline"></div>
-                    <canvas id="gameCanvas"></canvas>
-                    <div class="glass-overlay"></div>
-                    <div class="game-over-overlay" id="gameOverOverlay">
-                        <h2>🎮 Game Over</h2>
-                        <p>スコア: <span id="finalScore">0</span></p>
-                        <button class="game-btn btn-start" id="restartBtn">もう一度</button>
-                    </div>
-                </div>
-
-                <!-- HUD Elements (Common) -->
-                <div class="game-sidebar">
-                    <div class="info-panel">
-                        <div class="info-section">
-                            <span class="label-text">NEXT</span>
-                            <canvas id="nextCanvas" width="45" height="45"></canvas>
-                        </div>
-                        <div class="separator"></div>
-                        <div class="info-section">
-                            <span class="label-text">BEST</span>
-                            <span class="best-val" id="bestScore">0</span>
-                        </div>
-                        <div class="separator"></div>
-                        <div class="info-section">
-                            <span class="label-text">SCORE</span>
-                            <span class="score-val" id="score">0</span>
-                        </div>
-                    </div>
-                    <div class="controls">
-                        <button class="game-btn btn-start" id="startBtn">スタート</button>
-                    </div>
-                </div>
+    <!-- レイヤー2: ゲーム本体 -->
+    <div class="game-main">
+        <div class="game-box" id="gameBox">
+            <div class="deadline"></div>
+            <canvas id="gameCanvas"></canvas>
+            <div class="glass-overlay"></div>
+            <div class="game-over-overlay" id="gameOverOverlay">
+                <h2>🎮 Game Over</h2>
+                <p>スコア: <span id="finalScore">0</span></p>
+                <button class="game-btn" id="restartBtn">もう一度</button>
             </div>
         </div>
+    </div>
+
+    <!-- レイヤー3: HUD -->
+    <div class="game-hud">
+        <div class="hud-section">
+            <span class="hud-label">NEXT</span>
+            <canvas id="nextCanvas" width="45" height="45"></canvas>
+        </div>
+        <div class="hud-separator"></div>
+        <div class="hud-section">
+            <span class="hud-label">BEST</span>
+            <span class="hud-value" id="bestScore">0</span>
+        </div>
+        <div class="hud-separator"></div>
+        <div class="hud-section">
+            <span class="hud-label">SCORE</span>
+            <span class="hud-value" id="score">0</span>
+        </div>
+    </div>
+
+    <!-- コントロール -->
+    <div class="game-controls">
+        <button class="game-btn" id="startBtn">スタート</button>
     </div>
 
     <!-- Matter.js CDN -->
@@ -524,26 +442,39 @@
 
         // --- リサイズ処理 ---
         function handleResize() {
-            const container = document.querySelector('.game-area');
-            if (!container) return;
+            const isPC = window.innerWidth > 800;
+            const viewportHeight = window.innerHeight;
+            const viewportWidth = window.innerWidth;
 
-            // 幅: 全幅 - 右マージン - 左パディング
-            // PCでは中央に寄せるため、少し多めに引く
-            const horizontalMargin = window.innerWidth > 800 ? 250 : 105;
-            const maxWidth = container.clientWidth - horizontalMargin;
-            const maxHeight = container.clientHeight - 60;
+            let targetWidth, targetHeight;
 
-            // アスペクト比維持で最大化
-            let w = maxHeight * ASPECT_RATIO;
-            let h = maxHeight;
+            if (isPC) {
+                // PC: 画面高さの80%をベースに、最大でも幅450px/高さ700pxに制限
+                const maxH = Math.min(viewportHeight * 0.85, 700);
+                targetHeight = maxH;
+                targetWidth = targetHeight * ASPECT_RATIO;
 
-            if (w > maxWidth) {
-                w = maxWidth;
-                h = w / ASPECT_RATIO;
+                // 幅が広すぎる場合は制限
+                if (targetWidth > 450) {
+                    targetWidth = 450;
+                    targetHeight = targetWidth / ASPECT_RATIO;
+                }
+            } else {
+                // モバイル: 画面幅90%をベースに
+                const maxW = Math.min(viewportWidth * 0.9, 380);
+                targetWidth = maxW;
+                targetHeight = targetWidth / ASPECT_RATIO;
+
+                // 高さが画面を超える場合は調整
+                const maxH = viewportHeight - 120;
+                if (targetHeight > maxH) {
+                    targetHeight = maxH;
+                    targetWidth = targetHeight * ASPECT_RATIO;
+                }
             }
 
-            CANVAS_WIDTH = w;
-            CANVAS_HEIGHT = h;
+            CANVAS_WIDTH = targetWidth;
+            CANVAS_HEIGHT = targetHeight;
             scaleFactor = CANVAS_WIDTH / 350; // 基準350px
 
             canvas.width = CANVAS_WIDTH;
@@ -559,8 +490,7 @@
             WALL_THICKNESS = 20 * scaleFactor;
             DEADLINE_Y = 60 * scaleFactor;
 
-            // デッドライン要素の位置調整（CSSでtop: 60pxなのをJSで上書きした方が良いが、CSSは固定なので...）
-            // CSSの.deadlineのtopもJSで上書き
+            // デッドライン要素の位置調整
             document.querySelector('.deadline').style.top = DEADLINE_Y + 'px';
         }
 
