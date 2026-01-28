@@ -195,7 +195,9 @@
     </main>
 
     <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <!-- Scripts -->
+    <!-- Use local PapaParse for reliability in offline/intranet environments -->
+    <script src="js/papaparse.min.js"></script>
     <script src="js/qa/qa-data-embedded.js"></script>
     <script>
         // Global functions
@@ -271,8 +273,22 @@
         function loadQAData() {
             const container = document.getElementById('qaList');
 
-            // Check if embedded CSV data exists
-            if (typeof QA_CSV_CONTENT !== 'undefined' && QA_CSV_CONTENT) {
+            // 1. Check PapaParse Library
+            if (typeof Papa === 'undefined') {
+                console.error('PapaParse library is not loaded.');
+                container.innerHTML = '<p class="no-results" style="color:red;">エラー: 必要なライブラリ(PapaParse)が読み込めませんでした。<br>ネットワーク接続を確認するか、管理者に問い合わせてください。</p>';
+                return;
+            }
+
+            // 2. Check Data
+            if (typeof QA_CSV_CONTENT === 'undefined' || !QA_CSV_CONTENT) {
+                console.error('QA_CSV_CONTENT is undefined or empty.');
+                container.innerHTML = '<p class="no-results" style="color:red;">エラー: Q&Aデータが見つかりませんでした。</p>';
+                return;
+            }
+
+            // 3. Parse Data
+            try {
                 Papa.parse(QA_CSV_CONTENT, {
                     header: true,
                     skipEmptyLines: true,
@@ -295,11 +311,12 @@
                     },
                     error: function (error) {
                         console.error('CSV parse error:', error);
-                        container.innerHTML = '<p class="no-results">Q&Aデータの読み込みに失敗しました</p>';
+                        container.innerHTML = '<p class="no-results">Q&Aデータの読み込みに失敗しました(Parse Error)</p>';
                     }
                 });
-            } else {
-                container.innerHTML = '<p class="no-results">Q&Aデータがありません</p>';
+            } catch (e) {
+                console.error('Unexpected error during parsing:', e);
+                container.innerHTML = '<p class="no-results">予期せぬエラーが発生しました</p>';
             }
         }
 
