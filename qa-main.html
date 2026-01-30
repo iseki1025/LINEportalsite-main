@@ -307,15 +307,24 @@
         // Format answer text with auto-links
         function formatAnswerText(text) {
             if (!text) return '';
-            // Link target
+
+            // 1. Custom Format: (Text http://...)
+            // Matches: (AnyText http...) or （AnyText http...）
+            // Captures: 1=Text, 2=URL
+            let formatted = text.replace(/[（(](.*?)\s*(https?:\/\/[^)）]+)[）)]/g,
+                '<a href="$2" target="_blank" style="color:var(--color-primary); text-decoration:underline; font-weight:bold;">$1</a>');
+
+            // 2. Keyword Links: "ホームページ" or "HP" -> Clinic URL
             const targetUrl = 'https://kajimoto-clinic.com/';
             const linkHtml = `<a href="${targetUrl}" target="_blank" style="color:var(--color-primary); text-decoration:underline; font-weight:bold;">$1</a>`;
 
             // Replace "ホームページ" or "HP" with link
             // Using regex with 'g' flag for global replacement
-            return text
+            formatted = formatted
                 .replace(/(ホームページ)/g, linkHtml)
                 .replace(/(HP)/g, linkHtml);
+
+            return formatted;
         }
 
         function renderQAList(data) {
