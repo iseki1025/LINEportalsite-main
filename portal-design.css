@@ -13,16 +13,16 @@
    2. CSS VARIABLES
    ======================================== */
 :root {
-    /* Primary Colors - Calm Cyan */
-    --color-primary: #0891B2;
-    --color-primary-light: #22D3EE;
-    --color-primary-dark: #0E7490;
-    --color-primary-bg: rgba(8, 145, 178, 0.1);
+    /* Primary Colors - Brand Cyan (Logo Left) */
+    --color-primary: #11A6B8;
+    --color-primary-light: #3DD1E2;
+    --color-primary-dark: #0D8593;
+    --color-primary-bg: rgba(17, 166, 184, 0.1);
 
-    /* Secondary Colors - Health Green */
-    --color-secondary: #059669;
-    --color-secondary-light: #34D399;
-    --color-secondary-dark: #047857;
+    /* Secondary Colors - Brand Blue-Violet (Logo Right) */
+    --color-secondary: #3215C3;
+    --color-secondary-light: #5F44D8;
+    --color-secondary-dark: #220D85;
 
     /* CTA */
     --color-cta: #14B8A6;
@@ -249,7 +249,7 @@ button {
     margin: 0 calc(-1 * var(--spacing-md));
     margin-bottom: var(--spacing-xl);
     border-radius: 0 0 var(--radius-xl) var(--radius-xl);
-    background: linear-gradient(135deg, var(--color-primary-bg) 0%, rgba(34, 211, 238, 0.08) 100%);
+    background: linear-gradient(135deg, rgba(17, 166, 184, 0.1) 0%, rgba(50, 21, 195, 0.05) 100%);
 }
 
 .hero-section.theme-friend {
@@ -771,14 +771,16 @@ button {
     margin-top: var(--spacing-xs);
     margin-bottom: var(--spacing-lg);
     padding-bottom: var(--spacing-md);
-    border-bottom: 1px dashed var(--border-light); /* Separator */
+    border-bottom: 1px dashed var(--border-light);
+    /* Separator */
 }
 
 .keyword-btn {
     padding: 4px 12px;
     background: transparent;
     border: 1px solid var(--border-medium);
-    border-radius: 4px; /* Square corners for tags */
+    border-radius: 4px;
+    /* Square corners for tags */
     font-size: 0.8rem;
     color: var(--text-muted);
     transition: all var(--transition-fast);
@@ -916,6 +918,8 @@ a.card.wide::after {
    ======================================== */
 .qa-search-section {
     /* Container for inline Q&A search */
+    position: relative;
+    display: block;
 }
 
 .qa-results-container {

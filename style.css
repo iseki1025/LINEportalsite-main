@@ -6,12 +6,13 @@
    ========================================================================== */
 :root {
     /* Color Palette */
-    --color-primary: #0891B2;
-    /* Teal 600 */
-    --color-primary-light: #22D3EE;
-    /* Cyan 400 */
-    --color-primary-dark: #134E4A;
-    /* Teal 900 */
+    /* Color Palette */
+    --color-primary: #11A6B8;
+    /* Brand Cyan */
+    --color-primary-light: #3DD1E2;
+    /* Cyan Lighter */
+    --color-primary-dark: #0D8593;
+    /* Cyan Darker */
     --color-accent: #F59E0B;
     /* Amber 500 (Warmth) */
 

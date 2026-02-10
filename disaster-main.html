@@ -12,7 +12,49 @@
         .status-panel.open .status-panel-content {
             display: block;
         }
+
+        /* PDF Thumbnail Style */
+        .pdf-thumbnail-container {
+            position: relative;
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pdf-thumbnail-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .pdf-thumbnail-container canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .pdf-tap-hint {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
     </style>
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
 </head>
 
 <body>
@@ -50,8 +92,15 @@
             </div>
             <div class="collapsible-content">
                 <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
-                    詳しい対策をPDFで確認できます。
+                    詳しい対策をPDFで確認できます。写真をタップしてください。
                 </p>
+                <!-- PDF Thumbnail -->
+                <div class="pdf-thumbnail-container"
+                    onclick="window.open('files/pdf/disaster-guide-book.pdf', '_blank')">
+                    <canvas id="pdf-thumbnail"></canvas>
+                    <div class="pdf-tap-hint">タップして開く</div>
+                </div>
+
                 <div
                     style="background: var(--bg-main); padding: var(--spacing-md); border-radius: var(--radius-md); margin-bottom: 1rem;">
                     <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-primary);">【目次】</h4>
@@ -66,11 +115,6 @@
                         <li>７｜災害時の薬</li>
                         <li>８｜災害時の持ち出し物品</li>
                     </ul>
-                </div>
-                <div style="text-align: center;">
-                    <a href="files/pdf/disaster-guide-book.pdf" target="_blank" class="btn btn-primary">
-                        PDFを開く
-                    </a>
                 </div>
             </div>
         </div>
@@ -318,6 +362,40 @@
             document.getElementById('dialysisStatusContainer').innerHTML =
                 '<p style="padding:1rem; color: var(--accent-disaster);">システムの初期化に失敗しました。<br>(Local環境ではサーバー経由での閲覧が必要です)</p>';
         }
+
+        // PDF Thumbnail Rendering
+        document.addEventListener('DOMContentLoaded', async () => {
+            const url = 'files/pdf/disaster-guide-book.pdf';
+            try {
+                const loadingTask = pdfjsLib.getDocument(url);
+                const pdf = await loadingTask.promise;
+                const page = await pdf.getPage(1);
+
+                const canvas = document.getElementById('pdf-thumbnail');
+                const context = canvas.getContext('2d');
+
+                // Scale for better resolution
+                const viewport = page.getViewport({ scale: 1.5 });
+
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                await page.render(renderContext).promise;
+                console.log('PDF Thumbnail rendered');
+            } catch (error) {
+                console.error('Error rendering PDF thumbnail:', error);
+                // Fallback (Optional: show icon or error text)
+                const container = document.querySelector('.pdf-thumbnail-container');
+                if (container) {
+                    container.innerHTML = '<div style="padding:2rem; text-align:center; background:#eee; color:#666;">PDFプレビューを表示できません<br>タップして開く</div>';
+                    container.onclick = () => window.open(url, '_blank');
+                }
+            }
+        });
     </script>
 
 </body>
