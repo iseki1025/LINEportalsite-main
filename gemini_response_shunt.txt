@@ -1,0 +1,77 @@
+
+[Gemini 3 Flash Response]
+ご提示いただいた要件に基づき、`friend-shunt-main.html` の修正案を作成いたしました。
+
+既存のコードの構造（クラス名や変数など）を想定し、スタイリッシュで清潔感のあるSVGデザインを組み込んでいます。
+
+### 修正後のコード（抜粋）
+
+以下の各セクションを、お使いのファイルの該当箇所と差し替えてください。
+
+#### 1 & 4. アイコンの変更（触る・耳）
+「触る」のアイコンを腕に手を当てているデザインに、「耳」のアイコンをボタン内に追加します。
+
+```html
+<!-- 1. 「触る」のアイコン部分（スリルを確認しているイメージ） -->
+<div class="check-item">
+    <div class="icon-container">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <!-- 腕のライン -->
+            <path d="M2 18c4-1 8-1 12-1h6" />
+            <path d="M2 14c3-0.5 6-0.5 9-0.5" />
+            <!-- 当てている手（人差し指と中指） -->
+            <path d="M10 17v-5c0-1.1.9-2 2-2s2 .9 2 2v5" />
+            <path d="M14 17v-4c0-1.1.9-2 2-2s2 .9 2 2v4" />
+        </svg>
+    </div>
+    <span>触る</span>
+</div>
+
+<!-- 2 & 4. ページ下部のボタン部分 -->
+<div class="contact-section" style="margin-top: 2rem; text-align: center;">
+    <button id="openModal" class="btn-contact" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; background-color: var(--primary-color); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+        <!-- 耳のアイコン -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 8.5a6.5 6.5 0 1 1 13 0c0 6-6 6-6 10a2 2 0 1 1-4 0" />
+            <path d="M11 12.7A3 3 0 1 1 13 11" />
+        </svg>
+        <span>異常に気づいたら・・・</span>
+    </button>
+    
+    <!-- 3. 注釈の追加 -->
+    <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 8px; line-height: 1.4; text-align: left;">
+        ※恐れ入りますが、診療時間外は対応しておりませんので、あらかじめご了承ください。
+    </p>
+</div>
+```
+
+#### 5. 日常生活の注意点のリスト更新
+リストの末尾に2項目を追加します。
+
+```html
+<!-- 日常生活の注意点セクション -->
+<div class="precautions-section">
+    <h3>日常生活の注意点</h3>
+    <ul class="precaution-list">
+        <li>重いものをぶら下げない</li>
+        <li>腕枕をして寝ない</li>
+        <li>血圧測定をシャント側でしない</li>
+        <!-- 追加分 -->
+        <li>たたいたり、強くぶつけたりしない</li>
+        <li>シャント側に腕時計をしない</li>
+    </ul>
+</div>
+```
+
+### 修正のポイント
+
+1.  **「触る」アイコン**: 
+    水平なラインで「腕」を表現し、そこに2本の指（人差し指と中指）を立てて添えているデザインにしました。これは医療現場でスリル（拍動）を確認する際の標準的な指の形をモチーフにしています。
+2.  **ボタンの変更**: 
+    テキストを「異常に気づいたら・・・」に変更し、`flexbox` を使って「耳」のアイコンとテキストが中央に綺麗に並ぶように調整しています。
+3.  **注釈の追加**: 
+    ご指定通りの色（`var(--text-muted)`）とサイズ（`0.75rem`）を適用しています。ボタンのすぐ下に配置されるようマージンを調整しました。
+4.  **リスト項目**: 
+    既存のリスト形式に合わせて、シャントを物理的な衝撃や圧迫から守るための2項目を追記しました。
+
+もしCSSクラス名（例: `btn-contact` や `precaution-list`）が実際のファイルと異なる場合は、適宜読み替えて適用してください。必要であれば、CSSファイル側の修正もサポート可能です。

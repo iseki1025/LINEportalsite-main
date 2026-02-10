@@ -28,7 +28,9 @@
         <div class="status-panel open" id="dialysis-status-panel">
             <div class="status-panel-header" onclick="this.parentElement.classList.toggle('open')">
                 <span class="status-panel-title">現在の透析状況</span>
-                <span class="status-panel-toggle">▼ タップで開閉</span>
+                <span id="current-status-time"
+                    style="font-size: 0.75rem; color: var(--text-muted); margin-left: auto; margin-right: 0.5rem;"></span>
+                <span class="status-panel-toggle">▼</span>
             </div>
             <div class="status-panel-content">
                 <div class="status-grid" id="dialysisStatusContainer">
@@ -50,6 +52,21 @@
                 <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
                     詳しい対策をPDFで確認できます。
                 </p>
+                <div
+                    style="background: var(--bg-main); padding: var(--spacing-md); border-radius: var(--radius-md); margin-bottom: 1rem;">
+                    <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-primary);">【目次】</h4>
+                    <ul
+                        style="font-size: 0.85rem; color: var(--text-secondary); padding-left: 1.2rem; line-height: 1.6;">
+                        <li>１｜透析は災害に弱い治療</li>
+                        <li>２｜透析中に地震が起きたら？</li>
+                        <li>３｜施設外で災害が起きたら？</li>
+                        <li>４｜避難所に避難した時は？</li>
+                        <li>５｜自施設に行けない時は？</li>
+                        <li>６｜災害時の食事</li>
+                        <li>７｜災害時の薬</li>
+                        <li>８｜災害時の持ち出し物品</li>
+                    </ul>
+                </div>
                 <div style="text-align: center;">
                     <a href="files/pdf/disaster-guide-book.pdf" target="_blank" class="btn btn-primary">
                         PDFを開く
@@ -68,6 +85,50 @@
         </section>
 
         <!-- Card Grid -->
+        <!-- Category 1: 当院の防災対策 (Collapsible) -->
+        <div class="collapsible">
+            <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
+                <span class="collapsible-title">🏥 当院の防災対策</span>
+                <span class="collapsible-icon">▼</span>
+            </div>
+            <div class="collapsible-content">
+                <div class="menu-list" style="margin-bottom: 0;">
+                    <a href="disaster-evacuation.html" class="menu-item">
+                        <span>避難経路・設備</span>
+                    </a>
+                    <a href="disaster-stock.html" class="menu-item">
+                        <span>備蓄食紹介</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category 2: ご自宅での防災対策 (Collapsible) -->
+        <div class="collapsible">
+            <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
+                <span class="collapsible-title">🏠 ご自宅での防災対策</span>
+                <span class="collapsible-icon">▼</span>
+            </div>
+            <div class="collapsible-content">
+                <div class="menu-list" style="margin-bottom: 0;">
+                    <a href="#" class="menu-item"> <!-- Placeholder link -->
+                        <span>災害後の透析はどうするか？</span>
+                    </a>
+                    <a href="disaster-stock.html" class="menu-item">
+                        <span>備蓄リスト・持ち出し品</span>
+                    </a>
+                    <a href="disaster-furniture.html" class="menu-item">
+                        <span>家具転倒防止対策</span>
+                    </a>
+                    <a href="disaster-hazardmap.html" class="menu-item">
+                        <span>ハザードマップ</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category 3: 災害時お役立ちアイテム (Icon Grid) -->
+        <h3 class="section-title" style="margin-top: var(--spacing-xl);">🛡️ 災害時お役立ちアイテム</h3>
         <div class="card-grid">
             <!-- Safety Contact -->
             <a href="disaster-safety.html" class="card accent-disaster">
@@ -80,77 +141,66 @@
                     </svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title">安否確認・連絡先</div>
-                    <div class="card-desc">緊急連絡方法の確認</div>
+                    <div class="card-title">171</div>
+                    <div class="card-desc">災害用伝言ダイヤル</div>
                 </div>
             </a>
 
-            <!-- Stock List -->
-            <a href="disaster-stock.html" class="card accent-disaster">
+            <!-- Medical Association Network -->
+            <a href="https://www.touseki-ikai.or.jp/" target="_blank" class="card accent-disaster">
                 <div class="card-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
                         stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
                         <path
-                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
                         </path>
-                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
                     </svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title">備蓄・持ち出し</div>
-                    <div class="card-desc">必要な物資リスト</div>
+                    <div class="card-title">透析医会NW</div>
+                    <div class="card-desc">災害情報ネットワーク</div>
                 </div>
             </a>
 
-            <!-- Furniture Fixing -->
-            <a href="disaster-furniture.html" class="card accent-disaster">
+            <!-- Recipe -->
+            <a href="admin-recipe-manager.html" class="card accent-nutrition"> <!-- Assuming recipe link -->
                 <div class="card-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
                         stroke-linejoin="round">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                        <line x1="6" y1="1" x2="6" y2="4"></line>
+                        <line x1="10" y1="1" x2="10" y2="4"></line>
+                        <line x1="14" y1="1" x2="14" y2="4"></line>
                     </svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title">家具の固定</div>
-                    <div class="card-desc">転倒防止対策</div>
+                    <div class="card-title">災害時レシピ</div>
+                    <div class="card-desc">非常食の活用</div>
                 </div>
             </a>
 
-            <!-- Hazard Map -->
-            <a href="disaster-hazardmap.html" class="card accent-disaster">
+            <!-- Cards & Q&A -->
+            <a href="#" class="card accent-disaster"> <!-- Placeholder for My Card -->
                 <div class="card-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
                         stroke-linejoin="round">
-                        <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
-                        <line x1="8" y1="2" x2="8" y2="18"></line>
-                        <line x1="16" y1="6" x2="16" y2="22"></line>
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
                     </svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title">ハザードマップ</div>
-                    <div class="card-desc">地域の危険度確認</div>
-                </div>
-            </a>
-
-            <!-- Evacuation -->
-            <a href="disaster-evacuation.html" class="card accent-disaster">
-                <div class="card-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="5" r="3"></circle>
-                        <path d="M12 8v8"></path>
-                        <path d="M8 14l4 4 4-4"></path>
-                    </svg>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">避難手段</div>
-                    <div class="card-desc">院内避難設備</div>
+                    <div class="card-title">各種カード</div>
+                    <div class="card-desc">避難所・透析条件</div>
                 </div>
             </a>
 
             <!-- Disaster Q&A -->
-            <a href="disaster-faq.html" class="card accent-disaster">
+            <a href="disaster-faq.html" class="card accent-qa">
                 <div class="card-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -247,6 +297,22 @@
                 }
             }
             loadDialysisStatus();
+            // 現在時刻の更新
+            function updateCurrentTime() {
+                const now = new Date();
+                const month = now.getMonth() + 1;
+                const date = now.getDate();
+                const hours = now.getHours();
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+
+                const timeElement = document.getElementById('current-status-time');
+                if (timeElement) {
+                    timeElement.textContent = `${month}月${date}日 ${hours}時${minutes}分 現在`;
+                }
+            }
+            updateCurrentTime();
+            setInterval(updateCurrentTime, 60000); // 1分ごとに更新
+
         } catch (e) {
             console.error('Firebase init error:', e);
             document.getElementById('dialysisStatusContainer').innerHTML =

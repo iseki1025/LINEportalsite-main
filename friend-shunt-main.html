@@ -298,10 +298,11 @@
                 </div>
                 <div class="check-item">
                     <div class="check-icon">
+                        <!-- TODO: 腕に手を当てているアイコン（スリル確認） -->
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"></path>
-                            <path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v6"></path>
-                            <path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"></path>
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" style="opacity: 0.3;"></path>
+                            <!-- Placeholder shield for now -->
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
                         </svg>
                     </div>
                     <div class="check-title">触る</div>
@@ -316,10 +317,25 @@
                     <li>シャント側で血圧測定や採血をしない</li>
                     <li>腕を体の下にして寝ない</li>
                     <li>シャント部を清潔に保つ</li>
+                    <li>たたいたり、強くぶつけたりしない</li>
+                    <li>シャント側に腕時計をしない</li>
                 </ul>
             </div>
 
-            <button class="contact-btn" id="openContactModal">各施設への連絡先はこちら</button>
+            <button class="contact-btn" id="openContactModal"
+                style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <!-- TODO: 耳のアイコン（聴くイメージ） -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    style="width: 20px; height: 20px;">
+                    <path
+                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72">
+                    </path> <!-- Placeholder phone for now -->
+                </svg>
+                異常に気づいたら・・・
+            </button>
+            <p style="margin-top: 8px; font-size: 0.75rem; color: var(--text-muted); text-align: center;">
+                ※恐れ入りますが、診療時間外は対応しておりませんので、あらかじめご了承ください。
+            </p>
         </section>
 
         <!-- Tab 2: Quiz -->
