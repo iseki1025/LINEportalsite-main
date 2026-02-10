@@ -8,13 +8,13 @@
     <title>運動療法 | 梶本クリニック</title>
     <link rel="stylesheet" href="portal-design.css">
     <style>
-        /* Exercise theme: Green */
+        /* Exercise theme: Brand Cyan */
         .hero-section.theme-exercise {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.08) 100%);
+            background: linear-gradient(135deg, rgba(17, 166, 184, 0.1) 0%, rgba(13, 133, 147, 0.08) 100%);
         }
 
         .hero-section.theme-exercise .hero-title {
-            color: #047857;
+            color: #11A6B8;
         }
 
         /* Tab Navigation */
@@ -41,7 +41,7 @@
         }
 
         .tab-btn.active {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, #11A6B8 0%, #0D8593 100%);
             color: white;
         }
 
@@ -59,8 +59,8 @@
             align-items: flex-start;
             gap: var(--spacing-md);
             padding: var(--spacing-md);
-            background: rgba(16, 185, 129, 0.08);
-            border: 1px solid #6ee7b7;
+            background: rgba(17, 166, 184, 0.08);
+            border: 1px solid #3DD1E2;
             border-radius: var(--radius-lg);
             margin-bottom: var(--spacing-lg);
         }
@@ -74,13 +74,13 @@
         .caution-box h3 {
             font-size: 1rem;
             font-weight: 600;
-            color: #047857;
+            color: #11A6B8;
             margin-bottom: var(--spacing-xs);
         }
 
         .caution-box p {
             font-size: 0.9rem;
-            color: #047857;
+            color: #0D8593;
             line-height: 1.5;
         }
 
@@ -111,12 +111,12 @@
             width: 56px;
             height: 56px;
             margin: 0 auto var(--spacing-sm);
-            background: rgba(16, 185, 129, 0.1);
+            background: rgba(17, 166, 184, 0.1);
             border-radius: var(--radius-full);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #10b981;
+            color: #11A6B8;
         }
 
         .exercise-icon-circle svg {
@@ -130,7 +130,7 @@
             right: var(--spacing-sm);
             width: 28px;
             height: 28px;
-            background: rgba(16, 185, 129, 0.9);
+            background: rgba(17, 166, 184, 0.9);
             color: white;
             border-radius: var(--radius-full);
             display: flex;
@@ -162,13 +162,16 @@
             line-height: 1.4;
         }
 
-        .exercise-purpose {
-            font-size: 0.9rem;
-            color: #047857;
-            font-weight: 700;
-            margin-top: var(--spacing-sm);
+        .exercise-pill {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #11A6B8;
+            color: white;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            margin: 2px 0;
+            font-weight: 500;
             line-height: 1.4;
-            display: block;
         }
 
         /* Video Modal */
@@ -278,7 +281,12 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>手指のグーパー運動</h4>
-                        <span class="exercise-purpose">血流促進・握力維持<br>認知機能低下予防</span>
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 8px;">
+                            <span class="exercise-pill">血流促進</span>
+                            <span class="exercise-pill">握力維持</span>
+                            <span class="exercise-pill">認知機能低下予防</span>
+                        </div>
                     </div>
                 </div>
 
@@ -294,7 +302,11 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>肩回し運動</h4>
-                        <span class="exercise-purpose">血流促進・猫背予防</span>
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 8px;">
+                            <span class="exercise-pill">血流促進</span>
+                            <span class="exercise-pill">猫背予防</span>
+                        </div>
                     </div>
                 </div>
 
@@ -311,7 +323,11 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>前腕回内・回外運動</h4>
-                        <span class="exercise-purpose">握力維持・ADL向上</span>
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 8px;">
+                            <span class="exercise-pill">握力維持</span>
+                            <span class="exercise-pill">ADL向上</span>
+                        </div>
                     </div>
                 </div>
 
@@ -328,7 +344,12 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>肩関節外転運動</h4>
-                        <span class="exercise-purpose">血流促進・可動域維持<br>可動域改善</span>
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 8px;">
+                            <span class="exercise-pill">血流促進</span>
+                            <span class="exercise-pill">可動域維持</span>
+                            <span class="exercise-pill">可動域改善</span>
+                        </div>
                     </div>
                 </div>
 
@@ -343,7 +364,11 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>軽いおもりの上げ下げ</h4>
-                        <span class="exercise-purpose">筋力維持・強化</span>
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 8px;">
+                            <span class="exercise-pill">筋力維持</span>
+                            <span class="exercise-pill">筋力強化</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -364,7 +389,11 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>足首の曲げ伸ばし</h4>
-                        <span class="exercise-purpose">血行促進・むくみ改善</span>
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 8px;">
+                            <span class="exercise-pill">血行促進</span>
+                            <span class="exercise-pill">むくみ改善</span>
+                        </div>
                     </div>
                 </div>
 
@@ -381,7 +410,11 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>ウォーキング</h4>
-                        <span class="exercise-purpose">体力維持・気分転換</span>
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 8px;">
+                            <span class="exercise-pill">体力維持</span>
+                            <span class="exercise-pill">気分転換</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -403,7 +436,11 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>ストレッチ</h4>
-                        <span class="exercise-purpose">柔軟性向上<br>リラックス</span>
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 8px;">
+                            <span class="exercise-pill">柔軟性向上</span>
+                            <span class="exercise-pill">リラックス</span>
+                        </div>
                     </div>
                 </div>
 
@@ -420,7 +457,11 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>軽い体操</h4>
-                        <span class="exercise-purpose">全身運動・血行促進</span>
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 8px;">
+                            <span class="exercise-pill">全身運動</span>
+                            <span class="exercise-pill">血行促進</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -441,7 +482,11 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>足首の曲げ伸ばし</h4>
-                        <span class="exercise-purpose">血行促進・むくみ改善</span>
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 8px;">
+                            <span class="exercise-pill">血行促進</span>
+                            <span class="exercise-pill">むくみ改善</span>
+                        </div>
                     </div>
                 </div>
 
@@ -456,7 +501,11 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>エルゴメーター</h4>
-                        <span class="exercise-purpose">有酸素運動<br>下肢筋力維持</span>
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 8px;">
+                            <span class="exercise-pill">有酸素運動</span>
+                            <span class="exercise-pill">下肢筋力維持</span>
+                        </div>
                     </div>
                 </div>
             </div>
