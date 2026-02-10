@@ -170,6 +170,51 @@
             font-size: 0.9rem;
         }
     </style>
+    <style>
+        /* ... existing styles ... */
+
+        /* PDF Thumbnail Style */
+        .pdf-thumbnail-container {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pdf-thumbnail-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .pdf-thumbnail-container canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .pdf-tap-hint {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+    </style>
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
 </head>
 
 <body>
@@ -241,9 +286,15 @@
                     <span>▼</span>
                 </div>
                 <div class="pdf-collapsible-content">
-                    <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);">詳しいケア方法をPDFで確認できます。
+                    <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                        詳しいケア方法をPDFで確認できます。写真をタップしてください。
                     </p>
-                    <a href="files/pdf/footcare-guide-book.pdf" target="_blank" class="pdf-link">PDFを開く</a>
+                    <!-- PDF Thumbnail -->
+                    <div class="pdf-thumbnail-container"
+                        onclick="window.open('files/pdf/footcare-guide-book.pdf', '_blank')">
+                        <canvas id="pdf-thumbnail"></canvas>
+                        <div class="pdf-tap-hint">タップして開く</div>
+                    </div>
                 </div>
             </div>
 
@@ -291,6 +342,42 @@
         function togglePdf(header) {
             header.parentElement.classList.toggle('is-open');
         }
+
+        // PDF Thumbnail Rendering
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Only render if the element exists (Tab content might be hidden, but element is in DOM)
+            const canvas = document.getElementById('pdf-thumbnail');
+            if (!canvas) return;
+
+            const url = 'files/pdf/footcare-guide-book.pdf';
+            try {
+                const loadingTask = pdfjsLib.getDocument(url);
+                const pdf = await loadingTask.promise;
+                const page = await pdf.getPage(1);
+
+                const context = canvas.getContext('2d');
+
+                // Scale for better resolution
+                const viewport = page.getViewport({ scale: 1.5 });
+
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                await page.render(renderContext).promise;
+                console.log('Footcare PDF Thumbnail rendered');
+            } catch (error) {
+                console.error('Error rendering PDF thumbnail:', error);
+                const container = document.querySelector('.pdf-thumbnail-container');
+                if (container) {
+                    container.innerHTML = '<div style="padding:2rem; text-align:center; background:#eee; color:#666;">PDFプレビューを表示できません<br>タップして開く</div>';
+                    container.onclick = () => window.open(url, '_blank');
+                }
+            }
+        });
     </script>
 
 </body>

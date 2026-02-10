@@ -162,6 +162,15 @@
             line-height: 1.4;
         }
 
+        .exercise-purpose {
+            font-size: 0.9rem;
+            color: #047857;
+            font-weight: 700;
+            margin-top: var(--spacing-sm);
+            line-height: 1.4;
+            display: block;
+        }
+
         /* Video Modal */
         .modal {
             position: fixed;
@@ -247,14 +256,16 @@
 
         <!-- Tab Navigation -->
         <nav class="tab-nav">
-            <button class="tab-btn active" onclick="switchTab('sitting')">座って</button>
+            <button class="tab-btn active" onclick="switchTab('upper-limb')">上肢</button>
+            <button class="tab-btn" onclick="switchTab('lower-limb')">下肢</button>
+            <button class="tab-btn" onclick="switchTab('trunk')">体幹</button>
             <button class="tab-btn" onclick="switchTab('during')">透析中</button>
-            <button class="tab-btn" onclick="switchTab('off-days')">透析日以外</button>
         </nav>
 
-        <!-- Tab 1: Sitting -->
-        <section id="sitting" class="tab-content active">
+        <!-- Tab 1: Upper Limb (上肢) -->
+        <section id="upper-limb" class="tab-content active">
             <div class="exercise-grid">
+                <!-- 手指のグーパー運動 -->
                 <div class="exercise-item"
                     data-video="https://drive.google.com/file/d/1cIf72nCFqFuQ3Vw5TDe-2KnOFgxfOW7X/view?usp=sharing">
                     <div class="exercise-icon-circle">
@@ -267,10 +278,27 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>手指のグーパー運動</h4>
-                        <span class="exercise-note">握力維持・血流促進</span>
-                        <p>1. 背筋を伸ばす<br>2. 手を握って開くを繰り返す</p>
+                        <span class="exercise-purpose">血流促進・握力維持<br>認知機能低下予防</span>
                     </div>
                 </div>
+
+                <!-- 肩回し運動 -->
+                <div class="exercise-item"
+                    data-video="https://drive.google.com/file/d/1lLJbHb9TZEMkMre7VM3KQn8ouYba1dOL/view?usp=drive_link">
+                    <div class="exercise-icon-circle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path>
+                            <path d="M21 3v5h-5"></path>
+                        </svg>
+                    </div>
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>肩回し運動</h4>
+                        <span class="exercise-purpose">血流促進・猫背予防</span>
+                    </div>
+                </div>
+
+                <!-- 前腕回内・回外運動 -->
                 <div class="exercise-item"
                     data-video="https://drive.google.com/file/d/1uGux7Y_GsCEV9L7dds14DBTnu7UPWHoR/view?usp=sharing">
                     <div class="exercise-icon-circle">
@@ -283,25 +311,11 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>前腕回内・回外運動</h4>
-                        <span class="exercise-note">ADL向上</span>
-                        <p>1. 肘を90度に曲げる<br>2. 手のひらを上下に返す</p>
+                        <span class="exercise-purpose">握力維持・ADL向上</span>
                     </div>
                 </div>
-                <div class="exercise-item"
-                    data-video="https://drive.google.com/file/d/1lLJbHb9TZEMkMre7VM3KQn8ouYba1dOL/view?usp=drive_link">
-                    <div class="exercise-icon-circle">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path>
-                            <path d="M21 3v5h-5"></path>
-                        </svg>
-                    </div>
-                    <div class="play-indicator">▶</div>
-                    <div class="exercise-overlay">
-                        <h4>肩回し運動</h4>
-                        <span class="exercise-note">肩こり解消・血流改善</span>
-                        <p>1. 手を肩に置く<br>2. 肘で大きく円を描く</p>
-                    </div>
-                </div>
+
+                <!-- 肩関節外転運動 -->
                 <div class="exercise-item"
                     data-video="https://drive.google.com/file/d/1FvIqolvDk7e5wed7eIO17O0B7dJXogJE/view?usp=drive_link">
                     <div class="exercise-icon-circle">
@@ -314,16 +328,31 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>肩関節外転運動</h4>
-                        <span class="exercise-note">柔軟性維持</span>
-                        <p>1. 手を横に下ろす<br>2. 片手を伸ばして体の真横を通るように耳の横まで上げる</p>
+                        <span class="exercise-purpose">血流促進・可動域維持<br>可動域改善</span>
+                    </div>
+                </div>
+
+                <!-- 軽いおもりの上げ下げ (上肢にも分類) -->
+                <div class="exercise-item" data-video="files/movies/dumbbell_exercise.mp4">
+                    <div class="exercise-icon-circle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6.5 6.5h11"></path>
+                            <path d="M6.5 17.5h11"></path>
+                        </svg>
+                    </div>
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>軽いおもりの上げ下げ</h4>
+                        <span class="exercise-purpose">筋力維持・強化</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Tab 2: During Dialysis -->
-        <section id="during" class="tab-content">
+        <!-- Tab 2: Lower Limb (下肢) -->
+        <section id="lower-limb" class="tab-content">
             <div class="exercise-grid">
+                <!-- 足首の曲げ伸ばし -->
                 <div class="exercise-item" data-video="files/movies/ankle_exercise.mp4">
                     <div class="exercise-icon-circle">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -335,45 +364,11 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>足首の曲げ伸ばし</h4>
-                        <p>血行を促進し、むくみを改善します。</p>
+                        <span class="exercise-purpose">血行促進・むくみ改善</span>
                     </div>
                 </div>
-                <div class="exercise-item" data-video="files/movies/ergometer.mp4">
-                    <div class="exercise-icon-circle">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="M12 6v6l4 2"></path>
-                        </svg>
-                    </div>
-                    <div class="play-indicator">▶</div>
-                    <div class="exercise-overlay">
-                        <h4>エルゴメーター</h4>
-                        <p>ベッドサイドでできる自転車こぎ運動です。</p>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Tab 3: Off-Days -->
-        <section id="off-days" class="tab-content">
-            <div class="exercise-grid">
-                <div class="exercise-item" data-video="files/movies/dumbbell_exercise.mp4">
-                    <div class="exercise-icon-circle">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M6.5 6.5h11"></path>
-                            <path d="M6.5 17.5h11"></path>
-                            <path d="M6 20v-5"></path>
-                            <path d="M18 20v-5"></path>
-                            <path d="M6 9V4"></path>
-                            <path d="M18 9V4"></path>
-                        </svg>
-                    </div>
-                    <div class="play-indicator">▶</div>
-                    <div class="exercise-overlay">
-                        <h4>軽いおもりの上げ下げ</h4>
-                        <p>腕や足の筋力を維持・強化します。</p>
-                    </div>
-                </div>
+                <!-- ウォーキング -->
                 <div class="exercise-item" data-video="files/movies/walking.mp4">
                     <div class="exercise-icon-circle">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -386,9 +381,16 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>ウォーキング</h4>
-                        <p>1日15分程度から無理なく始めましょう。</p>
+                        <span class="exercise-purpose">体力維持・気分転換</span>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Tab 3: Trunk (体幹) -->
+        <section id="trunk" class="tab-content">
+            <div class="exercise-grid">
+                <!-- ストレッチ -->
                 <div class="exercise-item" data-video="files/movies/stretching.mp4">
                     <div class="exercise-icon-circle">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -401,9 +403,11 @@
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>ストレッチ</h4>
-                        <p>筋肉の緊張をほぐし、柔軟性を高めます。</p>
+                        <span class="exercise-purpose">柔軟性向上<br>リラックス</span>
                     </div>
                 </div>
+
+                <!-- 軽い体操 -->
                 <div class="exercise-item" data-video="files/movies/gymnastics.mp4">
                     <div class="exercise-icon-circle">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -411,14 +415,48 @@
                             <path d="M12 9v6"></path>
                             <circle cx="12" cy="5" r="2"></circle>
                             <path d="M5 21h14"></path>
-                            <path d="M12 15l-3 6"></path>
-                            <path d="M12 15l3 6"></path>
                         </svg>
                     </div>
                     <div class="play-indicator">▶</div>
                     <div class="exercise-overlay">
                         <h4>軽い体操</h4>
-                        <p>ラジオ体操などで全身を動かしましょう。</p>
+                        <span class="exercise-purpose">全身運動・血行促進</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 4: During Dialysis (透析中) -->
+        <section id="during" class="tab-content">
+            <div class="exercise-grid">
+                <!-- 足首の曲げ伸ばし -->
+                <div class="exercise-item" data-video="files/movies/ankle_exercise.mp4">
+                    <div class="exercise-icon-circle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2-2 2 0 0 1-2-2V4a2 2 0 0 0-2-2">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>足首の曲げ伸ばし</h4>
+                        <span class="exercise-purpose">血行促進・むくみ改善</span>
+                    </div>
+                </div>
+
+                <!-- エルゴメーター -->
+                <div class="exercise-item" data-video="files/movies/ergometer.mp4">
+                    <div class="exercise-icon-circle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 6v6l4 2"></path>
+                        </svg>
+                    </div>
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>エルゴメーター</h4>
+                        <span class="exercise-purpose">有酸素運動<br>下肢筋力維持</span>
                     </div>
                 </div>
             </div>

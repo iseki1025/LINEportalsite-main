@@ -17,7 +17,7 @@
         .pdf-thumbnail-container {
             position: relative;
             width: 100%;
-            max-width: 200px;
+            max-width: 300px;
             margin: 0 auto 1rem;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             border-radius: 4px;
@@ -84,49 +84,39 @@
             </div>
         </div>
 
-        <!-- PDF Guide Book (Collapsible) -->
-        <div class="collapsible" id="pdf-guide">
-            <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
-                <span class="collapsible-title">📖 防災ガイドブックを見る</span>
-                <span class="collapsible-icon">▼</span>
-            </div>
-            <div class="collapsible-content">
-                <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
-                    詳しい対策をPDFで確認できます。写真をタップしてください。
-                </p>
-                <!-- PDF Thumbnail -->
-                <div class="pdf-thumbnail-container"
-                    onclick="window.open('files/pdf/disaster-guide-book.pdf', '_blank')">
-                    <canvas id="pdf-thumbnail"></canvas>
-                    <div class="pdf-tap-hint">タップして開く</div>
-                </div>
+        <!-- PDF Guide Book (Always Visible) -->
+        <div class="guidebook-section"
+            style="background: var(--bg-card); padding: var(--spacing-lg); border-radius: var(--radius-lg); margin-bottom: var(--spacing-lg); box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+            <h3 class="section-title"
+                style="margin-top: 0; margin-bottom: var(--spacing-md); color: var(--color-disaster);">📖 防災ガイドブック</h3>
 
-                <div
-                    style="background: var(--bg-main); padding: var(--spacing-md); border-radius: var(--radius-md); margin-bottom: 1rem;">
-                    <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-primary);">【目次】</h4>
-                    <ul
-                        style="font-size: 0.85rem; color: var(--text-secondary); padding-left: 1.2rem; line-height: 1.6;">
-                        <li>１｜透析は災害に弱い治療</li>
-                        <li>２｜透析中に地震が起きたら？</li>
-                        <li>３｜施設外で災害が起きたら？</li>
-                        <li>４｜避難所に避難した時は？</li>
-                        <li>５｜自施設に行けない時は？</li>
-                        <li>６｜災害時の食事</li>
-                        <li>７｜災害時の薬</li>
-                        <li>８｜災害時の持ち出し物品</li>
-                    </ul>
-                </div>
+            <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary); text-align: center;">
+                詳しい対策をPDFで確認できます。写真をタップしてください。
+            </p>
+            <!-- PDF Thumbnail -->
+            <div class="pdf-thumbnail-container" onclick="window.open('files/pdf/disaster-guide-book.pdf', '_blank')">
+                <canvas id="pdf-thumbnail"></canvas>
+                <div class="pdf-tap-hint">タップして開く</div>
+            </div>
+
+            <div
+                style="background: var(--bg-main); padding: var(--spacing-md); border-radius: var(--radius-md); margin-bottom: 1rem;">
+                <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-primary);">【目次】</h4>
+                <ul style="font-size: 0.85rem; color: var(--text-secondary); padding-left: 1.2rem; line-height: 1.6;">
+                    <li>１｜透析は災害に弱い治療</li>
+                    <li>２｜透析中に地震が起きたら？</li>
+                    <li>３｜施設外で災害が起きたら？</li>
+                    <li>４｜避難所に避難した時は？</li>
+                    <li>５｜自施設に行けない時は？</li>
+                    <li>６｜災害時の食事</li>
+                    <li>７｜災害時の薬</li>
+                    <li>８｜災害時の持ち出し物品</li>
+                </ul>
             </div>
         </div>
 
         <!-- Hero Section -->
-        <section class="hero-section theme-disaster">
-            <h1 class="hero-title">備えあれば憂いなし</h1>
-            <p class="hero-subtitle">
-                いざという時の備えを確認しましょう。<br>
-                日頃の準備があなたを守ります。
-            </p>
-        </section>
+
 
         <!-- Card Grid -->
         <!-- Category 1: 当院の防災対策 (Collapsible) -->
