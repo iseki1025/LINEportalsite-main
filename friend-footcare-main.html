@@ -113,7 +113,7 @@
             line-height: 1.5;
         }
 
-        /* PDF Collapsible */
+        /* PDF Section */
         .pdf-collapsible {
             background: var(--bg-card);
             border: 1px solid var(--border-light);
@@ -125,22 +125,17 @@
         .pdf-collapsible-header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             padding: var(--spacing-md) var(--spacing-lg);
             background: rgba(139, 92, 246, 0.08);
-            cursor: pointer;
             font-weight: 600;
             color: var(--text-primary);
         }
 
         .pdf-collapsible-content {
-            display: none;
+            display: block;
             padding: var(--spacing-md) var(--spacing-lg);
             text-align: center;
-        }
-
-        .pdf-collapsible.is-open .pdf-collapsible-content {
-            display: block;
         }
 
         .pdf-link {
@@ -177,10 +172,10 @@
         .pdf-thumbnail-container {
             position: relative;
             width: 100%;
-            max-width: 300px;
+            max-width: 100%;
             margin: 0 auto 1rem;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
+            border-radius: 8px;
             overflow: hidden;
             cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -281,9 +276,8 @@
             </div>
 
             <div class="pdf-collapsible">
-                <div class="pdf-collapsible-header" onclick="togglePdf(this)">
+                <div class="pdf-collapsible-header">
                     <span>📖 ガイドブックを見る</span>
-                    <span>▼</span>
                 </div>
                 <div class="pdf-collapsible-content">
                     <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
@@ -358,7 +352,7 @@
                 const context = canvas.getContext('2d');
 
                 // Scale for better resolution
-                const viewport = page.getViewport({ scale: 1.5 });
+                const viewport = page.getViewport({ scale: 2.0 });
 
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
