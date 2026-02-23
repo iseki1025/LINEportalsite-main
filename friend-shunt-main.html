@@ -329,19 +329,27 @@
                 </ul>
             </div>
 
-            <button class="contact-btn" id="openContactModal"
-                style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    style="width: 20px; height: 20px;">
-                    <path
-                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72">
-                    </path>
-                </svg>
-                異常に気づいたら・・・
-            </button>
-            <p style="margin-top: 8px; font-size: 0.75rem; color: var(--text-muted); text-align: center;">
-                ※恐れ入りますが、診療時間外は対応しておりませんので、あらかじめご了承ください。
-            </p>
+            <div class="contact-card"
+                style="background: linear-gradient(135deg, #fff0f6 0%, #fce7f3 100%); border: 2px solid #f9a8d4; border-radius: var(--radius-lg); padding: var(--spacing-lg); text-align: center; margin-bottom: var(--spacing-lg); margin-top: var(--spacing-xl); box-shadow: 0 4px 12px rgba(236, 72, 153, 0.1);">
+                <h3 style="color: #be185d; font-size: 1.1rem; font-weight: 700; margin-bottom: var(--spacing-sm);">
+                    異常が見られたら・気になることがあったら</h3>
+                <p
+                    style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: var(--spacing-lg); line-height: 1.5;">
+                    シャントの異常に気が付いた場合や、少しでも不安に感じることがある場合は、自己判断せずにすぐにご相談ください。</p>
+                <button class="contact-btn" id="openContactModal"
+                    style="display: inline-flex; width: auto; align-items: center; justify-content: center; gap: 8px; padding: var(--spacing-md) var(--spacing-xl); border-radius: var(--radius-full); font-size: 1rem; box-shadow: 0 4px 12px rgba(190, 24, 93, 0.2);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        style="width: 20px; height: 20px;">
+                        <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72">
+                        </path>
+                    </svg>
+                    緊急時はここからご連絡ください
+                </button>
+                <div style="margin-top: 16px; font-size: 0.75rem; color: #9d174d; font-weight: 500;">
+                    ※恐れ入りますが、診療時間外は対応しておりませんので、あらかじめご了承ください。
+                </div>
+            </div>
         </section>
 
         <!-- Tab 2: Quiz -->
