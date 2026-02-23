@@ -108,6 +108,46 @@
             color: var(--text-secondary);
             font-size: 0.9rem;
         }
+
+        .game-intro-card {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(8, 145, 178, 0.05) 100%);
+            border: 2px dashed #0891b2;
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.15);
+            margin-bottom: var(--spacing-xl);
+            margin-top: 0;
+            position: relative;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .game-intro-card h3 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #0e7490;
+            margin-bottom: 0.8rem;
+        }
+
+        .game-intro-card p {
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .game-intro-card strong {
+            color: #0284c7;
+            background: linear-gradient(transparent 70%, #bae6fd 70%);
+        }
     </style>
 </head>
 
@@ -128,11 +168,12 @@
     <main class="main-content">
 
         <!-- Intro -->
-        <div class="intro-text">
-            <h3 style="color: #0e7490; font-size: 1.1rem; margin-bottom: 0.5rem;">脳トレのすすめ</h3>
+        <div class="tip-card game-intro-card">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem; animation: float 3s ease-in-out infinite;">🧠✨</div>
+            <h3>脳トレのすすめ</h3>
             <p>
                 ゲームで脳のさまざまな働きを刺激することは、<br>
-                認知機能の維持につながると考えられています。<br>
+                <strong>認知機能の維持</strong>につながると考えられています。<br>
                 楽しみながら脳トレ&リフレッシュ!<br>
                 透析中の気分転換などにオススメです。
             </p>
@@ -142,29 +183,29 @@
         <div class="game-list">
             <!-- 1. Reaction -->
             <a href="friend-game-reaction-game.html" class="game-card">
-                <div class="game-icon">⚡</div>
+                <div class="game-icon">⚔️</div>
                 <div class="game-info">
-                    <span class="game-title">反応速度ゲーム</span>
-                    <span class="game-desc">色が変わったらタップ！反射神経を鍛えます。</span>
+                    <span class="game-title">侍・一刀両断</span>
+                    <span class="game-desc">画面が変わったらタップ！反射神経を鍛えます。</span>
                 </div>
                 <span class="game-arrow">&gt;</span>
             </a>
 
             <!-- 2. Dodge -->
             <a href="friend-game-ball-dodge-game.html" class="game-card">
-                <div class="game-icon">⚽</div>
+                <div class="game-icon">🏎️</div>
                 <div class="game-info">
-                    <span class="game-title">ボール避けゲーム</span>
-                    <span class="game-desc">飛んでくるボールを避けて動体視力をアップ！</span>
+                    <span class="game-title">F1カー障害物回避</span>
+                    <span class="game-desc">障害物を避けて動体視力をアップ！</span>
                 </div>
                 <span class="game-arrow">&gt;</span>
             </a>
 
             <!-- 3. Puzzle -->
             <a href="friend-game-falling-block-game.html" class="game-card">
-                <div class="game-icon">🧱</div>
+                <div class="game-icon">🧩</div>
                 <div class="game-info">
-                    <span class="game-title">落ち物パズル</span>
+                    <span class="game-title">PolyDrop Premium</span>
                     <span class="game-desc">ブロックを積み上げて消す、定番の脳トレ。</span>
                 </div>
                 <span class="game-arrow">&gt;</span>
@@ -174,7 +215,7 @@
             <a href="friend-game-animal-merge.html" class="game-card">
                 <div class="game-icon">🐼</div>
                 <div class="game-info">
-                    <span class="game-title">アニマル・マージ</span>
+                    <span class="game-title">ぷにぷにアニマル・マージ</span>
                     <span class="game-desc">同じ動物をくっつけて進化させよう！</span>
                 </div>
                 <span class="game-arrow">&gt;</span>
