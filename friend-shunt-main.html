@@ -69,8 +69,8 @@
         }
 
         .check-icon {
-            width: 48px;
-            height: 48px;
+            width: 64px;
+            height: 64px;
             margin: 0 auto var(--spacing-sm);
             background: rgba(236, 72, 153, 0.1);
             border-radius: var(--radius-full);
@@ -81,8 +81,8 @@
         }
 
         .check-icon svg {
-            width: 24px;
-            height: 24px;
+            width: 36px;
+            height: 36px;
         }
 
         .check-title {
@@ -300,14 +300,18 @@
                     <div class="check-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                             stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M2 17h10c2.5 0 5-1 7-2.5l3-2.5"></path>
-                            <path d="M2 22h10c3.5 0 7-1.5 9-4l1-1"></path>
-                            <g transform="translate(19, 18) scale(-0.6, -0.6)" stroke-width="2.5">
-                                <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
-                                <path d="M14 4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
-                                <path d="M10 4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v3"></path>
+                            <!-- Arm (pointing left from right) -->
+                            <path d="M 0 11 L 10 11 L 22 5" stroke-width="1.5"></path>
+                            <path d="M 0 19 L 10 19 L 22 23" stroke-width="1.5"></path>
+                            <path d="M 10 11 Q 9 15 10 19" stroke-width="1.5"></path>
+                            <!-- Big Hand overlaying Arm -->
+                            <g transform="translate(6, 6) scale(0.68)" stroke-width="2.2" fill="var(--bg-card, #ffffff)"
+                                stroke="currentColor">
+                                <path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v0"></path>
+                                <path d="M14 4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v0"></path>
+                                <path d="M10 4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v3"></path>
                                 <path
-                                    d="M6 12v-1a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v5a11 11 0 0 0 11 11h2.5a5.5 5.5 0 0 0 5.5-5.5V11">
+                                    d="M6 12v-1a2 2 0 0 0-2-2 2 2 0 0 0-2 2v5a11 11 0 0 0 11 11h2.5a5.5 5.5 0 0 0 5.5-5.5V11">
                                 </path>
                             </g>
                         </svg>
