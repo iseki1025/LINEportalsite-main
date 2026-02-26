@@ -198,7 +198,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 var(--spacing-lg);
+    padding: 0 var(--spacing-sm); /* 少しパディングを詰めてボタン領域を確保 */
 
     background: var(--bg-glass);
     backdrop-filter: blur(20px);
@@ -206,6 +206,17 @@ button {
     border-bottom: 2px solid transparent;
     border-image: linear-gradient(to right, var(--color-primary), var(--color-secondary)) 1;
     box-shadow: var(--shadow-sm);
+}
+
+/* 常に画面の中央に配置するためのコンテナ */
+.header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    z-index: -1; /* ボタンの下に配置 */
 }
 
 .header-logo {
@@ -222,9 +233,14 @@ button {
 
 .header-title {
     font-family: var(--font-heading);
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text-primary);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--color-primary); /* fallback */
+    white-space: nowrap;
 }
 
 .header-back {

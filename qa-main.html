@@ -139,7 +139,6 @@
 </head>
 
 <body>
-    <!-- Header -->
     <header class="app-header">
         <a href="javascript:history.back()" class="header-back">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -147,10 +146,13 @@
                 <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
         </a>
-        <div class="header-logo">
-            <img src="files/common/LOGO.png" alt="梶本クリニック">
+        <div class="header-center">
+            <div class="header-logo">
+                <img src="files/common/LOGO.png" alt="梶本クリニック">
+            </div>
+            <div class="header-title">Q&A 検索</div>
         </div>
-        <div class="header-title">Q&A 検索</div>
+        <div style="width: 36px;"></div>
     </header>
 
     <!-- Main Content -->
@@ -310,21 +312,28 @@
         function formatAnswerText(text) {
             if (!text) return '';
 
-            // 1. Custom Format: (Text http://...)
-            // Matches: (AnyText http...) or （AnyText http...）
-            // Captures: 1=Text, 2=URL
-            let formatted = text.replace(/[（(](.*?)\s*(https?:\/\/[^)）]+)[）)]/g,
-                '<a href="$2" target="_blank" style="color:var(--color-primary); text-decoration:underline; font-weight:bold;">$1</a>');
+            // 1. 安全のための文字エスケープ
+            let formatted = text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
 
-            // 2. Keyword Links: "ホームページ" or "HP" -> Clinic URL
+            // 2. 任意の http(s):// URL を見つけてリンク化する
+            const urlRegex = /(https?:\/\/[^\s()（）<>]+)/g;
+            formatted = formatted.replace(urlRegex, function (url) {
+                return `<a href="${url}" target="_blank" style="color:var(--color-primary); text-decoration:underline; font-weight:bold; word-break:break-all;">${url}</a>`;
+            });
+
+            // 3. "ホームページ" または "HP" という単語をリンク化
             const targetUrl = 'https://kajimoto-clinic.com/';
             const linkHtml = `<a href="${targetUrl}" target="_blank" style="color:var(--color-primary); text-decoration:underline; font-weight:bold;">$1</a>`;
 
-            // Replace "ホームページ" or "HP" with link
-            // Using regex with 'g' flag for global replacement
             formatted = formatted
                 .replace(/(ホームページ)/g, linkHtml)
-                .replace(/(HP)/g, linkHtml);
+                .replace(/(HP(?![A-Za-z]))/g, linkHtml);
+
+            // 4. 改行を画面に反映させるために <br> タグに変換
+            formatted = formatted.replace(/\n/g, '<br>');
 
             return formatted;
         }
