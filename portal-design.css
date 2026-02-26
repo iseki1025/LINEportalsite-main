@@ -45,7 +45,7 @@
     --cat-exercise: #10B981;
     --cat-nutrition: #F59E0B;
     --cat-footcare: #8B5CF6;
-    --cat-game: #06B6D4;
+    --cat-game: #6366F1; /* Changed from Cyan to Indigo to free up Cyan for global branding */
 
     /* Backgrounds */
     --bg-main: #F8FAFC;
@@ -127,7 +127,9 @@ body {
     font-weight: 400;
     line-height: 1.6;
     color: var(--text-primary);
-    background: var(--bg-main) url('files/common/bg-pattern.png') no-repeat center center fixed;
+    background: radial-gradient(circle at top right, rgba(17, 166, 184, 0.05), transparent 40%),
+                radial-gradient(circle at bottom left, rgba(50, 21, 195, 0.05), transparent 40%),
+                var(--bg-main) url('files/common/bg-pattern.png') no-repeat center center fixed;
     background-size: cover;
     min-height: 100vh;
     min-height: 100dvh;
@@ -201,7 +203,8 @@ button {
     background: var(--bg-glass);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border-glass);
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(to right, var(--color-primary), var(--color-secondary)) 1;
     box-shadow: var(--shadow-sm);
 }
 
