@@ -281,7 +281,7 @@
         <nav class="tab-nav">
             <button class="tab-btn active" onclick="switchTab('upper-limb')">上肢</button>
             <button class="tab-btn" onclick="switchTab('lower-limb')">下肢</button>
-            <button class="tab-btn" onclick="switchTab('trunk')">体幹</button>
+            <button class="tab-btn" onclick="switchTab('trunk')">体幹・首</button>
             <button class="tab-btn" onclick="switchTab('during')">透析中</button>
         </nav>
 
@@ -483,9 +483,30 @@
             </div>
         </section>
 
-        <!-- Tab 3: Trunk (体幹) -->
+        <!-- Tab 3: Trunk (体幹・首) -->
         <section id="trunk" class="tab-content">
             <div class="exercise-grid">
+                <!-- 頚部前・後屈運動 -->
+                <div class="exercise-item"
+                    data-video="https://drive.google.com/file/d/1zeUjPGC4kJwVD_CrNO6YoM1ITFbd-Q-j/view?usp=drive_link">
+                    <div class="exercise-icon-circle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="7" r="4"></circle>
+                            <path d="M5.5 21v-2a4 4 0 0 1 4-4h5a4 4 0 0 1 4 4v2"></path>
+                        </svg>
+                    </div>
+                    <div class="play-indicator">▶</div>
+                    <div class="exercise-overlay">
+                        <h4>頚部前・後屈運動</h4>
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 8px;">
+                            <span class="exercise-pill">血流促進</span>
+                            <span class="exercise-pill">可動域維持</span>
+                            <span class="exercise-pill">可動域改善</span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- ストレッチ -->
                 <div class="exercise-item" data-video="files/movies/stretching.mp4">
                     <div class="exercise-icon-circle">
