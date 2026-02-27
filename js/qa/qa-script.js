@@ -130,6 +130,36 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        // Format answer text with auto-links (URL & Specific Keywords)
+        function formatAnswerText(text) {
+            if (!text) return '';
+
+            // 1. 安全のための文字エスケープ (XSS対策)
+            let formatted = text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+
+            // 2. 任意の http(s):// URL を見つけてリンク化する
+            const urlRegex = /(https?:\/\/[^\s()（）<>]+)/g;
+            formatted = formatted.replace(urlRegex, function (url) {
+                return `<a href="${url}" target="_blank" style="color:var(--color-primary); text-decoration:underline; font-weight:bold; word-break:break-all;">${url}</a>`;
+            });
+
+            // 3. "ホームページ" または "HP" という単語をリンク化
+            const targetUrl = 'https://kajimoto-clinic.com/';
+            const linkHtml = `<a href="${targetUrl}" target="_blank" style="color:var(--color-primary); text-decoration:underline; font-weight:bold;">$1</a>`;
+
+            formatted = formatted
+                .replace(/(ホームページ)/g, linkHtml)
+                .replace(/(HP(?![A-Za-z]))/g, linkHtml);
+
+            // 4. 改行を画面に反映させるために <br> タグに変換
+            formatted = formatted.replace(/\n/g, '<br>');
+
+            return formatted;
+        }
+
         function displayResults(data) {
             resultsContainer.innerHTML = '';
             if (data.length === 0) {
@@ -150,7 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const answerDiv = document.createElement('div');
                 answerDiv.className = 'qa-search-answer';
-                answerDiv.innerHTML = item.answer.replace(/\n/g, '<br>');
+                // Use formatAnswerText instead of just replacing newlines
+                answerDiv.innerHTML = formatAnswerText(item.answer);
                 qaItem.appendChild(questionDiv);
                 qaItem.appendChild(answerDiv);
                 fragment.appendChild(qaItem);
