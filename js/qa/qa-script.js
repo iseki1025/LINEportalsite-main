@@ -46,12 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function loadQAData() {
             showInitialMessage('Q&Aデータを読み込んでいます...');
 
-            // Check for embedded data (Offline/File Protocol support)
-            if (typeof QA_CSV_CONTENT !== 'undefined') {
-                parseCSV(QA_CSV_CONTENT);
-                return;
-            }
-
+            // まず直接CSVファイルの読み込みを試みる（自動反映用）
             const csvFilePath = `files/data/qa-data.csv?t=${new Date().getTime()}`;
 
             Papa.parse(csvFilePath, {
@@ -61,8 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 transformHeader: header => header.trim(),
                 complete: (results) => handleParseResults(results),
                 error: (err) => {
-                    showInitialMessage('エラー: Q&Aデータの読み込みに失敗しました。');
-                    console.error('CSV Load Error:', err);
+                    console.warn('CSV直接読み込み失敗（ローカル環境など）。埋め込みデータを使用します。', err);
+
+                    // フォールバック: 直接読み込めない場合（CORS等）は、ファイルに埋め込まれたデータを利用
+                    if (typeof QA_CSV_CONTENT !== 'undefined' && QA_CSV_CONTENT) {
+                        parseCSV(QA_CSV_CONTENT);
+                    } else {
+                        showInitialMessage('エラー: Q&Aデータの読み込みに失敗しました。');
+                    }
                 }
             });
         }

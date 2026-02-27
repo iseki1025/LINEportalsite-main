@@ -105,6 +105,48 @@
             border-color: var(--accent-disaster);
         }
 
+        .qa-search-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-md);
+            overflow: hidden;
+        }
+
+        .qa-search-question {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md) var(--spacing-lg);
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+
+        .qa-search-question:hover {
+            background: var(--bg-glass-dark);
+        }
+
+        .qa-search-item.active .qa-search-answer {
+            display: block;
+        }
+
+        .qa-search-answer {
+            display: none;
+            padding: var(--spacing-md) var(--spacing-lg);
+            padding-left: calc(var(--spacing-lg) + 28px + var(--spacing-md));
+            background: var(--bg-main);
+            border-top: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .qa-initial-message,
+        .qa-no-result {
+            text-align: center;
+            padding: var(--spacing-xl);
+            color: var(--text-muted);
+        }
+
         .keyword-buttons {
             display: flex;
             justify-content: center;
@@ -163,8 +205,8 @@
         <!-- Search Box -->
         <div class="search-box">
             <p>キーワードを入力して、災害関連の質問を検索できます。</p>
-            <input type="search" class="disaster-search-input" id="disasterSearchInput" placeholder="キーワード (例: 備蓄, 避難所)"
-                autocomplete="off">
+            <input type="search" class="disaster-search-input qa-search-input" id="disasterSearchInput"
+                placeholder="キーワード (例: 備蓄, 避難所)" autocomplete="off">
             <div class="keyword-buttons">
                 <button class="keyword-btn disaster" onclick="setKeyword('備蓄')">備蓄</button>
                 <button class="keyword-btn disaster" onclick="setKeyword('避難')">避難</button>
@@ -174,60 +216,9 @@
         </div>
 
         <!-- Q&A List -->
-        <div id="qaList">
-            <div class="qa-item" data-keywords="備蓄 水 食料">
-                <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-                    <span class="qa-icon">Q</span>
-                    <span class="qa-text">備蓄はどのくらい用意すべきですか？</span>
-                    <span class="qa-toggle">▼</span>
-                </div>
-                <div class="qa-answer">
-                    透析患者の方は、最低3日分の水・食料・薬を用意することをお勧めします。特に透析に影響のある薬は、多めに持っておくと安心です。
-                </div>
-            </div>
-
-            <div class="qa-item" data-keywords="避難 避難所 場所">
-                <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-                    <span class="qa-icon">Q</span>
-                    <span class="qa-text">避難所はどこに行けばいいですか？</span>
-                    <span class="qa-toggle">▼</span>
-                </div>
-                <div class="qa-answer">
-                    まずはお住まいの市区町村が指定する避難所へ向かってください。事前にハザードマップで最寄りの避難所を確認しておくことをお勧めします。
-                </div>
-            </div>
-
-            <div class="qa-item" data-keywords="連絡 電話 安否">
-                <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-                    <span class="qa-icon">Q</span>
-                    <span class="qa-text">災害時にクリニックへ連絡がつかない場合は？</span>
-                    <span class="qa-toggle">▼</span>
-                </div>
-                <div class="qa-answer">
-                    災害用伝言ダイヤル（171）をご利用ください。電話番号を指定してメッセージを録音・再生できます。また、最寄りの透析施設への連絡も検討してください。
-                </div>
-            </div>
-
-            <div class="qa-item" data-keywords="薬 服薬 持ち出し">
-                <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-                    <span class="qa-icon">Q</span>
-                    <span class="qa-text">薬が切れた場合はどうすればいいですか？</span>
-                    <span class="qa-toggle">▼</span>
-                </div>
-                <div class="qa-answer">
-                    お薬手帳や透析条件カードを持参し、最寄りの病院や避難所の医療班に相談してください。透析患者であることを必ずお伝えください。
-                </div>
-            </div>
-
-            <div class="qa-item" data-keywords="透析 できない 中断">
-                <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
-                    <span class="qa-icon">Q</span>
-                    <span class="qa-text">透析ができない場合はどうすればいいですか？</span>
-                    <span class="qa-toggle">▼</span>
-                </div>
-                <div class="qa-answer">
-                    水分・塩分・カリウムの摂取を控え、体調管理に努めてください。ラジオで透析情報を確認し、他の透析施設への受け入れ情報を待ちましょう。
-                </div>
+        <div id="qaList" class="qa-search-section" data-category="災害">
+            <div class="qa-results-container">
+                <!-- Q&A items loaded here by qa-script.js -->
             </div>
         </div>
 
@@ -271,40 +262,17 @@
     </nav>
 
     <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="js/qa/qa-data-embedded.js"></script>
+    <script src="js/qa/qa-script.js"></script>
     <script>
         function setKeyword(word) {
             const input = document.getElementById('disasterSearchInput');
-            input.value = word;
-            filterQA();
+            if (input) {
+                input.value = word;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
         }
-
-        function filterQA() {
-            const searchTerm = document.getElementById('disasterSearchInput').value.toLowerCase();
-            const items = document.querySelectorAll('.qa-item');
-            let visibleCount = 0;
-
-            items.forEach(item => {
-                const question = item.querySelector('.qa-text').textContent.toLowerCase();
-                const answer = item.querySelector('.qa-answer').textContent.toLowerCase();
-                const keywords = (item.dataset.keywords || '').toLowerCase();
-
-                const matchesSearch = !searchTerm ||
-                    question.includes(searchTerm) ||
-                    answer.includes(searchTerm) ||
-                    keywords.includes(searchTerm);
-
-                if (matchesSearch) {
-                    item.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-
-            document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
-        }
-
-        document.getElementById('disasterSearchInput').addEventListener('input', filterQA);
     </script>
 
 </body>
