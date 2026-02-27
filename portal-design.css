@@ -197,8 +197,7 @@ button {
 
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 var(--spacing-sm); /* 少しパディングを詰めてボタン領域を確保 */
+    padding: 0 var(--spacing-sm);
 
     background: var(--bg-glass);
     backdrop-filter: blur(20px);
@@ -208,34 +207,38 @@ button {
     box-shadow: var(--shadow-sm);
 }
 
-/* 常に画面の中央に配置するためのコンテナ */
+.header-logo {
+    position: absolute;
+    left: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    height: 100%;
+    z-index: 5;
+}
+
+.header-logo img {
+    height: 28px;
+    width: auto;
+    object-fit: contain;
+}
+
 .header-center {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
-    z-index: -1; /* ボタンの下に配置 */
-}
-
-.header-logo {
-    display: flex;
-    align-items: center;
-    height: 100%;
-}
-
-.header-logo img {
-    height: 32px; /* Standard header height is 60px, padding/margin accounted */
-    width: auto;
-    object-fit: contain;
+    justify-content: center;
+    width: 60%;
+    text-align: center;
+    z-index: 1;
 }
 
 .header-title {
     font-family: var(--font-heading);
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -243,24 +246,28 @@ button {
     white-space: nowrap;
 }
 
-.header-back {
-    display: flex;
+.page-back-button {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: var(--radius-full);
-    color: var(--text-secondary);
-    transition: background var(--transition-fast);
+    gap: 4px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    color: var(--color-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    background: var(--color-primary-bg);
+    transition: all var(--transition-fast);
 }
 
-.header-back:hover {
-    background: rgba(0, 0, 0, 0.05);
+.page-back-button:hover {
+    background: rgba(17, 166, 184, 0.2);
 }
 
-.header-back svg {
-    width: 20px;
-    height: 20px;
+.page-back-button svg {
+    width: 18px;
+    height: 18px;
 }
 
 /* ========================================
