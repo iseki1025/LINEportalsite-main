@@ -196,36 +196,207 @@
     <script src="js/qa/qa-data-embedded.js"></script>
     <script src="js/qa/qa-script.js"></script>
     <script>
-        // カテゴリ切り替え（タブ選択時はブラウザの input イベントを模倣して qa-script.js を動かす）
-        function setCategory(category) {
-            const tabs = document.querySelectorAll('.qa-category-tab');
-            tabs.forEach(tab => {
-                if (tab.textContent === category) {
-                    tab.classList.add('active');
+        // Global functions
+        function setKeyword(word) {
+            const input = document.getElementById('qaSearchInput');
+            if (input) {
+                input.value = word;
+                filterQA();
+            }
+        }
+
+        function toggleQA(element) {
+            element.closest('.qa-item').classList.toggle('open');
+        }
+
+        // Category tab switching
+        document.getElementById('categoryTabs').addEventListener('click', (e) => {
+            if (e.target.classList.contains('qa-tab')) {
+                document.querySelectorAll('.qa-tab').forEach(tab => tab.classList.remove('active'));
+                e.target.classList.add('active');
+                filterQA();
+            }
+        });
+
+        // Search input
+        document.getElementById('qaSearchInput').addEventListener('input', filterQA);
+
+        // Filter Q&A
+        function filterQA() {
+            const searchTerm = document.getElementById('qaSearchInput').value.toLowerCase();
+            const activeCategory = document.querySelector('.qa-tab.active').dataset.category;
+
+            const items = document.querySelectorAll('.qa-item');
+            let visibleCount = 0;
+
+            items.forEach(item => {
+                const questionElement = item.querySelector('.qa-question-text');
+                const answerElement = item.querySelector('.qa-answer-text');
+
+                if (!questionElement || !answerElement) return;
+
+                const question = questionElement.textContent.toLowerCase();
+                const answer = answerElement.textContent.toLowerCase();
+                const keywords = (item.dataset.keywords || '').toLowerCase();
+                const category = item.dataset.category;
+
+                const matchesSearch = !searchTerm ||
+                    question.includes(searchTerm) ||
+                    answer.includes(searchTerm) ||
+                    keywords.includes(searchTerm);
+                const matchesCategory = activeCategory === 'all' || category === activeCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    item.style.display = 'block';
+                    visibleCount++;
                 } else {
-                    tab.classList.remove('active');
+                    item.style.display = 'none';
                 }
             });
 
-            const searchInput = document.querySelector('.qa-search-input');
-            const section = document.querySelector('.qa-search-section');
-            if (section && searchInput) {
-                // セクションのデータ属性を書き換えて、検索トリガーを引く
-                section.setAttribute('data-category', category);
-                // カテゴリ切り替え時は一旦検索ワードをクリアして全件表示（フィルタのみ）にすることが多い
-                searchInput.value = '';
-                searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+            // Show "no results" if needed
+            const noResults = document.querySelector('.no-results');
+            if (noResults) {
+                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
             }
         }
 
-        function setKeyword(word) {
-            const input = document.querySelector('.qa-search-input');
-            if (input) {
-                input.value = word;
-                input.dispatchEvent(new Event('input', { bubbles: true }));
+        // Category mapping
+        function getCategoryFromData(categoryField) {
+            if (!categoryField) return 'general';
+            const cat = categoryField.toLowerCase();
+            if (cat.includes('栄養') || cat.includes('食事')) return 'nutrition';
+            if (cat.includes('シャント')) return 'shunt';
+            if (cat.includes('運動')) return 'exercise';
+            if (cat.includes('災害')) return 'disaster';
+            return 'general';
+        }
+
+        // Load Q&A data from CSV
+        function loadQAData() {
+            const container = document.getElementById('qaList');
+            const csvUrl = 'files/data/qa-data.csv?t=' + new Date().getTime();
+
+            Papa.parse(csvUrl, {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function (results) {
+                    processResults(results.data, container);
+                },
+                error: function (error) {
+                    console.warn('CSV直接読み込み失敗（ローカル環境など）。埋め込みデータを使用します。', error);
+                    // Fallback to embedded JS object
+                    if (typeof QA_CSV_CONTENT !== 'undefined' && QA_CSV_CONTENT) {
+                        Papa.parse(QA_CSV_CONTENT, {
+                            header: true,
+                            skipEmptyLines: true,
+                            complete: function (results) {
+                                processResults(results.data, container);
+                            },
+                            error: function (err) {
+                                console.error('Embedded CSV parse error:', err);
+                                container.innerHTML = '<p class="no-results" style="display:block;">Q&Aデータの読み込みに失敗しました</p>';
+                            }
+                        });
+                    } else {
+                        container.innerHTML = '<p class="no-results" style="display:block;">Q&Aデータがありません</p>';
+                    }
+                }
+            });
+        }
+
+        // 共通のパース結果処理関数
+        function processResults(data, container) {
+            const qaData = data
+                .filter(row => row.Question && row.Question.trim() && row.Answer && row.Answer.trim())
+                .map(row => ({
+                    question: row.Question.trim(),
+                    answer: row.Answer.trim(),
+                    category: getCategoryFromData(row.Category),
+                    keywords: row.Keyword || ''
+                }));
+
+            if (qaData.length > 0) {
+                renderQAList(qaData);
+            } else {
+                container.innerHTML = '<p class="no-results" style="display:block;">Q&Aデータがありません</p>';
             }
         }
+
+        // Format answer text with auto-links
+        function formatAnswerText(text) {
+            if (!text) return '';
+
+            let formatted = text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+
+            const urlRegex = /(https?:\/\/[^\s()（）<>]+)/g;
+            formatted = formatted.replace(urlRegex, function (url) {
+                return `<a href="${url}" target="_blank" style="color:var(--color-primary); text-decoration:underline; font-weight:bold; word-break:break-all;">${url}</a>`;
+            });
+
+            const targetUrl = 'https://kajimoto-clinic.com/';
+            const linkHtml = `<a href="${targetUrl}" target="_blank" style="color:var(--color-primary); text-decoration:underline; font-weight:bold;">$1</a>`;
+
+            formatted = formatted
+                .replace(/(ホームページ)/g, linkHtml)
+                .replace(/(HP(?![A-Za-z]))/g, linkHtml);
+
+            formatted = formatted.replace(/\n/g, '<br>');
+            return formatted;
+        }
+
+        function renderQAList(data) {
+            const container = document.getElementById('qaList');
+            container.innerHTML = '';
+
+            if (!data || data.length === 0) {
+                container.innerHTML = '<p class="no-results" style="display:block;">Q&Aデータがありません</p>';
+                return;
+            }
+
+            data.forEach((item) => {
+                const qaItem = document.createElement('div');
+                qaItem.className = 'qa-item';
+                qaItem.dataset.category = item.category || 'general';
+                qaItem.dataset.keywords = item.keywords || '';
+
+                qaItem.innerHTML = `
+                    <div class="qa-question" onclick="toggleQA(this)">
+                        <span class="qa-icon">Q</span>
+                        <span class="qa-question-text" style="font-weight: 500; color: var(--text-primary);">${item.question}</span>
+                        <span class="qa-toggle">▼</span>
+                    </div>
+                    <div class="qa-answer" style="display: none; padding: var(--spacing-md) var(--spacing-lg); padding-left: calc(var(--spacing-lg) + 28px + var(--spacing-md)); background: var(--bg-main); border-top: 1px solid var(--border-light); color: var(--text-secondary); line-height: 1.7;">
+                        <span class="qa-answer-text">${formatAnswerText(item.answer)}</span>
+                    </div>
+                `;
+
+                container.appendChild(qaItem);
+            });
+
+            const noResults = document.createElement('p');
+            noResults.className = 'no-results';
+            noResults.textContent = '該当するQ&Aがありません';
+            noResults.style.display = 'none';
+            container.appendChild(noResults);
+        }
+
+        // CSS inline patch for the qa-item toggling if stylesheet is missing specific rules
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .qa-item.open .qa-toggle { transform: rotate(180deg); }
+            .qa-item.open .qa-answer { display: block !important; }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadQAData);
     </script>
+
 
 </body>
 
