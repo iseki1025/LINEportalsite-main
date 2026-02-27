@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }).filter(item => {
                 if (!item.question || !item.answer) return false;
 
-                if (categoryFilter) {
+                if (categoryFilter && categoryFilter !== 'all') {
                     const hasCategory = item.categories.some(val => val && val.includes(categoryFilter));
                     if (!hasCategory) return false;
                 }
@@ -121,7 +121,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             console.log(`✅ Q&A Loaded: Category "${categoryFilter || 'All'}" (${qaData.length} items)`);
-            showInitialMessage();
+
+            // カテゴリ指定がある場合は最初から全件表示、なければ初期メッセージ
+            if (categoryFilter && categoryFilter !== 'all') {
+                displayResults(qaData);
+            } else {
+                showInitialMessage();
+            }
         }
 
         function displayResults(data) {
@@ -159,7 +165,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const query = e.target.value.trim();
 
             if (!query) {
-                showInitialMessage();
+                // キーワードが空になった場合、カテゴリ指定があれば全件表示に戻す
+                if (categoryFilter && categoryFilter !== 'all') {
+                    displayResults(qaData);
+                } else {
+                    showInitialMessage();
+                }
                 return;
             }
 
