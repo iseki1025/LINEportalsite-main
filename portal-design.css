@@ -761,6 +761,11 @@ button {
     border-color: var(--color-primary);
 }
 
+.back-btn-container {
+    text-align: center;
+    margin-top: var(--spacing-xl);
+}
+
 /* ========================================
    15. SEARCH
    ======================================== */
