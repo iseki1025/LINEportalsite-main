@@ -394,7 +394,18 @@
         document.head.appendChild(style);
 
         // Initialize
-        document.addEventListener('DOMContentLoaded', loadQAData);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQAData();
+            const logo = document.querySelector('.header-logo');
+            if (logo && document.referrer) {
+                const ref = document.referrer.toLowerCase();
+                if (ref.includes('disaster')) {
+                    logo.href = 'disaster-main.html';
+                } else if (ref.includes('friend')) {
+                    logo.href = 'friend-main.html';
+                }
+            }
+        });
     </script>
 
 
