@@ -202,21 +202,22 @@
             </p>
         </section>
 
-        <!-- Search Box -->
-        <div class="search-box">
-            <p>キーワードを入力して、災害関連の質問を検索できます。</p>
-            <input type="search" class="disaster-search-input qa-search-input" id="disasterSearchInput"
-                placeholder="キーワード (例: 備蓄, 避難所)" autocomplete="off">
-            <div class="keyword-buttons">
-                <button class="keyword-btn disaster" onclick="setKeyword('備蓄')">備蓄</button>
-                <button class="keyword-btn disaster" onclick="setKeyword('避難')">避難</button>
-                <button class="keyword-btn disaster" onclick="setKeyword('連絡')">連絡</button>
-                <button class="keyword-btn disaster" onclick="setKeyword('薬')">薬</button>
+        <!-- Q&A Section Wrapper for qa-script.js -->
+        <div class="qa-search-section" id="qaList" data-category="災害">
+            <!-- Search Box -->
+            <div class="search-box">
+                <p>キーワードを入力して、災害関連の質問を検索できます。</p>
+                <input type="search" class="disaster-search-input qa-search-input" id="disasterSearchInput"
+                    placeholder="キーワード (例: 備蓄, 避難所)" autocomplete="off">
+                <div class="keyword-buttons">
+                    <button class="keyword-btn disaster" onclick="setKeyword('備蓄')">備蓄</button>
+                    <button class="keyword-btn disaster" onclick="setKeyword('避難')">避難</button>
+                    <button class="keyword-btn disaster" onclick="setKeyword('連絡')">連絡</button>
+                    <button class="keyword-btn disaster" onclick="setKeyword('薬')">薬</button>
+                </div>
             </div>
-        </div>
 
-        <!-- Q&A List -->
-        <div id="qaList" class="qa-search-section" data-category="災害">
+            <!-- Q&A List -->
             <div class="qa-results-container">
                 <!-- Q&A items loaded here by qa-script.js -->
             </div>
