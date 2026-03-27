@@ -43,11 +43,17 @@ document.addEventListener('DOMContentLoaded', () => {
             return kataToHira(String(text).toLowerCase());
         }
 
+        function appendCacheBuster(url) {
+            const separator = url.includes('?') ? '&' : '?';
+            return `${url}${separator}t=${new Date().getTime()}`;
+        }
+
         function loadQAData() {
             showInitialMessage('Q&Aデータを読み込んでいます...');
 
             // まず直接CSVファイルの読み込みを試みる（自動反映用）
-            const csvFilePath = `files/data/qa-data.csv?t=${new Date().getTime()}`;
+            const urls = window.QA_SOURCE_URLS || {};
+            const csvFilePath = appendCacheBuster(urls.remoteCsvUrl || urls.localCsvUrl || 'files/data/qa-data.csv');
 
             Papa.parse(csvFilePath, {
                 download: true,

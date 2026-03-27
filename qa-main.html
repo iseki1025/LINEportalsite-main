@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Q&A 検索 | 梶本クリニック</title>
+    <title>Q&A 讀懃ｴ｢ | 譴ｶ譛ｬ繧ｯ繝ｪ繝九ャ繧ｯ</title>
     <link rel="stylesheet" href="portal-design.css">
     <style>
         /* Q&A specific styles */
@@ -141,10 +141,10 @@
 <body>
     <header class="app-header">
         <a href="index.html" class="header-logo">
-            <img src="files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
+            <img src="files/common/kajimoto_rogo2.svg" alt="譴ｶ譛ｬ繧ｯ繝ｪ繝九ャ繧ｯ">
         </a>
         <div class="header-center">
-            <div class="header-title">Q&A 検索</div>
+            <div class="header-title">Q&A 讀懃ｴ｢</div>
         </div>
     </header>
 
@@ -153,46 +153,50 @@
 
         <!-- Search -->
         <div class="search-container">
-            <input type="text" class="search-input" id="qaSearchInput" placeholder="キーワードで検索...">
+            <input type="text" class="search-input" id="qaSearchInput" placeholder="繧ｭ繝ｼ繝ｯ繝ｼ繝峨〒讀懃ｴ｢...">
 
-            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:1rem; margin-bottom:0.5rem;">よく検索されるキーワード:
+            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:1rem; margin-bottom:0.5rem;">繧医￥讀懃ｴ｢縺輔ｌ繧九く繝ｼ繝ｯ繝ｼ繝・
             </div>
             <div class="keyword-buttons" id="keywordButtons">
-                <button class="keyword-btn" onclick="setKeyword('水分')">水分</button>
-                <button class="keyword-btn" onclick="setKeyword('塩分')">塩分</button>
-                <button class="keyword-btn" onclick="setKeyword('シャント')">シャント</button>
-                <button class="keyword-btn" onclick="setKeyword('運動')">運動</button>
-                <button class="keyword-btn" onclick="setKeyword('緊急')">緊急</button>
+                <button class="keyword-btn" onclick="setKeyword('豌ｴ蛻・)">豌ｴ蛻・/button>
+                <button class="keyword-btn" onclick="setKeyword('蝪ｩ蛻・)">蝪ｩ蛻・/button>
+                <button class="keyword-btn" onclick="setKeyword('繧ｷ繝｣繝ｳ繝・)">繧ｷ繝｣繝ｳ繝・/button>
+                <button class="keyword-btn" onclick="setKeyword('驕句虚')">驕句虚</button>
+                <button class="keyword-btn" onclick="setKeyword('邱頑･')">邱頑･</button>
             </div>
         </div>
 
         <!-- Category Tabs -->
-        <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.5rem; padding-left:0.25rem;">カテゴリで絞り込み:
+        <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.5rem; padding-left:0.25rem;">繧ｫ繝・ざ繝ｪ縺ｧ邨槭ｊ霎ｼ縺ｿ:
         </div>
         <div class="qa-category-tabs" id="categoryTabs">
-            <button class="qa-tab active" data-category="all">すべて</button>
-            <button class="qa-tab" data-category="nutrition">食事</button>
-            <button class="qa-tab" data-category="shunt">シャント</button>
-            <button class="qa-tab" data-category="exercise">運動</button>
-            <button class="qa-tab" data-category="disaster">災害</button>
+            <button class="qa-tab active" data-category="all">縺吶∋縺ｦ</button>
+            <button class="qa-tab" data-category="insurance">保険・費用</button>
+            <button class="qa-tab" data-category="treatment">治療</button>
+            <button class="qa-tab" data-category="transport">送迎</button>
+            <button class="qa-tab" data-category="test">検査</button>
+            <button class="qa-tab" data-category="nutrition">鬟滉ｺ・/button>
+            <button class="qa-tab" data-category="shunt">繧ｷ繝｣繝ｳ繝・/button>
+            <button class="qa-tab" data-category="exercise">驕句虚</button>
+            <button class="qa-tab" data-category="disaster">轣ｽ螳ｳ</button>
         </div>
 
         <!-- Q&A List -->
         <div class="qa-list" id="qaList">
-            <p class="no-results">読み込み中...</p>
+            <p class="no-results">隱ｭ縺ｿ霎ｼ縺ｿ荳ｭ...</p>
         </div>
 
         <!-- Back Button -->
         <div class="back-btn-container">
             <a href="index.html" class="btn btn-secondary">
-                トップページへ戻る
+                繝医ャ繝励・繝ｼ繧ｸ縺ｸ謌ｻ繧・
             </a>
         </div>
 
         <!-- Copyright -->
         <footer class="copyright">
             <a href="index.html" class="stealth-link">
-                © 2025 Kajimoto Clinic
+                ﾂｩ 2025 Kajimoto Clinic
             </a>
         </footer>
 
@@ -200,6 +204,7 @@
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="js/qa/qa-source.js"></script>
     <script src="js/qa/qa-data-embedded.js"></script>
     <script src="js/qa/qa-script.js"></script>
     <script>
@@ -272,17 +277,27 @@
         function getCategoryFromData(categoryField) {
             if (!categoryField) return 'general';
             const cat = categoryField.toLowerCase();
-            if (cat.includes('栄養') || cat.includes('食事')) return 'nutrition';
-            if (cat.includes('シャント')) return 'shunt';
-            if (cat.includes('運動')) return 'exercise';
-            if (cat.includes('災害')) return 'disaster';
+            if (cat.includes('保険') || cat.includes('費用')) return 'insurance';
+            if (cat.includes('治療')) return 'treatment';
+            if (cat.includes('送迎')) return 'transport';
+            if (cat.includes('検査')) return 'test';
+            if (cat.includes('譬・､・) || cat.includes('鬟滉ｺ・)) return 'nutrition';
+            if (cat.includes('繧ｷ繝｣繝ｳ繝・)) return 'shunt';
+            if (cat.includes('驕句虚')) return 'exercise';
+            if (cat.includes('轣ｽ螳ｳ')) return 'disaster';
             return 'general';
+        }
+
+        function appendCacheBuster(url) {
+            const separator = url.includes('?') ? '&' : '?';
+            return `${url}${separator}t=${new Date().getTime()}`;
         }
 
         // Load Q&A data from CSV
         function loadQAData() {
             const container = document.getElementById('qaList');
-            const csvUrl = 'files/data/qa-data.csv?t=' + new Date().getTime();
+            const urls = window.QA_SOURCE_URLS || {};
+            const csvUrl = appendCacheBuster(urls.remoteCsvUrl || urls.localCsvUrl || 'files/data/qa-data.csv');
 
             Papa.parse(csvUrl, {
                 download: true,
@@ -292,7 +307,7 @@
                     processResults(results.data, container);
                 },
                 error: function (error) {
-                    console.warn('CSV直接読み込み失敗（ローカル環境など）。埋め込みデータを使用します。', error);
+                    console.warn('CSV逶ｴ謗･隱ｭ縺ｿ霎ｼ縺ｿ螟ｱ謨暦ｼ医Ο繝ｼ繧ｫ繝ｫ迺ｰ蠅・↑縺ｩ・峨ょ沂繧∬ｾｼ縺ｿ繝・・繧ｿ繧剃ｽｿ逕ｨ縺励∪縺吶・, error);
                     // Fallback to embedded JS object
                     if (typeof QA_CSV_CONTENT !== 'undefined' && QA_CSV_CONTENT) {
                         Papa.parse(QA_CSV_CONTENT, {
@@ -303,17 +318,17 @@
                             },
                             error: function (err) {
                                 console.error('Embedded CSV parse error:', err);
-                                container.innerHTML = '<p class="no-results" style="display:block;">Q&Aデータの読み込みに失敗しました</p>';
+                                container.innerHTML = '<p class="no-results" style="display:block;">Q&A繝・・繧ｿ縺ｮ隱ｭ縺ｿ霎ｼ縺ｿ縺ｫ螟ｱ謨励＠縺ｾ縺励◆</p>';
                             }
                         });
                     } else {
-                        container.innerHTML = '<p class="no-results" style="display:block;">Q&Aデータがありません</p>';
+                        container.innerHTML = '<p class="no-results" style="display:block;">Q&A繝・・繧ｿ縺後≠繧翫∪縺帙ｓ</p>';
                     }
                 }
             });
         }
 
-        // 共通のパース結果処理関数
+        // 蜈ｱ騾壹・繝代・繧ｹ邨先棡蜃ｦ逅・未謨ｰ
         function processResults(data, container) {
             const qaData = data
                 .filter(row => row.Question && row.Question.trim() && row.Answer && row.Answer.trim())
@@ -327,7 +342,7 @@
             if (qaData.length > 0) {
                 renderQAList(qaData);
             } else {
-                container.innerHTML = '<p class="no-results" style="display:block;">Q&Aデータがありません</p>';
+                container.innerHTML = '<p class="no-results" style="display:block;">Q&A繝・・繧ｿ縺後≠繧翫∪縺帙ｓ</p>';
             }
         }
 
@@ -340,7 +355,7 @@
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;");
 
-            const urlRegex = /(https?:\/\/[^\s()（）<>]+)/g;
+            const urlRegex = /(https?:\/\/[^\s()・茨ｼ・>]+)/g;
             formatted = formatted.replace(urlRegex, function (url) {
                 return `<a href="${url}" target="_blank" style="color:var(--color-primary); text-decoration:underline; font-weight:bold; word-break:break-all;">${url}</a>`;
             });
@@ -349,7 +364,7 @@
             const linkHtml = `<a href="${targetUrl}" target="_blank" style="color:var(--color-primary); text-decoration:underline; font-weight:bold;">$1</a>`;
 
             formatted = formatted
-                .replace(/(ホームページ)/g, linkHtml)
+                .replace(/(繝帙・繝繝壹・繧ｸ)/g, linkHtml)
                 .replace(/(HP(?![A-Za-z]))/g, linkHtml);
 
             formatted = formatted.replace(/\n/g, '<br>');
@@ -361,7 +376,7 @@
             container.innerHTML = '';
 
             if (!data || data.length === 0) {
-                container.innerHTML = '<p class="no-results" style="display:block;">Q&Aデータがありません</p>';
+                container.innerHTML = '<p class="no-results" style="display:block;">Q&A繝・・繧ｿ縺後≠繧翫∪縺帙ｓ</p>';
                 return;
             }
 
@@ -375,7 +390,7 @@
                     <div class="qa-question" onclick="toggleQA(this)">
                         <span class="qa-icon">Q</span>
                         <span class="qa-question-text" style="font-weight: 500; color: var(--text-primary);">${item.question}</span>
-                        <span class="qa-toggle">▼</span>
+                        <span class="qa-toggle">笆ｼ</span>
                     </div>
                     <div class="qa-answer" style="display: none; padding: var(--spacing-md) var(--spacing-lg); padding-left: calc(var(--spacing-lg) + 28px + var(--spacing-md)); background: var(--bg-main); border-top: 1px solid var(--border-light); color: var(--text-secondary); line-height: 1.7;">
                         <span class="qa-answer-text">${formatAnswerText(item.answer)}</span>
@@ -387,7 +402,7 @@
 
             const noResults = document.createElement('p');
             noResults.className = 'no-results';
-            noResults.textContent = '該当するQ&Aがありません';
+            noResults.textContent = '隧ｲ蠖薙☆繧飢&A縺後≠繧翫∪縺帙ｓ';
             noResults.style.display = 'none';
             container.appendChild(noResults);
         }
@@ -418,3 +433,5 @@
 </body>
 
 </html>
+
+
