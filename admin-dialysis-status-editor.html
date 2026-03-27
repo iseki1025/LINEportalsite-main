@@ -31,18 +31,27 @@
             border-color: #ef4444;
         }
 
+        .facility-card.checking {
+            border-color: #f59e0b;
+        }
+
         .status-toggle {
             display: flex;
-            gap: 1rem;
+            gap: 0.5rem;
             margin: 1rem 0;
+            flex-wrap: wrap;
         }
 
         .status-toggle label {
             cursor: pointer;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.75rem;
             border-radius: 6px;
             border: 2px solid #e5e7eb;
             font-weight: bold;
+            font-size: 0.9rem;
+            flex: 1;
+            text-align: center;
+            white-space: nowrap;
         }
 
         .status-toggle input[type="radio"]:checked+label.radio-ok {
@@ -55,6 +64,12 @@
             background: #ef4444;
             color: white;
             border-color: #ef4444;
+        }
+
+        .status-toggle input[type="radio"]:checked+label.radio-waiting {
+            background: #f59e0b;
+            color: white;
+            border-color: #f59e0b;
         }
 
         .status-toggle input[type="radio"] {
@@ -133,20 +148,23 @@
         function renderStatusCards() {
             statusGrid.innerHTML = facilities.map(name => {
                 const data = currentData[name] || { status: 'available', reason: '' };
-                const isOk = data.status === 'available';
+                const status = data.status || 'available';
 
                 return `
-          <div class="facility-card ${data.status}" id="card-${name}">
+          <div class="facility-card ${status}" id="card-${name}">
             <h3>${name}</h3>
             <div class="status-toggle">
-              <input type="radio" name="status-${name}" id="ok-${name}" value="available" ${isOk ? 'checked' : ''} onchange="window.toggleReason('${name}', true)">
+              <input type="radio" name="status-${name}" id="ok-${name}" value="available" ${status === 'available' ? 'checked' : ''} onchange="window.handleStatusChange('${name}', 'available')">
               <label for="ok-${name}" class="radio-ok">透析可</label>
               
-              <input type="radio" name="status-${name}" id="ng-${name}" value="unavailable" ${!isOk ? 'checked' : ''} onchange="window.toggleReason('${name}', false)">
+              <input type="radio" name="status-${name}" id="waiting-${name}" value="checking" ${status === 'checking' ? 'checked' : ''} onchange="window.handleStatusChange('${name}', 'checking')">
+              <label for="waiting-${name}" class="radio-waiting">確認中</label>
+
+              <input type="radio" name="status-${name}" id="ng-${name}" value="unavailable" ${status === 'unavailable' ? 'checked' : ''} onchange="window.handleStatusChange('${name}', 'unavailable')">
               <label for="ng-${name}" class="radio-ng">透析不可</label>
             </div>
-            <div class="form-group" id="reason-group-${name}" style="display: ${isOk ? 'none' : 'block'}">
-              <label>理由（例：断水のため）</label>
+            <div class="form-group" id="reason-group-${name}" style="display: ${status === 'available' ? 'none' : 'block'}">
+              <label>理由・詳細（例：断水のため / 状況を確認中）</label>
               <input type="text" id="reason-${name}" value="${data.reason || ''}" placeholder="理由を入力してください">
             </div>
           </div>
@@ -160,11 +178,12 @@
             }
         }
 
-        window.toggleReason = (name, isOk) => {
+        window.handleStatusChange = (name, status) => {
             const group = document.getElementById(`reason-group-${name}`);
             const card = document.getElementById(`card-${name}`);
+            const isOk = (status === 'available');
             group.style.display = isOk ? 'none' : 'block';
-            card.className = `facility-card ${isOk ? 'available' : 'unavailable'}`;
+            card.className = `facility-card ${status}`;
         };
 
         updateBatchBtn.addEventListener('click', async () => {

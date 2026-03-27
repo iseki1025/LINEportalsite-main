@@ -670,6 +670,12 @@ button {
     border: 1px solid #FFA8A8;
 }
 
+.status-badge.waiting {
+    background: #FEF3C7;
+    color: #92400E;
+    border: 1px solid #FCD34D;
+}
+
 /* ========================================
    13. COLLAPSIBLE / ACCORDION
    ======================================== */

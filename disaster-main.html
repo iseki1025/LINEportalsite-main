@@ -315,8 +315,16 @@
 
                     facilities.forEach(fac => {
                         const data = dataMap[fac.name] || { status: 'available', reason: '' };
-                        const badgeClass = data.status === 'available' ? 'ok' : 'ng';
-                        const statusText = data.status === 'available' ? '透析可' : '透析不可';
+                        let badgeClass = 'ok';
+                        let statusText = '透析可';
+
+                        if (data.status === 'unavailable') {
+                            badgeClass = 'ng';
+                            statusText = '透析不可';
+                        } else if (data.status === 'checking') {
+                            badgeClass = 'waiting';
+                            statusText = '被災状況確認中';
+                        }
 
                         const item = document.createElement('div');
                         item.className = `status-item ${fac.id}`;
