@@ -1,14 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Q&A 讀懃ｴ｢ | 譴ｶ譛ｬ繧ｯ繝ｪ繝九ャ繧ｯ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Q&amp;A &#26908;&#32034; | Kajimoto Clinic</title>
     <link rel="stylesheet" href="portal-design.css">
     <style>
-        /* Q&A specific styles */
         .qa-category-tabs {
             display: flex;
             gap: var(--spacing-sm);
@@ -17,7 +14,6 @@
             padding-bottom: var(--spacing-sm);
             -webkit-overflow-scrolling: touch;
         }
-
         .qa-tab {
             padding: var(--spacing-sm) var(--spacing-md);
             background: var(--bg-card);
@@ -30,31 +26,26 @@
             transition: all var(--transition-fast);
             cursor: pointer;
         }
-
         .qa-tab:hover {
             border-color: var(--color-primary);
             color: var(--color-primary);
         }
-
         .qa-tab.active {
             background: var(--color-primary);
             border-color: var(--color-primary);
             color: var(--text-inverse);
         }
-
         .qa-list {
             display: flex;
             flex-direction: column;
             gap: var(--spacing-md);
         }
-
         .qa-item {
             background: var(--bg-card);
             border: 1px solid var(--border-light);
             border-radius: var(--radius-lg);
             overflow: hidden;
         }
-
         .qa-question {
             display: flex;
             align-items: flex-start;
@@ -63,11 +54,9 @@
             cursor: pointer;
             transition: background var(--transition-fast);
         }
-
         .qa-question:hover {
             background: var(--bg-glass-dark);
         }
-
         .qa-question-icon {
             flex-shrink: 0;
             display: flex;
@@ -76,28 +65,24 @@
             width: 28px;
             height: 28px;
             background: var(--accent-qa);
-            color: white;
+            color: #fff;
             border-radius: var(--radius-sm);
             font-weight: 700;
             font-size: 0.85rem;
         }
-
         .qa-question-text {
             flex: 1;
             font-weight: 500;
             color: var(--text-primary);
             line-height: 1.5;
         }
-
         .qa-toggle-icon {
             color: var(--text-muted);
             transition: transform var(--transition-normal);
         }
-
         .qa-item.open .qa-toggle-icon {
             transform: rotate(180deg);
         }
-
         .qa-answer {
             display: none;
             padding: var(--spacing-md) var(--spacing-lg);
@@ -105,11 +90,9 @@
             background: var(--bg-main);
             border-top: 1px solid var(--border-light);
         }
-
         .qa-item.open .qa-answer {
             display: block;
         }
-
         .qa-answer-icon {
             display: inline-flex;
             align-items: center;
@@ -117,19 +100,17 @@
             width: 28px;
             height: 28px;
             background: var(--color-primary);
-            color: white;
+            color: #fff;
             border-radius: var(--radius-sm);
             font-weight: 700;
             font-size: 0.85rem;
             margin-right: var(--spacing-sm);
             vertical-align: top;
         }
-
         .qa-answer-text {
             color: var(--text-secondary);
             line-height: 1.7;
         }
-
         .no-results {
             text-align: center;
             padding: var(--spacing-2xl);
@@ -137,301 +118,317 @@
         }
     </style>
 </head>
-
 <body>
     <header class="app-header">
         <a href="index.html" class="header-logo">
-            <img src="files/common/kajimoto_rogo2.svg" alt="譴ｶ譛ｬ繧ｯ繝ｪ繝九ャ繧ｯ">
+            <img src="files/common/kajimoto_rogo2.svg" alt="Kajimoto Clinic">
         </a>
         <div class="header-center">
-            <div class="header-title">Q&A 讀懃ｴ｢</div>
+            <div class="header-title">Q&amp;A &#26908;&#32034;</div>
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="main-content">
-
-        <!-- Search -->
         <div class="search-container">
-            <input type="text" class="search-input" id="qaSearchInput" placeholder="繧ｭ繝ｼ繝ｯ繝ｼ繝峨〒讀懃ｴ｢...">
+            <input type="text" class="search-input" id="qaSearchInput" placeholder="&#12461;&#12540;&#12527;&#12540;&#12489;&#12391;&#26908;&#32034;...">
 
-            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:1rem; margin-bottom:0.5rem;">繧医￥讀懃ｴ｢縺輔ｌ繧九く繝ｼ繝ｯ繝ｼ繝・
+            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:1rem; margin-bottom:0.5rem;">
+                &#12424;&#12367;&#26908;&#32034;&#12373;&#12428;&#12427;&#12461;&#12540;&#12527;&#12540;&#12489;
             </div>
             <div class="keyword-buttons" id="keywordButtons">
-                <button class="keyword-btn" onclick="setKeyword('豌ｴ蛻・)">豌ｴ蛻・/button>
-                <button class="keyword-btn" onclick="setKeyword('蝪ｩ蛻・)">蝪ｩ蛻・/button>
-                <button class="keyword-btn" onclick="setKeyword('繧ｷ繝｣繝ｳ繝・)">繧ｷ繝｣繝ｳ繝・/button>
-                <button class="keyword-btn" onclick="setKeyword('驕句虚')">驕句虚</button>
-                <button class="keyword-btn" onclick="setKeyword('邱頑･')">邱頑･</button>
+                <button class="keyword-btn" onclick="setKeyword('\u98df\u4e8b')">&#39135;&#20107;</button>
+                <button class="keyword-btn" onclick="setKeyword('\u904b\u52d5')">&#36939;&#21205;</button>
+                <button class="keyword-btn" onclick="setKeyword('\u30b7\u30e3\u30f3\u30c8')">&#12471;&#12515;&#12531;&#12488;</button>
+                <button class="keyword-btn" onclick="setKeyword('\u9001\u8fce')">&#36865;&#36814;</button>
+                <button class="keyword-btn" onclick="setKeyword('\u691c\u67fb')">&#26908;&#26597;</button>
             </div>
         </div>
 
-        <!-- Category Tabs -->
-        <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.5rem; padding-left:0.25rem;">繧ｫ繝・ざ繝ｪ縺ｧ邨槭ｊ霎ｼ縺ｿ:
+        <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.5rem; padding-left:0.25rem;">
+            &#12459;&#12486;&#12468;&#12522;&#12391;&#32094;&#12426;&#36796;&#12415;:
         </div>
         <div class="qa-category-tabs" id="categoryTabs">
-            <button class="qa-tab active" data-category="all">縺吶∋縺ｦ</button>
-            <button class="qa-tab" data-category="insurance">保険・費用</button>
-            <button class="qa-tab" data-category="treatment">治療</button>
-            <button class="qa-tab" data-category="transport">送迎</button>
-            <button class="qa-tab" data-category="test">検査</button>
-            <button class="qa-tab" data-category="nutrition">鬟滉ｺ・/button>
-            <button class="qa-tab" data-category="shunt">繧ｷ繝｣繝ｳ繝・/button>
-            <button class="qa-tab" data-category="exercise">驕句虚</button>
-            <button class="qa-tab" data-category="disaster">轣ｽ螳ｳ</button>
+            <button class="qa-tab active" data-category="all">&#12377;&#12409;&#12390;</button>
+            <button class="qa-tab" data-category="insurance">&#20445;&#38522;&#12539;&#36027;&#29992;</button>
+            <button class="qa-tab" data-category="treatment">&#27835;&#30274;</button>
+            <button class="qa-tab" data-category="transport">&#36865;&#36814;</button>
+            <button class="qa-tab" data-category="test">&#26908;&#26597;</button>
+            <button class="qa-tab" data-category="nutrition">&#39135;&#20107;</button>
+            <button class="qa-tab" data-category="shunt">&#12471;&#12515;&#12531;&#12488;</button>
+            <button class="qa-tab" data-category="exercise">&#36939;&#21205;</button>
+            <button class="qa-tab" data-category="disaster">&#28797;&#23475;</button>
         </div>
 
-        <!-- Q&A List -->
         <div class="qa-list" id="qaList">
-            <p class="no-results">隱ｭ縺ｿ霎ｼ縺ｿ荳ｭ...</p>
+            <p class="no-results">Q&amp;A loading...</p>
         </div>
 
-        <!-- Back Button -->
         <div class="back-btn-container">
             <a href="index.html" class="btn btn-secondary">
-                繝医ャ繝励・繝ｼ繧ｸ縺ｸ謌ｻ繧・
+                &#12488;&#12483;&#12503;&#12506;&#12540;&#12472;&#12408;&#25147;&#12427;
             </a>
         </div>
 
-        <!-- Copyright -->
         <footer class="copyright">
-            <a href="index.html" class="stealth-link">
-                ﾂｩ 2025 Kajimoto Clinic
-            </a>
+            <a href="index.html" class="stealth-link">© 2025 Kajimoto Clinic</a>
         </footer>
-
     </main>
 
-    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <script src="js/qa/qa-source.js"></script>
     <script src="js/qa/qa-data-embedded.js"></script>
-    <script src="js/qa/qa-script.js"></script>
     <script>
-        // Global functions
-        function setKeyword(word) {
-            const input = document.getElementById('qaSearchInput');
-            if (input) {
-                input.value = word;
-                filterQA();
-            }
-        }
-
-        function toggleQA(element) {
-            element.closest('.qa-item').classList.toggle('open');
-        }
-
-        // Category tab switching
-        document.getElementById('categoryTabs').addEventListener('click', (e) => {
-            if (e.target.classList.contains('qa-tab')) {
-                document.querySelectorAll('.qa-tab').forEach(tab => tab.classList.remove('active'));
-                e.target.classList.add('active');
-                filterQA();
-            }
-        });
-
-        // Search input
-        document.getElementById('qaSearchInput').addEventListener('input', filterQA);
-
-        // Filter Q&A
-        function filterQA() {
-            const searchTerm = document.getElementById('qaSearchInput').value.toLowerCase();
-            const activeCategory = document.querySelector('.qa-tab.active').dataset.category;
-
-            const items = document.querySelectorAll('.qa-item');
-            let visibleCount = 0;
-
-            items.forEach(item => {
-                const questionElement = item.querySelector('.qa-question-text');
-                const answerElement = item.querySelector('.qa-answer-text');
-
-                if (!questionElement || !answerElement) return;
-
-                const question = questionElement.textContent.toLowerCase();
-                const answer = answerElement.textContent.toLowerCase();
-                const keywords = (item.dataset.keywords || '').toLowerCase();
-                const category = item.dataset.category;
-
-                const matchesSearch = !searchTerm ||
-                    question.includes(searchTerm) ||
-                    answer.includes(searchTerm) ||
-                    keywords.includes(searchTerm);
-                const matchesCategory = activeCategory === 'all' || category === activeCategory;
-
-                if (matchesSearch && matchesCategory) {
-                    item.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-
-            // Show "no results" if needed
-            const noResults = document.querySelector('.no-results');
-            if (noResults) {
-                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
-            }
-        }
-
-        // Category mapping
-        function getCategoryFromData(categoryField) {
-            if (!categoryField) return 'general';
-            const cat = categoryField.toLowerCase();
-            if (cat.includes('保険') || cat.includes('費用')) return 'insurance';
-            if (cat.includes('治療')) return 'treatment';
-            if (cat.includes('送迎')) return 'transport';
-            if (cat.includes('検査')) return 'test';
-            if (cat.includes('譬・､・) || cat.includes('鬟滉ｺ・)) return 'nutrition';
-            if (cat.includes('繧ｷ繝｣繝ｳ繝・)) return 'shunt';
-            if (cat.includes('驕句虚')) return 'exercise';
-            if (cat.includes('轣ｽ螳ｳ')) return 'disaster';
-            return 'general';
-        }
+        let qaMasterData = [];
 
         function appendCacheBuster(url) {
             const separator = url.includes('?') ? '&' : '?';
-            return `${url}${separator}t=${new Date().getTime()}`;
+            return `${url}${separator}t=${Date.now()}`;
         }
 
-        // Load Q&A data from CSV
-        function loadQAData() {
-            const container = document.getElementById('qaList');
-            const urls = window.QA_SOURCE_URLS || {};
-            const csvUrl = appendCacheBuster(urls.remoteCsvUrl || urls.localCsvUrl || 'files/data/qa-data.csv');
-
-            Papa.parse(csvUrl, {
-                download: true,
-                header: true,
-                skipEmptyLines: true,
-                complete: function (results) {
-                    processResults(results.data, container);
-                },
-                error: function (error) {
-                    console.warn('CSV逶ｴ謗･隱ｭ縺ｿ霎ｼ縺ｿ螟ｱ謨暦ｼ医Ο繝ｼ繧ｫ繝ｫ迺ｰ蠅・↑縺ｩ・峨ょ沂繧∬ｾｼ縺ｿ繝・・繧ｿ繧剃ｽｿ逕ｨ縺励∪縺吶・, error);
-                    // Fallback to embedded JS object
-                    if (typeof QA_CSV_CONTENT !== 'undefined' && QA_CSV_CONTENT) {
-                        Papa.parse(QA_CSV_CONTENT, {
-                            header: true,
-                            skipEmptyLines: true,
-                            complete: function (results) {
-                                processResults(results.data, container);
-                            },
-                            error: function (err) {
-                                console.error('Embedded CSV parse error:', err);
-                                container.innerHTML = '<p class="no-results" style="display:block;">Q&A繝・・繧ｿ縺ｮ隱ｭ縺ｿ霎ｼ縺ｿ縺ｫ螟ｱ謨励＠縺ｾ縺励◆</p>';
-                            }
-                        });
-                    } else {
-                        container.innerHTML = '<p class="no-results" style="display:block;">Q&A繝・・繧ｿ縺後≠繧翫∪縺帙ｓ</p>';
-                    }
-                }
-            });
+        function setKeyword(word) {
+            const input = document.getElementById('qaSearchInput');
+            if (!input) return;
+            input.value = word;
+            filterQA();
         }
 
-        // 蜈ｱ騾壹・繝代・繧ｹ邨先棡蜃ｦ逅・未謨ｰ
-        function processResults(data, container) {
-            const qaData = data
-                .filter(row => row.Question && row.Question.trim() && row.Answer && row.Answer.trim())
-                .map(row => ({
-                    question: row.Question.trim(),
-                    answer: row.Answer.trim(),
-                    category: getCategoryFromData(row.Category),
-                    keywords: row.Keyword || ''
-                }));
-
-            if (qaData.length > 0) {
-                renderQAList(qaData);
-            } else {
-                container.innerHTML = '<p class="no-results" style="display:block;">Q&A繝・・繧ｿ縺後≠繧翫∪縺帙ｓ</p>';
-            }
+        function toggleQA(element) {
+            const item = element.closest('.qa-item');
+            if (!item) return;
+            item.classList.toggle('open');
         }
 
-        // Format answer text with auto-links
+        function normalizeCategoryText(text) {
+            return String(text || '').toLowerCase().replace(/\s+/g, '');
+        }
+
+        function categoryTokenToKeys(token) {
+            const cat = normalizeCategoryText(token);
+            if (!cat) return [];
+
+            const keys = [];
+            if (cat.includes('\u4fdd\u967a') || cat.includes('\u8cbb\u7528')) keys.push('insurance');
+            if (cat.includes('\u6cbb\u7642')) keys.push('treatment');
+            if (cat.includes('\u9001\u8fce')) keys.push('transport');
+            if (cat.includes('\u691c\u67fb')) keys.push('test');
+            if (cat.includes('\u98df\u4e8b') || cat.includes('\u6804\u990a')) keys.push('nutrition');
+            if (cat.includes('\u30b7\u30e3\u30f3\u30c8')) keys.push('shunt');
+            if (cat.includes('\u904b\u52d5')) keys.push('exercise');
+            if (cat.includes('\u707d\u5bb3')) keys.push('disaster');
+            return keys;
+        }
+
+        function getCategoriesFromData(categoryField) {
+            const raw = String(categoryField || '');
+            const splitTokens = raw
+                .split(/[,\u3001\uFF0C\/\uFF0F|\n\r;\uFF1B\u30FB]+/)
+                .map((s) => s.trim())
+                .filter(Boolean);
+
+            const mapped = splitTokens.flatMap((token) => categoryTokenToKeys(token));
+
+            const unique = [...new Set(mapped)];
+            return unique.length > 0 ? unique : ['general'];
+        }
+
         function formatAnswerText(text) {
-            if (!text) return '';
+            if (!text) {
+                return '<span style="color:var(--text-muted);">&#22238;&#31572;&#28310;&#20633;&#20013;</span>';
+            }
 
-            let formatted = text
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;");
+            let formatted = String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
 
-            const urlRegex = /(https?:\/\/[^\s()・茨ｼ・>]+)/g;
-            formatted = formatted.replace(urlRegex, function (url) {
-                return `<a href="${url}" target="_blank" style="color:var(--color-primary); text-decoration:underline; font-weight:bold; word-break:break-all;">${url}</a>`;
-            });
-
-            const targetUrl = 'https://kajimoto-clinic.com/';
-            const linkHtml = `<a href="${targetUrl}" target="_blank" style="color:var(--color-primary); text-decoration:underline; font-weight:bold;">$1</a>`;
-
-            formatted = formatted
-                .replace(/(繝帙・繝繝壹・繧ｸ)/g, linkHtml)
-                .replace(/(HP(?![A-Za-z]))/g, linkHtml);
-
-            formatted = formatted.replace(/\n/g, '<br>');
-            return formatted;
+            const urlRegex = /(https?:\/\/[^\s<>"')]+)/g;
+            formatted = formatted.replace(urlRegex, (url) =>
+                `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color:var(--color-primary);text-decoration:underline;word-break:break-all;">${url}</a>`
+            );
+            return formatted.replace(/\n/g, '<br>');
         }
 
         function renderQAList(data) {
             const container = document.getElementById('qaList');
-            container.innerHTML = '';
+            if (!container) return;
 
-            if (!data || data.length === 0) {
-                container.innerHTML = '<p class="no-results" style="display:block;">Q&A繝・・繧ｿ縺後≠繧翫∪縺帙ｓ</p>';
+            if (!data.length) {
+                container.innerHTML = '<p class="no-results" id="noResults" style="display:block;">No Q&amp;A found</p>';
                 return;
             }
 
-            data.forEach((item) => {
-                const qaItem = document.createElement('div');
-                qaItem.className = 'qa-item';
-                qaItem.dataset.category = item.category || 'general';
-                qaItem.dataset.keywords = item.keywords || '';
-
-                qaItem.innerHTML = `
+            container.innerHTML = data.map((item) => `
+                <article class="qa-item" data-categories="${item.categories.join(',')}" data-keywords="${item.keywords}">
                     <div class="qa-question" onclick="toggleQA(this)">
-                        <span class="qa-icon">Q</span>
-                        <span class="qa-question-text" style="font-weight: 500; color: var(--text-primary);">${item.question}</span>
-                        <span class="qa-toggle">笆ｼ</span>
+                        <span class="qa-question-icon">Q</span>
+                        <span class="qa-question-text">${item.question}</span>
+                        <span class="qa-toggle-icon">▼</span>
                     </div>
-                    <div class="qa-answer" style="display: none; padding: var(--spacing-md) var(--spacing-lg); padding-left: calc(var(--spacing-lg) + 28px + var(--spacing-md)); background: var(--bg-main); border-top: 1px solid var(--border-light); color: var(--text-secondary); line-height: 1.7;">
+                    <div class="qa-answer">
+                        <span class="qa-answer-icon">A</span>
                         <span class="qa-answer-text">${formatAnswerText(item.answer)}</span>
                     </div>
-                `;
+                </article>
+            `).join('');
 
-                container.appendChild(qaItem);
-            });
-
-            const noResults = document.createElement('p');
-            noResults.className = 'no-results';
-            noResults.textContent = '隧ｲ蠖薙☆繧飢&A縺後≠繧翫∪縺帙ｓ';
-            noResults.style.display = 'none';
-            container.appendChild(noResults);
+            container.insertAdjacentHTML('beforeend', '<p class="no-results" id="noResults" style="display:none;">No Q&amp;A found</p>');
         }
 
-        // CSS inline patch for the qa-item toggling if stylesheet is missing specific rules
-        const style = document.createElement('style');
-        style.innerHTML = `
-            .qa-item.open .qa-toggle { transform: rotate(180deg); }
-            .qa-item.open .qa-answer { display: block !important; }
-        `;
-        document.head.appendChild(style);
+        function filterQA() {
+            const searchTerm = String(document.getElementById('qaSearchInput')?.value || '').toLowerCase();
+            const activeCategory = document.querySelector('.qa-tab.active')?.dataset.category || 'all';
+            const items = document.querySelectorAll('.qa-item');
+            let visibleCount = 0;
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadQAData();
+            items.forEach((item) => {
+                const q = item.querySelector('.qa-question-text')?.textContent.toLowerCase() || '';
+                const a = item.querySelector('.qa-answer-text')?.textContent.toLowerCase() || '';
+                const k = (item.dataset.keywords || '').toLowerCase();
+                const categories = (item.dataset.categories || 'general')
+                    .split(',')
+                    .map((s) => s.trim())
+                    .filter(Boolean);
+
+                const matchesSearch = !searchTerm || q.includes(searchTerm) || a.includes(searchTerm) || k.includes(searchTerm);
+                const matchesCategory = activeCategory === 'all' || categories.includes(activeCategory);
+                const visible = matchesSearch && matchesCategory;
+
+                item.style.display = visible ? 'block' : 'none';
+                if (visible) visibleCount += 1;
+            });
+
+            const noResults = document.getElementById('noResults');
+            if (noResults) noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        function extractRowValue(row, keys) {
+            for (const key of keys) {
+                if (row[key] !== undefined && row[key] !== null) {
+                    const value = String(row[key]).trim();
+                    if (value) return value;
+                }
+            }
+            return '';
+        }
+
+        function parseRows(rows) {
+            return rows.map((row) => {
+                const question = extractRowValue(row, ['Question', '\u8cea\u554f']);
+                const answer = extractRowValue(row, ['Answer', '\u56de\u7b54']);
+                // Category filtering is based on E column only.
+                const categoryRaw = extractRowValue(row, ['Category']);
+                const keywords = extractRowValue(row, ['Keyword', '\u30ad\u30fc\u30ef\u30fc\u30c9']);
+                return { question, answer, categories: getCategoriesFromData(categoryRaw), keywords };
+            }).filter((item) => item.question);
+        }
+
+        function parseCsvUrl(url) {
+            return new Promise((resolve, reject) => {
+                Papa.parse(appendCacheBuster(url), {
+                    download: true,
+                    header: true,
+                    skipEmptyLines: true,
+                    transformHeader: (h) => String(h || '').trim(),
+                    complete: (results) => {
+                        const parsed = parseRows(results.data || []);
+                        if (parsed.length > 0) resolve(parsed);
+                        else reject(new Error('No valid rows'));
+                    },
+                    error: reject
+                });
+            });
+        }
+
+        function parseEmbeddedCsv(csvText) {
+            return new Promise((resolve, reject) => {
+                Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    transformHeader: (h) => String(h || '').trim(),
+                    complete: (results) => {
+                        const parsed = parseRows(results.data || []);
+                        if (parsed.length > 0) resolve(parsed);
+                        else reject(new Error('No valid embedded rows'));
+                    },
+                    error: reject
+                });
+            });
+        }
+
+        function logCategorySummary(data) {
+            const summary = {
+                all: data.length,
+                insurance: 0,
+                treatment: 0,
+                transport: 0,
+                test: 0,
+                nutrition: 0,
+                shunt: 0,
+                exercise: 0,
+                disaster: 0,
+                general: 0
+            };
+            data.forEach((item) => {
+                (item.categories || []).forEach((cat) => {
+                    if (summary[cat] !== undefined) summary[cat] += 1;
+                });
+            });
+            console.log('Q&A category summary', summary);
+        }
+
+        async function loadQAData() {
+            const container = document.getElementById('qaList');
+            if (!container) return;
+            container.innerHTML = '<p class="no-results">Q&amp;A loading...</p>';
+
+            const urls = window.QA_SOURCE_URLS || {};
+            const candidates = [urls.remoteCsvUrl, urls.localCsvUrl].filter(Boolean);
+            const errors = [];
+
+            for (const url of candidates) {
+                try {
+                    qaMasterData = await parseCsvUrl(url);
+                    renderQAList(qaMasterData);
+                    logCategorySummary(qaMasterData);
+                    return;
+                } catch (error) {
+                    errors.push(error);
+                }
+            }
+
+            if (typeof QA_CSV_CONTENT === 'string' && QA_CSV_CONTENT.trim()) {
+                try {
+                    qaMasterData = await parseEmbeddedCsv(QA_CSV_CONTENT);
+                    renderQAList(qaMasterData);
+                    logCategorySummary(qaMasterData);
+                    return;
+                } catch (error) {
+                    errors.push(error);
+                }
+            }
+
+            console.error('Q&A load failed', errors);
+            container.innerHTML = '<p class="no-results" style="display:block;">Q&amp;A data load failed.</p>';
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            document.getElementById('categoryTabs')?.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('qa-tab')) return;
+                document.querySelectorAll('.qa-tab').forEach((tab) => tab.classList.remove('active'));
+                e.target.classList.add('active');
+                filterQA();
+            });
+
+            document.getElementById('qaSearchInput')?.addEventListener('input', filterQA);
+            await loadQAData();
+
             const logo = document.querySelector('.header-logo');
             if (logo && document.referrer) {
                 const ref = document.referrer.toLowerCase();
-                if (ref.includes('disaster')) {
-                    logo.href = 'disaster-main.html';
-                } else if (ref.includes('friend')) {
-                    logo.href = 'friend-main.html';
-                }
+                if (ref.includes('disaster')) logo.href = 'disaster-main.html';
+                else if (ref.includes('friend')) logo.href = 'friend-main.html';
             }
         });
     </script>
-
 </body>
-
 </html>
-
-
