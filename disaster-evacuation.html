@@ -215,7 +215,14 @@
             <div class="evacuation-content">
                 <p><strong>概要:</strong> 車椅子の方や歩行が困難な方を、階段を使って安全に避難させるための専用チェアです。キャタピラ式の構造により、介助者1〜2名で階段を降りることができます。</p>
                 <p><strong>設置場所:</strong> 各階の避難経路入口付近</p>
-                <div class="video-placeholder">動画準備中</div>
+                <div class="video-placeholder">
+                    <button type="button" class="video-trigger"
+                        data-video="https://www.youtube.com/watch?v=CpQAj0iTAr4"
+                        onclick="event.stopPropagation(); openVideo(this.dataset.video);">
+                        ▶ 動画を見る
+                        <small>YouTube で再生</small>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -314,10 +321,34 @@
         function getDrivePreviewUrl(url) {
             const fileIdMatch = url.match(/\/file\/d\/([^/]+)/) || url.match(/[?&]id=([^&]+)/);
             if (!fileIdMatch) {
-                return url;
+                return getYouTubeEmbedUrl(url);
             }
 
             return `https://drive.google.com/file/d/${fileIdMatch[1]}/preview`;
+        }
+
+        function getYouTubeEmbedUrl(url) {
+            try {
+                const parsedUrl = new URL(url);
+
+                if (parsedUrl.hostname.includes('youtube.com')) {
+                    const videoId = parsedUrl.searchParams.get('v');
+                    if (videoId) {
+                        return `https://www.youtube.com/embed/${videoId}?rel=0`;
+                    }
+                }
+
+                if (parsedUrl.hostname === 'youtu.be') {
+                    const videoId = parsedUrl.pathname.replace('/', '');
+                    if (videoId) {
+                        return `https://www.youtube.com/embed/${videoId}?rel=0`;
+                    }
+                }
+            } catch (error) {
+                // Fall through to the original URL if it is not a valid absolute URL.
+            }
+
+            return url;
         }
 
         function openVideo(url) {
