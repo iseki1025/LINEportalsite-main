@@ -72,6 +72,86 @@
             font-size: 0.9rem;
         }
 
+        .video-trigger {
+            appearance: none;
+            border: none;
+            border-radius: 999px;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, var(--accent-disaster) 0%, #ef4444 100%);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 24px rgba(220, 38, 38, 0.25);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .video-trigger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 14px 28px rgba(220, 38, 38, 0.3);
+        }
+
+        .video-trigger:focus-visible {
+            outline: 3px solid rgba(220, 38, 38, 0.35);
+            outline-offset: 3px;
+        }
+
+        .video-trigger small {
+            display: block;
+            font-weight: 500;
+            opacity: 0.9;
+            margin-top: 2px;
+        }
+
+        .video-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 4000;
+            padding: var(--spacing-lg);
+        }
+
+        .video-modal.is-open {
+            display: flex;
+        }
+
+        .video-modal-content {
+            position: relative;
+            width: min(100%, 820px);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -52px;
+            right: 0;
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            font-size: 1.8rem;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .video-frame {
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+        }
+
+        .video-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
         .warning-box {
             background: var(--accent-disaster-bg);
             border-left: 4px solid var(--accent-disaster);
@@ -147,7 +227,14 @@
             <div class="evacuation-content">
                 <p><strong>概要:</strong> ベランダから地上へ素早く避難するための乗り物です。エレベーターのような構造で、階段が使えない緊急時に使用します。</p>
                 <p><strong>設置場所:</strong> 2階のベランダ北端（非常口表示あり）</p>
-                <div class="video-placeholder">動画準備中</div>
+                <div class="video-placeholder">
+                    <button type="button" class="video-trigger"
+                        data-video="https://drive.google.com/file/d/1VvHr6pxcN51azFnmt7nNsCHrMQTvHOJY/view"
+                        onclick="event.stopPropagation(); openVideo(this.dataset.video);">
+                        ▶ 動画を見る
+                        <small>UDエスケープの使い方</small>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -207,6 +294,58 @@
             <span>Q&A</span>
         </a>
     </nav>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="video-modal" aria-hidden="true">
+        <div class="video-modal-content">
+            <button type="button" class="close-modal" aria-label="動画を閉じる">&times;</button>
+            <div class="video-frame">
+                <iframe id="videoFrame" title="UDエスケープ動画" allow="autoplay; encrypted-media; fullscreen"
+                    allowfullscreen loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const videoModal = document.getElementById('videoModal');
+        const videoFrame = document.getElementById('videoFrame');
+        const closeModalButton = document.querySelector('.close-modal');
+
+        function getDrivePreviewUrl(url) {
+            const fileIdMatch = url.match(/\/file\/d\/([^/]+)/) || url.match(/[?&]id=([^&]+)/);
+            if (!fileIdMatch) {
+                return url;
+            }
+
+            return `https://drive.google.com/file/d/${fileIdMatch[1]}/preview`;
+        }
+
+        function openVideo(url) {
+            videoFrame.src = getDrivePreviewUrl(url);
+            videoModal.classList.add('is-open');
+            videoModal.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeVideo() {
+            videoModal.classList.remove('is-open');
+            videoModal.setAttribute('aria-hidden', 'true');
+            videoFrame.src = '';
+        }
+
+        closeModalButton.addEventListener('click', closeVideo);
+
+        videoModal.addEventListener('click', function (event) {
+            if (event.target === videoModal) {
+                closeVideo();
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && videoModal.classList.contains('is-open')) {
+                closeVideo();
+            }
+        });
+    </script>
 
 </body>
 
