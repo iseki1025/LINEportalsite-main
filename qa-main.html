@@ -261,7 +261,10 @@
             }
 
             container.innerHTML = data.map((item) => `
-                <article class="qa-item" data-categories="${item.categories.join(',')}" data-keywords="${item.keywords}">
+                <article class="qa-item"
+                    data-categories="${item.categories.join(',')}"
+                    data-category-raw="${item.categoryRaw}"
+                    data-keywords="${item.keywords}">
                     <div class="qa-question" onclick="toggleQA(this)">
                         <span class="qa-question-icon">Q</span>
                         <span class="qa-question-text">${item.question}</span>
@@ -286,13 +289,19 @@
             items.forEach((item) => {
                 const q = item.querySelector('.qa-question-text')?.textContent.toLowerCase() || '';
                 const a = item.querySelector('.qa-answer-text')?.textContent.toLowerCase() || '';
-                const k = (item.dataset.keywords || '').toLowerCase();
+                const categoryRaw = (item.dataset.categoryRaw || '').toLowerCase();
+                const keywords = (item.dataset.keywords || '').toLowerCase();
                 const categories = (item.dataset.categories || 'general')
                     .split(',')
                     .map((s) => s.trim())
                     .filter(Boolean);
 
-                const matchesSearch = !searchTerm || q.includes(searchTerm) || a.includes(searchTerm) || k.includes(searchTerm);
+                // CSVのE列(Category)とG列(Keyword)も含めて部分一致で検索する
+                const matchesSearch = !searchTerm
+                    || q.includes(searchTerm)
+                    || a.includes(searchTerm)
+                    || categoryRaw.includes(searchTerm)
+                    || keywords.includes(searchTerm);
                 const matchesCategory = activeCategory === 'all' || categories.includes(activeCategory);
                 const visible = matchesSearch && matchesCategory;
 
@@ -321,7 +330,7 @@
                 // Category filtering is based on E column only.
                 const categoryRaw = extractRowValue(row, ['Category']);
                 const keywords = extractRowValue(row, ['Keyword', '\u30ad\u30fc\u30ef\u30fc\u30c9']);
-                return { question, answer, categories: getCategoriesFromData(categoryRaw), keywords };
+                return { question, answer, categoryRaw, categories: getCategoriesFromData(categoryRaw), keywords };
             }).filter((item) => item.question);
         }
 
