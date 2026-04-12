@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>轣ｽ螳ｳ諠・ｱ繝昴・繧ｿ繝ｫ | 譴ｶ譛ｬ繧ｯ繝ｪ繝九ャ繧ｯ</title>
+    <title>災害情報ポータル | 梶本クリニック</title>
     <link rel="stylesheet" href="portal-design.css">
     <style>
         /* Status Panel (Open by default) */
@@ -57,15 +57,7 @@
     </script>
 </head>
 
-    <body>
-    <header class="app-header">
-        <div class="header-logo">
-            <img src="files/common/kajimoto_rogo2.svg" alt="譴ｶ譛ｬ繧ｯ繝ｪ繝九ャ繧ｯ">
-        </div>
-        <div class="header-center">
-            <div class="header-title">轣ｽ螳ｳ諠・ｱ繝昴・繧ｿ繝ｫ</div>
-        </div>
-    </header>
+<body>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -73,17 +65,17 @@
         <!-- Dialysis Status Panel -->
         <div class="status-panel open" id="dialysis-status-panel">
             <div class="status-panel-header" onclick="this.parentElement.classList.toggle('open')">
-                <span class="status-panel-title">迴ｾ蝨ｨ縺ｮ騾乗梵迥ｶ豕・/span>
+                <span class="status-panel-title">透析状況</span>
                 <span id="current-status-time"
                     style="font-size: 0.75rem; color: var(--text-muted); margin-left: auto; margin-right: 0.5rem;"></span>
-                <span class="status-panel-toggle">笆ｼ</span>
+                <span class="status-panel-toggle">▼</span>
             </div>
             <div class="status-panel-content">
                 <div class="status-grid" id="dialysisStatusContainer">
-                    <p style="text-align:center; padding: 1rem;">隱ｭ縺ｿ霎ｼ縺ｿ荳ｭ...</p>
+                    <p style="text-align:center; padding: 1rem;">読み込み中...</p>
                 </div>
                 <p style="text-align:center; margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">
-                    窶ｻ縺薙・諠・ｱ縺ｯ轣ｽ螳ｳ譎ゅ↑縺ｩ縺ｫ髫乗凾譖ｴ譁ｰ縺輔ｌ縺ｾ縺吶・
+                    ※各施設の透析状況は、登録内容に基づいて表示しています。
                 </p>
             </div>
         </div>
@@ -92,84 +84,80 @@
         <div class="guidebook-section"
             style="background: var(--bg-card); padding: var(--spacing-lg); border-radius: var(--radius-lg); margin-bottom: var(--spacing-lg); box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
             <h3 class="section-title"
-                style="margin-top: 0; margin-bottom: var(--spacing-md); color: var(--color-disaster);">当 髦ｲ轣ｽ繝上Φ繝峨ヶ繝・け</h3>
+                style="margin-top: 0; margin-bottom: var(--spacing-md); color: var(--color-disaster);">災害ガイドブック</h3>
 
             <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary); text-align: center;">
-                隧ｳ縺励＞蟇ｾ遲悶ｒPDF縺ｧ遒ｺ隱阪〒縺阪∪縺吶ょ・逵溘ｒ繧ｿ繝・・縺励※縺上□縺輔＞縲・
+                詳しい対策をPDFで確認できます。画像をタップしてください。
             </p>
             <!-- PDF Thumbnail -->
             <div class="pdf-thumbnail-container" onclick="window.open('files/pdf/disaster-guide-book.pdf', '_blank')">
                 <canvas id="pdf-thumbnail"></canvas>
-                <div class="pdf-tap-hint">繧ｿ繝・・縺励※髢九￥</div>
+                <div class="pdf-tap-hint">タップして開く</div>
             </div>
 
             <div
                 style="background: var(--bg-main); padding: var(--spacing-md); border-radius: var(--radius-md); margin-bottom: 1rem;">
-                <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-primary);">縲千岼谺｡縲・/h4>
+                <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-primary);">目次</h4>
                 <ul style="font-size: 0.85rem; color: var(--text-secondary); padding-left: 1.2rem; line-height: 1.6;">
-                    <li>・托ｽ憺乗梵縺ｯ轣ｽ螳ｳ縺ｫ蠑ｱ縺・ｲｻ逋・/li>
-                    <li>・抵ｽ憺乗梵荳ｭ縺ｫ蝨ｰ髴・′襍ｷ縺阪◆繧会ｼ・/li>
-                    <li>・難ｽ懈命險ｭ螟悶〒轣ｽ螳ｳ縺瑚ｵｷ縺阪◆繧会ｼ・/li>
-                    <li>・費ｽ憺∩髮｣謇縺ｫ驕ｿ髮｣縺励◆譎ゅ・・・/li>
-                    <li>・包ｽ懆・譁ｽ險ｭ縺ｫ陦後￠縺ｪ縺・凾縺ｯ・・/li>
-                    <li>・厄ｽ懃⊃螳ｳ蠕後・騾乗梵縺ｯ縺ｩ縺・☆繧九°・・/li>
-                    <li>・暦ｽ懃⊃螳ｳ譎ゅ・鬟滉ｺ・/li>
-                    <li>・假ｽ懃⊃螳ｳ譎ゅ・阮ｬ</li>
-                    <li>・呻ｽ懃⊃螳ｳ譎ゅ・謖√■蜃ｺ縺礼黄蜩・/li>
+                    <li>1｜透析は災害に弱い治療</li>
+                    <li>2｜透析中に地震が起きたら？</li>
+                    <li>3｜施設外で災害が起きたら？</li>
+                    <li>4｜避難所に避難した時は？</li>
+                    <li>5｜自施設に行けない時は？</li>
+                    <li>6｜災害時の食事</li>
+                    <li>7｜災害時の薬</li>
+                    <li>8｜災害時の持ち出し物品</li>
                 </ul>
             </div>
         </div>
 
-        <!-- Hero Section -->
-
         <!-- Card Grid -->
-        <!-- Category 1: 蠖馴劼縺ｮ髦ｲ轣ｽ蟇ｾ遲・(Collapsible) -->
+        <!-- Category 1: 当院の防災対策 (Collapsible) -->
         <div class="collapsible open">
             <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
-                <span class="collapsible-title">唱 蠖馴劼縺ｮ髦ｲ轣ｽ蟇ｾ遲・/span>
-                <span class="collapsible-icon">笆ｼ</span>
+                <span class="collapsible-title">当院の防災対策</span>
+                <span class="collapsible-icon">▼</span>
             </div>
             <div class="collapsible-content">
                 <div class="menu-list" style="margin-bottom: 0;">
                     <a href="disaster-evacuation.html" class="menu-item">
-                        <span>驕ｿ髮｣邨瑚ｷｯ繝ｻ險ｭ蛯・/span>
+                        <span>避難手段</span>
                     </a>
                     <a href="files/pdf/stocked-food.pdf" target="_blank" class="menu-item">
-                        <span>蛯呵塘鬟溘↓縺､縺・※</span>
+                        <span>備蓄食について</span>
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- Category 2: 縺碑・螳・〒縺ｮ髦ｲ轣ｽ蟇ｾ遲・(Collapsible) -->
+        <!-- Category 2: ご自宅での防災対策 (Collapsible) -->
         <div class="collapsible open">
             <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
-                <span class="collapsible-title">匠 縺碑・螳・〒縺ｮ髦ｲ轣ｽ蟇ｾ遲・/span>
-                <span class="collapsible-icon">笆ｼ</span>
+                <span class="collapsible-title">ご自宅での防災対策</span>
+                <span class="collapsible-icon">▼</span>
             </div>
             <div class="collapsible-content">
                 <div class="menu-list" style="margin-bottom: 0;">
                     <a href="disaster-stock.html#stock" class="menu-item">
-                        <span>蛯呵塘繝ｪ繧ｹ繝・/span>
+                        <span>備蓄リスト</span>
                     </a>
                     <!--
                     <a href="disaster-stock.html#bag" class="menu-item">
-                        <span>謖√■蜃ｺ縺怜刀</span>
+                        <span>持ち出し品リスト</span>
                     </a>
                     -->
                     <a href="disaster-furniture.html" class="menu-item">
-                        <span>螳ｶ蜈ｷ霆｢蛟帝亟豁｢蟇ｾ遲・/span>
+                        <span>家具転倒防止</span>
                     </a>
                     <a href="disaster-hazardmap.html" class="menu-item">
-                        <span>繝上じ繝ｼ繝峨・繝・・</span>
+                        <span>ハザードマップ</span>
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- Category 3: 轣ｽ螳ｳ譎ゅ♀蠖ｹ遶九■繧｢繧､繝・Β -->
-        <!-- Category 3: 轣ｽ螳ｳ譎ゅ♀蠖ｹ遶九■繧｢繧､繝・Β (Icon Grid) -->
-        <h3 class="section-title" style="margin-top: var(--spacing-xl);">孱・・轣ｽ螳ｳ譎ゅ♀蠖ｹ遶九■繧｢繧､繝・Β</h3>
+        <!-- Category 3: 災害時お役立ちアイテム (Icon Grid) -->
+        <h3 class="section-title" style="margin-top: var(--spacing-xl);">災害時お役立ちアイテム</h3>
         <div class="card-grid">
             <!-- Safety Contact -->
             <a href="disaster-safety.html" class="card accent-disaster">
@@ -182,7 +170,7 @@
                     </svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title" style="font-size: 1.0rem;">轣ｽ螳ｳ逕ｨ莨晁ｨ繝繧､繝､繝ｫ171</div>
+                    <div class="card-title" style="font-size: 1.0rem;">災害用伝言ダイヤル<br>171</div>
                 </div>
             </a>
 
@@ -199,12 +187,12 @@
                     </svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title" style="font-size: 1.0rem;">譌･譛ｬ騾乗梵蛹ｻ莨・br>轣ｽ螳ｳ諠・ｱ繝阪ャ繝医Ρ繝ｼ繧ｯ</div>
+                    <div class="card-title" style="font-size: 1.0rem;">日本透析医会 災害時情報ネットワーク</div>
                 </div>
             </a>
 
             <!-- Recipe -->
-            <a href="disaster-recipe.html" class="card accent-nutrition"> <!-- Assuming recipe link -->
+            <a href="disaster-recipe.html" class="card accent-nutrition">
                 <div class="card-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -216,13 +204,13 @@
                     </svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title" style="font-size: 1.0rem;">轣ｽ螳ｳ譎ゅΞ繧ｷ繝・/div>
+                    <div class="card-title" style="font-size: 1.0rem;">災害時レシピ</div>
                 </div>
             </a>
 
             <!-- Cards & Q&A -->
-            <a href="files/pdf/驕ｿ髮｣謇繝槭う繧ｫ繝ｼ繝・pdf" target="_blank" class="card accent-disaster">
-                <!-- Placeholder for My Card -->
+            <!--
+            <a href="files/pdf/避難所マイカード.pdf" target="_blank" class="card accent-disaster">
                 <div class="card-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -233,9 +221,10 @@
                     </svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title" style="font-size: 1.0rem;">驕ｿ髮｣謇繝槭う繧ｫ繝ｼ繝・/div>
+                    <div class="card-title" style="font-size: 1.0rem;">避難所マイカード</div>
                 </div>
             </a>
+            -->
 
             <!-- Disaster Q&A -->
             <a href="disaster-faq.html" class="card accent-qa">
@@ -248,17 +237,14 @@
                     </svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title" style="font-size: 1.0rem;">轣ｽ螳ｳQ&A</div>
+                    <div class="card-title" style="font-size: 1.0rem;">災害Q&A</div>
                 </div>
             </a>
         </div>
 
-        <!-- Copyright (Stealth link to index.html) -->
-
-
         <footer class="copyright">
             <a href="index.html" class="stealth-link">
-                ﾂｩ 2025 Kajimoto Clinic
+                &copy; 2025 Kajimoto Clinic
             </a>
         </footer>
 
@@ -273,7 +259,7 @@
                 <line x1="12" y1="9" x2="12" y2="13"></line>
                 <line x1="12" y1="17" x2="12.01" y2="17"></line>
             </svg>
-            <span>轣ｽ螳ｳ繝医ャ繝・/span>
+            <span>災害ポータル</span>
         </a>
         <a href="qa-main.html" class="nav-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -302,9 +288,9 @@
                     container.innerHTML = '';
 
                     const facilities = [
-                        { name: "譛ｬ髯｢", id: "honin" },
-                        { name: "縺ｪ縺九ｂ縺壼・髯｢", id: "nakamozu" },
-                        { name: "荳牙嵜繝ｶ荳伜・髯｢", id: "mikunigaoka" }
+                        { name: '本院', id: 'honin' },
+                        { name: 'なかもず分院', id: 'nakamozu' },
+                        { name: '三国ヶ丘分院', id: 'mikunigaoka' }
                     ];
                     const dataMap = {};
                     snapshot.forEach(doc => dataMap[doc.id] = doc.data());
@@ -312,14 +298,14 @@
                     facilities.forEach(fac => {
                         const data = dataMap[fac.name] || { status: 'available', reason: '' };
                         let badgeClass = 'ok';
-                        let statusText = '騾乗梵蜿ｯ';
+                        let statusText = '透析可';
 
                         if (data.status === 'unavailable') {
                             badgeClass = 'ng';
-                            statusText = '騾乗梵荳榊庄';
+                            statusText = '透析不可';
                         } else if (data.status === 'checking') {
                             badgeClass = 'waiting';
-                            statusText = '陲ｫ轣ｽ迥ｶ豕∫｢ｺ隱堺ｸｭ';
+                            statusText = '確認中';
                         }
 
                         const item = document.createElement('div');
@@ -340,11 +326,12 @@
                     });
                 } catch (error) {
                     console.error('Status load error:', error);
-                    container.innerHTML = '<p style="padding:1rem; color: var(--accent-disaster);">迥ｶ豕√・蜿門ｾ励↓螟ｱ謨励＠縺ｾ縺励◆縲・br>繝阪ャ繝医Ρ繝ｼ繧ｯ迺ｰ蠅・ｒ縺皮｢ｺ隱阪￥縺縺輔＞縲・/p>';
+                    container.innerHTML = '<p style="padding:1rem; color: var(--accent-disaster);">状況の取得に失敗しました。<br>ネットワーク環境をご確認ください。</p>';
                 }
             }
             loadDialysisStatus();
-            // 迴ｾ蝨ｨ譎ょ綾縺ｮ譖ｴ譁ｰ
+
+            // 透析状況の表示時刻を更新
             function updateCurrentTime() {
                 const now = new Date();
                 const month = now.getMonth() + 1;
@@ -354,16 +341,16 @@
 
                 const timeElement = document.getElementById('current-status-time');
                 if (timeElement) {
-                    timeElement.textContent = `${month}譛・{date}譌･ ${hours}譎・{minutes}蛻・迴ｾ蝨ｨ`;
+                    timeElement.textContent = `${month}月${date}日 ${hours}時${minutes}分現在`;
                 }
             }
             updateCurrentTime();
-            setInterval(updateCurrentTime, 60000); // 1蛻・＃縺ｨ縺ｫ譖ｴ譁ｰ
+            setInterval(updateCurrentTime, 60000); // 1分ごとに更新
 
         } catch (e) {
             console.error('Firebase init error:', e);
             document.getElementById('dialysisStatusContainer').innerHTML =
-                '<p style="padding:1rem; color: var(--accent-disaster);">繧ｷ繧ｹ繝・Β縺ｮ蛻晄悄蛹悶↓螟ｱ謨励＠縺ｾ縺励◆縲・br>(Local迺ｰ蠅・〒縺ｯ繧ｵ繝ｼ繝舌・邨檎罰縺ｧ縺ｮ髢ｲ隕ｧ縺悟ｿ・ｦ√〒縺・</p>';
+                '<p style="padding:1rem; color: var(--accent-disaster);">システムの初期化に失敗しました。<br>(Local環境ではサーバー経由での閲覧が必要です)</p>';
         }
 
         // PDF Thumbnail Rendering
@@ -394,7 +381,7 @@
                 // Fallback (Optional: show icon or error text)
                 const container = document.querySelector('.pdf-thumbnail-container');
                 if (container) {
-                    container.innerHTML = '<div style="padding:2rem; text-align:center; background:#eee; color:#666;">PDF繝励Ξ繝薙Η繝ｼ繧定｡ｨ遉ｺ縺ｧ縺阪∪縺帙ｓ<br>繧ｿ繝・・縺励※髢九￥</div>';
+                    container.innerHTML = '<div style="padding:2rem; text-align:center; background:#eee; color:#666;">PDFプレビューを表示できません<br>タップして開く</div>';
                     container.onclick = () => window.open(url, '_blank');
                 }
             }
@@ -404,4 +391,3 @@
 </body>
 
 </html>
-
