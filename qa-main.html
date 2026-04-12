@@ -137,7 +137,8 @@
             </div>
             <div class="keyword-buttons" id="keywordButtons">
                 <button class="keyword-btn" onclick="setKeyword('\u98df\u4e8b')">&#39135;&#20107;</button>
-                <button class="keyword-btn" onclick="setKeyword('\u904b\u52d5')">&#36939;&#21205;</button>
+                <button class="keyword-btn" onclick="setKeyword('\u8a3a\u7642\u6642\u9593')">&#35386;&#30274;&#26178;&#38291;</button>
+                <button class="keyword-btn" onclick="setKeyword('\u751f\u6d3b\u7fd2\u6163')">&#29983;&#27963;&#32773;&#24907;</button>
                 <button class="keyword-btn" onclick="setKeyword('\u30b7\u30e3\u30f3\u30c8')">&#12471;&#12515;&#12531;&#12488;</button>
                 <button class="keyword-btn" onclick="setKeyword('\u9001\u8fce')">&#36865;&#36814;</button>
                 <button class="keyword-btn" onclick="setKeyword('\u691c\u67fb')">&#26908;&#26597;</button>
@@ -155,7 +156,8 @@
             <button class="qa-tab" data-category="test">&#26908;&#26597;</button>
             <button class="qa-tab" data-category="nutrition">&#39135;&#20107;</button>
             <button class="qa-tab" data-category="shunt">&#12471;&#12515;&#12531;&#12488;</button>
-            <button class="qa-tab" data-category="exercise">&#36939;&#21205;</button>
+            <button class="qa-tab" data-category="schedule">&#35386;&#30274;&#26178;&#38291;</button>
+            <button class="qa-tab" data-category="lifestyle">&#29983;&#27963;&#32773;&#24907;</button>
             <button class="qa-tab" data-category="disaster">&#28797;&#23475;</button>
         </div>
 
@@ -213,7 +215,8 @@
             if (cat.includes('\u691c\u67fb')) keys.push('test');
             if (cat.includes('\u98df\u4e8b') || cat.includes('\u6804\u990a')) keys.push('nutrition');
             if (cat.includes('\u30b7\u30e3\u30f3\u30c8')) keys.push('shunt');
-            if (cat.includes('\u904b\u52d5')) keys.push('exercise');
+            if (cat.includes('\u8a3a\u7642\u6642\u9593') || cat.includes('\u30b9\u30b1\u30b8\u30e5\u30fc\u30eb')) keys.push('schedule');
+            if (cat.includes('\u751f\u6d3b\u7fd2\u6163') || cat.includes('\u30e9\u30a4\u30d5\u30b9\u30bf\u30a4\u30eb')) keys.push('lifestyle');
             if (cat.includes('\u707d\u5bb3')) keys.push('disaster');
             return keys;
         }
@@ -364,7 +367,8 @@
                 test: 0,
                 nutrition: 0,
                 shunt: 0,
-                exercise: 0,
+                schedule: 0,
+                lifestyle: 0,
                 disaster: 0,
                 general: 0
             };
