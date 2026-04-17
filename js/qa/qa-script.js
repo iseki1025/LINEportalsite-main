@@ -201,7 +201,8 @@ function showMessage(container, message) {
 async function initQASection(section) {
     const searchInput = section.querySelector('.qa-search-input');
     const resultsContainer = section.querySelector('.qa-results-container');
-    const categoryFilter = String(section.dataset.category || 'all').trim().toLowerCase();
+    const categoryFilterRaw = String(section.dataset.category || 'all').trim();
+    const categoryFilter = categoryFilterRaw.toLowerCase();
 
     if (!searchInput || !resultsContainer) return;
 
@@ -210,9 +211,22 @@ async function initQASection(section) {
     let qaData = [];
     try {
         const allData = await loadQAData();
-        qaData = categoryFilter === 'all'
-            ? allData
-            : allData.filter((item) => item.categories.includes(categoryFilter));
+        if (categoryFilter === 'all') {
+            qaData = allData;
+        } else {
+            const mappedFilters = getCategoriesFromData(categoryFilterRaw);
+            const normalizedFilter = normalizeCategoryText(categoryFilterRaw);
+
+            qaData = allData.filter((item) => {
+                const matchMapped = mappedFilters.length > 0
+                    ? mappedFilters.some((mapped) => item.categories.includes(mapped))
+                    : false;
+                const matchRaw = normalizedFilter
+                    ? normalizeCategoryText(item.categoryRaw).includes(normalizedFilter)
+                    : false;
+                return matchMapped || matchRaw;
+            });
+        }
     } catch (error) {
         console.error(error);
         showMessage(resultsContainer, 'Q&Aデータの読み込みに失敗しました。');
