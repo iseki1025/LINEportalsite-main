@@ -90,7 +90,7 @@
                 詳しい対策をPDFで確認できます。画像をタップしてください。
             </p>
             <!-- PDF Thumbnail -->
-            <div class="pdf-thumbnail-container" onclick="window.open('files/pdf/disaster-guide-book.pdf', '_blank')">
+            <div class="pdf-thumbnail-container" onclick="window.open('http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/disaster-guide-book.pdf', '_blank')">
                 <canvas id="pdf-thumbnail"></canvas>
                 <div class="pdf-tap-hint">タップして開く</div>
             </div>
@@ -123,7 +123,7 @@
                     <a href="disaster-evacuation.html" class="menu-item">
                         <span>避難手段</span>
                     </a>
-                    <a href="files/pdf/stocked-food.pdf" target="_blank" class="menu-item">
+                    <a href="http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/stocked-food.pdf" target="_blank" class="menu-item">
                         <span>備蓄食について</span>
                     </a>
                 </div>
@@ -353,7 +353,7 @@
 
         // PDF Thumbnail Rendering
         document.addEventListener('DOMContentLoaded', async () => {
-            const url = 'files/pdf/disaster-guide-book.pdf';
+            const url = 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/disaster-guide-book.pdf';
             try {
                 const loadingTask = pdfjsLib.getDocument(url);
                 const pdf = await loadingTask.promise;

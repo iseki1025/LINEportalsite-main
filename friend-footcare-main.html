@@ -310,7 +310,7 @@
                     </p>
                     <!-- PDF Thumbnail -->
                     <div class="pdf-thumbnail-container"
-                        onclick="window.open('files/pdf/footcare-guide-book.pdf', '_blank')">
+                        onclick="window.open('http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/footcare-guide-book.pdf', '_blank')">
                         <canvas id="pdf-thumbnail"></canvas>
                         <div class="pdf-tap-hint">タップして開く</div>
                     </div>
@@ -375,7 +375,7 @@
             const canvas = document.getElementById('pdf-thumbnail');
             if (!canvas) return;
 
-            const url = 'files/pdf/footcare-guide-book.pdf';
+            const url = 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/footcare-guide-book.pdf';
             try {
                 const loadingTask = pdfjsLib.getDocument(url);
                 const pdf = await loadingTask.promise;
