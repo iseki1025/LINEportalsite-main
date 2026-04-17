@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>災害情報ポータル | 梶本クリニック</title>
+    <title>災害惁E��ポ�Eタル | 梶本クリニック</title>
     <link rel="stylesheet" href="portal-design.css">
     <style>
         /* Status Panel (Open by default) */
@@ -13,7 +13,7 @@
             display: block;
         }
 
-        /* PDF Thumbnail Style */
+        /* PDF Preview Style */
         .pdf-thumbnail-container {
             position: relative;
             width: 100%;
@@ -31,10 +31,14 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
-        .pdf-thumbnail-container canvas {
+        .pdf-thumbnail-container iframe {
             display: block;
             width: 100%;
-            height: auto;
+            aspect-ratio: 3 / 4;
+            height: min(70vh, 420px);
+            border: 0;
+            background: #fff;
+            pointer-events: none;
         }
 
         .pdf-tap-hint {
@@ -50,11 +54,6 @@
             font-weight: bold;
         }
     </style>
-    <!-- PDF.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    </script>
 </head>
 
 <body>
@@ -65,7 +64,7 @@
         <!-- Dialysis Status Panel -->
         <div class="status-panel open" id="dialysis-status-panel">
             <div class="status-panel-header" onclick="this.parentElement.classList.toggle('open')">
-                <span class="status-panel-title">透析状況</span>
+                <span class="status-panel-title">透析状況E/span>
                 <span id="current-status-time"
                     style="font-size: 0.75rem; color: var(--text-muted); margin-left: auto; margin-right: 0.5rem;"></span>
                 <span class="status-panel-toggle">▼</span>
@@ -75,7 +74,7 @@
                     <p style="text-align:center; padding: 1rem;">読み込み中...</p>
                 </div>
                 <p style="text-align:center; margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">
-                    ※各施設の透析状況は、登録内容に基づいて表示しています。
+                    ※吁E��設の透析状況�E、登録冁E��に基づぁE��表示してぁE��す、E
                 </p>
             </div>
         </div>
@@ -84,38 +83,41 @@
         <div class="guidebook-section"
             style="background: var(--bg-card); padding: var(--spacing-lg); border-radius: var(--radius-lg); margin-bottom: var(--spacing-lg); box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
             <h3 class="section-title"
-                style="margin-top: 0; margin-bottom: var(--spacing-md); color: var(--color-disaster);">災害ガイドブック</h3>
+                style="margin-top: 0; margin-bottom: var(--spacing-md); color: var(--color-disaster);">災害ガイドブチE��</h3>
 
             <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary); text-align: center;">
-                詳しい対策をPDFで確認できます。画像をタップしてください。
+                詳しい対策をPDFで確認できます。画像をタチE�Eしてください、E
             </p>
             <!-- PDF Thumbnail -->
             <div class="pdf-thumbnail-container" onclick="window.open('http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/disaster-guide-book.pdf', '_blank')">
-                <canvas id="pdf-thumbnail"></canvas>
-                <div class="pdf-tap-hint">タップして開く</div>
+                <iframe id="pdf-thumbnail"
+                    src="http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/disaster-guide-book.pdf#page=1&zoom=page-width&toolbar=0&navpanes=0&scrollbar=0"
+                    title="災害ガイドブチE�� PDFプレビュー"
+                    loading="lazy"></iframe>
+                <div class="pdf-tap-hint">タチE�Eして開く</div>
             </div>
 
             <div
                 style="background: var(--bg-main); padding: var(--spacing-md); border-radius: var(--radius-md); margin-bottom: 1rem;">
                 <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-primary);">目次</h4>
                 <ul style="font-size: 0.85rem; color: var(--text-secondary); padding-left: 1.2rem; line-height: 1.6;">
-                    <li>1｜透析は災害に弱い治療</li>
-                    <li>2｜透析中に地震が起きたら？</li>
-                    <li>3｜施設外で災害が起きたら？</li>
-                    <li>4｜避難所に避難した時は？</li>
-                    <li>5｜自施設に行けない時は？</li>
-                    <li>6｜災害時の食事</li>
-                    <li>7｜災害時の薬</li>
-                    <li>8｜災害時の持ち出し物品</li>
+                    <li>1�E�透析は災害に弱ぁE��癁E/li>
+                    <li>2�E�透析中に地霁E��起きたら！E/li>
+                    <li>3�E�施設外で災害が起きたら！E/li>
+                    <li>4�E�避難所に避難した時�E�E�E/li>
+                    <li>5�E��E施設に行けなぁE��は�E�E/li>
+                    <li>6�E�災害時�E食亁E/li>
+                    <li>7�E�災害時�E薬</li>
+                    <li>8�E�災害時�E持ち出し物品E/li>
                 </ul>
             </div>
         </div>
 
         <!-- Card Grid -->
-        <!-- Category 1: 当院の防災対策 (Collapsible) -->
+        <!-- Category 1: 当院の防災対筁E(Collapsible) -->
         <div class="collapsible open">
             <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
-                <span class="collapsible-title">当院の防災対策</span>
+                <span class="collapsible-title">当院の防災対筁E/span>
                 <span class="collapsible-icon">▼</span>
             </div>
             <div class="collapsible-content">
@@ -124,40 +126,40 @@
                         <span>避難手段</span>
                     </a>
                     <a href="http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/stocked-food.pdf" target="_blank" class="menu-item">
-                        <span>備蓄食について</span>
+                        <span>備蓄食につぁE��</span>
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- Category 2: ご自宅での防災対策 (Collapsible) -->
+        <!-- Category 2: ご�E宁E��の防災対筁E(Collapsible) -->
         <div class="collapsible open">
             <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
-                <span class="collapsible-title">ご自宅での防災対策</span>
+                <span class="collapsible-title">ご�E宁E��の防災対筁E/span>
                 <span class="collapsible-icon">▼</span>
             </div>
             <div class="collapsible-content">
                 <div class="menu-list" style="margin-bottom: 0;">
                     <a href="disaster-stock.html#stock" class="menu-item">
-                        <span>備蓄リスト</span>
+                        <span>備蓄リスチE/span>
                     </a>
                     <!--
                     <a href="disaster-stock.html#bag" class="menu-item">
-                        <span>持ち出し品リスト</span>
+                        <span>持ち出し品リスチE/span>
                     </a>
                     -->
                     <a href="disaster-furniture.html" class="menu-item">
                         <span>家具転倒防止</span>
                     </a>
                     <a href="disaster-hazardmap.html" class="menu-item">
-                        <span>ハザードマップ</span>
+                        <span>ハザード�EチE�E</span>
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- Category 3: 災害時お役立ちアイテム (Icon Grid) -->
-        <h3 class="section-title" style="margin-top: var(--spacing-xl);">災害時お役立ちアイテム</h3>
+        <!-- Category 3: 災害時お役立ちアイチE�� (Icon Grid) -->
+        <h3 class="section-title" style="margin-top: var(--spacing-xl);">災害時お役立ちアイチE��</h3>
         <div class="card-grid">
             <!-- Safety Contact -->
             <a href="disaster-safety.html" class="card accent-disaster">
@@ -187,7 +189,7 @@
                     </svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title" style="font-size: 1.0rem;">日本透析医会 災害時情報ネットワーク</div>
+                    <div class="card-title" style="font-size: 1.0rem;">日本透析医企E災害時情報ネットワーク</div>
                 </div>
             </a>
 
@@ -204,7 +206,7 @@
                     </svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title" style="font-size: 1.0rem;">災害時レシピ</div>
+                    <div class="card-title" style="font-size: 1.0rem;">災害時レシチE/div>
                 </div>
             </a>
 
@@ -220,7 +222,7 @@
                     </svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title" style="font-size: 1.0rem;">避難所マイカード</div>
+                    <div class="card-title" style="font-size: 1.0rem;">避難所マイカーチE/div>
                 </div>
             </a>
 
@@ -257,7 +259,7 @@
                 <line x1="12" y1="9" x2="12" y2="13"></line>
                 <line x1="12" y1="17" x2="12.01" y2="17"></line>
             </svg>
-            <span>災害ポータル</span>
+            <span>災害ポ�Eタル</span>
         </a>
         <a href="qa-main.html" class="nav-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -287,8 +289,8 @@
 
                     const facilities = [
                         { name: '本院', id: 'honin' },
-                        { name: 'なかもず分院', id: 'nakamozu' },
-                        { name: '三国ヶ丘分院', id: 'mikunigaoka' }
+                        { name: 'なかもず�E院', id: 'nakamozu' },
+                        { name: '三国ヶ丘�E院', id: 'mikunigaoka' }
                     ];
                     const dataMap = {};
                     snapshot.forEach(doc => dataMap[doc.id] = doc.data());
@@ -324,12 +326,12 @@
                     });
                 } catch (error) {
                     console.error('Status load error:', error);
-                    container.innerHTML = '<p style="padding:1rem; color: var(--accent-disaster);">状況の取得に失敗しました。<br>ネットワーク環境をご確認ください。</p>';
+                    container.innerHTML = '<p style="padding:1rem; color: var(--accent-disaster);">状況�E取得に失敗しました、Ebr>ネットワーク環墁E��ご確認ください、E/p>';
                 }
             }
             loadDialysisStatus();
 
-            // 透析状況の表示時刻を更新
+            // 透析状況�E表示時刻を更新
             function updateCurrentTime() {
                 const now = new Date();
                 const month = now.getMonth() + 1;
@@ -339,53 +341,20 @@
 
                 const timeElement = document.getElementById('current-status-time');
                 if (timeElement) {
-                    timeElement.textContent = `${month}月${date}日 ${hours}時${minutes}分現在`;
+                    timeElement.textContent = `${month}朁E{date}日 ${hours}晁E{minutes}刁E��在`;
                 }
             }
             updateCurrentTime();
-            setInterval(updateCurrentTime, 60000); // 1分ごとに更新
+            setInterval(updateCurrentTime, 60000); // 1刁E��とに更新
 
         } catch (e) {
             console.error('Firebase init error:', e);
             document.getElementById('dialysisStatusContainer').innerHTML =
-                '<p style="padding:1rem; color: var(--accent-disaster);">システムの初期化に失敗しました。<br>(Local環境ではサーバー経由での閲覧が必要です)</p>';
+                '<p style="padding:1rem; color: var(--accent-disaster);">シスチE��の初期化に失敗しました、Ebr>(Local環墁E��はサーバ�E経由での閲覧が忁E��でぁE</p>';
         }
-
-        // PDF Thumbnail Rendering
-        document.addEventListener('DOMContentLoaded', async () => {
-            const url = 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/disaster-guide-book.pdf';
-            try {
-                const loadingTask = pdfjsLib.getDocument(url);
-                const pdf = await loadingTask.promise;
-                const page = await pdf.getPage(1);
-
-                const canvas = document.getElementById('pdf-thumbnail');
-                const context = canvas.getContext('2d');
-
-                // Scale for better resolution
-                const viewport = page.getViewport({ scale: 2.0 });
-
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-
-                const renderContext = {
-                    canvasContext: context,
-                    viewport: viewport
-                };
-                await page.render(renderContext).promise;
-                console.log('PDF Thumbnail rendered');
-            } catch (error) {
-                console.error('Error rendering PDF thumbnail:', error);
-                // Fallback (Optional: show icon or error text)
-                const container = document.querySelector('.pdf-thumbnail-container');
-                if (container) {
-                    container.innerHTML = '<div style="padding:2rem; text-align:center; background:#eee; color:#666;">PDFプレビューを表示できません<br>タップして開く</div>';
-                    container.onclick = () => window.open(url, '_blank');
-                }
-            }
-        });
     </script>
 
 </body>
 
 </html>
+

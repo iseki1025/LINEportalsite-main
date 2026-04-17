@@ -168,7 +168,7 @@
     <style>
         /* ... existing styles ... */
 
-        /* PDF Thumbnail Style */
+        /* PDF Preview Style */
         .pdf-thumbnail-container {
             position: relative;
             width: 100%;
@@ -185,11 +185,14 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
-
-        .pdf-thumbnail-container canvas {
+        .pdf-thumbnail-container iframe {
             display: block;
             width: 100%;
-            height: auto;
+            aspect-ratio: 3 / 4;
+            height: min(70vh, 420px);
+            border: 0;
+            background: #fff;
+            pointer-events: none;
         }
 
         .pdf-tap-hint {
@@ -205,11 +208,6 @@
             font-weight: bold;
         }
     </style>
-    <!-- PDF.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    </script>
 </head>
 
 <body>
@@ -229,43 +227,43 @@
         <!-- Tab Navigation -->
         <nav class="tab-nav">
             <button class="tab-btn active" onclick="switchTab('basic')">基本</button>
-            <button class="tab-btn" onclick="switchTab('initiatives')">取り組み</button>
+            <button class="tab-btn" onclick="switchTab('initiatives')">取り絁E��</button>
         </nav>
 
         <!-- Tab 1: Basic -->
         <section id="basic" class="tab-content active">
             <div class="info-card highlight">
-                <h3 style="text-align: center;">毎日のチェックポイント</h3>
+                <h3 style="text-align: center;">毎日のチェチE��ポインチE/h3>
                 <p
                     style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: var(--spacing-sm); text-align: center;">
-                    毎日足を観察し、以下のような変化がないか確認しましょう。</p>
+                    毎日足を観察し、以下�Eような変化がなぁE��確認しましょぁE��E/p>
                 <ul>
-                    <li><strong>皮膚の状態:</strong> 色が悪くなっていないか（蒼白や紫黒色）、乾燥やひび割れ、水虫（白癬）がないか。</li>
-                    <li><strong>傷や炎症:</strong> 小さな傷、赤み、腫れ、膿が出ていないか。</li>
-                    <li><strong>痛み・しびれ:</strong> じっとしていても痛む、あるいは感覚が鈍くなっていないか。</li>
-                    <li><strong>爪の状態:</strong> 深爪、巻き爪、変形、割れがないか。</li>
-                    <li><strong>たこ・うおのめ:</strong> 硬くなっている部分や、その周囲に赤みがないか。</li>
+                    <li><strong>皮膚�E状慁E</strong> 色が悪くなってぁE��ぁE���E�蒼白めE��黒色�E�、乾燥めE�Eび割れ、水虫�E�白癬�E�がなぁE��、E/li>
+                    <li><strong>傷めE��痁E</strong> 小さな傷、赤み、�Eれ、�Eが�EてぁE��ぁE��、E/li>
+                    <li><strong>痛み・し�EめE</strong> じっとしてぁE��も痛む、あるいは感覚が鈍くなってぁE��ぁE��、E/li>
+                    <li><strong>爪の状慁E</strong> 深爪、巻き爪、変形、割れがなぁE��、E/li>
+                    <li><strong>たこ・ぁE��のめE</strong> 硬くなってぁE��部刁E��、その周囲に赤みがなぁE��、E/li>
                 </ul>
             </div>
 
             <div class="info-card">
-                <h3>具体的なケアの方法</h3>
+                <h3>具体的なケアの方況E/h3>
                 <ul>
-                    <li><strong>清潔を保つ:</strong> 毎日足を丁寧に洗い、指の間までしっかり乾かします。</li>
-                    <li><strong>保湿:</strong> 入浴後など、乾燥を防ぐために保湿クリームを使用します。</li>
-                    <li><strong>正しい爪切り:</strong> 深爪を避け、先端をまっすぐに切り（スクエアカット）、角を少し丸める程度に整えます。</li>
-                    <li><strong>足を保護する:</strong> 裸足で歩かず、必ず靴下を履きましょう。靴下は締め付けの少ない清潔なものを選びます。</li>
-                    <li><strong>靴選び:</strong> 足に合ったサイズで、靴ずれしにくいものを選びます。履く前に靴の中に異物がないか確認することも大切です。</li>
-                    <li><strong>やけど予防:</strong> 感覚が鈍くなっている場合があるため、こたつ、電気毛布、カイロなどによる低温やけどに注意してください。</li>
+                    <li><strong>渁E��を保つ:</strong> 毎日足を丁寧に洗い、指の間までしっかり乾かします、E/li>
+                    <li><strong>保湿:</strong> 入浴後など、乾燥を防ぐために保湿クリームを使用します、E/li>
+                    <li><strong>正しい爪刁E��:</strong> 深爪を避け、�E端をまっすぐに刁E���E�スクエアカチE���E�、角を少し丸める程度に整えます、E/li>
+                    <li><strong>足を保護する:</strong> 裸足で歩かず、忁E��靴下を履きましょぁE��靴下�E締め付けの少なぁE��E��なも�Eを選びます、E/li>
+                    <li><strong>靴選び:</strong> 足に合ったサイズで、E��ずれしにくいも�Eを選びます。履く前に靴の中に異物がなぁE��確認することも大刁E��す、E/li>
+                    <li><strong>めE��ど予防:</strong> 感覚が鈍くなってぁE��場合があるため、こたつ、E��気毛币E��カイロなどによる低温めE��どに注意してください、E/li>
                 </ul>
             </div>
 
             <div class="caution-box">
-                <img src="files/common/caution-icon.png" alt="注意">
+                <img src="files/common/caution-icon.png" alt="注愁E>
                 <div>
-                    <h3>医療機関への相談</h3>
-                    <p style="margin-bottom: var(--spacing-xs);">自分での処置が難しい爪切りや、たこ・うおのめの除去は、無理をせず透析施設のスタッフに相談してください。</p>
-                    <p style="font-weight: bold;">特に、傷が治りにくい、痛みがある、足が冷たいなどの症状がある場合は早急な受診が必要です。</p>
+                    <h3>医療機関への相諁E/h3>
+                    <p style="margin-bottom: var(--spacing-xs);">自刁E��の処置が難しい爪刁E��めE��たこ�EぁE��のめ�E除去は、無琁E��せず透析施設のスタチE��に相諁E��てください、E/p>
+                    <p style="font-weight: bold;">特に、傷が治りにくい、痛みがある、足が�Eたいなどの痁E��がある場合�E早急な受診が忁E��です、E/p>
                 </div>
             </div>
         </section>
@@ -273,60 +271,63 @@
         <!-- Tab 2: Initiatives -->
         <section id="initiatives" class="tab-content">
             <div class="info-card">
-                <h3>当院で実施しているフットケア</h3>
+                <h3>当院で実施してぁE��フットケア</h3>
                 <ol
                     style="padding-left: var(--spacing-lg); margin-top: 0; color: var(--text-secondary); line-height: 1.8;">
-                    <li style="margin-bottom: var(--spacing-md);"><strong>定期的なフットチェック（月１回）</strong>
+                    <li style="margin-bottom: var(--spacing-md);"><strong>定期皁E��フットチェチE���E�月�E�回�E�E/strong>
                         <ul
                             style="padding-left: var(--spacing-md); list-style-type: disc; margin-top: var(--spacing-xs);">
-                            <li><strong>皮膚の観察:</strong> 乾燥、亀裂、水虫（白癬）、発赤、タコ、ウオノメの有無を確認します。</li>
-                            <li><strong>血流・感覚の確認:</strong> 足の動脈の拍動（足背動脈など）の触知や、冷感・しびれの有無をチェックします。</li>
+                            <li><strong>皮膚�E観寁E</strong> 乾燥、亀裂、水虫�E�白癬�E�、発赤、タコ、ウオノメの有無を確認します、E/li>
+                            <li><strong>血流�E感覚�E確誁E</strong> 足の動脈の拍動�E�足背動脈など�E��E触知めE���E感�Eし�Eれ�E有無をチェチE��します、E/li>
                         </ul>
                     </li>
                     <li style="margin-bottom: var(--spacing-md);"><strong>検査</strong><br>
-                        ABI（足首と腕の血圧比）測定を行い、血管の詰まり具合を評価します。血流障害が疑われる場合は連携施設を紹介し、早期治療につなげていきます。
+                        ABI�E�足首と腕�E血圧比）測定を行い、血管の詰まり�E合を評価します。血流E��害が疑われる場合�E連携施設を紹介し、早期治療につなげてぁE��ます、E
                     </li>
-                    <li style="margin-bottom: var(--spacing-md);"><strong>専門的な処置</strong>
+                    <li style="margin-bottom: var(--spacing-md);"><strong>専門皁E��処置</strong>
                         <ul
                             style="padding-left: var(--spacing-md); list-style-type: disc; margin-top: var(--spacing-xs);">
-                            <li><strong>爪のケア:</strong> 肥厚した爪の削りや、巻き爪を予防するためのスクエアカットなど、自分では難しい爪切りを行います。</li>
-                            <li><strong>角質管理:</strong> タコやウオノメの除去を行い、圧迫による皮膚トラブルを防ぎます。</li>
-                            <li><strong>洗浄・保湿:</strong> 足浴で清潔を保ち、保湿剤を塗布してバリア機能を維持します。</li>
+                            <li><strong>爪のケア:</strong> 肥厚した爪の削りめE��巻き爪を予防するためのスクエアカチE��など、�E刁E��は難しい爪刁E��を行います、E/li>
+                            <li><strong>角質管琁E</strong> タコめE��オノメの除去を行い、圧迫による皮膚トラブルを防ぎます、E/li>
+                            <li><strong>洗流E�E保湿:</strong> 足浴で渁E��を保ち、保湿剤を塗币E��てバリア機�Eを維持します、E/li>
                         </ul>
                     </li>
-                    <li><strong>セルフケア指導</strong><br>
-                        自宅での観察ポイント、適切な靴・靴下の選び方、正しい爪切りの方法などをレクチャーします。
+                    <li><strong>セルフケア持E��E/strong><br>
+                        自宁E��の観察�Eイント、E��刁E��靴・靴下�E選び方、正しい爪刁E��の方法などをレクチャーします、E
                     </li>
                 </ol>
             </div>
 
             <div class="pdf-collapsible">
                 <div class="pdf-collapsible-header">
-                    <span>📖 ガイドブックを見る</span>
+                    <span>📖 ガイドブチE��を見る</span>
                 </div>
                 <div class="pdf-collapsible-content">
                     <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
-                        詳しいケア方法をPDFで確認できます。写真をタップしてください。
+                        詳しいケア方法をPDFで確認できます。�E真をタチE�Eしてください、E
                     </p>
                     <!-- PDF Thumbnail -->
                     <div class="pdf-thumbnail-container"
                         onclick="window.open('http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/footcare-guide-book.pdf', '_blank')">
-                        <canvas id="pdf-thumbnail"></canvas>
-                        <div class="pdf-tap-hint">タップして開く</div>
+                        <iframe id="pdf-thumbnail"
+                            src="http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/footcare-guide-book.pdf#page=1&zoom=page-width&toolbar=0&navpanes=0&scrollbar=0"
+                            title="�t�b�g�P�A�K�C�h�u�b�N PDF�v���r���["
+                            loading="lazy"></iframe>
+                        <div class="pdf-tap-hint">タチE�Eして開く</div>
                     </div>
                 </div>
             </div>
 
             <div class="consult-card">
-                <h3>💡 ご相談ください</h3>
-                <p>足のことで気になることがあれば、遠慮なくスタッフにお声がけください。</p>
+                <h3>💡 ご相諁E��ださい</h3>
+                <p>足のことで気になることがあれ�E、E��慮なくスタチE��にお声がけください、E/p>
             </div>
         </section>
 
         <!-- Back Button -->
         <div class="back-btn-container">
             <a href="friend-main.html" class="btn btn-secondary">
-                お友達特典ポータルへ戻る
+                お友達特典ポ�Eタルへ戻めE
             </a>
         </div>
 
@@ -344,7 +345,7 @@
                 <polyline points="20 12 20 22 4 22 4 12"></polyline>
                 <rect x="2" y="7" width="20" height="5"></rect>
             </svg>
-            <span>特典トップ</span>
+            <span>特典トッチE/span>
         </a>
         <a href="qa-main.html" class="nav-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -368,44 +369,9 @@
         function togglePdf(header) {
             header.parentElement.classList.toggle('is-open');
         }
-
-        // PDF Thumbnail Rendering
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Only render if the element exists (Tab content might be hidden, but element is in DOM)
-            const canvas = document.getElementById('pdf-thumbnail');
-            if (!canvas) return;
-
-            const url = 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/footcare-guide-book.pdf';
-            try {
-                const loadingTask = pdfjsLib.getDocument(url);
-                const pdf = await loadingTask.promise;
-                const page = await pdf.getPage(1);
-
-                const context = canvas.getContext('2d');
-
-                // Scale for better resolution
-                const viewport = page.getViewport({ scale: 2.0 });
-
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-
-                const renderContext = {
-                    canvasContext: context,
-                    viewport: viewport
-                };
-                await page.render(renderContext).promise;
-                console.log('Footcare PDF Thumbnail rendered');
-            } catch (error) {
-                console.error('Error rendering PDF thumbnail:', error);
-                const container = document.querySelector('.pdf-thumbnail-container');
-                if (container) {
-                    container.innerHTML = '<div style="padding:2rem; text-align:center; background:#eee; color:#666;">PDFプレビューを表示できません<br>タップして開く</div>';
-                    container.onclick = () => window.open(url, '_blank');
-                }
-            }
-        });
     </script>
 
 </body>
 
 </html>
+
