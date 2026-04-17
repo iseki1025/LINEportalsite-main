@@ -3,196 +3,47 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>フットケア | 梶本クリニック</title>
-    <link rel="stylesheet" href="portal-design.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-layout.css">
+    <link rel="stylesheet" href="components.css">
     <style>
-        /* Footcare theme: Purple */
-        .hero-section.theme-footcare {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(124, 58, 237, 0.08) 100%);
+        /* Footcare page theme: Purple */
+        :root {
+            --page-primary: #a855f7;
+            --page-primary-dark: #7c3aed;
+            --page-bg-light: #f3e8ff;
+            --page-bg-lighter: #faf5ff;
         }
 
-        .hero-section.theme-footcare .hero-title {
-            color: #6d28d9;
+        .app-header {
+            background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
         }
 
-        /* Tab Navigation */
-        .tab-nav {
-            display: flex;
-            gap: var(--spacing-xs);
-            margin-bottom: var(--spacing-lg);
-            background: var(--bg-card);
-            padding: var(--spacing-xs);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-light);
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: var(--spacing-sm) var(--spacing-xs);
-            border-radius: var(--radius-md);
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-align: center;
-            transition: all var(--transition-fast);
-            cursor: pointer;
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+        .app-segmented-item.active {
+            background: var(--page-primary);
             color: white;
         }
 
-        .tab-content {
-            display: none;
+        .footcare-list strong {
+            color: var(--page-primary-dark);
         }
 
-        .tab-content.active {
-            display: block;
-        }
-
-        .info-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .info-card.highlight {
-            background: rgba(139, 92, 246, 0.08);
-            border-color: #a78bfa;
-        }
-
-        .info-card h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #6d28d9;
-            margin-bottom: var(--spacing-md);
-        }
-
-        .info-card ul {
-            padding-left: var(--spacing-lg);
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-
-        .info-card ul strong {
-            color: #7c3aed;
-        }
-
-        .caution-box {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--spacing-md);
-            padding: var(--spacing-md);
-            background: rgba(139, 92, 246, 0.08);
-            border: 1px solid #d8b4fe;
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .caution-box img {
-            width: 40px;
-            height: 40px;
-            flex-shrink: 0;
-        }
-
-        .caution-box h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #7c3aed;
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .caution-box p {
-            font-size: 0.9rem;
-            color: #7c3aed;
-            line-height: 1.5;
-        }
-
-        /* PDF Section */
-        .pdf-collapsible {
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--spacing-lg);
-            overflow: hidden;
-        }
-
-        .pdf-collapsible-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: var(--spacing-md) var(--spacing-lg);
-            background: rgba(139, 92, 246, 0.08);
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .pdf-collapsible-content {
-            display: block;
-            padding: var(--spacing-md) var(--spacing-lg);
-            text-align: center;
-        }
-
-        .pdf-link {
-            display: inline-block;
-            padding: var(--spacing-sm) var(--spacing-xl);
-            background: #a855f7;
-            color: white;
-            border-radius: var(--radius-full);
-            font-weight: 600;
-        }
-
-        .consult-card {
-            background: rgba(139, 92, 246, 0.08);
-            border: 1px solid #d8b4fe;
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-lg);
-            text-align: center;
-        }
-
-        .consult-card h3 {
-            color: #7c3aed;
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .consult-card p {
-            color: #7c3aed;
-            font-size: 0.9rem;
-        }
-    </style>
-    <style>
-        /* ... existing styles ... */
-
-        /* PDF Preview Style */
         .pdf-thumbnail-container {
             position: relative;
             width: 100%;
-            max-width: 100%;
             margin: 0 auto 1rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             border-radius: 8px;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .pdf-thumbnail-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-        .pdf-thumbnail-container iframe {
+        .pdf-thumbnail-container img {
             display: block;
             width: 100%;
-            aspect-ratio: 3 / 4;
-            height: min(70vh, 420px);
-            border: 0;
-            background: #fff;
-            pointer-events: none;
+            height: auto;
         }
 
         .pdf-tap-hint {
@@ -201,177 +52,137 @@
             left: 0;
             right: 0;
             background: rgba(0, 0, 0, 0.6);
-            color: white;
+            color: #fff;
             text-align: center;
             padding: 8px;
             font-size: 0.8rem;
-            font-weight: bold;
+            font-weight: 700;
+        }
+
+        .caution-box.theme-purple {
+            background: var(--page-bg-light);
+            border: 1px solid #d8b4fe;
+        }
+
+        .caution-box.theme-purple .caution-content h3,
+        .caution-box.theme-purple .caution-content p {
+            color: var(--page-primary-dark);
         }
     </style>
 </head>
 
-<body>
-    <!-- Header -->
+<body class="theme-friend app-mode">
     <header class="app-header">
-        <a href="friend-main.html" class="header-logo">
-            <img src="files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
-        </a>
-        <div class="header-center">
-            <div class="header-title">フットケア</div>
-        </div>
+        <a href="friend-main.html" class="back-button">&lt;</a>
+        <div class="app-title">フットケア</div>
     </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-
-        <!-- Tab Navigation -->
-        <nav class="tab-nav">
-            <button class="tab-btn active" onclick="switchTab('basic')">基本</button>
-            <button class="tab-btn" onclick="switchTab('initiatives')">取り絁E��</button>
+    <main class="app-content-scroll">
+        <nav class="app-segmented-control">
+            <button class="app-segmented-item active" onclick="switchTab('basic')">基本</button>
+            <button class="app-segmented-item" onclick="switchTab('initiatives')">取り組み</button>
         </nav>
 
         <!-- Tab 1: Basic -->
-        <section id="basic" class="tab-content active">
-            <div class="info-card highlight">
-                <h3 style="text-align: center;">毎日のチェチE��ポインチE/h3>
-                <p
-                    style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: var(--spacing-sm); text-align: center;">
-                    毎日足を観察し、以下�Eような変化がなぁE��確認しましょぁE��E/p>
-                <ul>
-                    <li><strong>皮膚�E状慁E</strong> 色が悪くなってぁE��ぁE���E�蒼白めE��黒色�E�、乾燥めE�Eび割れ、水虫�E�白癬�E�がなぁE��、E/li>
-                    <li><strong>傷めE��痁E</strong> 小さな傷、赤み、�Eれ、�Eが�EてぁE��ぁE��、E/li>
-                    <li><strong>痛み・し�EめE</strong> じっとしてぁE��も痛む、あるいは感覚が鈍くなってぁE��ぁE��、E/li>
-                    <li><strong>爪の状慁E</strong> 深爪、巻き爪、変形、割れがなぁE��、E/li>
-                    <li><strong>たこ・ぁE��のめE</strong> 硬くなってぁE��部刁E��、その周囲に赤みがなぁE��、E/li>
+        <section id="basic" class="app-page-section active">
+            <div class="app-card-generic" style="background: var(--page-bg-lighter);">
+                <h2 style="font-size:1.1rem; text-align:center; margin-bottom:0.8rem; color: var(--page-primary-dark);">
+                    毎日のチェックポイント</h2>
+                <ul class="footcare-list" style="padding-left:1.2rem;">
+                    <li>傷、切り傷、靴擦れがないか</li>
+                    <li>水ぶくれ、たこ、うおのめはないか</li>
+                    <li>皮膚の赤み、腫れ、色の変化がないか</li>
                 </ul>
             </div>
 
-            <div class="info-card">
-                <h3>具体的なケアの方況E/h3>
-                <ul>
-                    <li><strong>渁E��を保つ:</strong> 毎日足を丁寧に洗い、指の間までしっかり乾かします、E/li>
-                    <li><strong>保湿:</strong> 入浴後など、乾燥を防ぐために保湿クリームを使用します、E/li>
-                    <li><strong>正しい爪刁E��:</strong> 深爪を避け、�E端をまっすぐに刁E���E�スクエアカチE���E�、角を少し丸める程度に整えます、E/li>
-                    <li><strong>足を保護する:</strong> 裸足で歩かず、忁E��靴下を履きましょぁE��靴下�E締め付けの少なぁE��E��なも�Eを選びます、E/li>
-                    <li><strong>靴選び:</strong> 足に合ったサイズで、E��ずれしにくいも�Eを選びます。履く前に靴の中に異物がなぁE��確認することも大刁E��す、E/li>
-                    <li><strong>めE��ど予防:</strong> 感覚が鈍くなってぁE��場合があるため、こたつ、E��気毛币E��カイロなどによる低温めE��どに注意してください、E/li>
+            <div class="app-card-generic" style="background: var(--page-bg-lighter);">
+                <h3 style="font-size:1rem; margin-bottom:0.8rem; color: var(--page-primary-dark);">正しい足のケア</h3>
+                <ul class="footcare-list" style="padding-left:1.2rem;">
+                    <li><strong>洗い方:</strong> 石鹸をよく泡立て優しく洗う。</li>
+                    <li><strong>乾かし方:</strong> 擦らず押さえるように拭く。</li>
+                    <li><strong>保湿:</strong> 乾燥時は保湿剤を（指の間は避ける）。</li>
+                    <li><strong>爪切り:</strong> 深爪せずスクエアカットに。</li>
                 </ul>
             </div>
 
-            <div class="caution-box">
-                <img src="files/common/caution-icon.png" alt="注愁E>
-                <div>
-                    <h3>医療機関への相諁E/h3>
-                    <p style="margin-bottom: var(--spacing-xs);">自刁E��の処置が難しい爪刁E��めE��たこ�EぁE��のめ�E除去は、無琁E��せず透析施設のスタチE��に相諁E��てください、E/p>
-                    <p style="font-weight: bold;">特に、傷が治りにくい、痛みがある、足が�Eたいなどの痁E��がある場合�E早急な受診が忁E��です、E/p>
+            <div class="caution-box theme-purple">
+                <img src="files/common/caution-icon.png" alt="注意" class="caution-icon-img">
+                <div class="caution-content">
+                    <h3>すぐに相談を</h3>
+                    <p>傷、色の変化、痛みや腫れがある場合は、自己判断せずすぐにスタッフへ！</p>
                 </div>
             </div>
         </section>
 
         <!-- Tab 2: Initiatives -->
-        <section id="initiatives" class="tab-content">
-            <div class="info-card">
-                <h3>当院で実施してぁE��フットケア</h3>
-                <ol
-                    style="padding-left: var(--spacing-lg); margin-top: 0; color: var(--text-secondary); line-height: 1.8;">
-                    <li style="margin-bottom: var(--spacing-md);"><strong>定期皁E��フットチェチE���E�月�E�回�E�E/strong>
-                        <ul
-                            style="padding-left: var(--spacing-md); list-style-type: disc; margin-top: var(--spacing-xs);">
-                            <li><strong>皮膚�E観寁E</strong> 乾燥、亀裂、水虫�E�白癬�E�、発赤、タコ、ウオノメの有無を確認します、E/li>
-                            <li><strong>血流�E感覚�E確誁E</strong> 足の動脈の拍動�E�足背動脈など�E��E触知めE���E感�Eし�Eれ�E有無をチェチE��します、E/li>
-                        </ul>
-                    </li>
-                    <li style="margin-bottom: var(--spacing-md);"><strong>検査</strong><br>
-                        ABI�E�足首と腕�E血圧比）測定を行い、血管の詰まり�E合を評価します。血流E��害が疑われる場合�E連携施設を紹介し、早期治療につなげてぁE��ます、E
-                    </li>
-                    <li style="margin-bottom: var(--spacing-md);"><strong>専門皁E��処置</strong>
-                        <ul
-                            style="padding-left: var(--spacing-md); list-style-type: disc; margin-top: var(--spacing-xs);">
-                            <li><strong>爪のケア:</strong> 肥厚した爪の削りめE��巻き爪を予防するためのスクエアカチE��など、�E刁E��は難しい爪刁E��を行います、E/li>
-                            <li><strong>角質管琁E</strong> タコめE��オノメの除去を行い、圧迫による皮膚トラブルを防ぎます、E/li>
-                            <li><strong>洗流E�E保湿:</strong> 足浴で渁E��を保ち、保湿剤を塗币E��てバリア機�Eを維持します、E/li>
-                        </ul>
-                    </li>
-                    <li><strong>セルフケア持E��E/strong><br>
-                        自宁E��の観察�Eイント、E��刁E��靴・靴下�E選び方、正しい爪刁E��の方法などをレクチャーします、E
-                    </li>
-                </ol>
+        <section id="initiatives" class="app-page-section">
+            <div class="app-card-generic" style="background: var(--page-bg-lighter);">
+                <h3 style="font-size:1rem; margin-bottom:1rem; color: var(--page-primary-dark);">当院のフットケアサービス</h3>
+                <ul class="footcare-list" style="padding-left:1.2rem;">
+                    <li><strong>定期観察:</strong> 透析時に足をチェックします。</li>
+                    <li><strong>専門ケア:</strong> 必要に応じて爪切りや角質ケア。</li>
+                    <li><strong>患者教育:</strong> セルフケアの指導。</li>
+                </ul>
             </div>
 
             <div class="pdf-collapsible">
-                <div class="pdf-collapsible-header">
-                    <span>📖 ガイドブチE��を見る</span>
+                <div class="pdf-collapsible-header" onclick="togglePdf(this)" style="background: var(--page-bg-light);">
+                    <span>📖 ガイドブックを見る</span>
+                    <span>▼</span>
                 </div>
                 <div class="pdf-collapsible-content">
-                    <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
-                        詳しいケア方法をPDFで確認できます。�E真をタチE�Eしてください、E
-                    </p>
-                    <!-- PDF Thumbnail -->
+                    <p style="margin-bottom:1rem; font-size:0.9rem; color:#555;">詳しいケア方法をPDFで確認できます。画像をタップしてください。</p>
                     <div class="pdf-thumbnail-container"
                         onclick="window.open('http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/footcare-guide-book.pdf', '_blank')">
-                        <iframe id="pdf-thumbnail"
-                            src="http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/footcare-guide-book.pdf#page=1&zoom=page-width&toolbar=0&navpanes=0&scrollbar=0"
-                            title="�t�b�g�P�A�K�C�h�u�b�N PDF�v���r���["
-                            loading="lazy"></iframe>
-                        <div class="pdf-tap-hint">タチE�Eして開く</div>
+                        <img src="files/pdf/preview-footcare-guide-book.png" alt="フットケアガイドブックの1ページ目プレビュー">
+                        <div class="pdf-tap-hint">タップして開く</div>
                     </div>
+                    <a href="http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/footcare-guide-book.pdf" target="_blank" class="pdf-link-mobile"
+                        style="background: var(--page-primary);">PDFを開く</a>
                 </div>
             </div>
 
-            <div class="consult-card">
-                <h3>💡 ご相諁E��ださい</h3>
-                <p>足のことで気になることがあれ�E、E��慮なくスタチE��にお声がけください、E/p>
+            <div class="app-card-generic"
+                style="background: var(--page-bg-light); border-color:#d8b4fe; text-align:center;">
+                <h3 style="font-size:1rem; color: var(--page-primary-dark);">💡 ご相談ください</h3>
+                <p style="font-size:0.9rem; color: var(--page-primary-dark); margin:0;">
+                    足のことで気になることがあれば、遠慮なくスタッフにお声がけください。
+                </p>
             </div>
         </section>
 
-        <!-- Back Button -->
-        <div class="back-btn-container">
-            <a href="friend-main.html" class="btn btn-secondary">
-                お友達特典ポ�Eタルへ戻めE
-            </a>
-        </div>
-
-        <!-- Copyright -->
-        <footer class="copyright mt-xl">
-            <a href="index.html" class="stealth-link">© 2025 Kajimoto Clinic</a>
-        </footer>
-
+        <div style="height: 40px;"></div>
     </main>
 
-    <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="friend-main.html" class="nav-item active">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 12 20 22 4 22 4 12"></polyline>
-                <rect x="2" y="7" width="20" height="5"></rect>
-            </svg>
-            <span>特典トッチE/span>
+        <a href="friend-main.html" class="nav-item">
+            <div class="nav-icon">🎁</div>
+            <span>お友達</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
+            <div class="nav-icon">❓</div>
             <span>Q&A</span>
         </a>
     </nav>
 
-    <!-- Scripts -->
     <script>
         function switchTab(id) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.app-page-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.app-segmented-item').forEach(el => el.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            event.target.classList.add('active');
+            const buttons = document.querySelectorAll('.app-segmented-item');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('onclick').includes(id)) btn.classList.add('active');
+            });
         }
+        window.switchTab = switchTab;
 
         function togglePdf(header) {
-            header.parentElement.classList.toggle('is-open');
+            const container = header.parentElement;
+            container.classList.toggle('is-open');
         }
+        window.togglePdf = togglePdf;
     </script>
-
 </body>
 
 </html>
-
