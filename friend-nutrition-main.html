@@ -102,6 +102,26 @@
             gap: var(--spacing-md);
         }
 
+        .recipe-link-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            background: #f5f5f5;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md) var(--spacing-lg);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .recipe-link-arrow {
+            color: #64748b;
+            font-size: 1.3rem;
+            line-height: 1;
+        }
+
         .recipe-item {
             background: var(--bg-card);
             border: 1px solid var(--border-light);
@@ -311,52 +331,40 @@
             header.parentElement.classList.toggle('open');
         }
     </script>
+    <!-- Recipe Links -->
+    <script>
+        function loadRecipes() {
+            const container = document.getElementById('recipeContainer');
+            if (!container) return;
 
-    <!-- Firebase Recipe Loading -->
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, getDocs, orderBy, query } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-        import { firebaseConfig } from './js/firebase-config.js';
-
-        try {
-            const app = initializeApp(firebaseConfig);
-            const db = getFirestore(app);
-
-            async function loadRecipes() {
-                const container = document.getElementById('recipeContainer');
-                try {
-                    const q = query(collection(db, 'recipes'), orderBy('uploadedAt', 'desc'));
-                    const snapshot = await getDocs(q);
-
-                    if (snapshot.empty) {
-                        container.innerHTML = '<p style="text-align:center; color: var(--text-muted);">レシピはありません。</p>';
-                        return;
-                    }
-
-                    container.innerHTML = snapshot.docs.map(doc => {
-                        const data = doc.data();
-                        return `
-                        <div class="recipe-item">
-                            <div class="recipe-header" onclick="toggleRecipe(this)">
-                                <span class="recipe-title">🍳 ${data.title}</span>
-                                <span>▼</span>
-                            </div>
-                            <div class="recipe-content">
-                                <p style="font-size: 0.85rem; margin-bottom: var(--spacing-md); color: var(--text-muted);">スマートフォンで見ることをおすすめします</p>
-                                <a href="${data.storageUrl}" target="_blank" class="pdf-btn">PDFを開く</a>
-                            </div>
-                        </div>
-                        `;
-                    }).join('');
-                } catch (error) {
-                    console.error('Recipe error:', error);
-                    container.innerHTML = '<p style="color: var(--accent-disaster); text-align:center;">レシピの取得に失敗しました</p>';
+            const recipes = [
+                {
+                    title: '水菜の豆腐ドリア',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/%E6%B0%B4%E8%8F%9C%E3%81%AE%E8%B1%86%E8%85%90%E3%83%89%E3%83%AA%E3%82%A2%E3%83%AC%E3%82%B7%E3%83%94.pdf'
+                },
+                {
+                    title: '新たまねぎとサラダチキンの親子丼',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/%E6%96%B0%E3%81%9F%E3%81%BE%E3%81%AD%E3%81%8E%E3%81%A8%E3%82%B5%E3%83%A9%E3%83%80%E3%83%81%E3%82%AD%E3%83%B3%E3%81%AE%E8%A6%AA%E5%AD%90%E4%B8%BC%E3%83%AC%E3%82%B7%E3%83%94.pdf'
+                },
+                {
+                    title: '金目鯛の煮付け',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/%E9%87%91%E7%9B%AE%E9%AF%9B%E3%81%AE%E7%85%AE%E4%BB%98%E3%81%91%E3%83%AC%E3%82%B7%E3%83%94.pdf'
+                },
+                {
+                    title: 'アスパラとささみの梅春巻き',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/%E3%82%A2%E3%82%B9%E3%83%91%E3%83%A9%E3%81%A8%E3%81%95%E3%81%95%E3%81%BF%E3%81%AE%E6%A2%85%E6%98%A5%E5%B7%BB%E3%81%8D%E3%83%AC%E3%82%B7%E3%83%94.pdf'
                 }
-            }
-            loadRecipes();
-        } catch (e) {
-            console.error('Firebase init error:', e);
+            ];
+
+            container.innerHTML = recipes.map((recipe) => `
+                <a href="${recipe.url}" target="_blank" rel="noopener noreferrer" class="recipe-link-item">
+                    <span>${recipe.title}</span>
+                    <span class="recipe-link-arrow">›</span>
+                </a>
+            `).join('');
         }
+
+        loadRecipes();
     </script>
 
 </body>
