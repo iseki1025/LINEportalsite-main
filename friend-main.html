@@ -31,6 +31,16 @@
             </p>
         </section>
 
+        <section class="update-news js-update-section" aria-label="更新情報">
+            <h2 class="update-news-title">更新情報</h2>
+            <ul class="update-news-list">
+                <li class="update-news-item js-update-item" data-update-until="2026-05-31">
+                    <span class="update-news-date">2026.04.24</span>
+                    <span class="update-news-text">食事療法ページの内容を更新しました。</span>
+                </li>
+            </ul>
+        </section>
+
         <!-- Card Grid -->
         <div class="card-grid">
             <!-- Shunt Management -->
@@ -77,7 +87,8 @@
                     </svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title">食事療法</div>
+                    <div class="card-title">食事療法 <span class="update-chip js-update-badge"
+                            data-update-until="2026-05-31">UPDATE</span></div>
                     <div class="card-desc">基本とレシピ</div>
                 </div>
             </a>
@@ -146,6 +157,7 @@
             <span>Q&A</span>
         </a>
     </nav>
+    <script src="js/update-display.js"></script>
 
 </body>
 

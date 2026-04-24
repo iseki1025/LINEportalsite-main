@@ -309,6 +309,47 @@ button {
     animation: fadeInUp 0.5s ease-out 0.1s both;
 }
 
+.update-news {
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.update-news-title {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.update-news-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.update-news-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.update-news-date {
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.update-news-text {
+    color: var(--text-secondary);
+}
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -413,6 +454,26 @@ button {
 .card-desc {
     font-size: 0.8rem;
     color: var(--text-muted);
+}
+
+.update-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 1.35rem;
+    padding: 0 0.5rem;
+    border-radius: var(--radius-full);
+    font-family: var(--font-heading);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #ffffff;
+    background: linear-gradient(135deg, #F97316 0%, #EF4444 100%);
+}
+
+.card-title .update-chip {
+    margin-left: 0.35rem;
+    vertical-align: middle;
 }
 
 /* Card Accent Colors */
