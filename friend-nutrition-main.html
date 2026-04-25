@@ -116,6 +116,26 @@
             font-weight: 600;
         }
 
+        .recipe-title-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .recipe-new-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 1.3rem;
+            padding: 0 0.45rem;
+            border-radius: var(--radius-full);
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: #ffffff;
+            background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+        }
+
         .recipe-link-arrow {
             color: #64748b;
             font-size: 1.3rem;
@@ -332,19 +352,65 @@
         }
     </script>
     <!-- Recipe Links -->
-    <script>
-        function loadRecipes() {
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from './js/firebase-config.js';
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        function parseYmd(value) {
+            if (!value) return null;
+            const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim());
+            if (!m) return null;
+            return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+        }
+
+        function toDate(value) {
+            if (!value) return null;
+            if (value instanceof Date) return value;
+            if (typeof value.toDate === 'function') return value.toDate();
+            const parsed = new Date(value);
+            return Number.isNaN(parsed.getTime()) ? null : parsed;
+        }
+
+        function isNewWithinOneWeek(updatedAt) {
+            const updatedDate = toDate(updatedAt) || parseYmd(updatedAt);
+            if (!updatedDate) return false;
+            const now = new Date();
+            const elapsed = now.getTime() - updatedDate.getTime();
+            const oneWeekMs = 7 * 24 * 60 * 60 * 1000;
+            return elapsed >= 0 && elapsed < oneWeekMs;
+        }
+
+        function renderRecipes(container, recipes) {
+            if (!recipes.length) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: var(--spacing-xl);">現在公開中のレシピはありません。</p>';
+                return;
+            }
+
+            container.innerHTML = recipes.map((recipe) => `
+                <a href="${recipe.url}" target="_blank" rel="noopener noreferrer" class="recipe-link-item">
+                    <span class="recipe-title-wrap">${recipe.title}${isNewWithinOneWeek(recipe.updatedAt) ? '<span class="recipe-new-badge">NEW</span>' : ''}</span>
+                    <span class="recipe-link-arrow">›</span>
+                </a>
+            `).join('');
+        }
+
+        async function loadRecipes() {
             const container = document.getElementById('recipeContainer');
             if (!container) return;
 
-            const recipes = [
+            const fallbackRecipes = [
                 {
                     title: '水菜の豆腐ドリア',
                     url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/mizuna-tofu-doria.pdf'
                 },
                 {
                     title: '新たまねぎとサラダチキンの親子丼',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/new-onion-chicken-oyakodon.pdf'
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/new-onion-chicken-oyakodon.pdf',
+                    updatedAt: '2026-04-24'
                 },
                 {
                     title: '金目鯛の煮付け',
@@ -356,12 +422,27 @@
                 }
             ];
 
-            container.innerHTML = recipes.map((recipe) => `
-                <a href="${recipe.url}" target="_blank" rel="noopener noreferrer" class="recipe-link-item">
-                    <span>${recipe.title}</span>
-                    <span class="recipe-link-arrow">›</span>
-                </a>
-            `).join('');
+            try {
+                const q = query(collection(db, 'recipes'), orderBy('uploadedAt', 'desc'));
+                const snapshot = await getDocs(q);
+                const recipes = snapshot.docs
+                    .map((doc) => doc.data())
+                    .filter((item) => item.title && item.storageUrl)
+                    .map((item) => ({
+                        title: item.title,
+                        url: item.storageUrl,
+                        updatedAt: item.uploadedAt
+                    }));
+
+                if (recipes.length > 0) {
+                    renderRecipes(container, recipes);
+                    return;
+                }
+            } catch (error) {
+                console.error('レシピ取得エラー:', error);
+            }
+
+            renderRecipes(container, fallbackRecipes);
         }
 
         loadRecipes();
