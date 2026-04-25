@@ -49,7 +49,77 @@
             font-size: 0.8rem;
             font-weight: bold;
         }
-    </style>
+
+        /* Warning Badge */
+        .status-badge.warning {
+            background-color: #fef3c7;
+            color: #d97706;
+            border: 1px solid #fde68a;
+        }
+
+        /* Short Message */
+        .short-message {
+            width: 100%;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #d97706;
+        }
+
+        /* Read More Button */
+        .btn-read-more {
+            width: 100%;
+            margin-top: 0.5rem;
+            padding: 0.75rem;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            color: #4b5563;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-read-more:hover {
+            background: #e5e7eb;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #6b7280;
+        }
+        .modal-body {
+            margin-top: 1rem;
+            white-space: pre-wrap;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #374151;
+        }
+    </style>
 </head>
 
 <body>
@@ -265,6 +335,15 @@
         </a>
     </nav>
 
+    <!-- Reason Modal -->
+    <div id="reasonModal" class="modal-overlay" onclick="if(event.target===this) this.classList.remove('active')">
+        <div class="modal-content">
+            <button class="modal-close" onclick="document.getElementById('reasonModal').classList.remove('active')">&times;</button>
+            <h3 style="margin-top: 0; color: var(--text-primary); border-bottom: 2px solid var(--bg-card); padding-bottom: 0.5rem;">詳細ガイドライン</h3>
+            <div id="modalBody" class="modal-body"></div>
+        </div>
+    </div>
+
     <!-- Firebase Script -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
@@ -300,6 +379,9 @@
                         } else if (data.status === 'checking') {
                             badgeClass = 'waiting';
                             statusText = '確認中';
+                        } else if (data.status === 'conditional') {
+                            badgeClass = 'warning';
+                            statusText = '条件付き可';
                         }
 
                         const item = document.createElement('div');
@@ -308,15 +390,25 @@
                             <span class="status-name">${fac.name}</span>
                             <span class="status-badge ${badgeClass}">${statusText}</span>
                         `;
-                        container.appendChild(item);
+                        
+                        if (data.short_message) {
+                            item.innerHTML += `<div class="short-message">⚠️ ${data.short_message}</div>`;
+                            item.style.flexWrap = 'wrap';
+                        }
 
                         if (data.reason) {
-                            const reason = document.createElement('div');
-                            reason.style.cssText = 'width: 100%; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--border-light); color: var(--accent-disaster); font-size: 0.85rem; font-weight: 500;';
-                            reason.textContent = data.reason;
+                            const btn = document.createElement('button');
+                            btn.className = 'btn-read-more';
+                            btn.textContent = '💬 詳細ガイドラインを読む';
+                            btn.onclick = () => {
+                                document.getElementById('modalBody').textContent = data.reason;
+                                document.getElementById('reasonModal').classList.add('active');
+                            };
                             item.style.flexWrap = 'wrap';
-                            item.appendChild(reason);
+                            item.appendChild(btn);
                         }
+
+                        container.appendChild(item);
                     });
                 } catch (error) {
                     console.error('Status load error:', error);
@@ -345,7 +437,7 @@
             console.error('Firebase init error:', e);
             document.getElementById('dialysisStatusContainer').innerHTML =
                 '<p style="padding:1rem; color: var(--accent-disaster);">システムの初期化に失敗しました。<br>(Local環境ではサーバー経由での閲覧が必要です)</p>';
-        }
+        }
     </script>
 
 </body>

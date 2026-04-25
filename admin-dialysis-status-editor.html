@@ -32,6 +32,10 @@
         }
 
         .facility-card.checking {
+            border-color: #64748b;
+        }
+
+        .facility-card.conditional {
             border-color: #f59e0b;
         }
 
@@ -67,6 +71,12 @@
         }
 
         .status-toggle input[type="radio"]:checked+label.radio-waiting {
+            background: #64748b;
+            color: white;
+            border-color: #64748b;
+        }
+
+        .status-toggle input[type="radio"]:checked+label.radio-conditional {
             background: #f59e0b;
             color: white;
             border-color: #f59e0b;
@@ -157,15 +167,24 @@
               <input type="radio" name="status-${name}" id="ok-${name}" value="available" ${status === 'available' ? 'checked' : ''} onchange="window.handleStatusChange('${name}', 'available')">
               <label for="ok-${name}" class="radio-ok">透析可</label>
               
+              <input type="radio" name="status-${name}" id="conditional-${name}" value="conditional" ${status === 'conditional' ? 'checked' : ''} onchange="window.handleStatusChange('${name}', 'conditional')">
+              <label for="conditional-${name}" class="radio-conditional">条件付き可</label>
+
               <input type="radio" name="status-${name}" id="waiting-${name}" value="checking" ${status === 'checking' ? 'checked' : ''} onchange="window.handleStatusChange('${name}', 'checking')">
               <label for="waiting-${name}" class="radio-waiting">確認中</label>
 
               <input type="radio" name="status-${name}" id="ng-${name}" value="unavailable" ${status === 'unavailable' ? 'checked' : ''} onchange="window.handleStatusChange('${name}', 'unavailable')">
               <label for="ng-${name}" class="radio-ng">透析不可</label>
             </div>
-            <div class="form-group" id="reason-group-${name}" style="display: ${status === 'available' ? 'none' : 'block'}">
-              <label>理由・詳細（例：断水のため / 状況を確認中）</label>
-              <input type="text" id="reason-${name}" value="${data.reason || ''}" placeholder="理由を入力してください">
+            <div id="reason-group-${name}" style="display: ${status === 'available' ? 'none' : 'block'}">
+              <div class="form-group" style="margin-bottom: 1rem;">
+                <label>一言メッセージ（例：一部患者様の時間変更あり）</label>
+                <input type="text" id="short-message-${name}" value="${data.short_message || ''}" placeholder="30文字以内で入力">
+              </div>
+              <div class="form-group">
+                <label>詳細ガイドライン（長文・改行可）</label>
+                <textarea id="reason-${name}" placeholder="詳細な対応内容を入力してください" style="width: 100%; min-height: 80px; padding: 0.75rem; border: 1px solid #ccc; border-radius: 6px;">${data.reason || ''}</textarea>
+              </div>
             </div>
           </div>
         `;
@@ -193,11 +212,13 @@
             try {
                 for (const name of facilities) {
                     const status = document.querySelector(`input[name="status-${name}"]:checked`).value;
+                    const shortMessage = document.getElementById(`short-message-${name}`).value;
                     const reason = document.getElementById(`reason-${name}`).value;
 
                     await setDoc(doc(db, 'dialysis_status', name), {
                         facility: name,
                         status: status,
+                        short_message: status === 'available' ? '' : shortMessage,
                         reason: status === 'available' ? '' : reason,
                         updatedAt: Timestamp.now(),
                         updatedBy: user.uid,
