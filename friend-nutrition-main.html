@@ -214,6 +214,43 @@
             border: 1px solid #fcd34d;
             color: #b45309;
         }
+
+        /* PDF Thumbnail Style */
+        .pdf-thumbnail-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pdf-thumbnail-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .pdf-thumbnail-container img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .pdf-tap-hint {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -247,14 +284,31 @@
         <!-- Tab 1: Info -->
         <section id="info" class="tab-content active">
             <div class="info-card">
-                <h3>食事療法の5つの基本</h3>
-                <ul>
-                    <li><strong>水分・塩分:</strong> 摂りすぎは血圧上昇や心負担の原因に。</li>
-                    <li><strong>カリウム:</strong> 野菜や果物は茹でこぼし等の工夫を。</li>
-                    <li><strong>リン:</strong> 加工食品や乳製品に注意しましょう。</li>
-                    <li><strong>たんぱく質:</strong> 摂りすぎると老廃物が増えます。</li>
-                    <li><strong>エネルギー:</strong> 炭水化物や脂質でしっかり確保。</li>
+                <h3 style="color: #ef4444; text-align: center; font-size: 1.2rem;">透析食事療法の基本</h3>
+                <ul style="color: #ef4444; font-weight: bold; list-style-type: none; padding-left: 0; text-align: center; line-height: 2;">
+                    <li>・エネルギーの適量摂取</li>
+                    <li>・たんぱく質の適量摂取</li>
+                    <li>・リン制限</li>
+                    <li>・カリウム制限</li>
+                    <li>・水分制限</li>
+                    <li>・食塩制限</li>
                 </ul>
+            </div>
+
+            <div class="pdf-collapsible" style="background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); margin-bottom: var(--spacing-lg); overflow: hidden;">
+                <div class="pdf-collapsible-header" style="display: flex; align-items: center; justify-content: center; padding: var(--spacing-md) var(--spacing-lg); background: rgba(245, 158, 11, 0.08); font-weight: 600; color: var(--text-primary);">
+                    <span>📖 食事療法ガイドブックを見る</span>
+                </div>
+                <div class="pdf-collapsible-content" style="display: block; padding: var(--spacing-md) var(--spacing-lg); text-align: center;">
+                    <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                        詳しい食事療法の情報をPDFで確認できます。写真をタップしてください。
+                    </p>
+                    <div class="pdf-thumbnail-container"
+                        onclick="window.open('http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/dietary-therapy-for-dialysis-patients.pdf', '_blank')">
+                        <img src="files/pdf/preview-dietary-therapy-for-dialysis-patients.png" alt="透析患者さんの食事療法プレビュー">
+                        <div class="pdf-tap-hint">タップして開く</div>
+                    </div>
+                </div>
             </div>
         </section>
 
