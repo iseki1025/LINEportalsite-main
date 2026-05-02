@@ -49,9 +49,9 @@
 
     /* Backgrounds */
     --bg-main: #F8FAFC;
-    --bg-card: rgba(255, 255, 255, 0.85);
-    --bg-glass: rgba(255, 255, 255, 0.7);
-    --bg-glass-dark: rgba(255, 255, 255, 0.9);
+    --bg-card: rgba(255, 255, 255, 0.95);
+    --bg-glass: rgba(255, 255, 255, 0.90);
+    --bg-glass-dark: rgba(255, 255, 255, 0.98);
 
     /* Text */
     --text-primary: #0F172A;
