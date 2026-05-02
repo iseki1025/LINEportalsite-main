@@ -129,7 +129,7 @@ body {
     color: var(--text-primary);
     background: radial-gradient(circle at top right, rgba(17, 166, 184, 0.05), transparent 40%),
                 radial-gradient(circle at bottom left, rgba(50, 21, 195, 0.05), transparent 40%),
-                var(--bg-main) url('files/common/bg-pattern.png') no-repeat center center fixed;
+                var(--bg-main) url('files/common/bg-logo-gradient.png') no-repeat center center fixed;
     background-size: cover;
     min-height: 100vh;
     min-height: 100dvh;
