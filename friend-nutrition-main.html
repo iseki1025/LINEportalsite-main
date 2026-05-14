@@ -131,11 +131,16 @@
 
         .recipe-title-wrap {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: space-between;
             gap: 0.5rem;
             font-weight: 600;
             line-height: 1.45;
+        }
+
+        .recipe-title-icon {
+            flex: 0 0 auto;
+            font-size: 1.05rem;
         }
 
         .recipe-title {
@@ -476,14 +481,15 @@
                 const newBadge = isNewWithinOneWeek(recipe.updatedAt) ? '<span class="recipe-new-badge">NEW</span>' : '';
                 return `
                 <a href="${recipe.url}" target="_blank" rel="noopener noreferrer" class="recipe-link-item">
-                    <div class="recipe-thumb">
-                        <img src="${previewUrl}" alt="${recipe.title}のプレビュー" loading="lazy" decoding="async">
-                    </div>
                     <div class="recipe-body">
                         <div class="recipe-title-wrap">
+                            <span class="recipe-title-icon">${recipe.icon || '🍽️'}</span>
                             <span class="recipe-title">${recipe.title}</span>
                             ${newBadge}
                         </div>
+                    </div>
+                    <div class="recipe-thumb">
+                        <img src="${previewUrl}" alt="${recipe.title}のプレビュー" loading="lazy" decoding="async">
                     </div>
                 </a>
             `;}).join('');
@@ -604,6 +610,7 @@
                         title: item.title,
                         url: item.storageUrl,
                         updatedAt: item.uploadedAt,
+                        icon: item.icon || '🍽️',
                         previewUrl: item.previewUrl || item.thumbnailUrl || null
                     }));
 
