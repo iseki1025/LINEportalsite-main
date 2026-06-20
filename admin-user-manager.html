@@ -12,7 +12,7 @@
 <body class="admin-body">
     <header class="admin-header">
         <div class="admin-header-left">
-            <button onclick="location.href='admin-dashboard.html'" class="btn-logout" style="margin-right:1rem;">←
+            <button onclick="transitionNavigate('admin-dashboard.html')" class="btn-logout" style="margin-right:1rem;">←
                 戻る</button>
             <h1>👥 ユーザー管理</h1>
         </div>
@@ -94,7 +94,7 @@
         const currentUser = await requireAuth();
         if (currentUser.role !== 'admin') {
             alert('管理者専用ページです。');
-            window.location.href = 'admin-dashboard.html';
+            transitionNavigate('admin-dashboard.html', { replace: true });
         }
 
         const userForm = document.getElementById('userForm');
@@ -256,12 +256,14 @@
         document.getElementById('logoutBtn').addEventListener('click', async () => {
             if (confirmAction('ログアウトしますか？')) {
                 await signOut(auth);
-                window.location.href = 'admin-login.html';
+                transitionNavigate('admin-login.html', { replace: true });
             }
         });
 
         loadUsers();
     </script>
+    <script src="js/page-transition.js"></script>
+
 </body>
 
 </html>

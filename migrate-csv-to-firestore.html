@@ -12,7 +12,7 @@
 <body class="admin-body">
     <header class="admin-header">
         <div class="admin-header-left">
-            <button onclick="location.href='admin-dashboard.html'" class="btn-logout" style="margin-right:1rem;">←
+            <button onclick="transitionNavigate('admin-dashboard.html')" class="btn-logout" style="margin-right:1rem;">←
                 戻る</button>
             <h1>🔄 CSV → Firestore 移行ツール</h1>
         </div>
@@ -50,7 +50,7 @@
                     移行が完了しました！
                 </div>
                 <p style="text-align:center; margin-top:1rem;">
-                    <button onclick="location.href='admin-qa-editor.html'" class="btn-secondary">Q&A一覧で確認する</button>
+                    <button onclick="transitionNavigate('admin-qa-editor.html')" class="btn-secondary">Q&A一覧で確認する</button>
                 </p>
             </div>
         </section>
@@ -79,7 +79,7 @@
         const user = await requireAuth();
         if (user.role !== 'admin') {
             alert('管理者専用ページです。');
-            window.location.href = 'admin-dashboard.html';
+            transitionNavigate('admin-dashboard.html', { replace: true });
         }
 
         const csvFileInput = document.getElementById('csvFile');
@@ -155,9 +155,11 @@
 
         document.getElementById('logoutBtn').addEventListener('click', async () => {
             await signOut(auth);
-            window.location.href = 'admin-login.html';
+            transitionNavigate('admin-login.html', { replace: true });
         });
     </script>
+    <script src="js/page-transition.js"></script>
+
 </body>
 
 </html>

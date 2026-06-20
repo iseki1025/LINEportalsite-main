@@ -12,7 +12,7 @@
 <body class="admin-body">
     <header class="admin-header">
         <div class="admin-header-left">
-            <button onclick="location.href='admin-dashboard.html'" class="btn-logout" style="margin-right:1rem;">←
+            <button onclick="transitionNavigate('admin-dashboard.html')" class="btn-logout" style="margin-right:1rem;">←
                 戻る</button>
             <h1>📋 Q&A編集</h1>
         </div>
@@ -324,13 +324,15 @@
         document.getElementById('logoutBtn').addEventListener('click', async () => {
             if (confirmAction('ログアウトしますか？')) {
                 await signOut(auth);
-                window.location.href = 'admin-login.html';
+                transitionNavigate('admin-login.html', { replace: true });
             }
         });
 
         // 初期読み込み
         loadQaData();
     </script>
+    <script src="js/page-transition.js"></script>
+
 </body>
 
 </html>

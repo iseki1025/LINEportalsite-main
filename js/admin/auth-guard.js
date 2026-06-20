@@ -8,6 +8,14 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+const navigate = window.transitionNavigate || ((url, options = {}) => {
+    if (options.replace) {
+        window.location.replace(url);
+    } else {
+        window.location.assign(url);
+    }
+});
+
 /**
  * 現在ログイン中のユーザー情報を取得
  * @returns {Promise<Object>} ユーザー情報（role, permissions含む）
@@ -18,7 +26,7 @@ export async function getCurrentUser() {
             if (!user) {
                 // 未ログインの場合、ログイン画面へリダイレクト
                 if (!window.location.pathname.includes('admin-login.html') && !window.location.pathname.includes('admin-setup.html')) {
-                    window.location.href = 'admin-login.html';
+                    navigate('admin-login.html', { replace: true });
                 }
                 resolve(null);
                 return;
@@ -32,7 +40,7 @@ export async function getCurrentUser() {
                     // ユーザーデータがない場合はログアウトさせてログイン画面へ
                     if (!window.location.pathname.includes('admin-login.html')) {
                         await auth.signOut();
-                        window.location.href = 'admin-login.html';
+                        navigate('admin-login.html', { replace: true });
                     }
                     resolve(null);
                     return;

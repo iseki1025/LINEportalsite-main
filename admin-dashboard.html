@@ -28,21 +28,21 @@
             <div id="dialysisCard" class="dashboard-card">
                 <h3>💉 透析状況更新</h3>
                 <p>各施設の透析可否情報を更新できます。</p>
-                <button onclick="location.href='admin-dialysis-status-editor.html'">更新する</button>
+                <button onclick="transitionNavigate('admin-dialysis-status-editor.html')">更新する</button>
             </div>
 
             <!-- Recipe Card -->
             <div id="recipeCard" class="dashboard-card">
                 <h3>🍽️ レシピ管理</h3>
                 <p>レシピPDFのアップロード・削除ができます。</p>
-                <button onclick="location.href='admin-recipe-manager.html'">管理する</button>
+                <button onclick="transitionNavigate('admin-recipe-manager.html')">管理する</button>
             </div>
 
             <!-- User Manager Card (Admin only) -->
             <div id="userMgrCard" class="dashboard-card" style="display: none;">
                 <h3>👥 ユーザー管理</h3>
                 <p>アカウントの作成・権限設定ができます。</p>
-                <button onclick="location.href='admin-user-manager.html'">管理する</button>
+                <button onclick="transitionNavigate('admin-user-manager.html')">管理する</button>
             </div>
         </div>
     </main>
@@ -96,10 +96,12 @@
         document.getElementById('logoutBtn').addEventListener('click', async () => {
             if (confirm('ログアウトしますか？')) {
                 await signOut(auth);
-                window.location.href = 'admin-login.html';
+                transitionNavigate('admin-login.html', { replace: true });
             }
         });
     </script>
+    <script src="js/page-transition.js"></script>
+
 </body>
 
 </html>

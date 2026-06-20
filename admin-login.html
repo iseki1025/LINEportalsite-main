@@ -60,7 +60,7 @@
 
             try {
                 await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
-                window.location.href = 'admin-dashboard.html';
+                transitionNavigate('admin-dashboard.html', { replace: true });
             } catch (error) {
                 console.error('Login error:', error);
                 errorMsg.textContent = 'メールアドレスまたはパスワードが正しくありません';
@@ -70,6 +70,8 @@
             }
         });
     </script>
+    <script src="js/page-transition.js"></script>
+
 </body>
 
 </html>

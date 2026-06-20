@@ -1,5 +1,13 @@
 import { getCurrentUser } from './auth-guard.js';
 
+const navigate = window.transitionNavigate || ((url, options = {}) => {
+    if (options.replace) {
+        window.location.replace(url);
+    } else {
+        window.location.assign(url);
+    }
+});
+
 /**
  * 特定の権限を持っているかチェック
  * @param {string} permission - 権限キー（'qa', 'dialysisStatus', 'recipes'）
@@ -27,6 +35,6 @@ export async function requirePermission(permission) {
 
     if (!permitted) {
         alert('この機能を使用する権限がありません。');
-        window.location.href = 'admin-dashboard.html';
+        navigate('admin-dashboard.html', { replace: true });
     }
 }
