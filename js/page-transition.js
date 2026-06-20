@@ -4,10 +4,14 @@
     }
     window.__pageTransitionInitialized = true;
 
-    const NAVIGATION_DELAY = 220;
+    const NAVIGATION_DELAY = 150;
+    const ENTER_DURATION = 240;
+    const LEAVE_DURATION = 180;
     const ENTER_CLASS = 'page-transition-enter';
     const LEAVE_CLASS = 'page-transition-leave';
+    const PRERENDER_CLASS = 'page-transition-prerender';
     const STYLE_ID = 'page-transition-styles';
+    const PENDING_KEY = 'pageTransitionPending';
 
     const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -33,24 +37,31 @@ html.${LEAVE_CLASS} body {
 
 body {
     transition:
-        opacity 180ms ease-out,
-        transform 180ms ease-out;
+        opacity ${ENTER_DURATION}ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform ${ENTER_DURATION}ms cubic-bezier(0.22, 1, 0.36, 1);
     transform: translateY(0);
     will-change: opacity, transform;
 }
 
 html.${LEAVE_CLASS} body {
-    transform: translateY(-4px);
+    transition-duration: ${LEAVE_DURATION}ms;
+    transform: translateY(-8px);
 }
 
 html.${ENTER_CLASS} body {
-    transform: translateY(4px);
+    transform: translateY(10px);
+}
+
+html.${PRERENDER_CLASS} body {
+    opacity: 0;
+    transform: translateY(10px);
 }
 
 @media (prefers-reduced-motion: reduce) {
     body,
     html.${ENTER_CLASS} body,
-    html.${LEAVE_CLASS} body {
+    html.${LEAVE_CLASS} body,
+    html.${PRERENDER_CLASS} body {
         transition: none !important;
         transform: none !important;
     }
@@ -61,19 +72,31 @@ html.${ENTER_CLASS} body {
 
     function startEnterAnimation() {
         if (prefersReducedMotion() || window.__pageTransitionEnterStarted) {
+            cleanupPendingState();
             return;
         }
 
         window.__pageTransitionEnterStarted = true;
         const html = document.documentElement;
         html.classList.add(ENTER_CLASS);
+        html.classList.remove(PRERENDER_CLASS);
         void document.body && document.body.offsetHeight;
 
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
                 html.classList.remove(ENTER_CLASS);
+                cleanupPendingState();
             });
         });
+    }
+
+    function cleanupPendingState() {
+        document.documentElement.classList.remove(PRERENDER_CLASS);
+        try {
+            sessionStorage.removeItem(PENDING_KEY);
+        } catch (error) {
+            // Ignore storage failures and still allow the transition to complete.
+        }
     }
 
     function sameOriginUrl(rawUrl) {
@@ -153,8 +176,15 @@ html.${ENTER_CLASS} body {
         }
         window.__pageTransitionLeaving = true;
 
+        try {
+            sessionStorage.setItem(PENDING_KEY, '1');
+        } catch (error) {
+            // Ignore storage failures and continue with the leave animation.
+        }
+
         const html = document.documentElement;
         html.classList.remove(ENTER_CLASS);
+        html.classList.remove(PRERENDER_CLASS);
         html.classList.add(LEAVE_CLASS);
         void document.body && document.body.offsetHeight;
 
@@ -194,6 +224,7 @@ html.${ENTER_CLASS} body {
         html.classList.remove(LEAVE_CLASS);
 
         if (!event.persisted || prefersReducedMotion()) {
+            cleanupPendingState();
             return;
         }
 
