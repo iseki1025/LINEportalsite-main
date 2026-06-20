@@ -4,7 +4,7 @@
     }
     window.__pageTransitionInitialized = true;
 
-    const NAVIGATION_DELAY = 150;
+    const NAVIGATION_DELAY = 220;
     const ENTER_CLASS = 'page-transition-enter';
     const LEAVE_CLASS = 'page-transition-leave';
     const STYLE_ID = 'page-transition-styles';
@@ -67,9 +67,12 @@ html.${ENTER_CLASS} body {
         window.__pageTransitionEnterStarted = true;
         const html = document.documentElement;
         html.classList.add(ENTER_CLASS);
+        void document.body && document.body.offsetHeight;
 
         requestAnimationFrame(() => {
-            html.classList.remove(ENTER_CLASS);
+            requestAnimationFrame(() => {
+                html.classList.remove(ENTER_CLASS);
+            });
         });
     }
 
@@ -153,6 +156,7 @@ html.${ENTER_CLASS} body {
         const html = document.documentElement;
         html.classList.remove(ENTER_CLASS);
         html.classList.add(LEAVE_CLASS);
+        void document.body && document.body.offsetHeight;
 
         window.setTimeout(() => {
             if (replace) {
