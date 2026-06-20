@@ -4,7 +4,7 @@
     }
     window.__pageTransitionInitialized = true;
 
-    const NAVIGATION_DELAY = 180;
+    const NAVIGATION_DELAY = 150;
     const ENTER_CLASS = 'page-transition-enter';
     const LEAVE_CLASS = 'page-transition-leave';
     const STYLE_ID = 'page-transition-styles';
@@ -33,44 +33,26 @@ html.${LEAVE_CLASS} body {
 
 body {
     transition:
-        opacity 220ms cubic-bezier(0.22, 1, 0.36, 1),
-        filter 220ms cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: opacity, filter;
-}
-
-body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0;
-    background:
-        radial-gradient(circle at top, rgba(17, 166, 184, 0.08), transparent 55%),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0));
-    transition: opacity 220ms cubic-bezier(0.22, 1, 0.36, 1);
-    z-index: 2147483646;
-}
-
-html.${LEAVE_CLASS} body::before {
-    opacity: 1;
-}
-
-html.${ENTER_CLASS} body::before {
-    opacity: 0;
+        opacity 180ms ease-out,
+        transform 180ms ease-out;
+    transform: translateY(0);
+    will-change: opacity, transform;
 }
 
 html.${LEAVE_CLASS} body {
-    filter: blur(1px) saturate(0.98);
+    transform: translateY(-4px);
 }
 
 html.${ENTER_CLASS} body {
-    filter: blur(0.5px);
+    transform: translateY(4px);
 }
 
 @media (prefers-reduced-motion: reduce) {
     body,
-    body::before {
+    html.${ENTER_CLASS} body,
+    html.${LEAVE_CLASS} body {
         transition: none !important;
+        transform: none !important;
     }
 }
 `;
