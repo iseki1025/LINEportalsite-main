@@ -102,6 +102,9 @@
         }
 
         .recipe-season-tabs {
+            position: sticky;
+            top: 60px;
+            z-index: 20;
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 0.35rem;
@@ -109,7 +112,8 @@
             padding: 0.35rem;
             border: 1px solid var(--border-light);
             border-radius: var(--radius-lg);
-            background: rgba(245, 158, 11, 0.08);
+            background: #fff7ed;
+            box-shadow: 0 5px 14px rgba(15, 23, 42, 0.1);
         }
 
         .recipe-season-tab {
