@@ -116,8 +116,8 @@
             border: 0;
             border-radius: calc(var(--radius-lg) - 4px);
             padding: 0.65rem 0.35rem;
-            background: transparent;
-            color: var(--text-secondary);
+            background: #fff7ed;
+            color: #92400e;
             cursor: pointer;
             font: inherit;
             font-size: 0.85rem;
@@ -127,8 +127,8 @@
 
         .recipe-season-tab:hover,
         .recipe-season-tab:focus-visible {
-            color: #b45309;
-            background: rgba(255, 255, 255, 0.75);
+            color: #78350f;
+            background: #ffedd5;
         }
 
         .recipe-season-tab:focus-visible {
@@ -137,8 +137,8 @@
         }
 
         .recipe-season-tab.active {
-            color: #92400e;
-            background: #ffffff;
+            color: #ffffff;
+            background: #d97706;
             box-shadow: 0 3px 10px rgba(15, 23, 42, 0.08);
         }
 
@@ -148,6 +148,10 @@
             color: var(--text-muted);
             font-size: 0.7rem;
             font-weight: 600;
+        }
+
+        .recipe-season-tab.active .recipe-season-count {
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .recipe-season-panel {
