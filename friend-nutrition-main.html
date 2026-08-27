@@ -103,6 +103,52 @@
             gap: var(--spacing-md);
         }
 
+        .recipe-season-group {
+            margin-bottom: var(--spacing-lg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            overflow: hidden;
+        }
+
+        .recipe-season-group summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: rgba(245, 158, 11, 0.08);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-weight: 700;
+            list-style: none;
+        }
+
+        .recipe-season-group summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .recipe-season-group summary::after {
+            content: '＋';
+            color: #b45309;
+            font-size: 1.2rem;
+        }
+
+        .recipe-season-group[open] summary::after {
+            content: '−';
+        }
+
+        .recipe-season-count {
+            margin-left: auto;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .recipe-season-content {
+            padding: var(--spacing-md);
+        }
+
         .recipe-link-item {
             display: flex;
             flex-direction: column;
@@ -471,13 +517,77 @@
             return elapsed >= 0 && elapsed < oneWeekMs;
         }
 
+        const recipeSeasons = [
+            { key: 'spring', label: '春のレシピ', icon: '🌸' },
+            { key: 'summer', label: '夏のレシピ', icon: '🌻' },
+            { key: 'autumn', label: '秋のレシピ', icon: '🍁' },
+            { key: 'winter', label: '冬のレシピ', icon: '❄️' }
+        ];
+
+        const recipeSeasonByFile = {
+            'spring-new-onion-chicken-oyakodon.pdf': 'spring',
+            'spring-asparagus-chicken-plum-spring-rolls.pdf': 'spring',
+            'spring-spanish-mackerel-butter-soy-sauce-recipe.pdf': 'spring',
+            'spring-young-burdock-atsuage-stir-fry-recipe.pdf': 'spring',
+            'spring-clam-mixed-rice-recipe.pdf': 'spring',
+            'loquat-jelly.pdf': 'spring',
+            'sweet-potato-mochi.pdf': 'autumn',
+            'stir-fried-turnip-salmon-miso.pdf': 'autumn',
+            'pickled-saury-plum-vinegar.pdf': 'autumn',
+            'grilled-eggplant-mackerel.pdf': 'autumn',
+            'spinach-mapo-tofu.pdf': 'winter',
+            'autumn-maitake-chijimi-recipe.pdf': 'autumn',
+            'autumn-squid-broccoli-garlic-stir-fry-recipe.pdf': 'autumn',
+            'winter-mizuna-tofu-doria.pdf': 'winter',
+            'winter-pork-belly-lemon-saute-recipe.pdf': 'winter',
+            'winter-simmered-splendid-alfonsino.pdf': 'winter',
+            'winter-stuffed-aburaage-meat-recipe.pdf': 'winter',
+            'winter-turnip-scallop-soymilk-chazuke-recipe.pdf': 'winter'
+        };
+
+        const recipeSeasonByTitle = {
+            '新たまねぎとサラダチキンの親子丼': 'spring',
+            'アスパラとささみの梅春巻き': 'spring',
+            'さわらのバター醤油焼き': 'spring',
+            '新ごぼうと厚揚げの炒め物': 'spring',
+            'あさりの炊き込みご飯': 'spring',
+            'びわゼリー': 'spring',
+            'さつまいも餅': 'autumn',
+            'かぶと鮭のみそ炒め': 'autumn',
+            'サンマの梅酢漬け': 'autumn',
+            '秋なすと秋さばの焼き浸し': 'autumn',
+            '水菜の豆腐ドリア': 'winter',
+            '金目鯛の煮付け': 'winter',
+            'ほうれん草の麻婆豆腐': 'winter',
+            'かぶとホタテの豆乳茶漬け': 'winter',
+            '油揚げの肉詰め': 'winter',
+            '豚バラ肉のレモンソテー': 'winter',
+            'まいたけチヂミ': 'autumn',
+            'いかとブロッコリーのガーリック炒め': 'autumn'
+        };
+
+        function getRecipeSeason(recipe) {
+            if (recipe.season && recipeSeasons.some((season) => season.key === recipe.season)) {
+                return recipe.season;
+            }
+            const fileName = (recipe.filename || recipe.url || '').split('/').pop().split('?')[0];
+            return recipeSeasonByFile[fileName] || recipeSeasonByTitle[recipe.title] || 'winter';
+        }
+
         function renderRecipes(container, recipes) {
             if (!recipes.length) {
                 container.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: var(--spacing-xl);">現在公開中のレシピはありません。</p>';
                 return;
             }
 
-            container.innerHTML = recipes.map((recipe) => {
+            const groupedRecipes = recipeSeasons.reduce((groups, season) => {
+                groups[season.key] = recipes.filter((recipe) => getRecipeSeason(recipe) === season.key);
+                return groups;
+            }, {});
+
+            container.innerHTML = recipeSeasons.map((season) => {
+                const seasonRecipes = groupedRecipes[season.key];
+                const recipeCards = seasonRecipes.map((recipe) => {
                 const previewUrl = getRecipePreviewUrl(recipe);
                 const newBadge = isNewWithinOneWeek(recipe.updatedAt) ? '<span class="recipe-new-badge">NEW</span>' : '';
                 return `
@@ -494,6 +604,19 @@
                     </div>
                 </a>
             `;}).join('');
+
+                return `
+                    <details class="recipe-season-group">
+                        <summary>
+                            <span>${season.icon} ${season.label}</span>
+                            <span class="recipe-season-count">${seasonRecipes.length}件</span>
+                        </summary>
+                        <div class="recipe-season-content">
+                            ${recipeCards || '<p style="text-align: center; color: var(--text-muted); padding: var(--spacing-md);">現在公開中のレシピはありません。</p>'}
+                        </div>
+                    </details>
+                `;
+            }).join('');
         }
 
         function getRecipePreviewUrl(recipeOrUrl) {
@@ -506,15 +629,20 @@
 
             const pdfUrl = typeof recipeOrUrl === 'string' ? recipeOrUrl : recipeOrUrl?.url;
             if (!pdfUrl) {
-                return 'files/pdf/preview-mizuna-tofu-doria.png';
+                return 'files/pdf/preview-winter-mizuna-tofu-doria.png';
             }
             try {
                 const pathname = new URL(pdfUrl, window.location.href).pathname;
                 const fileName = pathname.split('/').pop() || '';
                 const previewName = fileName.replace(/\.pdf$/i, '');
-                return `files/pdf/preview-${previewName}.png`;
+                const season = typeof recipeOrUrl === 'object' && recipeOrUrl
+                    ? getRecipeSeason(recipeOrUrl)
+                    : null;
+                return season
+                    ? `files/pdf/nutrition/recipes/${season}/preview-${previewName}.png`
+                    : `files/pdf/preview-${previewName}.png`;
             } catch (error) {
-                return 'files/pdf/preview-mizuna-tofu-doria.png';
+                return 'files/pdf/preview-winter-mizuna-tofu-doria.png';
             }
         }
 
@@ -525,93 +653,93 @@
             const fallbackRecipes = [
                 {
                     title: '水菜の豆腐ドリア',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/mizuna-tofu-doria.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/winter/winter-mizuna-tofu-doria.pdf',
                     icon: '🥘'
                 },
                 {
                     title: '新たまねぎとサラダチキンの親子丼',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/new-onion-chicken-oyakodon.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/spring/spring-new-onion-chicken-oyakodon.pdf',
                     updatedAt: '2026-04-24',
                     icon: '🍚'
                 },
                 {
                     title: '金目鯛の煮付け',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/simmered-splendid-alfonsino.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/winter/winter-simmered-splendid-alfonsino.pdf',
                     icon: '🐟'
                 },
                 {
                     title: 'アスパラとささみの梅春巻き',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/asparagus-chicken-plum-spring-rolls.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/spring/spring-asparagus-chicken-plum-spring-rolls.pdf',
                     icon: '🥢'
                 },
                 {
                     title: 'さつまいも餅',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/sweet-potato-mochi.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/autumn/sweet-potato-mochi.pdf',
                     icon: '🍠'
                 },
                 {
                     title: 'びわゼリー',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/loquat-jelly.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/spring/loquat-jelly.pdf',
                     icon: '🍮'
                 },
                 {
                     title: 'かぶと鮭のみそ炒め',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/stir-fried-turnip-salmon-miso.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/autumn/stir-fried-turnip-salmon-miso.pdf',
                     icon: '🍳'
                 },
                 {
                     title: 'ほうれん草の麻婆豆腐',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/spinach-mapo-tofu.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/winter/spinach-mapo-tofu.pdf',
                     icon: '🍲'
                 },
                 {
                     title: 'サンマの梅酢漬け',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/pickled-saury-plum-vinegar.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/autumn/pickled-saury-plum-vinegar.pdf',
                     icon: '🐟'
                 },
                 {
                     title: '秋なすと秋さばの焼き浸し',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/grilled-eggplant-mackerel.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/autumn/grilled-eggplant-mackerel.pdf',
                     icon: '🍆'
                 },
                 {
                     title: 'さわらのバター醤油焼き',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/spanish-mackerel-butter-soy-sauce-recipe.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/spring/spring-spanish-mackerel-butter-soy-sauce-recipe.pdf',
                     icon: '🐟'
                 },
                 {
                     title: '新ごぼうと厚揚げの炒め物',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/young-burdock-atsuage-stir-fry-recipe.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/spring/spring-young-burdock-atsuage-stir-fry-recipe.pdf',
                     icon: '🥢'
                 },
                 {
                     title: 'あさりの炊き込みご飯',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/clam-mixed-rice-recipe.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/spring/spring-clam-mixed-rice-recipe.pdf',
                     icon: '🍚'
                 },
                 {
                     title: 'かぶとホタテの豆乳茶漬け',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/turnip-scallop-soymilk-chazuke-recipe.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/winter/winter-turnip-scallop-soymilk-chazuke-recipe.pdf',
                     icon: '🥣'
                 },
                 {
                     title: '油揚げの肉詰め',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/stuffed-aburaage-meat-recipe.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/winter/winter-stuffed-aburaage-meat-recipe.pdf',
                     icon: '🍽️'
                 },
                 {
                     title: 'いかとブロッコリーのガーリック炒め',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/squid-broccoli-garlic-stir-fry-recipe.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/autumn/autumn-squid-broccoli-garlic-stir-fry-recipe.pdf',
                     icon: '🦑'
                 },
                 {
                     title: '豚バラ肉のレモンソテー',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/pork-belly-lemon-saute-recipe.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/winter/winter-pork-belly-lemon-saute-recipe.pdf',
                     icon: '🥓'
                 },
                 {
                     title: 'まいたけチヂミ',
-                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/maitake-chijimi-recipe.pdf',
+                    url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/autumn/autumn-maitake-chijimi-recipe.pdf',
                     icon: '🍄'
                 }
             ];
@@ -625,6 +753,8 @@
                     .map((item) => ({
                         title: item.title,
                         url: item.storageUrl,
+                        filename: item.filename,
+                        season: item.season || null,
                         updatedAt: item.uploadedAt,
                         icon: item.icon || '🍽️',
                         previewUrl: item.previewUrl || item.thumbnailUrl || null
