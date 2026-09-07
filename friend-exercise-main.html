@@ -146,15 +146,26 @@
             position: absolute;
             top: var(--spacing-sm);
             right: var(--spacing-sm);
-            width: 28px;
-            height: 28px;
-            background: rgba(16, 185, 129, 0.9);
+            min-width: 64px;
+            height: 36px;
+            padding: 0 12px;
+            background: #047857;
             color: white;
             border-radius: var(--radius-full);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.7rem;
+            gap: 5px;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(4, 120, 87, 0.35);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            line-height: 1;
+        }
+
+        .play-indicator::first-letter {
+            font-size: 0.95rem;
         }
 
         .exercise-overlay h4 {
@@ -301,7 +312,7 @@
                             </path>
                         </svg>
                     </div>
-                    <div class="play-indicator">▶</div>
+                    <div class="play-indicator" aria-label="動画あり">▶ 動画</div>
                     <div class="exercise-overlay">
                         <h4>手指のグーパー運動</h4>
                         <div
@@ -322,7 +333,7 @@
                             <path d="M21 3v5h-5"></path>
                         </svg>
                     </div>
-                    <div class="play-indicator">▶</div>
+                    <div class="play-indicator" aria-label="動画あり">▶ 動画</div>
                     <div class="exercise-overlay">
                         <h4>肩回し運動</h4>
                         <div
@@ -343,7 +354,7 @@
                             </path>
                         </svg>
                     </div>
-                    <div class="play-indicator">▶</div>
+                    <div class="play-indicator" aria-label="動画あり">▶ 動画</div>
                     <div class="exercise-overlay">
                         <h4>前腕回内・回外運動</h4>
                         <div
@@ -364,7 +375,7 @@
                             <path d="M12 16V8"></path>
                         </svg>
                     </div>
-                    <div class="play-indicator">▶</div>
+                    <div class="play-indicator" aria-label="動画あり">▶ 動画</div>
                     <div class="exercise-overlay">
                         <h4>肩関節外転運動</h4>
                         <div
@@ -386,7 +397,7 @@
                             <path d="M8 12l4 4 4-4"></path>
                         </svg>
                     </div>
-                    <div class="play-indicator">▶</div>
+                    <div class="play-indicator" aria-label="動画あり">▶ 動画</div>
                     <div class="exercise-overlay">
                         <h4>肩関節伸展運動</h4>
                         <div
@@ -407,7 +418,7 @@
                             <path d="M21 3v5h-5"></path>
                         </svg>
                     </div>
-                    <div class="play-indicator">▶</div>
+                    <div class="play-indicator" aria-label="動画あり">▶ 動画</div>
                     <div class="exercise-overlay">
                         <h4>肩甲骨回旋運動</h4>
                         <div
@@ -495,7 +506,7 @@
                             <path d="M5.5 21v-2a4 4 0 0 1 4-4h5a4 4 0 0 1 4 4v2"></path>
                         </svg>
                     </div>
-                    <div class="play-indicator">▶</div>
+                    <div class="play-indicator" aria-label="動画あり">▶ 動画</div>
                     <div class="exercise-overlay">
                         <h4>頚部前・後屈運動</h4>
                         <div
