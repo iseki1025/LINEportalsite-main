@@ -86,6 +86,31 @@
             color: #b45309;
         }
 
+        .nutrition-priority-label {
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .nutrition-priority-list {
+            padding-left: 0;
+            margin: 0;
+            color: #ef4444;
+            font-weight: bold;
+            line-height: 2;
+            list-style: none;
+            text-align: left;
+        }
+
+        @media (max-width: 639px) {
+            .nutrition-priority-label,
+            .nutrition-priority-list {
+                text-align: center;
+            }
+        }
+
         .tip-card {
             background: #fef3c7;
             border: 1px solid #fcd34d;
@@ -393,8 +418,8 @@
         <!-- Tab 1: Info -->
         <section id="info" class="tab-content active">
             <div class="info-card">
-                <p style="color: #374151; text-align: center; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem;">基本項目</p>
-                <ul style="color: #ef4444; font-weight: bold; list-style-type: none; padding-left: 0; text-align: left; line-height: 2; display: table; margin: 0 auto;">
+                <p class="nutrition-priority-label">基本項目</p>
+                <ul class="nutrition-priority-list">
                     <li>・エネルギーの適量摂取</li>
                     <li>・たんぱく質の適量摂取</li>
                     <li>・リン制限</li>

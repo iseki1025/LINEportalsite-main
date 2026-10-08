@@ -1570,9 +1570,9 @@ a.card.wide::after {
 /* ========================================
    21. CONTENT ALIGNMENT
    ----------------------------------------
-   Desktop pages use left-aligned reading flow. On small screens, the
-   navigation cards and section headings become centered while long-form
-   content remains explicitly left-aligned for readability.
+   Desktop pages use left-aligned reading flow. Card labels stay centered
+   at every width, while long-form content remains explicitly left-aligned
+   for readability.
    ======================================== */
 .main-content {
     text-align: left;
@@ -1628,11 +1628,11 @@ a.card.wide::after {
     }
 
     .card {
-        align-items: flex-start;
+        align-items: center;
     }
 
     .card-content {
-        align-items: flex-start;
-        text-align: left;
+        align-items: center;
+        text-align: center;
     }
 }
