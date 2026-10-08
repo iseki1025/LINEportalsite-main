@@ -4,9 +4,11 @@
     }
     window.__pageTransitionInitialized = true;
 
-    const NAVIGATION_DELAY = 150;
-    const ENTER_DURATION = 240;
-    const LEAVE_DURATION = 180;
+    const ENTER_DURATION = 300;
+    const LEAVE_DURATION = 260;
+    const REDUCED_ENTER_DURATION = 200;
+    const REDUCED_LEAVE_DURATION = 160;
+    const NAVIGATION_BUFFER = 20;
     const ENTER_CLASS = 'page-transition-enter';
     const LEAVE_CLASS = 'page-transition-leave';
     const PRERENDER_CLASS = 'page-transition-prerender';
@@ -17,6 +19,18 @@
 
     function prefersReducedMotion() {
         return reduceMotionQuery.matches;
+    }
+
+    function hasPendingNavigation() {
+        try {
+            return sessionStorage.getItem(PENDING_KEY) === '1';
+        } catch (error) {
+            return document.documentElement.classList.contains(PRERENDER_CLASS);
+        }
+    }
+
+    function isHistoryNavigation() {
+        return performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
     }
 
     function ensureStyles() {
@@ -45,42 +59,47 @@ body {
 
 html.${LEAVE_CLASS} body {
     transition-duration: ${LEAVE_DURATION}ms;
-    transform: translateY(-8px);
+    transform: translateY(-4px);
 }
 
 html.${ENTER_CLASS} body {
-    transform: translateY(10px);
+    transform: translateY(6px);
 }
 
 html.${PRERENDER_CLASS} body {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(6px);
 }
 
 @media (prefers-reduced-motion: reduce) {
-    body,
-    html.${ENTER_CLASS} body,
-    html.${LEAVE_CLASS} body,
-    html.${PRERENDER_CLASS} body {
-        transition: none !important;
+    body {
+        transition: opacity ${REDUCED_ENTER_DURATION}ms ease-out !important;
         transform: none !important;
+    }
+
+    html.${LEAVE_CLASS} body {
+        transition-duration: ${REDUCED_LEAVE_DURATION}ms !important;
     }
 }
 `;
         document.head.appendChild(style);
     }
 
-    function startEnterAnimation() {
-        if (prefersReducedMotion() || window.__pageTransitionEnterStarted) {
+    function startEnterAnimation(force = false) {
+        if (window.__pageTransitionEnterStarted) {
             cleanupPendingState();
             return;
         }
 
         window.__pageTransitionEnterStarted = true;
+        if (!force && !hasPendingNavigation() && !isHistoryNavigation()) {
+            cleanupPendingState();
+            return;
+        }
         const html = document.documentElement;
         html.classList.add(ENTER_CLASS);
         html.classList.remove(PRERENDER_CLASS);
-        void document.body && document.body.offsetHeight;
+        if (document.body) void document.body.offsetHeight;
 
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
@@ -162,15 +181,6 @@ html.${PRERENDER_CLASS} body {
         }
 
         const replace = Boolean(options.replace);
-        if (prefersReducedMotion()) {
-            if (replace) {
-                window.location.replace(targetUrl.href);
-            } else {
-                window.location.assign(targetUrl.href);
-            }
-            return;
-        }
-
         if (window.__pageTransitionLeaving) {
             return;
         }
@@ -186,7 +196,7 @@ html.${PRERENDER_CLASS} body {
         html.classList.remove(ENTER_CLASS);
         html.classList.remove(PRERENDER_CLASS);
         html.classList.add(LEAVE_CLASS);
-        void document.body && document.body.offsetHeight;
+        if (document.body) void document.body.offsetHeight;
 
         window.setTimeout(() => {
             if (replace) {
@@ -194,7 +204,7 @@ html.${PRERENDER_CLASS} body {
             } else {
                 window.location.assign(targetUrl.href);
             }
-        }, NAVIGATION_DELAY);
+        }, (prefersReducedMotion() ? REDUCED_LEAVE_DURATION : LEAVE_DURATION) + NAVIGATION_BUFFER);
     }
 
     function handleClick(event) {
@@ -219,17 +229,21 @@ html.${PRERENDER_CLASS} body {
     }
 
     window.addEventListener('pageshow', (event) => {
+        // A fast click can occur before the first pageshow event; do not cancel its fade-out.
+        if (window.__pageTransitionLeaving && !event.persisted) {
+            return;
+        }
         window.__pageTransitionLeaving = false;
         const html = document.documentElement;
         html.classList.remove(LEAVE_CLASS);
 
-        if (!event.persisted || prefersReducedMotion()) {
+        if (!event.persisted) {
             cleanupPendingState();
             return;
         }
 
         window.__pageTransitionEnterStarted = false;
-        startEnterAnimation();
+        startEnterAnimation(true);
     });
 
     document.addEventListener('click', handleClick, true);

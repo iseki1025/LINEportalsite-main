@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>食事療法 | 梶本クリニック</title>
-    <script src="js/page-transition-bootstrap.js"></script>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
     <link rel="stylesheet" href="portal-design.css">
     <style>
         /* Nutrition theme: Orange */
@@ -360,9 +360,10 @@
         }
 
     </style>
+    <link rel="stylesheet" href="public-pages.css?v=20260915-recipe-static">
 </head>
 
-<body>
+<body class="page-public page-friend-detail">
     <header class="app-header">
         <a href="friend-main.html" class="header-logo">
             <img src="files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
@@ -413,7 +414,7 @@
                     </p>
                     <div class="pdf-thumbnail-container"
                         onclick="window.open('http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/dietary-therapy-for-dialysis-patients.pdf', '_blank')">
-                        <img src="files/pdf/preview-dietary-therapy-for-dialysis-patients.png" alt="透析患者さんの食事療法プレビュー">
+                        <img src="files/pdf/preview-dietary-therapy-for-dialysis-patients.webp" alt="透析患者さんの食事療法プレビュー">
                         <div class="pdf-tap-hint">タップして開く</div>
                     </div>
                 </div>
@@ -472,24 +473,17 @@
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <a href="friend-main.html" class="nav-item active">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 12 20 22 4 22 4 12"></polyline>
-                <rect x="2" y="7" width="20" height="5"></rect>
-            </svg>
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#home"></use></svg>
             <span>特典トップ</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
             <span>Q&A</span>
         </a>
     </nav>
 
     <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="js/papaparse.min.js"></script>
     <script src="js/qa/qa-source.js"></script>
     <script src="js/qa/qa-data-embedded.js"></script>
     <script src="js/qa/qa-script.js"></script>
@@ -515,13 +509,6 @@
     </script>
     <!-- Recipe Links -->
     <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-        import { firebaseConfig } from './js/firebase-config.js';
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
         function parseYmd(value) {
             if (!value) return null;
             const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim());
@@ -547,10 +534,10 @@
         }
 
         const recipeSeasons = [
-            { key: 'spring', label: '春のレシピ', icon: '🌸' },
-            { key: 'summer', label: '夏のレシピ', icon: '🌻' },
-            { key: 'autumn', label: '秋のレシピ', icon: '🍁' },
-            { key: 'winter', label: '冬のレシピ', icon: '❄️' }
+            { key: 'spring', label: '春のレシピ' },
+            { key: 'summer', label: '夏のレシピ' },
+            { key: 'autumn', label: '秋のレシピ' },
+            { key: 'winter', label: '冬のレシピ' }
         ];
 
         const recipeSeasonByFile = {
@@ -621,7 +608,8 @@
                         <button type="button" class="recipe-season-tab${season.key === activeSeason ? ' active' : ''}"
                             role="tab" aria-selected="${season.key === activeSeason}" aria-controls="recipe-panel-${season.key}"
                             data-season="${season.key}">
-                            ${season.icon} ${season.label.replace('のレシピ', '')}
+                            <svg class="recipe-season-icon" aria-hidden="true"><use href="assets/icons/support-icons.svg?v=20260915-p5#season-${season.key}"></use></svg>
+                            ${season.label.replace('のレシピ', '')}
                             <span class="recipe-season-count">${groupedRecipes[season.key].length}件</span>
                         </button>
                     `).join('')}
@@ -635,7 +623,7 @@
                 <a href="${recipe.url}" target="_blank" rel="noopener noreferrer" class="recipe-link-item">
                     <div class="recipe-body">
                         <div class="recipe-title-wrap">
-                            <span class="recipe-title-icon">${recipe.icon || '🍽️'}</span>
+                            <span class="recipe-title-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg#nutrition"></use></svg></span>
                             <span class="recipe-title">${recipe.title}</span>
                             ${newBadge}
                         </div>
@@ -681,7 +669,7 @@
 
             const pdfUrl = typeof recipeOrUrl === 'string' ? recipeOrUrl : recipeOrUrl?.url;
             if (!pdfUrl) {
-                return 'files/pdf/preview-winter-mizuna-tofu-doria.png';
+                return 'files/pdf/nutrition/recipes/winter/preview-winter-mizuna-tofu-doria.webp';
             }
             try {
                 const pathname = new URL(pdfUrl, window.location.href).pathname;
@@ -689,20 +677,20 @@
                 const previewName = fileName.replace(/\.pdf$/i, '');
                 const season = typeof recipeOrUrl === 'object' && recipeOrUrl
                     ? getRecipeSeason(recipeOrUrl)
-                    : null;
+                    : recipeSeasonByFile[fileName] || null;
                 return season
-                    ? `files/pdf/nutrition/recipes/${season}/preview-${previewName}.png`
-                    : `files/pdf/preview-${previewName}.png`;
+                    ? `files/pdf/nutrition/recipes/${season}/preview-${previewName}.webp`
+                    : 'files/pdf/nutrition/recipes/winter/preview-winter-mizuna-tofu-doria.webp';
             } catch (error) {
-                return 'files/pdf/preview-winter-mizuna-tofu-doria.png';
+                return 'files/pdf/nutrition/recipes/winter/preview-winter-mizuna-tofu-doria.webp';
             }
         }
 
-        async function loadRecipes() {
+        function loadRecipes() {
             const container = document.getElementById('recipeContainer');
             if (!container) return;
 
-            const fallbackRecipes = [
+            const publishedRecipes = [
                 {
                     title: '水菜の豆腐ドリア',
                     url: 'http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/nutrition/recipes/winter/winter-mizuna-tofu-doria.pdf',
@@ -796,37 +784,12 @@
                 }
             ];
 
-            try {
-                const q = query(collection(db, 'recipes'), orderBy('uploadedAt', 'desc'));
-                const snapshot = await getDocs(q);
-                const recipes = snapshot.docs
-                    .map((doc) => doc.data())
-                    .filter((item) => item.title && item.storageUrl)
-                    .map((item) => ({
-                        title: item.title,
-                        url: item.storageUrl,
-                        filename: item.filename,
-                        season: item.season || null,
-                        updatedAt: item.uploadedAt,
-                        icon: item.icon || '🍽️',
-                        previewUrl: item.previewUrl || item.thumbnailUrl || null
-                    }));
-
-                if (recipes.length > 0) {
-                    renderRecipes(container, recipes);
-                    return;
-                }
-            } catch (error) {
-                console.error('レシピ取得エラー:', error);
-            }
-
-            renderRecipes(container, fallbackRecipes);
+            renderRecipes(container, publishedRecipes);
         }
 
         loadRecipes();
     </script>
 
-    <script src="js/page-transition.js"></script>
 
 </body>
 

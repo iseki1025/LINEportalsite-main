@@ -1,0 +1,37 @@
+node_modules/
+__pycache__/
+*.pyc
+
+# Local environments and credentials
+.env
+.env.*
+!.env.example
+!.env.sample
+.venv/
+venv/
+credentials.json
+service-account*.json
+serviceAccount*.json
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Local caches, logs, editor state and generated test output
+.cache/
+.pytest_cache/
+coverage/
+playwright-report/
+test-results/
+*.log
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# One-off utilities hardcoded to the original checkout
+/inspect_filename.py
+/scripts/update_headers.py
+/scripts/update_qa_js.py

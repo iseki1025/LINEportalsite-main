@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>災害Q&A | 災害情報ポータル</title>
-    <script src="js/page-transition-bootstrap.js"></script>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
     <link rel="stylesheet" href="portal-design.css">
     <style>
         .qa-item {
@@ -173,9 +173,10 @@
             display: none;
         }
     </style>
+    <link rel="stylesheet" href="public-pages.css">
 </head>
 
-<body>
+<body class="page-public page-disaster-detail">
     <!-- Header -->
     <header class="app-header">
         <a href="disaster-main.html" class="header-logo">
@@ -242,20 +243,11 @@
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <a href="disaster-main.html" class="nav-item active">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
-                </path>
-                <line x1="12" y1="9" x2="12" y2="13"></line>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#disaster"></use></svg>
             <span>災害トップ</span>
         </a>
-        <a href="qa-main.html" class="nav-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
+        <a href="disaster-faq.html" class="nav-item">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
             <span>Q&A</span>
         </a>
     </nav>
@@ -275,7 +267,6 @@
         }
     </script>
 
-    <script src="js/page-transition.js"></script>
 
 </body>
 

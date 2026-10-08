@@ -1,0 +1,332 @@
+/* Phase 4: public detail pages share the patient-support visual language.
+ * Medical text, page links, and interactive scripts remain page-owned.
+ */
+.page-public {
+    background: #fff;
+}
+
+.page-public .app-header {
+    background: #fff;
+    border: 0;
+    box-shadow: 0 1px 0 #dceaf0;
+}
+
+.page-public .header-logo {
+    position: static;
+    height: auto;
+    margin-right: clamp(1rem, 3vw, 2rem);
+}
+
+.page-public .header-logo img {
+    height: clamp(32px, 4.1vw, 52px);
+}
+
+.page-public .header-center {
+    position: static;
+    display: flex;
+    justify-content: flex-start;
+    width: auto;
+    padding-left: clamp(1rem, 2vw, 1.5rem);
+    border-left: 1px solid #aec6d7;
+    transform: none;
+}
+
+.page-public .header-title {
+    color: #134d7f;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    font-size: clamp(1.1rem, 2.3vw, 1.8rem);
+    letter-spacing: .02em;
+}
+
+.page-public .main-content {
+    max-width: 1120px;
+    padding-top: calc(var(--header-height) + 1.25rem);
+    padding-bottom: calc(var(--bottom-nav-height) + 4rem);
+}
+
+.page-public .hero-section {
+    margin-bottom: 1.75rem;
+    padding: clamp(2rem, 5vw, 4rem);
+    border: 0;
+    border-radius: 20px;
+    background: linear-gradient(110deg, #e5f7ff, #f2f6ff);
+}
+
+.page-public .hero-section.theme-disaster {
+    background: linear-gradient(110deg, #fff0ed, #f8f3fa);
+}
+
+.page-public .hero-section.theme-nutrition {
+    background: linear-gradient(110deg, #fff1df, #fff8ec);
+}
+
+.page-public .hero-section.theme-exercise {
+    background: linear-gradient(110deg, #e5f9eb, #f1fff7);
+}
+
+.page-public .hero-section.theme-footcare {
+    background: linear-gradient(110deg, #ffe9ef, #fff6f9);
+}
+
+.page-public .hero-section.theme-game {
+    background: linear-gradient(110deg, #eeeaff, #f7f4ff);
+}
+
+.page-public .hero-section.theme-shunt {
+    background: linear-gradient(110deg, #e4f5ff, #fff0f8);
+}
+
+.page-public .hero-badge {
+    display: inline-flex;
+    padding: .35rem .75rem;
+    margin-bottom: .7rem;
+    color: #087f9d;
+    font-size: .8rem;
+    font-weight: 700;
+    background: #e2f7fa;
+    border-radius: 999px;
+}
+
+.page-public .hero-title {
+    color: #134d7f;
+    font-size: clamp(2rem, 4vw, 3.3rem);
+}
+
+.page-disaster-detail .hero-title { color: #aa342d; }
+.page-public .hero-subtitle {
+    color: #235272;
+    animation: none;
+}
+
+.page-public .section-title,
+.page-public .category-title,
+.page-public .tab-content h2,
+.page-public .main-content > h2 {
+    color: #134d7f;
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    font-weight: 800;
+    letter-spacing: .02em;
+}
+
+.page-public .tab-nav {
+    gap: .35rem;
+    margin-bottom: 1.5rem;
+    padding: .35rem;
+    background: #f2f8fb;
+    border: 1px solid #dceaf0;
+    border-radius: 16px;
+}
+
+.page-public .tab-btn {
+    min-height: 48px;
+    color: #315a78;
+    border-radius: 11px;
+}
+
+.page-public .tab-btn.active {
+    color: #fff;
+    background: #087e98;
+    border-color: #087e98;
+    box-shadow: 0 3px 10px rgba(8, 126, 152, .18);
+}
+
+.page-public .card,
+.page-public .link-card,
+.page-public .info-card,
+.page-public .tip-card,
+.page-public .quiz-card,
+.page-public .evacuation-item,
+.page-public .map-section,
+.page-public .checklist-category,
+.page-public .pdf-collapsible,
+.page-public .qa-item {
+    border: 1px solid #dceaf0;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 7px 20px rgba(22, 85, 121, .08);
+}
+
+.page-public .card-icon {
+    width: 76px;
+    height: 76px;
+    color: #078fa1;
+    background: #e7f6ff;
+    border-radius: 50%;
+}
+
+.page-public .card-icon svg {
+    width: 40px;
+    height: 40px;
+}
+
+.page-public .game-icon svg {
+    width: 32px;
+    height: 32px;
+    color: #5859b6;
+}
+
+.page-public .game-benefit-icon svg {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto .5rem;
+    color: #5859b6;
+}
+
+.page-public .recipe-season-icon,
+.page-public .recipe-title-icon svg {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    color: #df792b;
+    vertical-align: middle;
+}
+
+.page-public .recipe-season-tabs {
+    background: #f2f8fb;
+    border-color: #dceaf0;
+    box-shadow: 0 7px 20px rgba(22, 85, 121, .08);
+}
+
+.page-public .recipe-season-tab {
+    color: #315a78;
+    background: transparent;
+}
+
+.page-public .recipe-season-tab:hover,
+.page-public .recipe-season-tab:focus-visible {
+    color: #134d7f;
+    background: #e5f3f8;
+}
+
+.page-public .recipe-season-tab.active {
+    color: #fff;
+    background: #087e98;
+}
+
+.page-public .recipe-season-tab.active .recipe-season-icon {
+    color: #fff;
+}
+
+.page-public .recipe-season-panel,
+.page-public .recipe-link-item {
+    border-color: #dceaf0;
+    border-radius: 18px;
+    box-shadow: 0 7px 20px rgba(22, 85, 121, .08);
+}
+
+.page-public .recipe-link-item:hover {
+    border-color: #80c4d4;
+    box-shadow: 0 12px 28px rgba(22, 85, 121, .14);
+}
+
+.page-public .recipe-title {
+    color: #134d7f;
+    font-weight: 800;
+}
+
+.page-public .recipe-thumb {
+    background: #f2f8fb;
+    border-color: #dceaf0;
+}
+
+.page-public .inline-icon-label {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+}
+
+.page-public .inline-icon-label svg {
+    width: 22px;
+    height: 22px;
+    color: #134d7f;
+}
+
+.page-public .card-title,
+.page-public .game-title,
+.page-public .link-card-title {
+    color: #134d7f;
+    font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+    font-weight: 800;
+}
+
+.page-public .info-box,
+.page-public .caution-box,
+.page-public .warning-box {
+    border-radius: 16px;
+}
+
+.page-public .btn,
+.page-public .print-btn,
+.page-public .quiz-next-btn {
+    min-height: 48px;
+    border-radius: 999px;
+    font-weight: 700;
+}
+
+.page-public .menu-item,
+.page-public .game-item,
+.page-public .clinic-item,
+.page-public .qa-question {
+    min-height: 48px;
+    border-radius: 14px;
+}
+
+.page-public .main-content img,
+.page-public .main-content video,
+.page-public .main-content iframe {
+    max-width: 100%;
+}
+
+.page-public .bottom-nav {
+    justify-content: center;
+    gap: clamp(2rem, 10vw, 8rem);
+    background: #fff;
+}
+
+.page-public .bottom-nav .nav-item {
+    flex-direction: row;
+    gap: .75rem;
+    min-height: 60px;
+    color: #145079;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.page-public .bottom-nav .nav-item.active { color: #078fa1; }
+
+.page-portal-entry .main-content { max-width: 1120px; }
+.page-portal-entry .card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.page-portal-entry .card.wide { grid-column: auto; flex-direction: column; }
+.page-portal-entry .card.wide .card-icon { margin-bottom: var(--spacing-md); }
+.page-portal-entry .card-grid a.card::after { content: none; }
+.page-portal-entry .card-grid .card { min-height: 230px; padding-right: var(--spacing-md); }
+.page-portal-entry .card.accent-friend { background: #e7f6ff; }
+.page-portal-entry .card.accent-disaster { background: #fff0ed; }
+.page-portal-entry .card.accent-qa { background: #eef0ff; }
+.page-portal-entry .menu-item { border-radius: 14px; }
+
+.page-public .copyright,
+.page-public .app-footer {
+    color: #7891a4;
+}
+
+/* Detail-page headings follow the same desktop/mobile alignment rule as the
+   shared hero and section titles. */
+.page-public .category-title,
+.page-public .tab-content h2,
+.page-public .main-content > h2 {
+    text-align: left;
+}
+
+@media (max-width: 639px) {
+    .page-public .header-logo img { height: 32px; }
+    .page-public .header-center { display: flex; padding-left: .7rem; }
+    .page-public .header-title { font-size: 1rem; }
+    .page-public .hero-section { padding: 2.25rem 1.25rem; }
+    .page-public .bottom-nav .nav-item { font-size: .8rem; }
+    .page-portal-entry .card-grid { grid-template-columns: 1fr; }
+    .page-public .category-title,
+    .page-public .tab-content h2,
+    .page-public .main-content > h2 { text-align: center; }
+}

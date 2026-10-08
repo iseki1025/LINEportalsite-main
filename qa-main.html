@@ -2,180 +2,91 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Q&amp;A &#26908;&#32034; | Kajimoto Clinic</title>
-    <script src="js/page-transition-bootstrap.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Q&amp;A検索 | 梶本クリニック</title>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
     <link rel="stylesheet" href="portal-design.css">
-    <style>
-        .qa-category-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-lg);
-            overflow: visible;
-            padding-bottom: 0;
-        }
-        .qa-tab {
-            padding: var(--spacing-sm) var(--spacing-md);
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-full);
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            white-space: normal;
-            transition: all var(--transition-fast);
-            cursor: pointer;
-        }
-        .qa-tab:hover {
-            border-color: var(--color-primary);
-            color: var(--color-primary);
-        }
-        .qa-tab.active {
-            background: var(--color-primary);
-            border-color: var(--color-primary);
-            color: var(--text-inverse);
-        }
-        .qa-list {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-md);
-        }
-        .qa-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-        }
-        .qa-question {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--spacing-md);
-            padding: var(--spacing-md) var(--spacing-lg);
-            cursor: pointer;
-            transition: background var(--transition-fast);
-        }
-        .qa-question:hover {
-            background: var(--bg-glass-dark);
-        }
-        .qa-question-icon {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            background: var(--accent-qa);
-            color: #fff;
-            border-radius: var(--radius-sm);
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
-        .qa-question-text {
-            flex: 1;
-            font-weight: 500;
-            color: var(--text-primary);
-            line-height: 1.5;
-        }
-        .qa-toggle-icon {
-            color: var(--text-muted);
-            transition: transform var(--transition-normal);
-        }
-        .qa-item.open .qa-toggle-icon {
-            transform: rotate(180deg);
-        }
-        .qa-answer {
-            display: none;
-            padding: var(--spacing-md) var(--spacing-lg);
-            padding-left: calc(var(--spacing-lg) + 28px + var(--spacing-md));
-            background: var(--bg-main);
-            border-top: 1px solid var(--border-light);
-        }
-        .qa-item.open .qa-answer {
-            display: block;
-        }
-        .qa-answer-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            background: var(--color-primary);
-            color: #fff;
-            border-radius: var(--radius-sm);
-            font-weight: 700;
-            font-size: 0.85rem;
-            margin-right: var(--spacing-sm);
-            vertical-align: top;
-        }
-        .qa-answer-text {
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-        .no-results {
-            text-align: center;
-            padding: var(--spacing-2xl);
-            color: var(--text-muted);
-        }
-    </style>
+    <link rel="stylesheet" href="representative-pages.css">
 </head>
-<body>
+<body class="page-qa">
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+    <div class="app-container">
     <header class="app-header">
-        <a href="index.html" class="header-logo">
-            <img src="files/common/kajimoto_rogo2.svg" alt="Kajimoto Clinic">
+        <a href="index.html" class="header-logo" aria-label="梶本クリニック ポータルへ戻る">
+            <img src="files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
         </a>
         <div class="header-center">
-            <div class="header-title">Q&amp;A &#26908;&#32034;</div>
+            <div class="header-title">Q&amp;A検索</div>
         </div>
     </header>
 
-    <main class="main-content">
-        <div class="search-container">
-            <input type="text" class="search-input" id="qaSearchInput" placeholder="キーワードで検索...">
+    <main id="main-content" class="main-content">
+        <section class="hero-section" aria-labelledby="qa-page-title">
+            <p class="hero-badge">よくある質問</p>
+            <h1 id="qa-page-title" class="hero-title">Q&amp;A検索</h1>
+            <p class="hero-description">キーワードやカテゴリーから、知りたい情報を探せます。</p>
+        </section>
 
-            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:1rem; margin-bottom:0.5rem;">
+        <section class="search-panel" aria-labelledby="qa-search-title">
+            <h2 id="qa-search-title" class="field-label">キーワードで検索</h2>
+            <input type="search" class="search-input" id="qaSearchInput" placeholder="キーワードで検索..." autocomplete="off">
+
+            <p class="popular-keywords-label">
                 よく検索されるキーワード
-            </div>
+            </p>
             <div class="keyword-buttons" id="keywordButtons">
-                <button class="keyword-btn" onclick="setKeyword('食事')">食事</button>
-                <button class="keyword-btn" onclick="setKeyword('診療時間')">診療時間</button>
-                <button class="keyword-btn" onclick="setKeyword('生活習慣')">生活習慣</button>
-                <button class="keyword-btn" onclick="setKeyword('シャント')">シャント</button>
-                <button class="keyword-btn" onclick="setKeyword('送迎')">送迎</button>
-                <button class="keyword-btn" onclick="setKeyword('検査')">検査</button>
+                <button type="button" class="keyword-btn" onclick="setKeyword('食事')">食事</button>
+                <button type="button" class="keyword-btn" onclick="setKeyword('診療時間')">診療時間</button>
+                <button type="button" class="keyword-btn" onclick="setKeyword('生活習慣')">生活習慣</button>
+                <button type="button" class="keyword-btn" onclick="setKeyword('シャント')">シャント</button>
+                <button type="button" class="keyword-btn" onclick="setKeyword('送迎')">送迎</button>
+                <button type="button" class="keyword-btn" onclick="setKeyword('検査')">検査</button>
             </div>
-        </div>
+        </section>
 
-        <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.5rem; padding-left:0.25rem;">
+        <p class="category-filter-label" id="category-filter-label">
             カテゴリで絞り込み:
-        </div>
-        <div class="qa-category-tabs" id="categoryTabs">
-            <button class="qa-tab active" data-category="all">すべて</button>
-            <button class="qa-tab" data-category="insurance">保険・費用</button>
-            <button class="qa-tab" data-category="treatment">治療</button>
-            <button class="qa-tab" data-category="transport">送迎</button>
-            <button class="qa-tab" data-category="test">検査</button>
-            <button class="qa-tab" data-category="nutrition">食事</button>
-            <button class="qa-tab" data-category="shunt">シャント</button>
-            <button class="qa-tab" data-category="schedule">診療時間</button>
-            <button class="qa-tab" data-category="lifestyle">生活習慣</button>
-            <button class="qa-tab" data-category="disaster">災害</button>
+        </p>
+        <div class="qa-category-tabs" id="categoryTabs" role="group" aria-labelledby="category-filter-label">
+            <button type="button" class="qa-tab active" aria-pressed="true" data-category="all">すべて</button>
+            <button type="button" class="qa-tab" aria-pressed="false" data-category="insurance">保険・費用</button>
+            <button type="button" class="qa-tab" aria-pressed="false" data-category="treatment">治療</button>
+            <button type="button" class="qa-tab" aria-pressed="false" data-category="transport">送迎</button>
+            <button type="button" class="qa-tab" aria-pressed="false" data-category="test">検査</button>
+            <button type="button" class="qa-tab" aria-pressed="false" data-category="nutrition">食事</button>
+            <button type="button" class="qa-tab" aria-pressed="false" data-category="shunt">シャント</button>
+            <button type="button" class="qa-tab" aria-pressed="false" data-category="schedule">診療時間</button>
+            <button type="button" class="qa-tab" aria-pressed="false" data-category="lifestyle">生活習慣</button>
+            <button type="button" class="qa-tab" aria-pressed="false" data-category="disaster">災害</button>
         </div>
 
-        <div class="qa-list" id="qaList">
-            <p class="no-results">Q&amp;A loading...</p>
+        <div class="qa-list" id="qaList" aria-busy="true">
+            <p class="no-results">Q&amp;Aを読み込んでいます...</p>
         </div>
 
         <div class="back-btn-container">
-            <a href="index.html" class="btn btn-secondary">
-                &#12488;&#12483;&#12503;&#12506;&#12540;&#12472;&#12408;&#25147;&#12427;
+            <a href="friend-main.html" class="btn btn-secondary">
+                お友達特典ポータルへ戻る
             </a>
         </div>
-
-        <footer class="copyright">
-            <a href="index.html" class="stealth-link">© 2025 Kajimoto Clinic</a>
-        </footer>
     </main>
+
+    <footer class="app-footer">
+        <a href="index.html" class="stealth-link">© 2026 Kajimoto Clinic</a>
+    </footer>
+
+    <nav class="bottom-nav" aria-label="主要ナビゲーション">
+        <a class="nav-item" href="friend-main.html">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#home"></use></svg>
+            <span>特典トップ</span>
+        </a>
+        <a class="nav-item active" href="qa-main.html" aria-current="page">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
+            <span>Q&amp;A</span>
+        </a>
+    </nav>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <script src="js/qa/qa-source.js"></script>
@@ -198,7 +109,8 @@
         function toggleQA(element) {
             const item = element.closest('.qa-item');
             if (!item) return;
-            item.classList.toggle('open');
+            const isOpen = item.classList.toggle('open');
+            element.setAttribute('aria-expanded', String(isOpen));
         }
 
         function normalizeCategoryText(text) {
@@ -237,7 +149,7 @@
 
         function formatAnswerText(text) {
             if (!text) {
-                return '<span style="color:var(--text-muted);">&#22238;&#31572;&#28310;&#20633;&#20013;</span>';
+                return '<span class="answer-pending">回答準備中</span>';
             }
 
             let formatted = String(text)
@@ -247,7 +159,7 @@
 
             const urlRegex = /(https?:\/\/[^\s<>"')]+)/g;
             formatted = formatted.replace(urlRegex, (url) =>
-                `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color:var(--color-primary);text-decoration:underline;word-break:break-all;">${url}</a>`
+                `<a href="${url}" target="_blank" rel="noopener noreferrer" class="qa-answer-link">${url}</a>`
             );
             return formatted.replace(/\n/g, '<br>');
         }
@@ -257,28 +169,31 @@
             if (!container) return;
 
             if (!data.length) {
-                container.innerHTML = '<p class="no-results" id="noResults" style="display:block;">No Q&amp;A found</p>';
+                container.innerHTML = '<p class="no-results" id="noResults">該当するQ&amp;Aが見つかりません</p>';
+                container.setAttribute('aria-busy', 'false');
                 return;
             }
 
-            container.innerHTML = data.map((item) => `
+            container.innerHTML = data.map((item, index) => `
                 <article class="qa-item"
                     data-categories="${item.categories.join(',')}"
                     data-category-raw="${item.categoryRaw}"
                     data-keywords="${item.keywords}">
-                    <div class="qa-question" onclick="toggleQA(this)">
-                        <span class="qa-question-icon">Q</span>
+                    <button type="button" class="qa-question" onclick="toggleQA(this)"
+                        aria-expanded="false" aria-controls="qa-answer-${index}">
+                        <span class="qa-question-icon" aria-hidden="true">Q</span>
                         <span class="qa-question-text">${item.question}</span>
-                        <span class="qa-toggle-icon">▼</span>
-                    </div>
-                    <div class="qa-answer">
-                        <span class="qa-answer-icon">A</span>
+                        <span class="qa-toggle-icon" aria-hidden="true">▼</span>
+                    </button>
+                    <div class="qa-answer" id="qa-answer-${index}">
+                        <span class="qa-answer-icon" aria-hidden="true">A</span>
                         <span class="qa-answer-text">${formatAnswerText(item.answer)}</span>
                     </div>
                 </article>
             `).join('');
 
-            container.insertAdjacentHTML('beforeend', '<p class="no-results" id="noResults" style="display:none;">No Q&amp;A found</p>');
+            container.insertAdjacentHTML('beforeend', '<p class="no-results" id="noResults" hidden>該当するQ&amp;Aが見つかりません</p>');
+            container.setAttribute('aria-busy', 'false');
         }
 
         function filterQA() {
@@ -311,7 +226,7 @@
             });
 
             const noResults = document.getElementById('noResults');
-            if (noResults) noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            if (noResults) noResults.hidden = visibleCount !== 0;
         }
 
         function extractRowValue(row, keys) {
@@ -393,7 +308,8 @@
         async function loadQAData() {
             const container = document.getElementById('qaList');
             if (!container) return;
-            container.innerHTML = '<p class="no-results">Q&amp;A loading...</p>';
+            container.setAttribute('aria-busy', 'true');
+            container.innerHTML = '<p class="no-results">Q&amp;Aを読み込んでいます...</p>';
 
             const urls = window.QA_SOURCE_URLS || {};
             const candidates = [urls.remoteCsvUrl, urls.localCsvUrl].filter(Boolean);
@@ -422,14 +338,19 @@
             }
 
             console.error('Q&A load failed', errors);
-            container.innerHTML = '<p class="no-results" style="display:block;">Q&amp;A data load failed.</p>';
+            container.innerHTML = '<p class="no-results">Q&amp;Aデータを読み込めませんでした。</p>';
+            container.setAttribute('aria-busy', 'false');
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('categoryTabs')?.addEventListener('click', (e) => {
                 if (!e.target.classList.contains('qa-tab')) return;
-                document.querySelectorAll('.qa-tab').forEach((tab) => tab.classList.remove('active'));
+                document.querySelectorAll('.qa-tab').forEach((tab) => {
+                    tab.classList.remove('active');
+                    tab.setAttribute('aria-pressed', 'false');
+                });
                 e.target.classList.add('active');
+                e.target.setAttribute('aria-pressed', 'true');
                 filterQA();
             });
 
@@ -444,7 +365,6 @@
             }
         });
     </script>
-    <script src="js/page-transition.js"></script>
 
 </body>
 </html>

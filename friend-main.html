@@ -3,172 +3,154 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>お友達特典 | 梶本クリニック</title>
-    <script src="js/page-transition-bootstrap.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>患者サポート | 梶本クリニック</title>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
     <link rel="stylesheet" href="portal-design.css">
+    <link rel="stylesheet" href="representative-pages.css">
 </head>
 
-<body>
-    <header class="app-header">
-        <a href="friend-main.html" class="header-logo">
+<body class="page-friend">
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+    <div class="app-container">
+    <header class="app-header support-header">
+        <a href="friend-main.html" class="header-logo" aria-label="患者サポートトップへ戻る">
             <img src="files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
         </a>
         <div class="header-center">
-            <div class="header-title">お友達特典</div>
+            <div class="header-title">患者サポート</div>
         </div>
+        <p class="header-message">地域の皆さまと<br>これからも健やかな毎日を</p>
     </header>
 
     <!-- Main Content -->
-    <main class="main-content">
+    <main id="main-content" class="main-content">
 
         <!-- Hero Section -->
-        <section class="hero-section theme-friend">
-            <h1 class="hero-title">いつまでも健やかに</h1>
-            <p class="hero-subtitle">
-                日々のケアで心も体もリフレッシュ。<br>
-                あなたの健康生活をサポートします。
-            </p>
-        </section>
-
-        <section class="update-news js-update-section" aria-label="更新情報">
-            <h2 class="update-news-title">更新情報</h2>
-            <ul class="update-news-list">
-                <li class="update-news-item js-update-item" data-update-until="2026-06-02">
-                    <span class="update-news-date">2026.05.15</span>
-                    <span class="update-news-text">食事療法ページにおすすめレシピを3品追加しました。</span>
-                </li>
-                <li class="update-news-item js-update-item" data-update-until="2026-06-14">
-                    <span class="update-news-date">2026.05.14</span>
-                    <span class="update-news-text">食事療法ページにおすすめレシピを5品追加しました。</span>
-                </li>
-                <li class="update-news-item js-update-item" data-update-until="2026-06-02">
-                    <span class="update-news-date">2026.05.02</span>
-                    <span class="update-news-text">食事療法ページに『透析患者さんの食事療法』ガイド（PDF）を追加しました。</span>
-                </li>
-            </ul>
+        <section class="hero-section theme-friend support-hero">
+            <img class="support-hero-image" src="files/common/patient-support-hero-v2.webp" alt="緑の公園で笑顔を見せるシニアのご夫婦" width="1672" height="941">
+            <div class="support-hero-copy">
+                <h1 class="hero-title">いつまでも<br>健やかに</h1>
+                <p class="hero-subtitle">日々のケアで心も体もリフレッシュ。<br>あなたの健康生活をサポートします。</p>
+            </div>
+            <p class="support-hero-note">今日も、<br>いい一日をつくろう</p>
+            <div class="support-hero-seal" aria-hidden="true"><span>いつもの笑顔を、</span><strong>ずっとこれからも</strong></div>
         </section>
 
         <!-- Card Grid -->
-        <div class="card-grid">
+        <section class="support-categories" aria-labelledby="support-title">
+            <div class="support-section-heading">
+                <span class="support-leaf-mark" aria-hidden="true">✦</span>
+                <h2 id="support-title" class="section-title">健康サポート</h2>
+                <p>毎日の生活に役立つ情報を、わかりやすくお届けします。</p>
+            </div>
+            <div class="card-grid">
             <!-- Shunt Management -->
             <a href="friend-shunt-main.html" class="card accent-shunt">
-                <div class="card-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                    </svg>
-                </div>
+                <div class="card-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg#shunt"></use></svg></div>
                 <div class="card-content">
                     <div class="card-title">シャント管理</div>
                     <div class="card-desc">長持ちさせるケア方法</div>
                 </div>
+                <span class="card-arrow" aria-hidden="true">→</span>
             </a>
 
             <!-- Exercise -->
             <a href="friend-exercise-main.html" class="card accent-exercise">
-                <div class="card-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path
-                            d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15">
-                        </path>
-                        <path d="M14 4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v6"></path>
-                    </svg>
-                </div>
+                <div class="card-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg#exercise"></use></svg></div>
                 <div class="card-content">
                     <div class="card-title">運動療法</div>
                     <div class="card-desc">安全な運動ポイント</div>
                 </div>
+                <span class="card-arrow" aria-hidden="true">→</span>
             </a>
 
             <!-- Nutrition -->
             <a href="friend-nutrition-main.html" class="card accent-nutrition">
-                <div class="card-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
-                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
-                        <line x1="6" y1="1" x2="6" y2="4"></line>
-                        <line x1="10" y1="1" x2="10" y2="4"></line>
-                        <line x1="14" y1="1" x2="14" y2="4"></line>
-                    </svg>
-                </div>
+                <div class="card-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg#nutrition"></use></svg></div>
                 <div class="card-content">
                     <div class="card-title">食事療法 <span class="update-chip js-update-badge"
                             data-update-until="2026-06-02">UPDATE</span></div>
                     <div class="card-desc">基本とレシピ</div>
                 </div>
+                <span class="card-arrow" aria-hidden="true">→</span>
             </a>
 
             <!-- Footcare -->
             <a href="friend-footcare-main.html" class="card accent-footcare">
-                <div class="card-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <path d="M8 13h8"></path>
-                        <path d="M8 17h8"></path>
-                    </svg>
-                </div>
+                <div class="card-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg#footcare"></use></svg></div>
                 <div class="card-content">
                     <div class="card-title">フットケア</div>
                     <div class="card-desc">足のトラブル予防</div>
                 </div>
+                <span class="card-arrow" aria-hidden="true">→</span>
             </a>
 
             <!-- Mini Games -->
-            <a href="friend-game-main.html" class="card wide accent-game">
-                <div class="card-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <rect x="2" y="6" width="20" height="12" rx="2"></rect>
-                        <path d="M6 12h4"></path>
-                        <path d="M8 10v4"></path>
-                        <circle cx="17" cy="12" r="1.5"></circle>
-                    </svg>
-                </div>
+            <a href="friend-game-main.html" class="card accent-game">
+                <div class="card-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg#game"></use></svg></div>
                 <div class="card-content">
                     <div class="card-title">ミニゲーム</div>
                     <div class="card-desc">楽しみながら頭の体操</div>
                 </div>
+                <span class="card-arrow" aria-hidden="true">→</span>
             </a>
-        </div>
+            </div>
+        </section>
+
+        <section class="update-news js-update-section" aria-labelledby="updates-title">
+            <h2 id="updates-title" class="update-news-title"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg#bell"></use></svg>更新情報</h2>
+            <ul class="update-news-list">
+                <li class="update-news-item js-update-item" data-update-until="2026-06-02">
+                    <time class="update-news-date" datetime="2026-05-15">2026.05.15</time>
+                    <span class="update-news-text">食事療法ページにおすすめレシピを3品追加しました。</span>
+                </li>
+                <li class="update-news-item js-update-item" data-update-until="2026-06-14">
+                    <time class="update-news-date" datetime="2026-05-14">2026.05.14</time>
+                    <span class="update-news-text">食事療法ページにおすすめレシピを5品追加しました。</span>
+                </li>
+                <li class="update-news-item js-update-item" data-update-until="2026-06-02">
+                    <time class="update-news-date" datetime="2026-05-02">2026.05.02</time>
+                    <span class="update-news-text">食事療法ページに『透析患者さんの食事療法』ガイド（PDF）を追加しました。</span>
+                </li>
+            </ul>
+            <p class="update-news-empty" hidden>現在掲載中の更新情報はありません。</p>
+        </section>
+
+        <section class="support-promise" aria-labelledby="support-promise-title">
+            <img src="files/common/clinic-support-illustration-v2.webp" alt="緑に囲まれたクリニックをイメージしたイラスト" width="1536" height="1024" loading="lazy">
+            <div>
+                <h2 id="support-promise-title">みなさまの健康な毎日を<br>梶本クリニックが応援します。</h2>
+                <p>治療だけでなく、日々の暮らしも大切に。<br>私たちは、患者さん一人ひとりのよりよい生活をサポートします。</p>
+            </div>
+            <p class="support-promise-note">ずっとこの街で<br>ずっとみなさまと</p>
+        </section>
 
         <!-- Copyright (Stealth link to index.html) -->
 
-        <footer class="copyright">
-            <a href="index.html" class="stealth-link">
-                © 2025 Kajimoto Clinic
-            </a>
-        </footer>
-
     </main>
 
+    <footer class="app-footer">
+        <div class="app-footer-inner">
+            <a href="index.html" class="stealth-link">© 2026 Kajimoto Clinic</a>
+        </div>
+    </footer>
+
     <!-- Bottom Navigation (Q&A only) -->
-    <nav class="bottom-nav">
-        <a href="friend-main.html" class="nav-item active">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 12 20 22 4 22 4 12"></polyline>
-                <rect x="2" y="7" width="20" height="5"></rect>
-                <line x1="12" y1="22" x2="12" y2="7"></line>
-            </svg>
-            <span>特典トップ</span>
+    <nav class="bottom-nav" aria-label="主要メニュー">
+        <a href="friend-main.html" class="nav-item active" aria-current="page">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#home"></use></svg>
+            <span>サポートトップ</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
             <span>Q&A</span>
         </a>
     </nav>
-    <script src="js/update-display.js"></script>
+    </div>
+    <script src="js/update-display.js?v=20260915"></script>
 
-    <script src="js/page-transition.js"></script>
 
 </body>
 

@@ -3,248 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>シャント管理 | 梶本クリニック</title>
-    <script src="js/page-transition-bootstrap.js"></script>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
     <link rel="stylesheet" href="portal-design.css">
-    <style>
-        /* Shunt theme: Pink */
-        .hero-section.theme-shunt {
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(219, 39, 119, 0.08) 100%);
-        }
-
-        .hero-section.theme-shunt .hero-title {
-            color: #be185d;
-        }
-
-        .tab-nav {
-            display: flex;
-            gap: var(--spacing-xs);
-            margin-bottom: var(--spacing-lg);
-            background: var(--bg-card);
-            padding: var(--spacing-xs);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-light);
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: var(--spacing-sm) var(--spacing-xs);
-            border-radius: var(--radius-md);
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-align: center;
-            transition: all var(--transition-fast);
-            cursor: pointer;
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
-            color: white;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Check Grid */
-        .check-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .check-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-md);
-            padding: var(--spacing-md);
-            text-align: center;
-        }
-
-        .check-icon {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto var(--spacing-sm);
-            background: rgba(236, 72, 153, 0.1);
-            border-radius: var(--radius-full);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ec4899;
-        }
-
-        .check-icon svg {
-            width: 36px;
-            height: 36px;
-        }
-
-        .check-title {
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--text-primary);
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .check-desc {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
-
-        /* NG List */
-        .ng-list {
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .ng-list h3 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .ng-list ul {
-            padding-left: var(--spacing-lg);
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-
-        /* Contact Button */
-        .contact-btn {
-            display: block;
-            width: 100%;
-            padding: var(--spacing-md);
-            background: #be185d;
-            color: white;
-            border-radius: var(--radius-md);
-            font-weight: 600;
-            text-align: center;
-            transition: all var(--transition-normal);
-            cursor: pointer;
-        }
-
-        .contact-btn:hover {
-            background: #9d174d;
-        }
-
-        /* Quiz Card */
-        .quiz-card {
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(219, 39, 119, 0.08) 100%);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-2xl);
-            text-align: center;
-        }
-
-        .quiz-btn {
-            display: inline-block;
-            padding: var(--spacing-md) var(--spacing-2xl);
-            background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
-            color: white;
-            border-radius: var(--radius-full);
-            font-weight: 600;
-            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
-            transition: all var(--transition-normal);
-        }
-
-        .quiz-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.5);
-        }
-
-        /* Q&A Section */
-        .qa-section-intro {
-            background: rgba(236, 72, 153, 0.08);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-lg);
-            text-align: center;
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .qa-section-intro .search-input {
-            border: 2px solid #f9a8d4;
-        }
-
-        .qa-section-intro .search-input:focus {
-            border-color: #ec4899;
-        }
-
-        .keyword-btn.pink {
-            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
-            border: 1px solid #f9a8d4;
-            color: #be185d;
-        }
-
-        .keyword-btn.pink:hover {
-            background: #fce7f3;
-        }
-
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: var(--spacing-md);
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-xl);
-            width: 100%;
-            max-width: 320px;
-            position: relative;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: var(--spacing-sm);
-            right: var(--spacing-md);
-            font-size: 1.5rem;
-            color: var(--text-muted);
-            cursor: pointer;
-        }
-
-        .contact-list {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-sm);
-            margin-top: var(--spacing-lg);
-        }
-
-        .contact-link {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: var(--spacing-md);
-            background: var(--bg-main);
-            border-radius: var(--radius-md);
-            font-weight: 500;
-        }
-    </style>
+    <link rel="stylesheet" href="representative-pages.css?v=20260915-p5">
 </head>
 
-<body>
+<body class="page-shunt">
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+    <div class="app-container">
     <header class="app-header">
-        <a href="friend-main.html" class="header-logo">
+        <a href="friend-main.html" class="header-logo" aria-label="お友達特典トップへ戻る">
             <img src="files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
         </a>
         <div class="header-center">
@@ -253,7 +24,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="main-content">
+    <main id="main-content" class="main-content content-default">
 
         <!-- Hero -->
         <section class="hero-section theme-shunt">
@@ -262,58 +33,35 @@
         </section>
 
         <!-- Tab Navigation -->
-        <nav class="tab-nav">
-            <button class="tab-btn active" onclick="switchTab('info')">管理の基本</button>
-            <button class="tab-btn" onclick="switchTab('quiz')">クイズ</button>
-            <button class="tab-btn" onclick="switchTab('qa')">Q&A</button>
+        <nav class="tab-nav" role="tablist" aria-label="シャント管理メニュー">
+            <button id="tab-info" type="button" class="tab-btn active" role="tab" aria-selected="true"
+                aria-controls="info" onclick="switchTab('info', this)">管理の基本</button>
+            <button id="tab-quiz" type="button" class="tab-btn" role="tab" aria-selected="false"
+                aria-controls="quiz" onclick="switchTab('quiz', this)">クイズ</button>
+            <button id="tab-qa" type="button" class="tab-btn" role="tab" aria-selected="false"
+                aria-controls="qa" onclick="switchTab('qa', this)">Q&amp;A</button>
         </nav>
 
         <!-- Tab 1: Info -->
-        <section id="info" class="tab-content active">
-            <h3 class="section-title">毎日のチェックポイント</h3>
+        <section id="info" class="tab-content active" role="tabpanel" aria-labelledby="tab-info">
+            <h2 class="section-title">毎日のチェックポイント</h2>
 
             <div class="check-grid">
                 <div class="check-item">
-                    <div class="check-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                    </div>
+                    <img class="check-illustration" src="files/shunt/shunt-look-v3.webp"
+                        alt="自分のシャント側の腕を見て確認するイラスト" width="640" height="640" loading="lazy">
                     <div class="check-title">見る</div>
                     <div class="check-desc">赤み・腫れ・傷がないか</div>
                 </div>
                 <div class="check-item">
-                    <div class="check-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M6 8.5a6.5 6.5 0 1 1 13 0c0 6-6 6-6 10a3.5 3.5 0 1 1-7 0"></path>
-                            <path d="M15 8.5a2.5 2.5 0 0 0-5 0v1a2 2 0 1 1 0 4"></path>
-                        </svg>
-                    </div>
+                    <img class="check-illustration" src="files/shunt/shunt-listen-v3.webp"
+                        alt="聴診器をシャント側の腕に当てて音を聴くイラスト" width="640" height="640" loading="lazy">
                     <div class="check-title">聴く</div>
                     <div class="check-desc">ザーザー音があるか</div>
                 </div>
                 <div class="check-item">
-                    <div class="check-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <!-- Arm (pointing left from right) -->
-                            <path d="M 0 11 L 10 11 L 22 5" stroke-width="1.5"></path>
-                            <path d="M 0 19 L 10 19 L 22 23" stroke-width="1.5"></path>
-                            <path d="M 10 11 Q 9 15 10 19" stroke-width="1.5"></path>
-                            <!-- Big Hand overlaying Arm -->
-                            <g transform="translate(6, 6) scale(0.68)" stroke-width="2.2" fill="var(--bg-card, #ffffff)"
-                                stroke="currentColor">
-                                <path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v0"></path>
-                                <path d="M14 4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v0"></path>
-                                <path d="M10 4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v3"></path>
-                                <path
-                                    d="M6 12v-1a2 2 0 0 0-2-2 2 2 0 0 0-2 2v5a11 11 0 0 0 11 11h2.5a5.5 5.5 0 0 0 5.5-5.5V11">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
+                    <img class="check-illustration" src="files/shunt/shunt-touch-v3.webp"
+                        alt="指でシャント側の腕に軽く触れて確認するイラスト" width="640" height="640" loading="lazy">
                     <div class="check-title">触る</div>
                     <div class="check-desc">振動(スリル)があるか</div>
                 </div>
@@ -331,49 +79,47 @@
                 </ul>
             </div>
 
-            <div class="contact-card"
-                style="background: linear-gradient(135deg, #fff0f6 0%, #fce7f3 100%); border: 2px solid #f9a8d4; border-radius: var(--radius-lg); padding: var(--spacing-lg); text-align: center; margin-bottom: var(--spacing-lg); margin-top: var(--spacing-xl); box-shadow: 0 4px 12px rgba(236, 72, 153, 0.1);">
-                <h3 style="color: #be185d; font-size: 1.1rem; font-weight: 700; margin-bottom: var(--spacing-sm);">
+            <div class="contact-card alert-caution">
+                <h3 class="contact-card-title">
                     異常が見られたら・気になることがあったら</h3>
-                <p
-                    style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: var(--spacing-lg); line-height: 1.5;">
+                <p class="contact-card-description">
                     シャントの異常に気が付いた場合や、少しでも不安に感じることがある場合は、自己判断せずにすぐにご相談ください。</p>
-                <button class="contact-btn" id="openContactModal"
-                    style="display: inline-flex; width: auto; align-items: center; justify-content: center; gap: 8px; padding: var(--spacing-md) var(--spacing-xl); border-radius: var(--radius-full); font-size: 1rem; box-shadow: 0 4px 12px rgba(190, 24, 93, 0.2);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        style="width: 20px; height: 20px;">
+                <button type="button" class="contact-btn" id="openContactModal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path
                             d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72">
                         </path>
                     </svg>
                     緊急時はここからご連絡ください
                 </button>
-                <div style="margin-top: 16px; font-size: 0.75rem; color: #9d174d; font-weight: 500;">
+                <p class="contact-card-note">
                     ※恐れ入りますが、診療時間外は対応しておりませんので、あらかじめご了承ください。
-                </div>
+                </p>
             </div>
         </section>
 
         <!-- Tab 2: Quiz -->
-        <section id="quiz" class="tab-content">
+        <section id="quiz" class="tab-content" role="tabpanel" aria-labelledby="tab-quiz" hidden>
             <div class="quiz-card">
-                <h2 style="color: #be185d; margin-bottom: var(--spacing-md);">シャント管理クイズ</h2>
-                <p style="color: var(--text-secondary); margin-bottom: var(--spacing-xl);">ゲーム感覚で楽しく知識が身につきます。</p>
+                <h2 class="quiz-card-title">シャント管理クイズ</h2>
+                <p class="quiz-card-description">ゲーム感覚で楽しく知識が身につきます。</p>
                 <a href="friend-shunt-quiz.html" class="quiz-btn">クイズに挑戦</a>
             </div>
         </section>
 
         <!-- Tab 3: Q&A (Compatible with qa-script.js) -->
-        <section id="qa" class="tab-content qa-search-section" data-category="シャント">
+        <section id="qa" class="tab-content qa-search-section" data-category="シャント" role="tabpanel"
+            aria-labelledby="tab-qa" hidden>
             <div class="qa-section-intro">
-                <p style="color: var(--text-secondary); margin-bottom: var(--spacing-md);">キーワードを入力して、シャント関連の質問を検索できます。
+                <p class="qa-section-description">キーワードを入力して、シャント関連の質問を検索できます。
                 </p>
-                <input type="search" class="search-input qa-search-input" placeholder="キーワード (例: 痛み, 閉塞)"
+                <label class="visually-hidden" for="shuntQaSearch">シャント関連の質問を検索</label>
+                <input id="shuntQaSearch" type="search" class="search-input qa-search-input" placeholder="キーワード (例: 痛み, 閉塞)"
                     autocomplete="off">
                 <div class="keyword-buttons mt-md">
-                    <button class="keyword-btn pink" onclick="setKeyword('痛み')">痛み</button>
-                    <button class="keyword-btn pink" onclick="setKeyword('閉塞')">閉塞</button>
-                    <button class="keyword-btn pink" onclick="setKeyword('感染')">感染</button>
+                    <button type="button" class="keyword-btn pink" onclick="setKeyword('痛み')">痛み</button>
+                    <button type="button" class="keyword-btn pink" onclick="setKeyword('閉塞')">閉塞</button>
+                    <button type="button" class="keyword-btn pink" onclick="setKeyword('感染')">感染</button>
                 </div>
             </div>
             <div class="qa-results-container">
@@ -388,41 +134,37 @@
             </a>
         </div>
 
-        <!-- Copyright -->
-        <footer class="copyright mt-xl">
-            <a href="index.html" class="stealth-link">© 2025 Kajimoto Clinic</a>
-        </footer>
-
     </main>
 
+    <footer class="app-footer">
+        <div class="app-footer-inner">
+            <a href="index.html" class="stealth-link">© 2026 Kajimoto Clinic</a>
+        </div>
+    </footer>
+
     <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <a href="friend-main.html" class="nav-item active">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 12 20 22 4 22 4 12"></polyline>
-                <rect x="2" y="7" width="20" height="5"></rect>
-            </svg>
+    <nav class="bottom-nav" aria-label="主要メニュー">
+        <a href="friend-main.html" class="nav-item active" aria-current="page">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#home"></use></svg>
             <span>特典トップ</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
             <span>Q&A</span>
         </a>
     </nav>
+    </div>
 
     <!-- Contact Modal -->
-    <div class="modal-overlay" id="contactOverlay">
-        <div class="modal-content">
-            <span class="modal-close" id="closeContactModal">&times;</span>
-            <h3 style="text-align: center;">連絡先を選択</h3>
+    <div class="modal-overlay" id="contactOverlay" role="dialog" aria-modal="true"
+        aria-labelledby="contactModalTitle" aria-hidden="true">
+        <div class="modal-content" role="document">
+            <button type="button" class="modal-close" id="closeContactModal" aria-label="閉じる">&times;</button>
+            <h2 id="contactModalTitle" class="contact-modal-title">連絡先を選択</h2>
             <div class="contact-list">
-                <a href="tel:0722520555" class="contact-link"><span>本院</span><span>📞</span></a>
-                <a href="tel:0722502960" class="contact-link"><span>なかもず分院</span><span>📞</span></a>
-                <a href="tel:0722758980" class="contact-link"><span>三国ヶ丘分院</span><span>📞</span></a>
+                <a href="tel:0722520555" class="contact-link"><span>本院</span><svg aria-hidden="true"><use href="assets/icons/support-icons.svg#phone"></use></svg></a>
+                <a href="tel:0722502960" class="contact-link"><span>なかもず分院</span><svg aria-hidden="true"><use href="assets/icons/support-icons.svg#phone"></use></svg></a>
+                <a href="tel:0722758980" class="contact-link"><span>三国ヶ丘分院</span><svg aria-hidden="true"><use href="assets/icons/support-icons.svg#phone"></use></svg></a>
             </div>
         </div>
     </div>
@@ -433,11 +175,17 @@
     <script src="js/qa/qa-data-embedded.js"></script>
     <script src="js/qa/qa-script.js"></script>
     <script>
-        function switchTab(id) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            event.target.classList.add('active');
+        function switchTab(id, trigger) {
+            document.querySelectorAll('.tab-content').forEach((panel) => {
+                const active = panel.id === id;
+                panel.classList.toggle('active', active);
+                panel.hidden = !active;
+            });
+            document.querySelectorAll('.tab-btn').forEach((tab) => {
+                const active = tab === trigger;
+                tab.classList.toggle('active', active);
+                tab.setAttribute('aria-selected', String(active));
+            });
         }
 
         function setKeyword(word) {
@@ -449,20 +197,32 @@
         }
 
         // Modal
-        document.getElementById('openContactModal').onclick = () => {
-            document.getElementById('contactOverlay').style.display = 'flex';
-        };
-        document.getElementById('closeContactModal').onclick = () => {
-            document.getElementById('contactOverlay').style.display = 'none';
-        };
-        document.getElementById('contactOverlay').onclick = (e) => {
-            if (e.target === document.getElementById('contactOverlay')) {
-                document.getElementById('contactOverlay').style.display = 'none';
+        const contactOverlay = document.getElementById('contactOverlay');
+        const openContactModal = document.getElementById('openContactModal');
+        const closeContactModal = document.getElementById('closeContactModal');
+
+        function closeContactDialog() {
+            contactOverlay.classList.remove('active');
+            contactOverlay.setAttribute('aria-hidden', 'true');
+            openContactModal.focus();
+        }
+
+        openContactModal.addEventListener('click', () => {
+            contactOverlay.classList.add('active');
+            contactOverlay.setAttribute('aria-hidden', 'false');
+            closeContactModal.focus();
+        });
+        closeContactModal.addEventListener('click', closeContactDialog);
+        contactOverlay.addEventListener('click', (e) => {
+            if (e.target === contactOverlay) {
+                closeContactDialog();
             }
-        };
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && contactOverlay.classList.contains('active')) closeContactDialog();
+        });
     </script>
 
-    <script src="js/page-transition.js"></script>
 
 </body>
 

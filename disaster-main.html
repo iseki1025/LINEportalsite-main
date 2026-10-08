@@ -3,170 +3,83 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>災害情報ポータル | 梶本クリニック</title>
-    <script src="js/page-transition-bootstrap.js"></script>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
     <link rel="stylesheet" href="portal-design.css">
-    <style>
-        /* Status Panel (Open by default) */
-        .status-panel.open .status-panel-content {
-            display: block;
-        }
-
-        /* PDF Thumbnail Style */
-        .pdf-thumbnail-container {
-            position: relative;
-            width: 100%;
-            max-width: 100%;
-            margin: 0 auto 1rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .pdf-thumbnail-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .pdf-thumbnail-container img {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
-
-        .pdf-tap-hint {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            text-align: center;
-            padding: 8px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        /* Warning Badge */
-        .status-badge.warning {
-            background-color: #fef3c7;
-            color: #d97706;
-            border: 1px solid #fde68a;
-        }
-
-        /* Short Message */
-        .short-message {
-            width: 100%;
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: #d97706;
-        }
-
-        /* Read More Button */
-        .btn-read-more {
-            width: 100%;
-            margin-top: 0.5rem;
-            padding: 0.75rem;
-            background: #f3f4f6;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
-            color: #4b5563;
-            font-size: 0.85rem;
-            font-weight: bold;
-            text-align: center;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .btn-read-more:hover {
-            background: #e5e7eb;
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
-        .modal-overlay.active { display: flex; }
-        .modal-content {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-        }
-        .modal-close {
-            position: absolute;
-            top: 1rem; right: 1rem;
-            background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #6b7280;
-        }
-        .modal-body {
-            margin-top: 1rem;
-            white-space: pre-wrap;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #374151;
-        }
-    </style>
-
+    <link rel="stylesheet" href="representative-pages.css?v=20260915-rest1">
 </head>
 
-<body>
+<body class="page-disaster">
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+    <div class="app-container">
+    <header class="app-header">
+        <a href="disaster-main.html" class="header-logo" aria-label="災害情報ポータルへ戻る">
+            <img src="files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
+        </a>
+        <div class="header-center">
+            <div class="header-title">災害情報</div>
+        </div>
+    </header>
 
     <!-- Main Content -->
-    <main class="main-content">
+    <main id="main-content" class="main-content">
+
+        <section class="hero-section theme-disaster">
+            <p class="badge">防災・透析情報</p>
+            <h1 class="hero-title">災害への備え</h1>
+            <p class="hero-subtitle">透析状況の確認と、もしもの時に役立つ情報をまとめています。</p>
+        </section>
 
         <!-- Dialysis Status Panel -->
         <div class="status-panel open" id="dialysis-status-panel">
-            <div class="status-panel-header" onclick="this.parentElement.classList.toggle('open')">
+            <button type="button" class="status-panel-header" data-disclosure-target="dialysis-status-content"
+                aria-expanded="true" aria-controls="dialysis-status-content">
                 <span class="status-panel-title">透析状況</span>
-                <span id="current-status-time"
-                    style="font-size: 0.75rem; color: var(--text-muted); margin-left: auto; margin-right: 0.5rem;"></span>
-                <span class="status-panel-toggle">▼</span>
-            </div>
-            <div class="status-panel-content">
-                <div class="status-grid" id="dialysisStatusContainer">
-                    <p style="text-align:center; padding: 1rem;">読み込み中...</p>
+                <span id="current-status-time" class="status-time">状況未確認</span>
+                <span class="status-panel-toggle" aria-hidden="true">▼</span>
+            </button>
+            <div id="dialysis-status-content" class="status-panel-content">
+                <div class="status-grid" id="dialysisStatusContainer" aria-live="polite">
+                    <div class="status-fallback" role="status">
+                        <p>オンラインの透析状況を確認できません。各施設に直接ご確認ください。</p>
+                        <a href="tel:0664519010">本院 06-6451-9010</a>
+                        <a href="tel:0722502960">なかもず分院 072-250-2960</a>
+                        <a href="tel:0722758980">三国ヶ丘分院 072-275-8980</a>
+                    </div>
                 </div>
-                <p style="text-align:center; margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">
-                    ※各施設の透析状況は、登録内容に基づいて表示しています。
+                <button type="button" class="status-refresh-btn" id="statusRefreshBtn">最新情報を再取得</button>
+                <p class="status-note">
+                    ※表示は各施設の登録内容です。最終更新日時を確認し、状況に不安がある場合は施設へ直接ご確認ください。
                 </p>
             </div>
         </div>
 
         <!-- PDF Guide Book (Always Visible) -->
-        <div class="guidebook-section"
-            style="background: var(--bg-card); padding: var(--spacing-lg); border-radius: var(--radius-lg); margin-bottom: var(--spacing-lg); box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-            <h3 class="section-title"
-                style="margin-top: 0; margin-bottom: var(--spacing-md); color: var(--color-disaster);">災害ガイドブック（2026年版）</h3>
+        <section class="guidebook-section" aria-labelledby="guidebook-title">
+            <h2 id="guidebook-title" class="section-title">災害ガイドブック</h2>
+            <article class="pdf-card">
+                <a class="pdf-card-thumbnail"
+                    href="http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/disaster-guide-book-2026.pdf"
+                    target="_blank" rel="noopener noreferrer" aria-label="災害ガイドブック2026年版を新しいタブで開く">
+                    <img id="pdf-thumbnail" src="files/pdf/preview-disaster-guide-book-2026.webp"
+                        alt="災害ガイドブック2026年版の表紙プレビュー">
+                </a>
+                <div class="pdf-card-body">
+                    <p class="badge">PDF・2026年版</p>
+                    <h3 class="pdf-card-title">災害対策ガイドブック</h3>
+                    <p class="pdf-card-description">詳しい災害対策をPDFで確認できます。</p>
+                    <p class="pdf-card-meta">新しいタブでPDFを開きます</p>
+                    <a class="btn btn-primary"
+                        href="http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/disaster-guide-book-2026.pdf"
+                        target="_blank" rel="noopener noreferrer">PDFを開く</a>
+                </div>
+            </article>
 
-            <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary); text-align: center;">
-                詳しい対策をPDFで確認できます。画像をタップしてください。
-            </p>
-            <!-- PDF Thumbnail -->
-            <div class="pdf-thumbnail-container" onclick="window.open('http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/disaster-guide-book-2026.pdf', '_blank')">
-                <img id="pdf-thumbnail" src="files/pdf/preview-disaster-guide-book-2026.png"
-                    alt="災害ガイドブック（2026年版）の1ページ目プレビュー">
-                <div class="pdf-tap-hint">タップして開く</div>
-            </div>
-
-            <div
-                style="background: var(--bg-main); padding: var(--spacing-md); border-radius: var(--radius-md); margin-bottom: 1rem;">
-                <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-primary);">目次</h4>
-                <ul style="font-size: 0.85rem; color: var(--text-secondary); padding-left: 1.2rem; line-height: 1.6;">
+            <div class="guidebook-contents">
+                <h3>目次</h3>
+                <ul>
                     <li>1｜透析は災害に弱い治療</li>
                     <li>2｜透析中に地震が起きたら？</li>
                     <li>3｜施設外で災害が起きたら？</li>
@@ -177,17 +90,18 @@
                     <li>8｜災害時の持ち出し物品</li>
                 </ul>
             </div>
-        </div>
+        </section>
 
         <!-- Card Grid -->
         <!-- Category 1: 当院の防災対策 (Collapsible) -->
         <div class="collapsible open">
-            <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
+            <button type="button" class="collapsible-header" data-disclosure-target="clinic-measures"
+                aria-expanded="true" aria-controls="clinic-measures">
                 <span class="collapsible-title">当院の防災対策</span>
-                <span class="collapsible-icon">▼</span>
-            </div>
-            <div class="collapsible-content">
-                <div class="menu-list" style="margin-bottom: 0;">
+                <span class="collapsible-icon" aria-hidden="true">▼</span>
+            </button>
+            <div id="clinic-measures" class="collapsible-content">
+                <div class="menu-list">
                     <a href="disaster-evacuation.html" class="menu-item">
                         <span>避難手段</span>
                     </a>
@@ -200,12 +114,13 @@
 
         <!-- Category 2: ご自宅での防災対策 (Collapsible) -->
         <div class="collapsible open">
-            <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
+            <button type="button" class="collapsible-header" data-disclosure-target="home-measures"
+                aria-expanded="true" aria-controls="home-measures">
                 <span class="collapsible-title">ご自宅での防災対策</span>
-                <span class="collapsible-icon">▼</span>
-            </div>
-            <div class="collapsible-content">
-                <div class="menu-list" style="margin-bottom: 0;">
+                <span class="collapsible-icon" aria-hidden="true">▼</span>
+            </button>
+            <div id="home-measures" class="collapsible-content">
+                <div class="menu-list">
                     <a href="disaster-stock.html#stock" class="menu-item">
                         <span>備蓄リスト</span>
                     </a>
@@ -225,225 +140,130 @@
         </div>
 
         <!-- Category 3: 災害時お役立ちアイテム (Icon Grid) -->
-        <h3 class="section-title" style="margin-top: var(--spacing-xl);">災害時お役立ちアイテム</h3>
-        <div class="card-grid">
+        <h2 class="section-title disaster-tools-title">災害時お役立ちアイテム</h2>
+        <div class="card-grid disaster-tools">
             <!-- Safety Contact -->
             <a href="disaster-safety.html" class="card accent-disaster">
                 <div class="card-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path
-                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72">
-                        </path>
-                    </svg>
+                    <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#phone"></use></svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title" style="font-size: 1.0rem;">災害用伝言ダイヤル<br>171</div>
+                    <div class="card-title">災害用伝言ダイヤル<br>171</div>
                 </div>
             </a>
 
             <!-- Medical Association Network -->
             <a href="https://www.saigai-touseki.net/result/?bid=101" target="_blank" class="card accent-disaster">
                 <div class="card-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="2" y1="12" x2="22" y2="12"></line>
-                        <path
-                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
-                        </path>
-                    </svg>
+                    <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#network"></use></svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title" style="font-size: 1.0rem;">日本透析医会 災害時情報ネットワーク</div>
+                    <div class="card-title">日本透析医会 災害時情報ネットワーク</div>
                 </div>
             </a>
 
             <!-- Recipe -->
             <a href="disaster-recipe.html" class="card accent-nutrition">
                 <div class="card-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
-                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
-                        <line x1="6" y1="1" x2="6" y2="4"></line>
-                        <line x1="10" y1="1" x2="10" y2="4"></line>
-                        <line x1="14" y1="1" x2="14" y2="4"></line>
-                    </svg>
+                    <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#nutrition"></use></svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title" style="font-size: 1.0rem;">災害時レシピ</div>
+                    <div class="card-title">災害時レシピ</div>
                 </div>
             </a>
 
             <!-- Cards & Q&A -->
             <a href="http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/evacuation-shelter-my-card.pdf" target="_blank" class="card accent-disaster">
                 <div class="card-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                    </svg>
+                    <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#card"></use></svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title" style="font-size: 1.0rem;">避難所マイカード</div>
+                    <div class="card-title">避難所マイカード</div>
                 </div>
             </a>
 
             <!-- Disaster Q&A -->
             <a href="disaster-faq.html" class="card accent-qa">
                 <div class="card-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                    </svg>
+                    <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
                 </div>
                 <div class="card-content">
-                    <div class="card-title" style="font-size: 1.0rem;">災害Q&A</div>
+                    <div class="card-title">災害Q&amp;A</div>
                 </div>
             </a>
         </div>
 
-        <footer class="copyright">
-            <a href="index.html" class="stealth-link">
-                &copy; 2025 Kajimoto Clinic
-            </a>
-        </footer>
-
     </main>
 
+    <footer class="app-footer">
+        <div class="app-footer-inner">
+            <a href="index.html" class="stealth-link">&copy; 2026 Kajimoto Clinic</a>
+        </div>
+    </footer>
+
     <!-- Bottom Navigation (Q&A only - no link to friend) -->
-    <nav class="bottom-nav">
-        <a href="disaster-main.html" class="nav-item active">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
-                </path>
-                <line x1="12" y1="9" x2="12" y2="13"></line>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
+    <nav class="bottom-nav" aria-label="主要メニュー">
+        <a href="disaster-main.html" class="nav-item active" aria-current="page">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#disaster"></use></svg>
             <span>災害ポータル</span>
         </a>
-        <a href="qa-main.html" class="nav-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
+        <a href="disaster-faq.html" class="nav-item">
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
             <span>Q&A</span>
         </a>
     </nav>
+    </div>
 
     <!-- Reason Modal -->
-    <div id="reasonModal" class="modal-overlay" onclick="if(event.target===this) this.classList.remove('active')">
-        <div class="modal-content">
-            <button class="modal-close" onclick="document.getElementById('reasonModal').classList.remove('active')">&times;</button>
-            <h3 style="margin-top: 0; color: var(--text-primary); border-bottom: 2px solid var(--bg-card); padding-bottom: 0.5rem;">詳細ガイドライン</h3>
+    <div id="reasonModal" class="modal-overlay" role="dialog" aria-modal="true"
+        aria-labelledby="reasonModalTitle" aria-hidden="true">
+        <div class="modal-content" role="document">
+            <button type="button" class="modal-close" id="closeReasonModal" aria-label="閉じる">&times;</button>
+            <h2 id="reasonModalTitle" class="modal-heading">詳細ガイドライン</h2>
             <div id="modalBody" class="modal-body"></div>
         </div>
     </div>
 
-    <!-- Firebase Script -->
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-        import { firebaseConfig } from './js/firebase-config.js';
+    <script>
+        document.querySelectorAll('[data-disclosure-target]').forEach((button) => {
+            button.addEventListener('click', () => {
+                const container = button.parentElement;
+                const expanded = !container.classList.contains('open');
+                container.classList.toggle('open', expanded);
+                button.setAttribute('aria-expanded', String(expanded));
+            });
+        });
 
-        try {
-            const app = initializeApp(firebaseConfig);
-            const db = getFirestore(app);
+        const reasonModal = document.getElementById('reasonModal');
+        const closeReasonModal = document.getElementById('closeReasonModal');
+        let reasonModalTrigger = null;
 
-            async function loadDialysisStatus() {
-                const container = document.getElementById('dialysisStatusContainer');
-                try {
-                    const snapshot = await getDocs(collection(db, 'dialysis_status'));
-                    container.innerHTML = '';
+        window.openReasonModal = (reason) => {
+            reasonModalTrigger = document.activeElement;
+            document.getElementById('modalBody').textContent = reason;
+            reasonModal.classList.add('active');
+            reasonModal.setAttribute('aria-hidden', 'false');
+            closeReasonModal.focus();
+        };
 
-                    const facilities = [
-                        { name: '本院', id: 'honin' },
-                        { name: 'なかもず分院', id: 'nakamozu' },
-                        { name: '三国ヶ丘分院', id: 'mikunigaoka' }
-                    ];
-                    const dataMap = {};
-                    snapshot.forEach(doc => dataMap[doc.id] = doc.data());
-
-                    facilities.forEach(fac => {
-                        const data = dataMap[fac.name] || { status: 'available', reason: '' };
-                        let badgeClass = 'ok';
-                        let statusText = '透析可';
-
-                        if (data.status === 'unavailable') {
-                            badgeClass = 'ng';
-                            statusText = '透析不可';
-                        } else if (data.status === 'checking') {
-                            badgeClass = 'waiting';
-                            statusText = '確認中';
-                        } else if (data.status === 'conditional') {
-                            badgeClass = 'warning';
-                            statusText = '条件付き可';
-                        }
-
-                        const item = document.createElement('div');
-                        item.className = `status-item ${fac.id}`;
-                        item.innerHTML = `
-                            <span class="status-name">${fac.name}</span>
-                            <span class="status-badge ${badgeClass}">${statusText}</span>
-                        `;
-                        
-                        if (data.short_message) {
-                            item.innerHTML += `<div class="short-message">⚠️ ${data.short_message}</div>`;
-                            item.style.flexWrap = 'wrap';
-                        }
-
-                        if (data.reason) {
-                            const btn = document.createElement('button');
-                            btn.className = 'btn-read-more';
-                            btn.textContent = '💬 詳細ガイドラインを読む';
-                            btn.onclick = () => {
-                                document.getElementById('modalBody').textContent = data.reason;
-                                document.getElementById('reasonModal').classList.add('active');
-                            };
-                            item.style.flexWrap = 'wrap';
-                            item.appendChild(btn);
-                        }
-
-                        container.appendChild(item);
-                    });
-                } catch (error) {
-                    console.error('Status load error:', error);
-                    container.innerHTML = '<p style="padding:1rem; color: var(--accent-disaster);">状況の取得に失敗しました。<br>ネットワーク環境をご確認ください。</p>';
-                }
-            }
-            loadDialysisStatus();
-
-            // 透析状況の表示時刻を更新
-            function updateCurrentTime() {
-                const now = new Date();
-                const month = now.getMonth() + 1;
-                const date = now.getDate();
-                const hours = now.getHours();
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-
-                const timeElement = document.getElementById('current-status-time');
-                if (timeElement) {
-                    timeElement.textContent = `${month}月${date}日 ${hours}時${minutes}分現在`;
-                }
-            }
-            updateCurrentTime();
-            setInterval(updateCurrentTime, 60000); // 1分ごとに更新
-
-        } catch (e) {
-            console.error('Firebase init error:', e);
-            document.getElementById('dialysisStatusContainer').innerHTML =
-                '<p style="padding:1rem; color: var(--accent-disaster);">システムの初期化に失敗しました。<br>(Local環境ではサーバー経由での閲覧が必要です)</p>';
+        function closeReasonDialog() {
+            reasonModal.classList.remove('active');
+            reasonModal.setAttribute('aria-hidden', 'true');
+            reasonModalTrigger?.focus();
         }
 
+        closeReasonModal.addEventListener('click', closeReasonDialog);
+        reasonModal.addEventListener('click', (event) => {
+            if (event.target === reasonModal) closeReasonDialog();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && reasonModal.classList.contains('active')) closeReasonDialog();
+        });
     </script>
 
-    <script src="js/page-transition.js"></script>
+    <!-- Public status read. Admin updates remain in Firestore. -->
+    <script src="js/disaster-status.js?v=20260915-rest2"></script>
+
 
 </body>
 

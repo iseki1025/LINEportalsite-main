@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>栄養クイズ | 梶本クリニック</title>
-    <script src="js/page-transition-bootstrap.js"></script>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
     <link rel="stylesheet" href="portal-design.css">
     <style>
         /* Quiz Styles - Orange theme */
@@ -175,9 +175,10 @@
             cursor: pointer;
         }
     </style>
+    <link rel="stylesheet" href="public-pages.css">
 </head>
 
-<body>
+<body class="page-public page-friend-detail">
     <!-- Header -->
     <header class="app-header">
         <a href="friend-main.html" class="header-logo">
@@ -190,6 +191,11 @@
 
     <!-- Main Content -->
     <main class="main-content">
+        <section class="hero-section theme-nutrition detail-hero">
+            <p class="hero-badge">健康サポート</p>
+            <h1 class="hero-title">栄養クイズ</h1>
+            <p class="hero-subtitle">10問からランダムに5問出題されます。</p>
+        </section>
 
         <p class="quiz-info">10問からランダムに5問出題されます</p>
 
@@ -224,18 +230,11 @@
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <a href="friend-main.html" class="nav-item active">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 12 20 22 4 22 4 12"></polyline>
-                <rect x="2" y="7" width="20" height="5"></rect>
-            </svg>
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#home"></use></svg>
             <span>特典トップ</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
             <span>Q&A</span>
         </a>
     </nav>
@@ -357,7 +356,6 @@
         loadQuestion();
     </script>
 
-    <script src="js/page-transition.js"></script>
 
 </body>
 

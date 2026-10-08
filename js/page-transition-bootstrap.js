@@ -5,10 +5,7 @@
     const PENDING_KEY = 'pageTransitionPending';
 
     try {
-        if (
-            window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-            sessionStorage.getItem(PENDING_KEY) !== '1'
-        ) {
+        if (sessionStorage.getItem(PENDING_KEY) !== '1') {
             return;
         }
 
@@ -20,7 +17,11 @@
             style.textContent = `
 html.${PRERENDER_CLASS} body {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html.${PRERENDER_CLASS} body { transform: none; }
 }
 `;
             document.head.appendChild(style);

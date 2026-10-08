@@ -38,6 +38,11 @@
             if (section.querySelector('.js-update-item')) {
                 return;
             }
+            const emptyMessage = section.querySelector('.update-news-empty');
+            if (emptyMessage) {
+                emptyMessage.hidden = false;
+                return;
+            }
             section.remove();
         });
     });

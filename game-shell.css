@@ -1,0 +1,41 @@
+/* Shared game exterior only. Game boards, scoring, controls and scripts stay intact. */
+.page-game-shell .unified-back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    min-height: 48px;
+    padding: .65rem 1.25rem;
+    color: #134d7f;
+    font-size: 1rem;
+    font-weight: 700;
+    background: rgba(255,255,255,.96);
+    border: 1px solid #cbe2ef;
+    border-radius: 999px;
+    box-shadow: 0 7px 20px rgba(22, 85, 121, .1);
+}
+
+.page-game-shell .unified-back-btn:hover {
+    color: #087e98;
+    background: #fff;
+}
+
+.page-game-shell .game-title {
+    color: #134d7f;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+}
+
+.page-game-shell .game-container,
+.page-game-shell .samurai-game-container,
+.page-game-shell #game-container {
+    border-radius: 20px;
+}
+
+@media (max-width: 639px) {
+    .page-game-shell .unified-back-btn {
+        min-width: 84px;
+        min-height: 44px;
+        padding: .5rem 1rem;
+    }
+}

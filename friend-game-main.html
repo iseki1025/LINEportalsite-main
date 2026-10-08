@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>ミニゲーム | 梶本クリニック</title>
-    <script src="js/page-transition-bootstrap.js"></script>
+    <script src="js/page-transition-bootstrap.js?v=20260915-fade4"></script>
+    <script src="js/page-transition.js?v=20260915-fade4"></script>
     <link rel="stylesheet" href="portal-design.css">
     <style>
         /* Game theme: Indigo */
@@ -152,9 +152,10 @@
             background: linear-gradient(transparent 70%, #c7d2fe 70%);
         }
     </style>
+    <link rel="stylesheet" href="public-pages.css?v=20260915-p5">
 </head>
 
-<body>
+<body class="page-public page-friend-detail">
     <header class="app-header">
         <a href="friend-main.html" class="header-logo">
             <img src="files/common/kajimoto_rogo2.svg" alt="梶本クリニック">
@@ -166,10 +167,15 @@
 
     <!-- Main Content -->
     <main class="main-content">
+        <section class="hero-section theme-game detail-hero">
+            <p class="hero-badge">健康サポート</p>
+            <h1 class="hero-title">ミニゲーム</h1>
+            <p class="hero-subtitle">楽しみながら頭の体操を。</p>
+        </section>
 
         <!-- Intro -->
         <div class="tip-card game-intro-card">
-            <div style="font-size: 2.5rem; margin-bottom: 0.5rem; animation: float 3s ease-in-out infinite;">🧠✨</div>
+            <div class="game-benefit-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg?v=20260915-p5#brain"></use></svg></div>
             <h3>脳トレのすすめ</h3>
             <p>
                 ゲームで脳のさまざまな働きを刺激することは、<br>
@@ -183,7 +189,7 @@
         <div class="game-list">
             <!-- 1. Reaction -->
             <a href="friend-game-reaction-game.html" class="game-card">
-                <div class="game-icon">⚔️</div>
+                <div class="game-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg?v=20260915-p5#game-reaction"></use></svg></div>
                 <div class="game-info">
                     <span class="game-title">侍・一刀両断</span>
                     <span class="game-desc">画面が変わったらタップ！反射神経を鍛えます。</span>
@@ -193,7 +199,7 @@
 
             <!-- 2. Dodge -->
             <a href="friend-game-ball-dodge-game.html" class="game-card">
-                <div class="game-icon">🏎️</div>
+                <div class="game-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg?v=20260915-p5#game-dodge"></use></svg></div>
                 <div class="game-info">
                     <span class="game-title">F1カー障害物回避</span>
                     <span class="game-desc">障害物を避けて動体視力をアップ！</span>
@@ -203,7 +209,7 @@
 
             <!-- 3. Puzzle -->
             <a href="friend-game-falling-block-game.html" class="game-card">
-                <div class="game-icon">🧩</div>
+                <div class="game-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg?v=20260915-p5#game-block"></use></svg></div>
                 <div class="game-info">
                     <span class="game-title">PolyDrop Premium</span>
                     <span class="game-desc">ブロックを積み上げて消す、定番の脳トレ。</span>
@@ -213,7 +219,7 @@
 
             <!-- 4. Animal Merge -->
             <a href="friend-game-animal-merge.html" class="game-card">
-                <div class="game-icon">🐼</div>
+                <div class="game-icon"><svg aria-hidden="true"><use href="assets/icons/support-icons.svg?v=20260915-p5#game-animal"></use></svg></div>
                 <div class="game-info">
                     <span class="game-title">ぷにぷにアニマル・マージ</span>
                     <span class="game-desc">同じ動物をくっつけて進化させよう！</span>
@@ -239,23 +245,15 @@
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <a href="friend-main.html" class="nav-item active">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 12 20 22 4 22 4 12"></polyline>
-                <rect x="2" y="7" width="20" height="5"></rect>
-            </svg>
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#home"></use></svg>
             <span>特典トップ</span>
         </a>
         <a href="qa-main.html" class="nav-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
+            <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#qna"></use></svg>
             <span>Q&A</span>
         </a>
     </nav>
 
-    <script src="js/page-transition.js"></script>
 
 </body>
 
