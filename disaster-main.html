@@ -43,15 +43,12 @@
             <div id="dialysis-status-content" class="status-panel-content">
                 <div class="status-grid" id="dialysisStatusContainer" aria-live="polite">
                     <div class="status-fallback" role="status">
-                        <p>オンラインの透析状況を確認できません。各施設に直接ご確認ください。</p>
-                        <a href="tel:0664519010">本院 06-6451-9010</a>
-                        <a href="tel:0722502960">なかもず分院 072-250-2960</a>
-                        <a href="tel:0722758980">三国ヶ丘分院 072-275-8980</a>
+                        <p>オンラインの透析状況を確認できません。時間をおいて再度お試しください。</p>
                     </div>
                 </div>
                 <button type="button" class="status-refresh-btn" id="statusRefreshBtn">最新情報を再取得</button>
                 <p class="status-note">
-                    ※表示は各施設の登録内容です。最終更新日時を確認し、状況に不安がある場合は施設へ直接ご確認ください。
+                    ※表示は各施設の登録内容です。最終更新日時をご確認ください。
                 </p>
             </div>
         </div>
@@ -265,7 +262,7 @@
     </script>
 
     <!-- Public status read. Admin updates remain in Firestore. -->
-    <script src="js/disaster-status.js?v=20260915-rest2"></script>
+    <script src="js/disaster-status.js?v=20261020-nophone"></script>
 
 
 </body>

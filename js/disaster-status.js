@@ -5,9 +5,9 @@
     const statusUrl = 'https://firestore.googleapis.com/v1/projects/kajimoto-official-line-site/databases/(default)/documents/dialysis_status?pageSize=10';
     const requestTimeoutMs = 8000;
     const facilities = [
-        { name: '本院', id: 'honin', phone: '0664519010', phoneLabel: '06-6451-9010' },
-        { name: 'なかもず分院', id: 'nakamozu', phone: '0722502960', phoneLabel: '072-250-2960' },
-        { name: '三国ヶ丘分院', id: 'mikunigaoka', phone: '0722758980', phoneLabel: '072-275-8980' }
+        { name: '本院', id: 'honin' },
+        { name: 'なかもず分院', id: 'nakamozu' },
+        { name: '三国ヶ丘分院', id: 'mikunigaoka' }
     ];
     const statusLabels = {
         available: { text: '透析可', badge: 'ok' },
@@ -84,15 +84,13 @@
             if (unavailableMessage) appendText(item, 'p', 'status-unavailable-message', unavailableMessage);
         }
 
-        const contact = appendText(item, 'a', 'status-contact-link', `電話で確認: ${facility.phoneLabel}`);
-        contact.href = `tel:${facility.phone}`;
         container.appendChild(item);
     }
 
     function renderUnavailable(message) {
         timeLabel.textContent = '状況を取得できません';
         container.replaceChildren();
-        appendText(container, 'p', 'status-data-warning', 'オンラインの透析状況を取得できません。各施設に直接ご確認ください。');
+        appendText(container, 'p', 'status-data-warning', 'オンラインの透析状況を取得できません。時間をおいて再度お試しください。');
         facilities.forEach((facility) => appendFacility(facility, null, message));
     }
 
@@ -113,7 +111,7 @@
         if (!latestUpdate || Date.now() - latestUpdate.getTime() > 30 * 24 * 60 * 60 * 1000) {
             appendText(container, 'p', 'status-data-warning', latestUpdate
                 ? `登録の最終更新は${formatDate(latestUpdate)}です。現在の状況を保証するものではありません。`
-                : '登録日時を確認できません。現在の状況は各施設に直接ご確認ください。');
+                : '登録日時を確認できません。しばらくしてから再度ご確認ください。');
         }
 
         facilities.forEach((facility) => appendFacility(facility, dataMap.get(facility.name)));

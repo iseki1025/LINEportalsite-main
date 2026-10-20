@@ -708,15 +708,6 @@
     line-height: 1.6;
 }
 
-.page-disaster .status-fallback a {
-    display: inline-flex;
-    min-height: 44px;
-    align-items: center;
-    margin: .25rem .6rem 0 0;
-    color: #134d7f;
-    font-weight: 700;
-}
-
 .page-disaster .status-item {
     flex-wrap: wrap;
     gap: .35rem;
@@ -728,16 +719,6 @@
     margin: 0;
     color: var(--text-secondary);
     font-size: var(--text-sm);
-}
-
-.page-disaster .status-contact-link {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    color: #134d7f;
-    font-size: var(--text-sm);
-    font-weight: 700;
-    text-decoration: underline;
 }
 
 .page-disaster .status-refresh-btn {
@@ -754,8 +735,7 @@
 
 .page-disaster .status-refresh-btn:disabled { opacity: .6; cursor: wait; }
 .page-disaster .status-refresh-btn:focus-visible,
-.page-disaster .status-contact-link:focus-visible,
-.page-disaster .status-fallback a:focus-visible {
+.page-disaster .status-time:focus-visible {
     outline: 3px solid #087e98;
     outline-offset: 2px;
 }
