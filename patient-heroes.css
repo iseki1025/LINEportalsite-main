@@ -1,0 +1,203 @@
+/* Shared illustration-led headers for the patient support pages. */
+.hero-section.patient-hero,
+.page-friend .support-hero.patient-support-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+.hero-section.patient-hero::before,
+.page-friend .support-hero.patient-support-hero::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    content: '';
+    background: url('files/common/patient-heroes/botanical-background.webp') center / cover no-repeat;
+    mix-blend-mode: multiply;
+    opacity: .6;
+    pointer-events: none;
+}
+.hero-section.patient-hero {
+    --hero-accent: #126f86;
+    --hero-tint: #e9f6f9;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 1rem;
+    min-height: 300px;
+    padding: 2rem 1.5rem;
+    border: 1px solid color-mix(in srgb, var(--hero-accent) 12%, transparent);
+    border-radius: 24px;
+    background: linear-gradient(115deg, var(--hero-tint), #fffdf8);
+}
+.patient-hero.theme-exercise { --hero-accent: #087b60; --hero-tint: #e9f7ef; }
+.patient-hero.theme-nutrition { --hero-accent: #94601f; --hero-tint: #fff2df; }
+.patient-hero.theme-footcare { --hero-accent: #ab5165; --hero-tint: #fceef1; }
+.patient-hero.theme-game { --hero-accent: #68559d; --hero-tint: #f0ecfa; }
+.hero-section.patient-hero.theme-shunt {
+    background: linear-gradient(115deg, var(--hero-tint), #fffdf8);
+}
+.patient-hero .patient-hero-copy { min-width: 0; }
+.hero-section.patient-hero .hero-badge {
+    display: inline-flex;
+    margin: 0 0 .85rem;
+    padding: .4rem .9rem;
+    color: var(--hero-accent);
+    background: #ffffffb3;
+    border: 1px solid color-mix(in srgb, var(--hero-accent) 15%, transparent);
+    border-radius: 999px;
+    font-size: .8rem;
+    font-weight: 700;
+}
+.main-content .hero-section.patient-hero .hero-title {
+    margin: 0 0 .8rem;
+    color: var(--hero-accent);
+    font-size: clamp(2rem, 4vw, 3.3rem);
+    line-height: 1.3;
+    letter-spacing: .04em;
+    animation: none;
+}
+.hero-section.patient-hero .hero-subtitle {
+    margin: 0 auto;
+    color: #31566a;
+    font-size: 1rem;
+    line-height: 1.85;
+    animation: none;
+    text-wrap: pretty;
+}
+.patient-hero-art {
+    position: relative;
+    display: block;
+    height: 230px;
+    overflow: hidden;
+    pointer-events: none;
+}
+.main-content .patient-hero .patient-hero-art img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    max-width: none;
+    height: 100%;
+    clip-path: inset(0 50% 0 0);
+}
+.main-content .patient-hero .patient-hero-art-right img {
+    left: auto;
+    right: 0;
+    clip-path: inset(0 0 0 50%);
+}
+
+.page-friend .support-hero.patient-support-hero {
+    min-height: 460px;
+    background: #e4f5ff;
+    border: 0;
+    border-radius: 24px;
+}
+.page-friend .support-hero.patient-support-hero::before {
+    background-image: url('files/common/patient-heroes/sunlit-park.webp');
+    mix-blend-mode: normal;
+    opacity: 1;
+}
+.page-friend .patient-support-hero::after {
+    z-index: -1;
+    inset: 0;
+    content: '';
+    background: linear-gradient(90deg, #eaf7ffb3, #f3fbff40 38%, transparent 62%);
+}
+.page-friend .patient-support-hero .support-hero-image {
+    inset: auto -3% -13% auto;
+    width: 66%;
+    height: 108%;
+    object-fit: contain;
+    object-position: center bottom;
+}
+.page-friend .patient-support-hero .support-hero-copy { max-width: 46%; }
+.page-friend .patient-support-hero .hero-title,
+.page-friend .patient-support-hero .hero-subtitle { text-align: left; }
+.page-friend .patient-support-hero .hero-title {
+    color: #134d7f;
+    font-size: clamp(2.5rem, 6.5vw, 5.25rem);
+}
+.page-friend .patient-support-hero .support-hero-note {
+    top: 1.5rem;
+    right: 1.75rem;
+    z-index: 2;
+    color: #007e95;
+    font-weight: 600;
+    text-shadow: 0 1px 8px #fff;
+}
+.page-friend .patient-support-hero .support-hero-seal {
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 2;
+    padding: .85rem 1.35rem;
+    box-shadow: 0 5px 20px #174b7020;
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+    .page-friend .support-hero.patient-support-hero { min-height: 380px; }
+    .page-friend .patient-support-hero .support-hero-image {
+        right: -6%;
+        bottom: -11%;
+        width: 70%;
+        height: auto;
+        aspect-ratio: 3 / 2;
+    }
+    .page-friend .patient-support-hero .support-hero-note { top: 1rem; font-size: 1rem; }
+}
+
+@media (max-width: 639px) {
+    .hero-section.patient-hero {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: .5rem 1.25rem;
+        padding: 1.75rem 1.25rem .75rem;
+        min-height: 0;
+    }
+    .patient-hero .patient-hero-copy { grid-column: 1 / -1; grid-row: 1; }
+    .patient-hero-art { height: 135px; }
+    .main-content .hero-section.patient-hero .hero-title { font-size: clamp(1.8rem, 7.5vw, 2.5rem); }
+    .hero-section.patient-hero .hero-subtitle { font-size: .9rem; }
+    .page-friend .support-hero.patient-support-hero {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        min-height: 0;
+        padding: 1.75rem 1.5rem .5rem;
+    }
+    .page-friend .patient-support-hero .support-hero-copy { max-width: 100%; }
+    .page-friend .patient-support-hero::after {
+        background: linear-gradient(135deg, #eaf7ffb3, #eaf7ff33 48%, transparent 70%);
+    }
+    .page-friend .patient-support-hero .support-hero-image {
+        position: static;
+        order: 2;
+        width: 124%;
+        max-width: none;
+        height: auto;
+        margin: -.25rem -12% -1.25rem;
+        aspect-ratio: 3 / 2;
+        object-fit: contain;
+    }
+    .page-friend .patient-support-hero .hero-title { font-size: clamp(2.1rem, 9vw, 3.25rem); }
+    .page-friend .patient-support-hero .hero-subtitle { text-wrap: pretty; }
+    .page-friend .patient-support-hero .hero-subtitle br { display: none; }
+    .page-friend .patient-support-hero .support-hero-note {
+        position: static;
+        display: block;
+        order: 1;
+        align-self: flex-end;
+        margin: .8rem 0 0;
+        font-size: .95rem;
+        line-height: 1.4;
+        transform: rotate(-6deg);
+    }
+    .page-friend .patient-support-hero .support-hero-seal {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        order: 3;
+        align-self: flex-end;
+        margin: 0 -.5rem .7rem 0;
+        padding: .6rem 1rem;
+        font-size: .75rem;
+    }
+}

@@ -1,0 +1,3 @@
+Built-in image_gen tool; edit of support.webp. Final file: support-empty-hands.webp.
+
+undefined
