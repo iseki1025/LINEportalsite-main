@@ -9,6 +9,7 @@
     <script src="js/page-transition.js?v=20260915-fade4"></script>
     <link rel="stylesheet" href="portal-design.css">
     <link rel="stylesheet" href="representative-pages.css?v=20260915-rest1">
+    <link rel="stylesheet" href="patient-heroes.css?v=20261020-disaster">
 </head>
 
 <body class="page-disaster">
@@ -26,10 +27,18 @@
     <!-- Main Content -->
     <main id="main-content" class="main-content">
 
-        <section class="hero-section theme-disaster">
-            <p class="badge">防災・透析情報</p>
-            <h1 class="hero-title">災害への備え</h1>
-            <p class="hero-subtitle">透析状況の確認と、もしもの時に役立つ情報をまとめています。</p>
+        <section class="hero-section theme-disaster patient-hero" aria-labelledby="disaster-hero-title">
+            <span class="patient-hero-art patient-hero-art-left" aria-hidden="true">
+                <img src="files/common/patient-heroes/disaster.webp" alt="" width="1536" height="1024" fetchpriority="high">
+            </span>
+            <div class="patient-hero-copy">
+                <p class="hero-badge">防災・透析情報</p>
+                <h1 id="disaster-hero-title" class="hero-title">災害への備え</h1>
+                <p class="hero-subtitle">透析状況の確認と、もしもの時に役立つ情報をまとめています。</p>
+            </div>
+            <span class="patient-hero-art patient-hero-art-right" aria-hidden="true">
+                <img src="files/common/patient-heroes/disaster.webp" alt="" width="1536" height="1024">
+            </span>
         </section>
 
         <!-- Dialysis Status Panel -->

@@ -33,6 +33,11 @@
 .patient-hero.theme-nutrition { --hero-accent: #94601f; --hero-tint: #fff2df; }
 .patient-hero.theme-footcare { --hero-accent: #ab5165; --hero-tint: #fceef1; }
 .patient-hero.theme-game { --hero-accent: #68559d; --hero-tint: #f0ecfa; }
+.patient-hero.theme-disaster { --hero-accent: #b42318; --hero-tint: #fff0e9; }
+.page-disaster .hero-section.patient-hero {
+    background: linear-gradient(115deg, var(--hero-tint), #fffdf8);
+    border-radius: 24px;
+}
 .hero-section.patient-hero.theme-shunt {
     background: linear-gradient(115deg, var(--hero-tint), #fffdf8);
 }
