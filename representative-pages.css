@@ -734,7 +734,6 @@
 }
 
 .page-disaster .status-refresh-btn:disabled { opacity: .6; cursor: wait; }
-.page-disaster .status-refresh-btn:focus-visible,
 .page-disaster .status-refresh-btn:focus-visible {
     outline: 3px solid #087e98;
     outline-offset: 2px;
