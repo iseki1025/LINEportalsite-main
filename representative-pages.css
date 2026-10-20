@@ -802,6 +802,95 @@
     margin-bottom: var(--spacing-xl);
 }
 
+.page-disaster .pdf-collapsible {
+    overflow: hidden;
+    margin-bottom: var(--spacing-lg);
+    background: #fff;
+    border: 1px solid #dceaf0;
+    border-radius: 18px;
+    box-shadow: 0 7px 20px rgba(22, 85, 121, .08);
+}
+
+.page-disaster .pdf-collapsible-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: var(--spacing-md) var(--spacing-lg);
+    color: var(--text-primary);
+    font-size: var(--text-md);
+    font-weight: 700;
+    text-align: center;
+    background: #fff8ec;
+}
+
+.page-disaster .pdf-collapsible-content {
+    display: block;
+    padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
+    text-align: center;
+}
+
+.page-disaster .inline-icon-label {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+}
+
+.page-disaster .inline-icon-label svg {
+    width: 22px;
+    height: 22px;
+    color: #134d7f;
+}
+
+.page-disaster .pdf-guide-description {
+    max-width: 34rem;
+    margin: 0 auto var(--spacing-lg);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.7;
+}
+
+.page-disaster .pdf-thumbnail-container {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .2);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.page-disaster .pdf-thumbnail-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .3);
+}
+
+.page-disaster .pdf-thumbnail-container:focus-visible {
+    outline: 3px solid rgba(8, 126, 152, .35);
+    outline-offset: 3px;
+}
+
+.page-disaster .pdf-thumbnail-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.page-disaster .pdf-tap-hint {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 8px;
+    color: #fff;
+    font-size: .8rem;
+    font-weight: 700;
+    text-align: center;
+    background: rgba(0, 0, 0, .6);
+}
+
 .page-disaster .guidebook-contents {
     padding: var(--spacing-md);
     margin-top: var(--spacing-md);

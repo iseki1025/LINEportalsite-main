@@ -56,26 +56,29 @@
             </div>
         </div>
 
-        <!-- PDF Guide Book (Always Visible) -->
+        <!-- PDF Guide Book -->
         <section class="guidebook-section" aria-labelledby="guidebook-title">
-            <h2 id="guidebook-title" class="section-title">災害ガイドブック</h2>
-            <article class="pdf-card">
-                <a class="pdf-card-thumbnail"
-                    href="http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/disaster-guide-book-2026.pdf"
-                    target="_blank" rel="noopener noreferrer" aria-label="災害ガイドブック2026年版を新しいタブで開く">
-                    <img id="pdf-thumbnail" src="files/pdf/preview-disaster-guide-book-2026.webp"
-                        alt="災害ガイドブック2026年版の表紙プレビュー">
-                </a>
-                <div class="pdf-card-body">
-                    <p class="badge">PDF・2026年版</p>
-                    <h3 class="pdf-card-title">災害対策ガイドブック</h3>
-                    <p class="pdf-card-description">詳しい災害対策をPDFで確認できます。</p>
-                    <p class="pdf-card-meta">新しいタブでPDFを開きます</p>
-                    <a class="btn btn-primary"
+            <div class="pdf-collapsible">
+                <h2 id="guidebook-title" class="pdf-collapsible-header">
+                    <span class="inline-icon-label">
+                        <svg aria-hidden="true"><use href="assets/icons/support-icons.svg#book"></use></svg>
+                        防災ガイドブックを見る
+                    </span>
+                </h2>
+                <div class="pdf-collapsible-content">
+                    <p class="pdf-guide-description">
+                        詳しい災害対策の情報をPDFで確認できます。写真をタップしてください。
+                    </p>
+                    <a class="pdf-thumbnail-container"
                         href="http://kajimoto-clinic.sakura.ne.jp/official_LINE/files/pdf/disaster-guide-book-2026.pdf"
-                        target="_blank" rel="noopener noreferrer">PDFを開く</a>
+                        target="_blank" rel="noopener noreferrer"
+                        aria-label="防災ガイドブック2026年版を新しいタブで開く">
+                        <img id="pdf-thumbnail" src="files/pdf/preview-disaster-guide-book-2026.webp"
+                            alt="防災ガイドブック2026年版の表紙プレビュー">
+                        <span class="pdf-tap-hint">タップして開く</span>
+                    </a>
                 </div>
-            </article>
+            </div>
 
             <div class="guidebook-contents">
                 <h3>目次</h3>

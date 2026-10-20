@@ -120,26 +120,94 @@
             position: relative;
         }
 
+        .exercise-item[data-video] {
+            cursor: pointer;
+        }
+
+        .exercise-item:not([data-video]) {
+            cursor: default;
+        }
+
         .exercise-item:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-lg);
         }
 
         .exercise-icon-circle {
-            width: 56px;
-            height: 56px;
-            margin: 0 auto var(--spacing-sm);
-            background: rgba(16, 185, 129, 0.1);
-            border-radius: var(--radius-full);
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            height: auto;
+            margin: 0 0 var(--spacing-md);
+            background:
+                linear-gradient(135deg, rgba(4, 120, 87, 0.96), rgba(16, 185, 129, 0.88)),
+                repeating-linear-gradient(135deg, transparent 0 18px, rgba(255, 255, 255, 0.08) 18px 20px);
+            border: 1px solid rgba(5, 150, 105, 0.24);
+            border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #10B981;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
         }
 
         .exercise-icon-circle svg {
-            width: 28px;
-            height: 28px;
+            display: none;
+        }
+
+        .exercise-icon-circle::before {
+            content: '▶';
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            padding-left: 3px;
+            border: 2px solid rgba(255, 255, 255, 0.92);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.18);
+            color: white;
+            font-size: 1.15rem;
+            line-height: 1;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .exercise-icon-circle::after {
+            content: '動画を再生';
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.28);
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .exercise-item:not([data-video]) .exercise-icon-circle {
+            background:
+                linear-gradient(135deg, rgba(71, 85, 105, 0.94), rgba(100, 116, 139, 0.9)),
+                repeating-linear-gradient(135deg, transparent 0 18px, rgba(255, 255, 255, 0.08) 18px 20px);
+            border-color: rgba(100, 116, 139, 0.28);
+        }
+
+        .exercise-item:not([data-video]) .exercise-icon-circle::before {
+            content: '動画';
+            width: auto;
+            height: auto;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .exercise-item:not([data-video]) .exercise-icon-circle::after {
+            content: '動画準備中';
+            background: rgba(15, 23, 42, 0.3);
+            opacity: 0.85;
         }
 
         .play-indicator {
@@ -215,6 +283,10 @@
             z-index: 3000;
         }
 
+        .modal.is-open {
+            display: block;
+        }
+
         .modal .modal-content {
             position: absolute;
             top: 50%;
@@ -237,11 +309,13 @@
             border: none;
             width: 44px;
             height: 44px;
+            padding: 0;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s;
+            font-family: inherit;
         }
 
         .close-modal:hover {
@@ -256,7 +330,17 @@
 
         .video-wrapper video {
             width: 100%;
-            display: block;
+            aspect-ratio: 16 / 9;
+            display: none;
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            display: none;
+            border: 0;
+            background: #000;
         }
     </style>
     <link rel="stylesheet" href="public-pages.css">
@@ -644,10 +728,11 @@
     </nav>
 
     <!-- Video Modal -->
-    <div id="videoModal" class="modal">
+    <div id="videoModal" class="modal" aria-hidden="true">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
+            <button type="button" class="close-modal" aria-label="動画を閉じる">&times;</button>
             <div class="video-wrapper">
+                <iframe id="popupFrame" title="運動動画" allow="autoplay; fullscreen" allowfullscreen></iframe>
                 <video id="popupVideo" controls playsinline>
                     <source src="" type="video/mp4">
                 </video>
@@ -666,34 +751,80 @@
 
         const modal = document.getElementById("videoModal");
         const video = document.getElementById("popupVideo");
+        const frame = document.getElementById("popupFrame");
         const closeBtn = document.querySelector(".close-modal");
 
+        function getDrivePreviewUrl(src) {
+            const match = src.match(/\/file\/d\/([^/]+)/);
+            return match ? `https://drive.google.com/file/d/${match[1]}/preview` : null;
+        }
+
+        function closeVideoModal() {
+            modal.classList.remove("is-open");
+            modal.setAttribute("aria-hidden", "true");
+            video.pause();
+            video.removeAttribute("src");
+            video.load();
+            frame.removeAttribute("src");
+            frame.style.display = "none";
+            video.style.display = "none";
+        }
+
         document.querySelectorAll(".exercise-item").forEach(item => {
-            item.addEventListener("click", function () {
+            const src = item.getAttribute("data-video");
+            const title = item.querySelector("h4")?.textContent.trim();
+
+            if (src) {
+                item.setAttribute("role", "button");
+                item.setAttribute("tabindex", "0");
+                item.setAttribute("aria-label", `${title || "運動"}の動画を再生`);
+            }
+
+            const openVideo = function () {
                 const src = this.getAttribute("data-video");
-                if (src) {
-                    if (src.includes('drive.google.com')) {
-                        window.open(src, '_blank');
-                    } else {
-                        video.src = src;
-                        modal.style.display = "block";
-                        video.play().catch(() => { });
-                    }
+                if (!src) return;
+
+                const drivePreviewUrl = getDrivePreviewUrl(src);
+                if (drivePreviewUrl) {
+                    video.pause();
+                    video.style.display = "none";
+                    frame.src = drivePreviewUrl;
+                    frame.style.display = "block";
+                } else {
+                    frame.removeAttribute("src");
+                    frame.style.display = "none";
+                    video.src = src;
+                    video.style.display = "block";
+                    video.play().catch(() => { });
+                }
+
+                modal.classList.add("is-open");
+                modal.setAttribute("aria-hidden", "false");
+                closeBtn.focus();
+            };
+
+            item.addEventListener("click", openVideo);
+            item.addEventListener("keydown", event => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    openVideo.call(item);
                 }
             });
         });
 
-        closeBtn.onclick = () => {
-            modal.style.display = "none";
-            video.pause();
-        };
+        closeBtn.onclick = closeVideoModal;
 
         window.onclick = (e) => {
             if (e.target == modal) {
-                modal.style.display = "none";
-                video.pause();
+                closeVideoModal();
             }
         };
+
+        window.addEventListener("keydown", event => {
+            if (event.key === "Escape" && modal.classList.contains("is-open")) {
+                closeVideoModal();
+            }
+        });
     </script>
 
 
