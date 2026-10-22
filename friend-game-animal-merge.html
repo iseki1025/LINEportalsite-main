@@ -344,7 +344,7 @@
 
         .game-header {
             display: grid;
-            grid-template-columns: minmax(90px, 1fr) auto minmax(90px, 1fr);
+            grid-template-columns: auto minmax(0, 1fr) auto;
             align-items: center;
             gap: 12px;
             width: min(100%, 1120px);
@@ -373,7 +373,9 @@
         .game-title {
             position: static;
             grid-column: 2;
+            justify-self: center;
             width: auto;
+            max-width: 100%;
             margin: 0;
             font-size: clamp(1rem, 2.2vw, 1.35rem);
             line-height: 1.25;
@@ -382,6 +384,19 @@
             -webkit-text-fill-color: currentColor;
             text-align: center;
             text-shadow: 0 2px 8px rgba(255, 255, 255, 0.72);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-header .start-btn {
+            grid-column: 3;
+            justify-self: end;
+            min-width: 0;
+            min-height: 44px;
+            padding: 8px 14px;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
 
         .game-main {
@@ -393,7 +408,7 @@
             box-sizing: border-box;
             width: 100%;
             min-height: 0;
-            padding: 8px max(12px, env(safe-area-inset-right)) 0 max(12px, env(safe-area-inset-left));
+            padding: 8px max(4px, env(safe-area-inset-right)) 0 max(4px, env(safe-area-inset-left));
         }
 
         .game-layout {
@@ -401,8 +416,7 @@
             grid-template-columns: minmax(0, 1fr);
             grid-template-areas:
                 "hud"
-                "board"
-                "controls";
+                "board";
             align-items: center;
             justify-items: center;
             gap: clamp(12px, 2.2vh, 22px);
@@ -411,7 +425,7 @@
 
         .game-box {
             grid-area: board;
-            width: min(350px, calc(100vw - 24px));
+            width: min(520px, calc(100vw - 24px));
             max-width: 100%;
             height: auto;
             aspect-ratio: 350 / 550;
@@ -534,12 +548,10 @@
             .game-layout {
                 grid-template-columns: minmax(350px, 1fr) minmax(230px, 290px);
                 grid-template-areas:
-                    "board hud"
-                    "board controls";
+                    "board hud";
                 align-content: center;
                 justify-items: stretch;
                 column-gap: clamp(24px, 5vw, 72px);
-                row-gap: 18px;
             }
 
             .game-hud {
@@ -557,18 +569,13 @@
                 background: linear-gradient(90deg, transparent, rgba(160, 140, 200, 0.32), transparent);
             }
 
-            .game-controls {
-                justify-self: center;
-                width: auto;
-            }
         }
 
         @media (orientation: landscape) and (max-width: 899px) and (max-height: 620px) {
             .game-layout {
                 grid-template-columns: minmax(280px, auto) minmax(210px, 1fr);
                 grid-template-areas:
-                    "board hud"
-                    "board controls";
+                    "board hud";
                 justify-content: center;
                 column-gap: 22px;
             }
@@ -586,14 +593,11 @@
                 background: linear-gradient(90deg, transparent, rgba(160, 140, 200, 0.32), transparent);
             }
 
-            .game-controls {
-                width: auto;
-            }
         }
 
         @media (max-width: 380px) {
             .game-header {
-                grid-template-columns: minmax(78px, 1fr) auto minmax(78px, 1fr);
+                grid-template-columns: auto minmax(0, 1fr) auto;
                 gap: 6px;
                 padding-right: 10px;
                 padding-left: 10px;
@@ -607,9 +611,15 @@
             }
 
             .game-title {
-                font-size: 0.8rem;
+                font-size: 0.76rem;
                 letter-spacing: -0.03em;
-                white-space: nowrap;
+            }
+
+            .game-header .start-btn {
+                min-height: 40px;
+                padding-right: 9px;
+                padding-left: 9px;
+                font-size: 0.76rem;
             }
 
             .game-hud {
@@ -646,7 +656,7 @@
         <header class="game-header">
             <a href="friend-game-main.html" class="unified-back-btn">← 戻る</a>
             <h1 class="game-title">🐾 ぷにぷにアニマル</h1>
-            <span aria-hidden="true"></span>
+            <button class="game-btn start-btn" id="startBtn">スタート</button>
         </header>
 
         <!-- ゲーム本体: HUD・盤面・操作を同じレイアウトで管理 -->
@@ -680,9 +690,6 @@
                     </div>
                 </div>
 
-                <div class="game-controls">
-                    <button class="game-btn" id="startBtn">スタート</button>
-                </div>
             </div>
         </main>
     </div>
@@ -814,18 +821,27 @@
 
         // --- リサイズ処理 ---
         function handleResize() {
-            const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
+            const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
             const viewportHeight = window.visualViewport?.height || window.innerHeight;
+            const availableWidth = Math.min(viewportWidth, document.documentElement.clientWidth || viewportWidth);
             const isWideLayout = viewportWidth >= 900;
+            const isCompactLandscape = !isWideLayout && viewportWidth > viewportHeight;
 
             // Matter.jsは350x550の論理座標で固定し、表示サイズだけを変更する。
             // これにより、プレイ中のボディ・壁・危険ラインの比率がリサイズで変わらない。
             if (isWideLayout) {
-                displayHeight = Math.min(CANVAS_HEIGHT, Math.max(420, viewportHeight - 120));
+                // PCはヘッダー下の高さを優先しつつ、タブレット級の大きさまで拡大する。
+                displayHeight = Math.min(817, Math.max(420, viewportHeight - 120));
                 displayWidth = displayHeight * ASPECT_RATIO;
+            } else if (isCompactLandscape) {
+                // 横画面は右側のHUD分を残し、余った幅を盤面に割り当てる。
+                const sidePanelWidth = 240;
+                const layoutGap = 22;
+                displayWidth = Math.min(520, Math.max(280, availableWidth - sidePanelWidth - layoutGap - 8));
+                displayHeight = displayWidth / ASPECT_RATIO;
             } else {
-                // 縦の短い端末では盤面を過度に縮めず、ページのスクロールで安全に操作できるようにする。
-                displayWidth = Math.min(CANVAS_WIDTH, Math.max(280, viewportWidth - 24));
+                // 縦画面は端末幅を最大限使い、縦が短い場合はスクロールで盤面を確保する。
+                displayWidth = Math.min(520, Math.max(280, availableWidth - 16));
                 displayHeight = displayWidth / ASPECT_RATIO;
             }
 
