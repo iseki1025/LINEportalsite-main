@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="夕方の食料品店の店内">
+  <defs><linearGradient id="inside" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#F7E5C1"/><stop offset="1" stop-color="#D9AD7B"/></linearGradient></defs>
+  <rect width="1600" height="900" fill="url(#inside)"/>
+  <path d="M0 640h1600v260H0z" fill="#AC7A5B"/>
+  <path d="M0 620 800 560l800 60v44H0z" fill="#C9966D"/>
+  <g stroke="#704F42" stroke-width="9" stroke-linejoin="round">
+    <path d="M65 180h456v485H65z" fill="#F9F1DC"/><path d="M1080 180h455v485h-455z" fill="#F9F1DC"/>
+    <path d="M610 165h380v545H610z" fill="#B98259"/>
+    <path d="M650 207h300v115H650zM650 355h300v115H650zM650 503h300v115H650z" fill="#E9C69A"/>
+  </g>
+  <g fill="#F5D6A7" stroke="#704F42" stroke-width="7"><path d="M80 208h425v70H80z"/><path d="M1096 208h420v70h-420z"/></g>
+  <g stroke="#704F42" stroke-width="6" fill="#F0B580"><path d="M118 330h150v85H118z"/><path d="M310 330h150v85H310z"/><path d="M1115 330h150v85h-150z"/><path d="M1306 330h150v85h-150z"/><path d="M118 470h150v85H118z"/><path d="M310 470h150v85H310z"/><path d="M1115 470h150v85h-150z"/><path d="M1306 470h150v85h-150z"/></g>
+  <g fill="#8CB5CA" stroke="#704F42" stroke-width="6"><path d="M135 344h62v61h-62z"/><path d="M338 344h76v61h-76z"/><path d="M1135 344h62v61h-62z"/><path d="M1324 344h74v61h-74z"/></g>
+  <g fill="#EC8A5B" stroke="#704F42" stroke-width="6"><circle cx="260" cy="352" r="28"/><circle cx="468" cy="492" r="29"/><circle cx="1260" cy="353" r="28"/><circle cx="1455" cy="492" r="29"/></g>
+  <g fill="#F9E4AE" stroke="#704F42" stroke-width="7"><path d="M695 226h210v70H695z"/><path d="M695 374h210v70H695z"/><path d="M695 522h210v70H695z"/></g>
+  <g stroke="#704F42" stroke-width="7" fill="none"><path d="M690 710h220M735 710v90M865 710v90"/><path d="M719 770h165"/></g>
+  <g fill="#6C9D76" stroke="#55755D" stroke-width="6"><path d="M26 620c13-96 67-101 92-41-11 72-43 91-92 41z"/><path d="M1480 620c17-94 72-102 94-40-14 71-50 91-94 40z"/></g>
+  <path d="M0 850h1600" stroke="#805B4A" stroke-width="14"/>
+</svg>
