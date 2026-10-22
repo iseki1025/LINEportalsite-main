@@ -303,6 +303,335 @@
                 opacity: 0;
             }
         }
+
+        /* ===== アニマル・マージ専用レスポンシブレイアウト ===== */
+        :root {
+            --game-purple: #8e72bd;
+            --game-blue: #255c88;
+            --game-card: rgba(255, 255, 255, 0.86);
+            --game-border: rgba(255, 255, 255, 0.78);
+            --game-shadow: 0 12px 30px rgba(49, 79, 112, 0.16);
+        }
+
+        html,
+        body {
+            min-height: 100%;
+            height: auto;
+            overflow-x: hidden;
+            overflow-y: auto;
+            touch-action: manipulation;
+        }
+
+        body {
+            min-height: 100dvh;
+            color: var(--game-blue);
+            font-family: "Noto Sans JP", sans-serif;
+        }
+
+        .game-bg,
+        .particles {
+            position: fixed;
+            inset: 0;
+        }
+
+        .game-app {
+            position: relative;
+            z-index: 10;
+            min-height: 100dvh;
+            box-sizing: border-box;
+            padding-bottom: calc(18px + env(safe-area-inset-bottom));
+        }
+
+        .game-header {
+            display: grid;
+            grid-template-columns: minmax(90px, 1fr) auto minmax(90px, 1fr);
+            align-items: center;
+            gap: 12px;
+            width: min(100%, 1120px);
+            box-sizing: border-box;
+            margin: 0 auto;
+            padding: calc(12px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 8px max(16px, env(safe-area-inset-left));
+        }
+
+        .game-header .unified-back-btn {
+            position: static;
+            justify-self: start;
+            min-width: 88px;
+            min-height: 44px;
+            box-sizing: border-box;
+            padding: 8px 16px;
+            color: var(--game-blue);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            border-radius: 999px;
+            box-shadow: 0 6px 16px rgba(50, 80, 112, 0.12);
+            font-size: 0.9rem;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .game-title {
+            position: static;
+            grid-column: 2;
+            width: auto;
+            margin: 0;
+            font-size: clamp(1rem, 2.2vw, 1.35rem);
+            line-height: 1.25;
+            color: var(--game-blue);
+            background: none;
+            -webkit-text-fill-color: currentColor;
+            text-align: center;
+            text-shadow: 0 2px 8px rgba(255, 255, 255, 0.72);
+        }
+
+        .game-main {
+            position: static;
+            inset: auto;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            box-sizing: border-box;
+            width: 100%;
+            min-height: 0;
+            padding: 8px max(12px, env(safe-area-inset-right)) 0 max(12px, env(safe-area-inset-left));
+        }
+
+        .game-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-areas:
+                "hud"
+                "board"
+                "controls";
+            align-items: center;
+            justify-items: center;
+            gap: clamp(12px, 2.2vh, 22px);
+            width: min(100%, 1120px);
+        }
+
+        .game-box {
+            grid-area: board;
+            width: min(350px, calc(100vw - 24px));
+            max-width: 100%;
+            height: auto;
+            aspect-ratio: 350 / 550;
+            box-sizing: content-box;
+            border: 4px solid var(--game-border);
+            border-radius: 22px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.12));
+            box-shadow: var(--game-shadow), inset 0 2px 4px rgba(255, 255, 255, 0.34);
+            touch-action: none;
+        }
+
+        .game-box canvas#gameCanvas {
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+
+        .deadline {
+            top: 10.91%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 100, 100, 0.62), transparent);
+        }
+
+        .game-hud {
+            position: static;
+            grid-area: hud;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            justify-content: space-evenly;
+            gap: 8px;
+            width: min(100%, 560px);
+            box-sizing: border-box;
+            padding: 10px 12px;
+            transform: none;
+            background: var(--game-card);
+            border: 1px solid var(--game-border);
+            border-radius: 18px;
+            box-shadow: var(--game-shadow);
+        }
+
+        .hud-section {
+            flex: 1 1 0;
+            min-width: 0;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .hud-label {
+            color: #6d7180;
+            font-size: clamp(0.58rem, 1.8vw, 0.7rem);
+            letter-spacing: 0.12em;
+        }
+
+        .hud-value {
+            color: var(--game-purple);
+            background: none;
+            -webkit-text-fill-color: currentColor;
+            font-size: clamp(1rem, 4vw, 1.35rem);
+            font-variant-numeric: tabular-nums;
+            line-height: 1.1;
+            white-space: nowrap;
+        }
+
+        .hud-separator {
+            flex: 0 0 1px;
+            width: 1px;
+            height: auto;
+            margin: 4px 0;
+            background: linear-gradient(180deg, transparent, rgba(160, 140, 200, 0.32), transparent);
+        }
+
+        #nextCanvas {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .game-controls {
+            position: static;
+            grid-area: controls;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .game-btn {
+            min-height: 48px;
+            padding: 11px 28px;
+            font-size: 1rem;
+            color: #fff;
+            background: linear-gradient(135deg, #8f78c7 0%, #e6a8d5 100%);
+            box-shadow: 0 6px 16px rgba(142, 114, 189, 0.32);
+        }
+
+        .game-btn:focus-visible,
+        .game-header .unified-back-btn:focus-visible {
+            outline: 3px solid rgba(48, 125, 183, 0.45);
+            outline-offset: 3px;
+        }
+
+        .game-over-overlay {
+            border-radius: 18px;
+            background: rgba(44, 52, 75, 0.78);
+        }
+
+        .game-over-overlay h2 {
+            margin: 0 0 10px;
+            font-size: clamp(1.4rem, 6vw, 1.8rem);
+        }
+
+        .game-over-overlay p {
+            margin: 0 0 20px;
+            font-size: 1.05rem;
+        }
+
+        @media (min-width: 900px) {
+            .game-layout {
+                grid-template-columns: minmax(350px, 1fr) minmax(230px, 290px);
+                grid-template-areas:
+                    "board hud"
+                    "board controls";
+                align-content: center;
+                justify-items: stretch;
+                column-gap: clamp(24px, 5vw, 72px);
+                row-gap: 18px;
+            }
+
+            .game-hud {
+                flex-direction: column;
+                justify-self: center;
+                width: min(100%, 260px);
+                padding: 18px 14px;
+            }
+
+            .hud-separator {
+                flex: 0 0 1px;
+                width: 80%;
+                height: 1px;
+                margin: 0 auto;
+                background: linear-gradient(90deg, transparent, rgba(160, 140, 200, 0.32), transparent);
+            }
+
+            .game-controls {
+                justify-self: center;
+                width: auto;
+            }
+        }
+
+        @media (orientation: landscape) and (max-width: 899px) and (max-height: 620px) {
+            .game-layout {
+                grid-template-columns: minmax(280px, auto) minmax(210px, 1fr);
+                grid-template-areas:
+                    "board hud"
+                    "board controls";
+                justify-content: center;
+                column-gap: 22px;
+            }
+
+            .game-hud {
+                flex-direction: column;
+                width: min(100%, 240px);
+            }
+
+            .hud-separator {
+                flex: 0 0 1px;
+                width: 80%;
+                height: 1px;
+                margin: 0 auto;
+                background: linear-gradient(90deg, transparent, rgba(160, 140, 200, 0.32), transparent);
+            }
+
+            .game-controls {
+                width: auto;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .game-header {
+                grid-template-columns: minmax(78px, 1fr) auto minmax(78px, 1fr);
+                gap: 6px;
+                padding-right: 10px;
+                padding-left: 10px;
+            }
+
+            .game-header .unified-back-btn {
+                min-width: 78px;
+                padding-right: 10px;
+                padding-left: 10px;
+                font-size: 0.82rem;
+            }
+
+            .game-title {
+                font-size: 0.8rem;
+                letter-spacing: -0.03em;
+                white-space: nowrap;
+            }
+
+            .game-hud {
+                padding-right: 8px;
+                padding-left: 8px;
+            }
+
+            #nextCanvas {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .particle,
+            .merge-effect,
+            .game-over-overlay,
+            .game-btn {
+                animation: none;
+                transition: none;
+            }
+        }
     </style>
     <link rel="stylesheet" href="game-shell.css">
 </head>
@@ -312,45 +641,50 @@
     <div class="game-bg"></div>
     <div class="particles" id="particles"></div>
 
-    <!-- 固定UI -->
-    <a href="friend-game-main.html" class="unified-back-btn">戻る</a>
-    <h1 class="game-title">🐾 ぷにぷにアニマル</h1>
+    <div class="game-app">
+        <!-- ヘッダー -->
+        <header class="game-header">
+            <a href="friend-game-main.html" class="unified-back-btn">← 戻る</a>
+            <h1 class="game-title">🐾 ぷにぷにアニマル</h1>
+            <span aria-hidden="true"></span>
+        </header>
 
-    <!-- レイヤー2: ゲーム本体 -->
-    <div class="game-main">
-        <div class="game-box" id="gameBox">
-            <div class="deadline"></div>
-            <canvas id="gameCanvas"></canvas>
-            <div class="glass-overlay"></div>
-            <div class="game-over-overlay" id="gameOverOverlay">
-                <h2>🎮 Game Over</h2>
-                <p>スコア: <span id="finalScore">0</span></p>
-                <button class="game-btn" id="restartBtn">もう一度</button>
+        <!-- ゲーム本体: HUD・盤面・操作を同じレイアウトで管理 -->
+        <main class="game-main">
+            <div class="game-layout">
+                <div class="game-box" id="gameBox">
+                    <div class="deadline"></div>
+                    <canvas id="gameCanvas"></canvas>
+                    <div class="glass-overlay"></div>
+                    <div class="game-over-overlay" id="gameOverOverlay" aria-live="polite">
+                        <h2>🎮 Game Over</h2>
+                        <p>スコア: <span id="finalScore">0</span></p>
+                        <button class="game-btn" id="restartBtn">もう一度</button>
+                    </div>
+                </div>
+
+                <div class="game-hud" aria-label="ゲーム情報">
+                    <div class="hud-section">
+                        <span class="hud-label">NEXT</span>
+                        <canvas id="nextCanvas" width="64" height="64"></canvas>
+                    </div>
+                    <div class="hud-separator" aria-hidden="true"></div>
+                    <div class="hud-section">
+                        <span class="hud-label">BEST</span>
+                        <span class="hud-value" id="bestScore">0</span>
+                    </div>
+                    <div class="hud-separator" aria-hidden="true"></div>
+                    <div class="hud-section">
+                        <span class="hud-label">SCORE</span>
+                        <span class="hud-value" id="score">0</span>
+                    </div>
+                </div>
+
+                <div class="game-controls">
+                    <button class="game-btn" id="startBtn">スタート</button>
+                </div>
             </div>
-        </div>
-    </div>
-
-    <!-- レイヤー3: HUD -->
-    <div class="game-hud">
-        <div class="hud-section">
-            <span class="hud-label">NEXT</span>
-            <canvas id="nextCanvas" width="45" height="45"></canvas>
-        </div>
-        <div class="hud-separator"></div>
-        <div class="hud-section">
-            <span class="hud-label">BEST</span>
-            <span class="hud-value" id="bestScore">0</span>
-        </div>
-        <div class="hud-separator"></div>
-        <div class="hud-section">
-            <span class="hud-label">SCORE</span>
-            <span class="hud-value" id="score">0</span>
-        </div>
-    </div>
-
-    <!-- コントロール -->
-    <div class="game-controls">
-        <button class="game-btn" id="startBtn">スタート</button>
+        </main>
     </div>
 
     <!-- Matter.js CDN -->
@@ -365,11 +699,11 @@
         const { Engine, Render, Runner, Bodies, Body, World, Events, Query } = Matter;
 
         // --- 定数 (可変) ---
-        let CANVAS_WIDTH = 350;
-        let CANVAS_HEIGHT = 550;
+        const CANVAS_WIDTH = 350;
+        const CANVAS_HEIGHT = 550;
         const ASPECT_RATIO = 350 / 550;
-        let WALL_THICKNESS = 20;
-        let DEADLINE_Y = 60;
+        const WALL_THICKNESS = 20;
+        const DEADLINE_Y = 60;
         const DANGER_TIME = 3000;
 
         // --- 動物定義 (基準) ---
@@ -388,7 +722,9 @@
 
         // 作業用動物リストとスケール
         let ANIMALS = JSON.parse(JSON.stringify(BASE_ANIMALS));
-        let scaleFactor = 1.0;
+        let displayWidth = CANVAS_WIDTH;
+        let displayHeight = CANVAS_HEIGHT;
+        let displayScale = 1.0;
 
         // スコアポイント
         const SCORES = [10, 20, 40, 80, 160, 320, 640, 1280, 2560, 5120];
@@ -400,14 +736,41 @@
         let isGameRunning = false;
         let isGameOver = false;
         let score = 0;
-        let bestScore = parseInt(localStorage.getItem('animalMergeBest') || '0');
+        let bestScore = 0;
         let currentAnimalIndex = 0;
         let nextAnimalIndex = 0;
         let canDrop = true;
-        let mouseX = 0;
+        let mouseX = CANVAS_WIDTH / 2;
         let dangerTimer = null;
         let dangerStartTime = null;
         let animals = []; // 落下した動物オブジェクトを管理
+        let cooldownTimer = null;
+        let animationFrameId = null;
+        let gameLoopToken = 0;
+
+        // --- スコア保存 (既存キー・形式を維持) ---
+        function readBestScore() {
+            try {
+                const stored = Number.parseInt(window.localStorage.getItem('animalMergeBest') || '0', 10);
+                return Number.isFinite(stored) && stored >= 0 ? stored : 0;
+            } catch (error) {
+                // ストレージが利用できない環境でもゲームは継続する
+                return 0;
+            }
+        }
+
+        function saveBestScoreIfHigher(nextScore) {
+            if (!Number.isFinite(nextScore) || nextScore <= bestScore) return false;
+
+            bestScore = nextScore;
+            try {
+                window.localStorage.setItem('animalMergeBest', String(bestScore));
+            } catch (error) {
+                // 保存できなくても、現在のセッション内の表示は更新する
+            }
+            document.getElementById('bestScore').textContent = String(bestScore);
+            return true;
+        }
 
         // --- 初期化 ---
         function init() {
@@ -416,15 +779,21 @@
             nextCanvas = document.getElementById('nextCanvas');
             nextCtx = nextCanvas.getContext('2d');
             gameBox = document.getElementById('gameBox');
+            bestScore = readBestScore();
 
-            document.getElementById('bestScore').textContent = bestScore;
+            document.getElementById('bestScore').textContent = String(bestScore);
 
             // リサイズ実行
             handleResize();
-            window.addEventListener('resize', () => {
+            const handleViewportChange = () => {
                 handleResize();
                 if (!isGameRunning) drawPreview();
-            });
+            };
+            window.addEventListener('resize', handleViewportChange);
+            window.addEventListener('orientationchange', handleViewportChange);
+            if (window.visualViewport) {
+                window.visualViewport.addEventListener('resize', handleViewportChange);
+            }
 
             // イベント
             document.getElementById('startBtn').addEventListener('click', startGame);
@@ -445,56 +814,33 @@
 
         // --- リサイズ処理 ---
         function handleResize() {
-            const isPC = window.innerWidth > 800;
-            const viewportHeight = window.innerHeight;
-            const viewportWidth = window.innerWidth;
+            const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
+            const viewportHeight = window.visualViewport?.height || window.innerHeight;
+            const isWideLayout = viewportWidth >= 900;
 
-            let targetWidth, targetHeight;
-
-            if (isPC) {
-                // PC: 画面高さの80%をベースに、最大でも幅450px/高さ700pxに制限
-                const maxH = Math.min(viewportHeight * 0.85, 700);
-                targetHeight = maxH;
-                targetWidth = targetHeight * ASPECT_RATIO;
-
-                // 幅が広すぎる場合は制限
-                if (targetWidth > 450) {
-                    targetWidth = 450;
-                    targetHeight = targetWidth / ASPECT_RATIO;
-                }
+            // Matter.jsは350x550の論理座標で固定し、表示サイズだけを変更する。
+            // これにより、プレイ中のボディ・壁・危険ラインの比率がリサイズで変わらない。
+            if (isWideLayout) {
+                displayHeight = Math.min(CANVAS_HEIGHT, Math.max(420, viewportHeight - 120));
+                displayWidth = displayHeight * ASPECT_RATIO;
             } else {
-                // モバイル: 画面幅90%をベースに
-                const maxW = Math.min(viewportWidth * 0.9, 380);
-                targetWidth = maxW;
-                targetHeight = targetWidth / ASPECT_RATIO;
-
-                // 高さが画面を超える場合は調整
-                const maxH = viewportHeight - 120;
-                if (targetHeight > maxH) {
-                    targetHeight = maxH;
-                    targetWidth = targetHeight * ASPECT_RATIO;
-                }
+                // 縦の短い端末では盤面を過度に縮めず、ページのスクロールで安全に操作できるようにする。
+                displayWidth = Math.min(CANVAS_WIDTH, Math.max(280, viewportWidth - 24));
+                displayHeight = displayWidth / ASPECT_RATIO;
             }
 
-            CANVAS_WIDTH = targetWidth;
-            CANVAS_HEIGHT = targetHeight;
-            scaleFactor = CANVAS_WIDTH / 350; // 基準350px
-
+            displayScale = displayWidth / CANVAS_WIDTH;
             canvas.width = CANVAS_WIDTH;
             canvas.height = CANVAS_HEIGHT;
-            gameBox.style.width = CANVAS_WIDTH + 'px';
-            gameBox.style.height = CANVAS_HEIGHT + 'px';
+            canvas.style.width = displayWidth + 'px';
+            canvas.style.height = displayHeight + 'px';
+            gameBox.style.width = displayWidth + 'px';
+            gameBox.style.height = displayHeight + 'px';
 
-            // 動物サイズと壁厚みの再計算
-            ANIMALS = BASE_ANIMALS.map(a => ({
-                ...a,
-                radius: a.radius * scaleFactor
-            }));
-            WALL_THICKNESS = 20 * scaleFactor;
-            DEADLINE_Y = 60 * scaleFactor;
+            ANIMALS = JSON.parse(JSON.stringify(BASE_ANIMALS));
 
-            // デッドライン要素の位置調整
-            document.querySelector('.deadline').style.top = DEADLINE_Y + 'px';
+            // DOMの警告線・エフェクトは表示倍率に合わせるが、判定値は論理座標のまま維持する。
+            document.querySelector('.deadline').style.top = (DEADLINE_Y * displayScale) + 'px';
         }
 
         // --- パーティクル生成 ---
@@ -517,6 +863,9 @@
 
         // --- ゲーム開始 ---
         function startGame() {
+            if (isGameRunning) return;
+
+            gameLoopToken += 1;
             isGameRunning = true;
             isGameOver = false;
             score = 0;
@@ -524,6 +873,11 @@
             canDrop = true;
             dangerTimer = null;
             dangerStartTime = null;
+            mouseX = CANVAS_WIDTH / 2;
+            if (cooldownTimer) {
+                clearTimeout(cooldownTimer);
+                cooldownTimer = null;
+            }
 
             document.getElementById('score').textContent = '0';
             document.getElementById('startBtn').style.display = 'none';
@@ -555,7 +909,7 @@
             runner = Runner.create();
             Runner.run(runner, engine);
 
-            requestAnimationFrame(gameLoop);
+            requestGameFrame(gameLoopToken);
         }
 
         // --- ゲームリスタート ---
@@ -576,16 +930,20 @@
         }
 
         // --- マウス/タッチ操作 ---
-        function handleMouseMove(e) {
+        function getLogicalX(clientX) {
             const rect = canvas.getBoundingClientRect();
-            mouseX = e.clientX - rect.left;
+            if (!rect.width) return CANVAS_WIDTH / 2;
+            return (clientX - rect.left) * (CANVAS_WIDTH / rect.width);
+        }
+
+        function handleMouseMove(e) {
+            mouseX = getLogicalX(e.clientX);
             clampMouseX();
         }
 
         function handleTouchMove(e) {
             e.preventDefault();
-            const rect = canvas.getBoundingClientRect();
-            mouseX = e.touches[0].clientX - rect.left;
+            mouseX = getLogicalX(e.touches[0].clientX);
             clampMouseX();
         }
 
@@ -602,8 +960,7 @@
         function handleTouchStart(e) {
             e.preventDefault();
             if (!isGameRunning || !canDrop || isGameOver) return;
-            const rect = canvas.getBoundingClientRect();
-            mouseX = e.touches[0].clientX - rect.left;
+            mouseX = getLogicalX(e.touches[0].clientX);
             clampMouseX();
             dropAnimal();
         }
@@ -630,8 +987,9 @@
             drawNextAnimal();
 
             // ドロップクールダウン
-            setTimeout(() => {
+            cooldownTimer = setTimeout(() => {
                 canDrop = true;
+                cooldownTimer = null;
             }, 500);
         }
 
@@ -687,10 +1045,10 @@
         function showMergeEffect(x, y, radius) {
             const effect = document.createElement('div');
             effect.className = 'merge-effect';
-            effect.style.left = (x - radius) + 'px';
-            effect.style.top = (y - radius) + 'px';
-            effect.style.width = (radius * 2) + 'px';
-            effect.style.height = (radius * 2) + 'px';
+            effect.style.left = ((x - radius) * displayScale) + 'px';
+            effect.style.top = ((y - radius) * displayScale) + 'px';
+            effect.style.width = (radius * 2 * displayScale) + 'px';
+            effect.style.height = (radius * 2 * displayScale) + 'px';
             gameBox.appendChild(effect);
 
             setTimeout(() => effect.remove(), 400);
@@ -741,28 +1099,31 @@
         function endGame() {
             isGameOver = true;
             isGameRunning = false;
+            gameLoopToken += 1;
 
             if (runner) Runner.stop(runner);
+            if (animationFrameId !== null) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
 
             document.getElementById('finalScore').textContent = score;
             document.getElementById('gameOverOverlay').classList.add('active');
-            document.getElementById('startBtn').style.display = 'block';
+            document.getElementById('startBtn').style.display = 'none';
 
-            // ベストスコア更新
-            if (score > bestScore) {
-                bestScore = score;
-                localStorage.setItem('animalMergeBest', bestScore);
-                document.getElementById('bestScore').textContent = bestScore;
-            }
+            // ベストスコア更新 (既存値より低いスコアでは保存しない)
+            saveBestScoreIfHigher(score);
         }
 
         // --- 描画: Next動物 ---
         function drawNextAnimal() {
-            nextCtx.clearRect(0, 0, 50, 50);
+            const canvasSize = nextCanvas.width;
+            nextCtx.clearRect(0, 0, canvasSize, canvasSize);
             const animal = ANIMALS[nextAnimalIndex];
-            const scale = 40 / (animal.radius * 2);
+            const center = canvasSize / 2;
+            const scale = (canvasSize - 8) / (animal.radius * 2);
             const r = animal.radius * scale;
-            drawAnimalShape(nextCtx, 25, 25, r, animal, nextAnimalIndex);
+            drawAnimalShape(nextCtx, center, center, r, animal, nextAnimalIndex);
         }
 
         // --- 描画: プレビュー ---
@@ -1153,8 +1514,13 @@
         }
 
         // --- ゲームループ ---
-        function gameLoop() {
-            if (!isGameRunning) return;
+        function requestGameFrame(token) {
+            animationFrameId = requestAnimationFrame(() => gameLoop(token));
+        }
+
+        function gameLoop(token) {
+            animationFrameId = null;
+            if (!isGameRunning || token !== gameLoopToken) return;
 
             // キャンバスクリア
             ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -1174,7 +1540,9 @@
             // ゲームオーバー判定
             checkGameOver();
 
-            requestAnimationFrame(gameLoop);
+            if (isGameRunning && token === gameLoopToken) {
+                requestGameFrame(token);
+            }
         }
 
         // --- 初期化実行 ---
