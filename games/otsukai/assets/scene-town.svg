@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="朝の商店街入口">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#F7D9B2"/><stop offset="1" stop-color="#FFF5DC"/></linearGradient>
+    <linearGradient id="road" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#CDAE92"/><stop offset="1" stop-color="#987A6B"/></linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <circle cx="1260" cy="142" r="74" fill="#F1B867" opacity=".72"/>
+  <path d="M0 420c250-105 410-80 600-8 185 70 385 66 530-10 187-98 304-78 470-12v214H0z" fill="#AFC5A8"/>
+  <path d="M0 515c220-80 433-72 628 8 195 80 379 55 552-20 164-70 293-65 420-14v210H0z" fill="#7C9E8A"/>
+  <path d="M0 654h1600v246H0z" fill="url(#road)"/>
+  <path d="M800 650 575 900h450z" fill="#B9957C" opacity=".78"/>
+  <path d="M80 670h350M1130 670h385M32 770h330M1230 780h300" stroke="#E7C6A1" stroke-width="10" stroke-linecap="round" opacity=".7"/>
+  <g stroke="#715B55" stroke-width="8" stroke-linejoin="round">
+    <path d="M75 500V245h270v255z" fill="#F0B983"/><path d="M55 258 210 165l155 93" fill="#E28761"/>
+    <path d="M375 500V215h295v285z" fill="#F4D6A6"/><path d="m350 231 172-111 172 111" fill="#6B9C96"/>
+    <path d="M930 500V215h290v285z" fill="#F2B1A1"/><path d="m906 231 168-116 171 116" fill="#DB8E72"/>
+    <path d="M1240 500V252h292v248z" fill="#E5C98F"/><path d="m1215 268 171-104 172 104" fill="#7FA8A1"/>
+  </g>
+  <g stroke="#715B55" stroke-width="7" fill="#FFF7E7">
+    <path d="M113 364h192v94H113z"/><path d="M433 352h174v106H433z"/><path d="M986 354h176v104H986z"/><path d="M1295 362h176v96h-176z"/>
+  </g>
+  <g stroke="#715B55" stroke-width="6" fill="none"><path d="M155 458v42M255 458v42M468 458v42M563 458v42M1021 458v42M1120 458v42M1330 458v42M1428 458v42"/></g>
+  <g fill="#6D9C78" stroke="#56745E" stroke-width="6"><path d="M170 590c15-78 55-104 91-72-6 60-40 92-91 72z"/><path d="M1380 600c13-74 54-108 93-72-7 65-42 95-93 72z"/></g>
+  <g stroke="#6B534A" stroke-width="7" fill="none"><path d="M153 590h116M1360 600h138"/><circle cx="205" cy="640" r="27"/><circle cx="277" cy="640" r="27"/><path d="M205 640h72l28-45h-49"/></g>
+  <path d="M0 900h1600" stroke="#72595B" stroke-width="16"/>
+  <g fill="#F9E8BE" stroke="#775B50" stroke-width="7"><path d="M686 426h221v112H686z"/><path d="M718 426 796 367l79 59z"/></g>
+  <path d="M739 480h112" stroke="#E7A064" stroke-width="12" stroke-linecap="round"/>
+</svg>
