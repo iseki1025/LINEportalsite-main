@@ -97,7 +97,7 @@
 .ob-progress-bar { height: 7px; flex: 1; overflow: hidden; border-radius: 999px; background: #E8E0D4; }
 .ob-progress-bar span { display: block; height: 100%; border-radius: inherit; background: var(--ob-primary); }
 .ob-character-line { display: flex; align-items: center; gap: 12px; margin: 14px 0; }
-.ob-character-line img { width: 76px; height: 92px; object-fit: contain; align-self: end; }
+.ob-character-line img { width: 88px; height: 118px; object-fit: contain; align-self: end; }
 .ob-speech { flex: 1; position: relative; padding: 12px 15px; border: 1px solid #E9D9C6; border-radius: 16px; background: #FFF9EF; font-weight: 700; }
 .ob-speech::before { content: ""; position: absolute; left: -8px; top: 25px; width: 15px; height: 15px; border-left: 1px solid #E9D9C6; border-bottom: 1px solid #E9D9C6; background: #FFF9EF; transform: rotate(45deg); }
 .ob-memo { padding: 16px; border: 1px solid #E9D9C6; border-radius: 20px; background: #FFF9EF; box-shadow: 0 8px 18px rgba(100, 73, 45, .08); }
@@ -210,6 +210,7 @@
     .ob-product-card { min-height: 120px; }
     .ob-product-card img { width: 60px; height: 60px; }
     .ob-product-card strong { font-size: .86rem; }
+    .ob-character-line img { width: 76px; height: 104px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
