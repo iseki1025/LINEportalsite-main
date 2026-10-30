@@ -48,9 +48,9 @@
 .ob-layout { display: grid; gap: 16px; align-items: stretch; }
 .ob-art { position: relative; min-height: 210px; overflow: hidden; border-radius: 26px; background: var(--ob-primary); box-shadow: var(--ob-shadow); }
 .ob-art::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(17, 68, 76, .03), rgba(17, 68, 76, .18)); }
-.ob-scene-town { background: url("assets/scene-town.svg") center / cover no-repeat; }
-.ob-scene-street { background: url("assets/scene-street.svg") center / cover no-repeat; }
-.ob-scene-store { background: url("assets/scene-store.svg") center / cover no-repeat; }
+.ob-scene-town { background: url("assets/scene-town-v3.webp") center / cover no-repeat; }
+.ob-scene-street { background: url("assets/scene-street-v3.webp") center / cover no-repeat; }
+.ob-scene-store { background: url("assets/scene-store-v3.webp") center / cover no-repeat; }
 .ob-art-character { position: absolute; right: 6%; bottom: -2px; z-index: 1; width: clamp(88px, 18vw, 166px); max-height: 88%; object-fit: contain; object-position: bottom right; filter: drop-shadow(0 8px 8px rgba(40, 52, 50, .2)); }
 .ob-art-copy { position: absolute; left: clamp(18px, 5vw, 64px); top: 50%; z-index: 2; max-width: min(74%, 540px); transform: translateY(-50%); }
 .ob-art-copy h1, .ob-art-copy h2 { margin: 0; color: #fff; text-shadow: 0 2px 4px rgba(24, 54, 56, .3); line-height: 1.18; }
