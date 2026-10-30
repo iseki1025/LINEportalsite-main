@@ -125,7 +125,7 @@ function renderTitle() {
   return shell({
     scene: 'town',
     artCopy: '<span class="ob-kicker">KAMOSHIDA STREET</span><h1>おつかい日和</h1><p>小さな街で、今日もちょっといい一日。</p>',
-    character: './games/otsukai/assets/character-minori-neutral-v2.png',
+    character: './games/otsukai/assets/character-minori-neutral-v3.webp',
     content,
   });
 }
@@ -139,13 +139,13 @@ function renderTutorial() {
       <article class="ob-info-card"><span class="ob-step-number">3</span><h3>売り場で選ぶ</h3><p class="ob-caption">覚えた商品をかごに入れて、お会計します。</p></article>
     </div>
     <div class="ob-actions"><button type="button" class="ob-button ob-button-primary" data-action="tutorial-start">さっそく出発</button><button type="button" class="ob-button ob-button-quiet" data-action="tutorial-skip">あとで見る</button></div>`;
-  return shell({ scene: 'town', character: './games/otsukai/assets/character-minori-encourage-v2.png', content, single: true });
+  return shell({ scene: 'town', character: './games/otsukai/assets/character-minori-encourage-v3.webp', content, single: true });
 }
 
 function renderDifficulty() {
   const cards = Object.values(DIFFICULTIES).map((item) => `<button type="button" class="ob-difficulty-card" data-action="difficulty" data-difficulty="${item.id}" aria-pressed="${state.difficulty === item.id}"><strong>${item.label}</strong><span class="ob-count">${item.count}品 / ${item.shelfSize}品</span><span>${item.description}</span></button>`).join('');
   const content = `<span class="ob-kicker">通常のおつかい</span><h1>難易度を選ぶ</h1><p class="ob-lead">今の気分に合うコースを選んでください。</p><div class="ob-difficulty-grid">${cards}</div><div class="ob-actions"><button type="button" class="ob-button ob-button-primary" data-action="start-normal">出発する</button></div>`;
-  return shell({ scene: 'street', character: './games/otsukai/assets/character-minori-encourage-v2.png', content, single: true });
+  return shell({ scene: 'street', character: './games/otsukai/assets/character-minori-encourage-v3.webp', content, single: true });
 }
 
 function renderMemo() {
@@ -154,7 +154,7 @@ function renderMemo() {
     const item = product(id);
     return `<div class="ob-memo-item">${productImage(item)}<span>${escapeHtml(item.label)}</span></div>`;
   }).join('');
-  const content = `${progress()}<div class="ob-character-line"><img src="./games/otsukai/assets/character-minori-neutral-v2.png" alt="みのりさん" width="160" height="220"><p class="ob-speech">${escapeHtml(ROUND_MESSAGES[state.roundIndex])}</p></div><div class="ob-memo"><div class="ob-memo-label">おつかいメモ</div><div class="ob-memo-grid">${items}</div></div><div class="ob-actions"><button type="button" class="ob-button ob-button-primary" data-action="remember">覚えた！次へ</button></div><p class="ob-caption">確認できたら、好きなタイミングで次へ進めます。</p>`;
+  const content = `${progress()}<div class="ob-character-line"><img src="./games/otsukai/assets/character-minori-neutral-v3.webp" alt="みのりさん" width="160" height="220"><p class="ob-speech">${escapeHtml(ROUND_MESSAGES[state.roundIndex])}</p></div><div class="ob-memo"><div class="ob-memo-label">おつかいメモ</div><div class="ob-memo-grid">${items}</div></div><div class="ob-actions"><button type="button" class="ob-button ob-button-primary" data-action="remember">覚えた！次へ</button></div><p class="ob-caption">確認できたら、好きなタイミングで次へ進めます。</p>`;
   return shell({ scene: 'town', content, inGame: true });
 }
 
@@ -176,7 +176,7 @@ function renderChange() {
   const from = product(plan.changedFromId);
   const to = product(plan.changedToId);
   const content = `${progress()}<span class="ob-kicker">お願いの変更</span><h1>変更を覚えよう</h1><p class="ob-lead">みのりさんから、新しいお願いです。</p><p class="ob-note-text">${escapeHtml(from.label)}はもう大丈夫。代わりに${escapeHtml(to.label)}をお願いね。</p><div class="ob-change-card"><div class="ob-change-item"><small>取り消し</small>${productImage(from)}<strong>${escapeHtml(from.label)}</strong></div><div class="ob-change-arrow" aria-hidden="true">→</div><div class="ob-change-item is-add"><small>追加</small>${productImage(to)}<strong>${escapeHtml(to.label)}</strong></div></div><div class="ob-actions"><button type="button" class="ob-button ob-button-primary" data-action="change-ack">変更を覚えた</button></div><p class="ob-caption">売り場では、変更後のメモが正解になります。</p>`;
-  return shell({ scene: 'store', character: './games/otsukai/assets/character-minori-encourage-v2.png', content, inGame: true });
+  return shell({ scene: 'store', character: './games/otsukai/assets/character-minori-encourage-v3.webp', content, inGame: true });
 }
 
 function renderShelf() {
@@ -204,7 +204,7 @@ function renderRoundResult() {
   const extras = result.selectedIds.filter((id) => !targetSet.has(id)).map((id) => product(id)?.label).filter(Boolean);
   const extraText = extras.length ? `<p class="ob-extra-list">今回かごに入った商品：${escapeHtml(extras.join('、'))}</p>` : '';
   const resultCharacter = result.correctCount === result.targetCount ? 'happy' : 'encourage';
-  const content = `${progress()}<div class="ob-character-line"><img src="./games/otsukai/assets/character-minori-${resultCharacter}-v2.png" alt="みのりさん" width="160" height="220"><p class="ob-speech">${escapeHtml(ENCOURAGEMENTS[state.roundIndex])}</p></div><h1>ラウンド結果</h1><p class="ob-note-text">買えた ${result.correctCount} / ${result.targetCount} 品</p><div class="ob-round-result" aria-live="polite"><strong>今回のメモ</strong><div class="ob-result-items">${items}</div>${extraText}</div>${result.hintUsed ? '<p class="ob-caption">メモを見ながら挑戦しました。</p>' : ''}<div class="ob-actions"><button type="button" class="ob-button ob-button-primary" data-action="next-round">${state.roundIndex === 2 ? '結果を見る' : '次のおつかい'}</button></div>`;
+  const content = `${progress()}<div class="ob-character-line"><img src="./games/otsukai/assets/character-minori-${resultCharacter}-v3.webp" alt="みのりさん" width="160" height="220"><p class="ob-speech">${escapeHtml(ENCOURAGEMENTS[state.roundIndex])}</p></div><h1>ラウンド結果</h1><p class="ob-note-text">買えた ${result.correctCount} / ${result.targetCount} 品</p><div class="ob-round-result" aria-live="polite"><strong>今回のメモ</strong><div class="ob-result-items">${items}</div>${extraText}</div>${result.hintUsed ? '<p class="ob-caption">メモを見ながら挑戦しました。</p>' : ''}<div class="ob-actions"><button type="button" class="ob-button ob-button-primary" data-action="next-round">${state.roundIndex === 2 ? '結果を見る' : '次のおつかい'}</button></div>`;
   return shell({ scene: state.roundIndex === 2 ? 'street' : 'town', content, inGame: true });
 }
 
@@ -238,7 +238,7 @@ function renderFinal() {
   }
   const starText = Array.from({ length: 3 }, (_, index) => `<span aria-hidden="true" class="${index < stars ? '' : 'ob-muted-star'}">★</span>`).join('');
   const content = `<span class="ob-kicker">3ラウンド完了</span><h1>${title}</h1><div class="ob-final-score" aria-live="polite"><div class="ob-stars" aria-label="星${stars}つ">${starText}</div><div class="ob-score-number">${final.totalScore}<small> / 100</small></div><p>正答 ${final.correctCount} / 総数 ${final.totalTargets}</p></div><p class="ob-lead">${state.mode === 'daily' ? '今日のおつかいを最後まで遊びました。' : '商店街のおつかいを最後まで遊びました。'}</p><div class="ob-actions"><button type="button" class="ob-button ob-button-primary" data-action="retry">もう一度おつかい</button><button type="button" class="ob-button ob-button-secondary" data-action="title">タイトルへ</button><button type="button" class="ob-button ob-button-quiet" data-action="go-list">ゲーム一覧へ</button></div><p class="ob-medical-note">ゲームの結果は医療的な検査ではありません。</p>`;
-  return shell({ scene: 'street', character: './games/otsukai/assets/character-minori-happy-v2.png', content, single: true });
+  return shell({ scene: 'street', character: './games/otsukai/assets/character-minori-happy-v3.webp', content, single: true });
 }
 
 function renderModal() {
@@ -274,6 +274,7 @@ function render() {
     if (state.screen === 'final') html = renderFinal();
     root.innerHTML = html + renderModal();
     root.dataset.screen = state.screen;
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     if (state.modal) {
       const dialog = root.querySelector('[role="dialog"]');
       dialog?.querySelector('button, input')?.focus();
