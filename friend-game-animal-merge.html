@@ -282,9 +282,33 @@
             position: absolute;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 200, 220, 0.4) 50%, transparent 70%);
+            border: 2px solid rgba(255, 255, 255, 0.72);
+            box-shadow: 0 0 14px rgba(255, 224, 244, 0.8);
             animation: merge-pop 0.4s ease-out forwards;
             pointer-events: none;
             z-index: 50;
+        }
+
+        .merge-effect::before,
+        .merge-effect::after {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.05rem;
+            line-height: 1;
+            text-shadow: 0 0 8px rgba(255, 211, 239, 0.95);
+            animation: merge-sparkle 0.4s ease-out forwards;
+        }
+
+        .merge-effect::before {
+            content: '✦';
+            top: 12%;
+            left: 8%;
+        }
+
+        .merge-effect::after {
+            content: '✧';
+            right: 8%;
+            bottom: 12%;
         }
 
         @keyframes merge-pop {
@@ -300,6 +324,23 @@
 
             100% {
                 transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes merge-sparkle {
+            0% {
+                transform: scale(0.4) rotate(-12deg);
+                opacity: 0;
+            }
+
+            35% {
+                transform: scale(1.1) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.45) rotate(12deg);
                 opacity: 0;
             }
         }
@@ -715,16 +756,31 @@
 
         // --- 動物定義 (基準) ---
         const BASE_ANIMALS = [
-            { name: 'ヒヨコ', radius: 18, color: '#FFE066', earColor: '#FFD700', bodyColor: '#FFFACD' },
-            { name: 'ハムスター', radius: 24, color: '#FFDAB9', earColor: '#DEB887', bodyColor: '#FFE4C4' },
-            { name: 'ウサギ', radius: 32, color: '#FFB6C1', earColor: '#FF69B4', bodyColor: '#FFC0CB' },
-            { name: 'ネコ', radius: 42, color: '#E6E6FA', earColor: '#DDA0DD', bodyColor: '#F0E6FA' },
-            { name: 'イヌ', radius: 54, color: '#B5EAD7', earColor: '#98D8C8', bodyColor: '#C5F0E0' },
-            { name: 'レッサーパンダ', radius: 68, color: '#FFCBA4', earColor: '#8B4513', bodyColor: '#FFD8B8' },
-            { name: 'ヒツジ', radius: 84, color: '#FAFAFA', earColor: '#D3D3D3', bodyColor: '#FFFFFF' },
-            { name: 'クマ', radius: 102, color: '#DEB887', earColor: '#8B4513', bodyColor: '#E8C89E' },
-            { name: 'ライオン', radius: 122, color: '#FFD700', earColor: '#DAA520', bodyColor: '#FFE55C' },
-            { name: 'ゾウ', radius: 145, color: '#C0C0C0', earColor: '#A9A9A9', bodyColor: '#D3D3D3' }
+            // 既存の段階差・合体順は維持しつつ、盤面に少し余裕を持たせるため半径のみ約8%縮小。
+            { name: 'ヒヨコ', radius: 17, color: '#FFE066', earColor: '#FFD700', bodyColor: '#FFFACD' },
+            { name: 'ハムスター', radius: 22, color: '#FFDAB9', earColor: '#DEB887', bodyColor: '#FFE4C4' },
+            { name: 'ウサギ', radius: 29, color: '#FFB6C1', earColor: '#FF69B4', bodyColor: '#FFC0CB' },
+            { name: 'ネコ', radius: 39, color: '#E6E6FA', earColor: '#DDA0DD', bodyColor: '#F0E6FA' },
+            { name: 'イヌ', radius: 50, color: '#B5EAD7', earColor: '#98D8C8', bodyColor: '#C5F0E0' },
+            { name: 'レッサーパンダ', radius: 63, color: '#FFCBA4', earColor: '#8B4513', bodyColor: '#FFD8B8' },
+            { name: 'ヒツジ', radius: 77, color: '#FAFAFA', earColor: '#D3D3D3', bodyColor: '#FFFFFF' },
+            { name: 'クマ', radius: 94, color: '#DEB887', earColor: '#8B4513', bodyColor: '#E8C89E' },
+            { name: 'ライオン', radius: 112, color: '#FFD700', earColor: '#DAA520', bodyColor: '#FFE55C' },
+            { name: 'ゾウ', radius: 133, color: '#C0C0C0', earColor: '#A9A9A9', bodyColor: '#D3D3D3' }
+        ];
+
+        // 承認済みの円形イラスト素材。ゲーム内では各段階のradiusに合わせて拡大縮小する。
+        const ANIMAL_IMAGE_PATHS = [
+            'assets/animal-merge/chick.png',
+            'assets/animal-merge/hamster.png',
+            'assets/animal-merge/rabbit.png',
+            'assets/animal-merge/cat.png',
+            'assets/animal-merge/dog.png',
+            'assets/animal-merge/red-panda.png',
+            'assets/animal-merge/sheep.png',
+            'assets/animal-merge/bear.png',
+            'assets/animal-merge/lion.png',
+            'assets/animal-merge/elephant.png'
         ];
 
         // 作業用動物リストとスケール
@@ -740,6 +796,7 @@
         let engine, world, runner;
         let canvas, ctx, nextCanvas, nextCtx;
         let gameBox;
+        let animalImages = [];
         let isGameRunning = false;
         let isGameOver = false;
         let score = 0;
@@ -779,6 +836,21 @@
             return true;
         }
 
+        function loadAnimalImages() {
+            animalImages = ANIMAL_IMAGE_PATHS.map((source) => {
+                const image = new Image();
+                image.decoding = 'async';
+                image.addEventListener('load', () => {
+                    if (!isGameRunning) {
+                        drawPreview();
+                        drawNextAnimal();
+                    }
+                });
+                image.src = source;
+                return image;
+            });
+        }
+
         // --- 初期化 ---
         function init() {
             canvas = document.getElementById('gameCanvas');
@@ -813,6 +885,9 @@
 
             // パーティクル生成
             createParticles();
+
+            // キャラクター画像を先読みする。読み込み中は既存のCanvas描画をフォールバックに使う。
+            loadAnimalImages();
 
             // 初期描画
             drawPreview();
@@ -1182,38 +1257,50 @@
             context.rotate(angle);
             context.translate(-x, -y);
 
-            // 体 (メインの円)
-            context.save();
-            const gradient = context.createRadialGradient(x - r * 0.3, y - r * 0.3, 0, x, y, r);
-            gradient.addColorStop(0, animal.bodyColor);
-            gradient.addColorStop(1, animal.color);
-            context.fillStyle = gradient;
+            // 物理ボディと同じ円の内側だけを描画する。
+            // 特徴パーツは少し縮小して円の中へ収め、見た目と当たり判定を一致させる。
             context.beginPath();
             context.arc(x, y, r, 0, Math.PI * 2);
-            context.fill();
-            context.restore();
+            context.clip();
 
-            // 動物ごとの特徴描画
-            switch (index) {
-                case 0: drawChick(context, x, y, r); break;
-                case 1: drawHamster(context, x, y, r); break;
-                case 2: drawRabbit(context, x, y, r); break;
-                case 3: drawCat(context, x, y, r); break;
-                case 4: drawDog(context, x, y, r); break;
-                case 5: drawRedPanda(context, x, y, r); break;
-                case 6: drawSheep(context, x, y, r); break;
-                case 7: drawBear(context, x, y, r); break;
-                case 8: drawLion(context, x, y, r); break;
-                case 9: drawElephant(context, x, y, r); break;
+            const image = animalImages[index];
+            if (image && image.complete && image.naturalWidth > 0) {
+                // 素材の透明余白を吸収して、イラストの円が物理円に沿うよう少し拡大する。
+                const imageSize = r * 2.24;
+                context.drawImage(image, x - imageSize / 2, y - imageSize / 2, imageSize, imageSize);
+            } else {
+                // 画像読み込み前・失敗時のフォールバック描画。
+                context.save();
+                const gradient = context.createRadialGradient(x - r * 0.3, y - r * 0.3, 0, x, y, r);
+                gradient.addColorStop(0, animal.bodyColor);
+                gradient.addColorStop(1, animal.color);
+                context.fillStyle = gradient;
+                context.beginPath();
+                context.arc(x, y, r, 0, Math.PI * 2);
+                context.fill();
+                context.restore();
+
+                const featureRadius = r * 0.72;
+                switch (index) {
+                    case 0: drawChick(context, x, y, featureRadius); break;
+                    case 1: drawHamster(context, x, y, featureRadius); break;
+                    case 2: drawRabbit(context, x, y, featureRadius); break;
+                    case 3: drawCat(context, x, y, featureRadius); break;
+                    case 4: drawDog(context, x, y, featureRadius); break;
+                    case 5: drawRedPanda(context, x, y, featureRadius); break;
+                    case 6: drawSheep(context, x, y, featureRadius); break;
+                    case 7: drawBear(context, x, y, featureRadius); break;
+                    case 8: drawLion(context, x, y, featureRadius); break;
+                    case 9: drawElephant(context, x, y, featureRadius); break;
+                }
+
+                context.save();
+                context.fillStyle = 'rgba(255,255,255,0.5)';
+                context.beginPath();
+                context.ellipse(x - r * 0.35, y - r * 0.35, r * 0.25, r * 0.15, -Math.PI / 4, 0, Math.PI * 2);
+                context.fill();
+                context.restore();
             }
-
-            // ハイライト (光沢)
-            context.save();
-            context.fillStyle = 'rgba(255,255,255,0.5)';
-            context.beginPath();
-            context.ellipse(x - r * 0.35, y - r * 0.35, r * 0.25, r * 0.15, -Math.PI / 4, 0, Math.PI * 2);
-            context.fill();
-            context.restore();
 
             // 回転終了
             context.restore();
