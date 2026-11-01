@@ -805,6 +805,8 @@
         let nextAnimalIndex = 0;
         let canDrop = true;
         let mouseX = CANVAS_WIDTH / 2;
+        let isTouchDragging = false;
+        let lastTouchDropTime = 0;
         let dangerTimer = null;
         let dangerStartTime = null;
         let animals = []; // 落下した動物オブジェクトを管理
@@ -882,6 +884,8 @@
             canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
             canvas.addEventListener('click', handleClick);
             canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+            canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
+            canvas.addEventListener('touchcancel', handleTouchCancel, { passive: false });
 
             // パーティクル生成
             createParticles();
@@ -1034,6 +1038,7 @@
 
         function handleTouchMove(e) {
             e.preventDefault();
+            if (!isTouchDragging || !e.touches.length) return;
             mouseX = getLogicalX(e.touches[0].clientX);
             clampMouseX();
         }
@@ -1044,6 +1049,8 @@
         }
 
         function handleClick(e) {
+            // タッチ終了後にブラウザが発火する合成clickで二重に落とさない。
+            if (Date.now() - lastTouchDropTime < 500) return;
             if (!isGameRunning || !canDrop || isGameOver) return;
             dropAnimal();
         }
@@ -1051,9 +1058,25 @@
         function handleTouchStart(e) {
             e.preventDefault();
             if (!isGameRunning || !canDrop || isGameOver) return;
+            isTouchDragging = true;
             mouseX = getLogicalX(e.touches[0].clientX);
             clampMouseX();
+        }
+
+        function handleTouchEnd(e) {
+            e.preventDefault();
+            if (!isTouchDragging) return;
+
+            isTouchDragging = false;
+            if (!isGameRunning || !canDrop || isGameOver) return;
+
+            lastTouchDropTime = Date.now();
             dropAnimal();
+        }
+
+        function handleTouchCancel(e) {
+            e.preventDefault();
+            isTouchDragging = false;
         }
 
         // --- 動物ドロップ ---
