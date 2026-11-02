@@ -37,6 +37,10 @@
     box-shadow: 0 7px 20px rgba(22, 85, 121, .06);
 }
 
+.bloodtest-area {
+    scroll-margin-top: calc(var(--header-height) + 9rem);
+}
+
 .bloodtest-lead {
     display: grid;
     grid-template-columns: minmax(0, 1.25fr) minmax(240px, .75fr);
@@ -84,7 +88,16 @@
 }
 
 .bloodtest-index {
+    position: sticky;
+    top: var(--header-height);
+    z-index: calc(var(--z-header) - 1);
     margin: 1.5rem 0;
+    padding: .9rem 0 1rem;
+    background: rgba(247, 251, 252, .94);
+    border-bottom: 1px solid rgba(178, 211, 220, .72);
+    box-shadow: 0 8px 18px rgba(22, 85, 121, .06);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
 .bloodtest-index-heading {
@@ -498,11 +511,80 @@
         grid-template-columns: 1fr;
     }
 
-    .bloodtest-index-grid,
     .bloodtest-item-list {
         grid-template-columns: 1fr;
     }
 
+    .bloodtest-index {
+        padding: .7rem 0 .75rem;
+    }
+
+    .bloodtest-index-heading {
+        margin-bottom: .55rem;
+    }
+
+    .bloodtest-index-heading h2 {
+        font-size: 1.15rem;
+    }
+
+    .bloodtest-index-heading p {
+        display: none;
+    }
+
+    .bloodtest-index-grid {
+        display: flex;
+        gap: .55rem;
+        overflow-x: auto;
+        padding-bottom: .25rem;
+        overscroll-behavior-x: contain;
+        scrollbar-width: thin;
+    }
+
+    .bloodtest-index-grid li {
+        flex: 0 0 auto;
+    }
+
+    .bloodtest-index-card {
+        min-height: 46px;
+        padding: .45rem .7rem;
+        border-radius: 999px;
+        box-shadow: none;
+    }
+
+    .bloodtest-index-number {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+    }
+
+    .bloodtest-index-card span:last-child {
+        font-size: .88rem;
+        white-space: nowrap;
+    }
+
+}
+
+@media (min-width: 1024px) {
+    .bloodtest-index-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: .6rem;
+    }
+
+    .bloodtest-index-card {
+        min-height: 58px;
+        padding: .65rem .7rem;
+        gap: .45rem;
+    }
+
+    .bloodtest-index-number {
+        width: 30px;
+        height: 30px;
+        border-radius: 9px;
+    }
+
+    .bloodtest-index-card span:last-child {
+        font-size: .88rem;
+    }
 }
 
 @media (max-width: 480px) {
