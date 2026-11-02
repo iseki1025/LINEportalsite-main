@@ -27,6 +27,21 @@
     margin: 0 auto;
 }
 
+/* The blood-test artwork is a single wide illustration split between both sides. */
+.page-bloodtest .main-content .bloodtest-hero .patient-hero-art img {
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+.page-bloodtest .main-content .bloodtest-hero .patient-hero-art-right img {
+    left: auto;
+    right: 0;
+}
+
 .bloodtest-lead,
 .bloodtest-search-card,
 .bloodtest-review,
