@@ -28,23 +28,17 @@
 
         <main id="main-content" class="main-content content-default">
             <section class="hero-section patient-hero bloodtest-hero" aria-labelledby="bloodtest-title">
-                <div class="bloodtest-hero-copy">
+                <span class="patient-hero-art patient-hero-art-left" aria-hidden="true">
+                    <img src="files/common/patient-heroes/support-empty-hands.webp" alt="" width="1536" height="1024" fetchpriority="high">
+                </span>
+                <div class="patient-hero-copy">
                     <p class="hero-badge">健康サポート</p>
                     <h1 id="bloodtest-title" class="hero-title">血液検査の見かた</h1>
                     <p class="hero-subtitle">検査結果、どんな意味があるの？<br>体の状態や透析治療を知る手がかりを、やさしく整理します。</p>
                 </div>
-                <div class="bloodtest-hero-visual" aria-hidden="true">
-                    <svg viewBox="0 0 260 260" role="presentation">
-                        <circle cx="130" cy="130" r="104" fill="#ffffff" opacity=".72" />
-                        <path d="M107 44h46v18l-11 13v78a24 24 0 0 1-48 0V75L83 62V44h24Z" fill="#087f8c" opacity=".94" />
-                        <path d="M91 62h78M94 131h72" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" />
-                        <path d="M104 166c9-11 17 11 27 0s18 11 27 0" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" />
-                        <path d="M185 77c14 6 24 19 26 35" fill="none" stroke="#70c7d0" stroke-width="8" stroke-linecap="round" />
-                        <path d="M203 55v17M194.5 63.5h17" fill="none" stroke="#70c7d0" stroke-width="6" stroke-linecap="round" />
-                        <circle cx="67" cy="185" r="9" fill="#ef8c94" opacity=".8" />
-                        <circle cx="194" cy="183" r="7" fill="#f2ba61" opacity=".85" />
-                    </svg>
-                </div>
+                <span class="patient-hero-art patient-hero-art-right" aria-hidden="true">
+                    <img src="files/common/patient-heroes/support-empty-hands.webp" alt="" width="1536" height="1024">
+                </span>
             </section>
 
             <section class="bloodtest-lead" aria-labelledby="bloodtest-lead-title">
@@ -97,7 +91,7 @@
                     <p class="bloodtest-area-note">BUNやCREの値だけで、透析効率の良し悪しを決めることはできません。透析の条件や採血のタイミング、経過などを合わせて確認します。</p>
                     <div class="bloodtest-item-list">
                         <details class="bloodtest-item" data-searchable="BUN 尿素窒素 透析 老廃物">
-                            <summary><span class="bloodtest-item-term">BUN</span><span class="bloodtest-item-name">尿素窒素<small>血液中の尿素窒素</small></span></summary>
+                            <summary><span class="bloodtest-item-term">BUN</span><span class="bloodtest-item-name">尿素窒素</span></summary>
                             <div class="bloodtest-item-body">
                                 <h3>何を調べる検査？</h3>
                                 <p>体内で生じた尿素窒素が、血液中にどのくらいあるかをみる検査です。老廃物の状態を知る材料のひとつです。</p>
@@ -105,7 +99,7 @@
                             </div>
                         </details>
                         <details class="bloodtest-item" data-searchable="CRE Cr クレアチニン creatinine 腎臓 老廃物">
-                            <summary><span class="bloodtest-item-term">CRE</span><span class="bloodtest-item-name">クレアチニン<small>Creatinine</small></span></summary>
+                            <summary><span class="bloodtest-item-term">CRE</span><span class="bloodtest-item-name">クレアチニン</span></summary>
                             <div class="bloodtest-item-body">
                                 <h3>何を調べる検査？</h3>
                                 <p>筋肉の代謝などで生じるクレアチニンをみる検査です。体格や筋肉量、これまでの変化と一緒に確認します。</p>
@@ -113,7 +107,7 @@
                             </div>
                         </details>
                         <details class="bloodtest-item" data-searchable="UA 尿酸 uric acid">
-                            <summary><span class="bloodtest-item-term">UA</span><span class="bloodtest-item-name">尿酸<small>Uric acid</small></span></summary>
+                            <summary><span class="bloodtest-item-term">UA</span><span class="bloodtest-item-name">尿酸</span></summary>
                             <div class="bloodtest-item-body">
                                 <h3>何を調べる検査？</h3>
                                 <p>血液中の尿酸の量をみる検査です。採血時の状態やほかの検査項目と合わせて、経過を確認します。</p>
@@ -121,7 +115,7 @@
                             </div>
                         </details>
                         <details class="bloodtest-item" data-searchable="K カリウム potassium 電解質">
-                            <summary><span class="bloodtest-item-term">K</span><span class="bloodtest-item-name">カリウム<small>電解質のひとつ</small></span></summary>
+                            <summary><span class="bloodtest-item-term">K</span><span class="bloodtest-item-name">カリウム</span></summary>
                             <div class="bloodtest-item-body">
                                 <h3>何を調べる検査？</h3>
                                 <p>血液中のカリウムをみる検査です。透析前後の違いや食事・薬なども含め、スタッフと結果を確認します。</p>
@@ -129,7 +123,7 @@
                             </div>
                         </details>
                         <details class="bloodtest-item" data-searchable="Ca カルシウム calcium ミネラル">
-                            <summary><span class="bloodtest-item-term">Ca</span><span class="bloodtest-item-name">カルシウム<small>Calcium</small></span></summary>
+                            <summary><span class="bloodtest-item-term">Ca</span><span class="bloodtest-item-name">カルシウム</span></summary>
                             <div class="bloodtest-item-body">
                                 <h3>何を調べる検査？</h3>
                                 <p>血液中のカルシウムをみる検査です。リンなどの関連項目と一緒に、体のミネラルの状態を確認します。</p>
@@ -137,7 +131,7 @@
                             </div>
                         </details>
                         <details class="bloodtest-item" data-searchable="P リン phosphorus phosphate ミネラル">
-                            <summary><span class="bloodtest-item-term">P</span><span class="bloodtest-item-name">リン<small>Phosphorus</small></span></summary>
+                            <summary><span class="bloodtest-item-term">P</span><span class="bloodtest-item-name">リン</span></summary>
                             <div class="bloodtest-item-body">
                                 <h3>何を調べる検査？</h3>
                                 <p>血液中のリンをみる検査です。カルシウムなどの関連項目と合わせて、ミネラルの状態を見ます。</p>
@@ -145,7 +139,7 @@
                             </div>
                         </details>
                         <details class="bloodtest-item" data-searchable="β2-MG β2MG ベータツーミクログロブリン beta2 microglobulin 透析">
-                            <summary><span class="bloodtest-item-term">β2-MG</span><span class="bloodtest-item-name">β2-ミクログロブリン<small>Beta-2 microglobulin</small></span></summary>
+                            <summary><span class="bloodtest-item-term">β2-MG</span><span class="bloodtest-item-name">β2-ミクログロブリン</span></summary>
                             <div class="bloodtest-item-body">
                                 <h3>何を調べる検査？</h3>
                                 <p>透析の経過を確認する検査項目のひとつです。ほかの結果や治療の経過と一緒に見ます。</p>
@@ -166,23 +160,23 @@
                     <p class="bloodtest-area-note">貧血は、赤血球やヘモグロビンの量・働きなどを組み合わせて見ます。鉄の検査もひとつだけで判断せず、複数の項目と経過を確認します。</p>
                     <div class="bloodtest-item-list">
                         <details class="bloodtest-item" data-searchable="RBC 赤血球 赤血球数 red blood cell 貧血">
-                            <summary><span class="bloodtest-item-term">RBC</span><span class="bloodtest-item-name">赤血球<small>Red blood cell count</small></span></summary>
+                            <summary><span class="bloodtest-item-term">RBC</span><span class="bloodtest-item-name">赤血球</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中の赤血球の数をみる検査です。赤血球は全身へ酸素を運ぶ役割に関係します。</p><dl class="bloodtest-meta"><div><dt>大切な点</dt><dd>HbやHtなど、赤血球に関する他の検査と合わせて確認します。</dd></div><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-dialysis">透析患者さん向け：330～500 ×10⁴/μL</span><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：男性427～570／女性376～500 ×10⁴/μL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="Hb ヘモグロビン hemoglobin 貧血">
-                            <summary><span class="bloodtest-item-term">Hb</span><span class="bloodtest-item-name">ヘモグロビン<small>Hemoglobin</small></span></summary>
+                            <summary><span class="bloodtest-item-term">Hb</span><span class="bloodtest-item-name">ヘモグロビン</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>赤血球の中にあるヘモグロビンの量をみる検査です。ヘモグロビンは酸素を運ぶ働きに関係します。</p><dl class="bloodtest-meta"><div><dt>大切な点</dt><dd>貧血の状態を知る代表的な項目のひとつですが、他の結果と一緒に見ます。</dd></div><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-dialysis">透析患者さん向け：10～12 g/dL</span><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：男性13.5～17.6／女性11.3～15.2 g/dL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="Ht HT Hct ヘマトクリット hematocrit 貧血">
-                            <summary><span class="bloodtest-item-term">Ht</span><span class="bloodtest-item-name">ヘマトクリット<small>資料略称：HT / Hematocrit</small></span></summary>
+                            <summary><span class="bloodtest-item-term">Ht</span><span class="bloodtest-item-name">ヘマトクリット</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液の中で赤血球が占める割合をみる検査です。RBCやHbと合わせて、赤血球の状態を確認します。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-dialysis">透析患者さん向け：30～35％</span><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：男性39.8～51.8／女性33.4～44.9％</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="MCV 平均赤血球容積 貧血">
-                            <summary><span class="bloodtest-item-term">MCV</span><span class="bloodtest-item-name">平均赤血球容積<small>赤血球の大きさの目安</small></span></summary>
+                            <summary><span class="bloodtest-item-term">MCV</span><span class="bloodtest-item-name">平均赤血球容積</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>赤血球1個あたりの大きさの目安をみる検査です。貧血の種類を考える材料のひとつです。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-dialysis">透析患者さん向け：80～100 fL</span><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：男性82.7～101.6／女性79.0～100.0 fL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="MCH 平均赤血球血色素量 貧血">
-                            <summary><span class="bloodtest-item-term">MCH</span><span class="bloodtest-item-name">平均赤血球血色素量<small>赤血球1個の中のヘモグロビン量</small></span></summary>
+                            <summary><span class="bloodtest-item-term">MCH</span><span class="bloodtest-item-name">平均赤血球血色素量</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>赤血球1個の中に含まれるヘモグロビン量の平均値です。MCVやMCHCなどと合わせて確認します。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：男性28.0～34.6／女性26.3～34.3 pg</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="MCHC 平均赤血球ヘモグロビン濃度 貧血">
@@ -190,19 +184,19 @@
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>赤血球に含まれるヘモグロビンの濃さをみる検査です。資料では、ヘモグロビン÷ヘマトクリットで求めると説明されています。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-dialysis">透析患者さん向け：32～35％</span><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：男性31.6～36.6／女性30.7～36.6％</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="RET reticulocyte 網状赤血球 貧血">
-                            <summary><span class="bloodtest-item-term">RET</span><span class="bloodtest-item-name">網状赤血球<small>Reticulocyte</small></span></summary>
+                            <summary><span class="bloodtest-item-term">RET</span><span class="bloodtest-item-name">網状赤血球</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>できたばかりの赤血球に関係する検査です。赤血球が作られている状態を考える材料のひとつです。</p><dl class="bloodtest-meta"><div><dt>確認事項</dt><dd>専門編には「32前後％」、総合版には男性2～27％・女性2～26％と記載があります。数値と単位の違いは掲載前に確認します。</dd></div><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-dialysis">貧血編記載：32前後％</span><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：男性2～27／女性2～26％</span><span class="bloodtest-reference-review">数値・単位は医療スタッフ確認中</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="Fe 鉄 serum iron 貧血 鉄分">
-                            <summary><span class="bloodtest-item-term">Fe</span><span class="bloodtest-item-name">血清鉄<small>Iron</small></span></summary>
+                            <summary><span class="bloodtest-item-term">Fe</span><span class="bloodtest-item-name">血清鉄</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中にある鉄の量をみる検査です。鉄の状態を知るため、TIBC・UIBC・TSAT・フェリチンなどと合わせて確認します。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-dialysis">透析患者さん向け：70～80 µg/dL</span><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：男性54～200／女性48～154 µg/dL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="TIBC 総鉄結合能 鉄分 貧血">
-                            <summary><span class="bloodtest-item-term">TIBC</span><span class="bloodtest-item-name">総鉄結合能<small>Total iron binding capacity</small></span></summary>
+                            <summary><span class="bloodtest-item-term">TIBC</span><span class="bloodtest-item-name">総鉄結合能</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中で鉄と結びつくことのできる量の目安をみる検査です。FeやUIBCなどと合わせて鉄の状態を確認します。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-dialysis">透析患者さん向け：240～400 µg/dL</span><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：男性253～365／女性246～410 µg/dL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="UIBC 不飽和鉄結合能 鉄分 貧血">
-                            <summary><span class="bloodtest-item-term">UIBC</span><span class="bloodtest-item-name">不飽和鉄結合能<small>Unsaturated iron binding capacity</small></span></summary>
+                            <summary><span class="bloodtest-item-term">UIBC</span><span class="bloodtest-item-name">不飽和鉄結合能</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中で、まだ鉄と結びついていない部分の鉄結合能をみる検査です。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-dialysis">透析患者さん向け：100～300 µg/dL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="TSAT トランスフェリン飽和度 transferrin saturation 鉄分 貧血">
@@ -210,7 +204,7 @@
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>鉄を運ぶたんぱく質に、どのくらい鉄が結びついているかの割合をみる検査です。</p><dl class="bloodtest-meta"><div><dt>大切な点</dt><dd>Feだけでは分からない鉄の状態を、別の角度から確認する材料です。</dd></div><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-dialysis">透析患者さん向け：20％以上</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="FER フェリチン ferritin 貯蔵鉄 鉄分 貧血">
-                            <summary><span class="bloodtest-item-term">FER</span><span class="bloodtest-item-name">フェリチン<small>Ferritin／貯蔵鉄に関係する指標</small></span></summary>
+                            <summary><span class="bloodtest-item-term">FER</span><span class="bloodtest-item-name">フェリチン</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>体内に蓄えられている鉄に関係する指標です。FeやTSATなどと組み合わせて、鉄の状態を確認します。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-dialysis">透析患者さん向け：100 ng/mL以上</span><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：男性39.4～340／女性3.6～114 ng/mL</span></dd></div></dl></div>
                         </details>
                     </div>
@@ -221,23 +215,23 @@
                     <p class="bloodtest-area-note">検査値だけで栄養状態を確定することはできません。食事の様子、体重の変化、体調なども含めてスタッフに相談しましょう。</p>
                     <div class="bloodtest-item-list">
                         <details class="bloodtest-item" data-searchable="TP 総たんぱく total protein 栄養">
-                            <summary><span class="bloodtest-item-term">TP</span><span class="bloodtest-item-name">総たんぱく<small>Total protein</small></span></summary>
+                            <summary><span class="bloodtest-item-term">TP</span><span class="bloodtest-item-name">総たんぱく</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中に含まれるたんぱく質の総量をみる検査です。栄養状態を考える材料のひとつです。</p><dl class="bloodtest-meta"><div><dt>大切な点</dt><dd>ほかの検査や食事・体重の変化と合わせて見ます。</dd></div><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-dialysis">栄養編・透析患者さん向け：6.5～8.2 g/dL</span><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：6.7～8.3 g/dL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="Alb アルブミン albumin 栄養">
-                            <summary><span class="bloodtest-item-term">Alb</span><span class="bloodtest-item-name">アルブミン<small>Albumin</small></span></summary>
+                            <summary><span class="bloodtest-item-term">Alb</span><span class="bloodtest-item-name">アルブミン</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中の主要なたんぱく質のひとつをみる検査です。栄養状態に関連する指標のひとつとして確認します。</p><dl class="bloodtest-meta"><div><dt>大切な点</dt><dd>Albだけで栄養状態を決めず、全体の経過と合わせて判断します。</dd></div><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-dialysis">栄養編・透析患者さん向け：3.5 g/dL以上</span><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：3.8～5.2 g/dL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="TLC 総リンパ球数 total lymphocyte count 栄養">
-                            <summary><span class="bloodtest-item-term">TLC</span><span class="bloodtest-item-name">総リンパ球数<small>Total lymphocyte count</small></span></summary>
+                            <summary><span class="bloodtest-item-term">TLC</span><span class="bloodtest-item-name">総リンパ球数</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中のリンパ球の数をみる検査です。栄養状態に関連する指標のひとつとして扱われます。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-dialysis">栄養編・透析患者さん向け：1500/µL以上</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="ChE コリンエステラーゼ cholinesterase 栄養">
-                            <summary><span class="bloodtest-item-term">ChE</span><span class="bloodtest-item-name">コリンエステラーゼ<small>Cholinesterase</small></span></summary>
+                            <summary><span class="bloodtest-item-term">ChE</span><span class="bloodtest-item-name">コリンエステラーゼ</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中のコリンエステラーゼをみる検査です。栄養状態を考える材料のひとつとして確認します。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-dialysis">栄養編・透析患者さん向け：200～500 U/L</span><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：男性242～495／女性200～459 U/L</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="T-Cho 総コレステロール total cholesterol 栄養 脂質">
-                            <summary><span class="bloodtest-item-term">T-Cho</span><span class="bloodtest-item-name">総コレステロール<small>栄養・脂質に関係する項目</small></span></summary>
+                            <summary><span class="bloodtest-item-term">T-Cho</span><span class="bloodtest-item-name">総コレステロール</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中のコレステロールの総量をみる検査です。栄養状態・脂質の両方の視点があるため、<a class="bloodtest-related-link" href="#area-lipid">脂質・肝機能</a>でも説明します。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-dialysis">栄養編・透析患者さん向け：130～220 mg/dL</span><span class="bloodtest-reference-line bloodtest-reference-general">肥満編・総合版：150～219 mg/dL</span></dd></div></dl></div>
                         </details>
                     </div>
@@ -248,39 +242,39 @@
                     <p class="bloodtest-area-note">この分野の検査だけで肥満を診断するものではありません。体重・体格・生活の様子や他の検査と合わせて確認します。</p>
                     <div class="bloodtest-item-list">
                         <details class="bloodtest-item" data-searchable="TG 中性脂肪 triglyceride 脂質">
-                            <summary><span class="bloodtest-item-term">TG</span><span class="bloodtest-item-name">中性脂肪<small>Triglyceride</small></span></summary>
+                            <summary><span class="bloodtest-item-term">TG</span><span class="bloodtest-item-name">中性脂肪</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中の中性脂肪をみる検査です。採血前の食事などの影響も含めて結果を見ます。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">肥満編・総合版：50～149 mg/dL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="T-Cho 総コレステロール total cholesterol 脂質">
-                            <summary><span class="bloodtest-item-term">T-Cho</span><span class="bloodtest-item-name">総コレステロール<small>Total cholesterol</small></span></summary>
+                            <summary><span class="bloodtest-item-term">T-Cho</span><span class="bloodtest-item-name">総コレステロール</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中のコレステロールの総量をみる検査です。HDL-CやLDL-Cなどと合わせて確認します。</p><dl class="bloodtest-meta"><div><dt>関連項目</dt><dd><a class="bloodtest-related-link" href="#area-nutrition">栄養状態のT-Cho</a>と同じ内容を共有します。</dd></div><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">肥満編・総合版：150～219 mg/dL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="HDL-C HDL コレステロール 脂質">
-                            <summary><span class="bloodtest-item-term">HDL-C</span><span class="bloodtest-item-name">HDLコレステロール<small>いわゆる善玉コレステロール</small></span></summary>
+                            <summary><span class="bloodtest-item-term">HDL-C</span><span class="bloodtest-item-name">HDLコレステロール</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中のHDLコレステロールをみる検査です。脂質のバランスを確認する材料のひとつです。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">肥満編・総合版：男性40～86／女性40～96 mg/dL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="LDL-C LDL コレステロール 脂質">
-                            <summary><span class="bloodtest-item-term">LDL-C</span><span class="bloodtest-item-name">LDLコレステロール<small>いわゆる悪玉コレステロール</small></span></summary>
+                            <summary><span class="bloodtest-item-term">LDL-C</span><span class="bloodtest-item-name">LDLコレステロール</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中のLDLコレステロールをみる検査です。総コレステロールなどと合わせて脂質の状態を見ます。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">肥満編・総合版：70～139 mg/dL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="AST GOT 肝機能">
-                            <summary><span class="bloodtest-item-term">AST</span><span class="bloodtest-item-name">AST（GOT）<small>肝臓などに関係する酵素</small></span></summary>
+                            <summary><span class="bloodtest-item-term">AST</span><span class="bloodtest-item-name">AST（GOT）</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>肝臓などの細胞に含まれる酵素をみる検査です。ALTなどと合わせて結果を確認します。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">肥満編・総合版：10～40 U/L</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="ALT GPT 肝機能">
-                            <summary><span class="bloodtest-item-term">ALT</span><span class="bloodtest-item-name">ALT（GPT）<small>肝臓に関係する酵素</small></span></summary>
+                            <summary><span class="bloodtest-item-term">ALT</span><span class="bloodtest-item-name">ALT（GPT）</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>肝臓の細胞に含まれる酵素をみる検査です。ASTなどと合わせて肝臓の状態を考える材料にします。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">肥満編・総合版：5～40 U/L</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="LD LDH 乳酸脱水素酵素 肝機能">
-                            <summary><span class="bloodtest-item-term">LD</span><span class="bloodtest-item-name">LD（LDH）<small>乳酸脱水素酵素</small></span></summary>
+                            <summary><span class="bloodtest-item-term">LD</span><span class="bloodtest-item-name">LD（LDH）</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>体のさまざまな細胞に関係する酵素をみる検査です。ほかの検査と合わせて確認します。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">肥満編・総合版：115～245 U/L</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="γ-GTP GGT ガンマGTP 肝機能">
-                            <summary><span class="bloodtest-item-term">γ-GTP</span><span class="bloodtest-item-name">γ-GTP<small>肝胆道系に関係する酵素</small></span></summary>
+                            <summary><span class="bloodtest-item-term">γ-GTP</span><span class="bloodtest-item-name">γ-GTP</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>肝臓や胆道に関係する酵素をみる検査です。AST・ALTなどと合わせて確認します。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">肥満編・総合版：男性70以下／女性30以下 U/L</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="UA 尿酸 uric acid 脂質">
-                            <summary><span class="bloodtest-item-term">UA</span><span class="bloodtest-item-name">尿酸<small>Uric acid</small></span></summary>
+                            <summary><span class="bloodtest-item-term">UA</span><span class="bloodtest-item-name">尿酸</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>尿酸の量をみる検査です。透析効率・ミネラルの分野にあるUAと同じ項目のため、説明を共有します。</p><dl class="bloodtest-meta"><div><dt>関連項目</dt><dd><a class="bloodtest-related-link" href="#area-dialysis">透析効率・ミネラルのUA</a>へ移動できます。</dd></div><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">肥満編・総合版：男性3.7～7.0／女性2.0～7.0 mg/dL</span></dd></div></dl></div>
                         </details>
                     </div>
@@ -291,19 +285,19 @@
                     <p class="bloodtest-area-note">腫瘍マーカーは、数値が高いから必ずがんというわけではありません。正常範囲でも、がんがないと断定できません。結果については、担当医にご確認ください。</p>
                     <div class="bloodtest-item-list">
                         <details class="bloodtest-item" data-searchable="CEA carcinoembryonic antigen 腫瘍マーカー">
-                            <summary><span class="bloodtest-item-term">CEA</span><span class="bloodtest-item-name">ガン胎児性抗原<small>CEA / 腫瘍マーカー</small></span></summary>
+                            <summary><span class="bloodtest-item-term">CEA</span><span class="bloodtest-item-name">ガン胎児性抗原</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中のCEAという物質をみる検査です。結果は他の検査や診察と合わせて医療スタッフが判断します。</p><dl class="bloodtest-meta"><div><dt>注意点</dt><dd>この検査だけで、がんの有無や早期発見を断定することはできません。</dd></div><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">腫瘍マーカー編：5.0 ng/mL以下</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="CA19-9 CA19 9 腫瘍マーカー">
-                            <summary><span class="bloodtest-item-term">CA19-9</span><span class="bloodtest-item-name">CA19-9<small>腫瘍マーカー</small></span></summary>
+                            <summary><span class="bloodtest-item-term">CA19-9</span><span class="bloodtest-item-name">CA19-9</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中のCA19-9という物質をみる検査です。数値だけで判断せず、症状や他の検査と合わせて確認します。</p><dl class="bloodtest-meta"><div><dt>注意点</dt><dd>原資料には、小さい段階の膵臓がんで約70％陽性とあります。陽性率と診断上の位置づけは、医療スタッフ確認後に患者さん向けに確定します。</dd></div><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">腫瘍マーカー編：37 U/mL以下</span><span class="bloodtest-reference-review">陽性率の説明は掲載前に要確認</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="PSA prostate specific antigen 前立腺 腫瘍マーカー">
-                            <summary><span class="bloodtest-item-term">PSA</span><span class="bloodtest-item-name">前立腺特異抗原<small>PSA</small></span></summary>
+                            <summary><span class="bloodtest-item-term">PSA</span><span class="bloodtest-item-name">前立腺特異抗原</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中のPSAという物質をみる検査です。結果は年齢や症状、他の検査などを含めて医師が判断します。</p><dl class="bloodtest-meta"><div><dt>注意点</dt><dd>資料では4.0～10.0 ng/mLをグレーゾーンとする場合がほとんどと説明されています。数値だけで病気の有無を断定しません。</dd></div><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">腫瘍マーカー編：4.0 ng/mL以下</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="PIVKA-II PIVKA 2 腫瘍マーカー">
-                            <summary><span class="bloodtest-item-term">PIVKA-II</span><span class="bloodtest-item-name">PIVKA-II<small>腫瘍マーカー</small></span></summary>
+                            <summary><span class="bloodtest-item-term">PIVKA-II</span><span class="bloodtest-item-name">PIVKA-II</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中のPIVKA-IIという物質をみる検査です。結果の意味は、他の検査や診察と合わせて確認します。</p><dl class="bloodtest-meta"><div><dt>注意点</dt><dd>資料では、ワーファリンなどの薬を服用している場合は肝細胞癌でなくても上昇することがあると説明されています。</dd></div><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">腫瘍マーカー編：40 mAU/mL以下</span></dd></div></dl></div>
                         </details>
                     </div>
@@ -314,127 +308,127 @@
                     <p class="bloodtest-area-note">総合版の一般参考値を中心に、専門編にない項目を整理しています。透析患者さん向けの参考値が別資料にある項目は、そちらを優先して確認します。</p>
                     <div class="bloodtest-item-list">
                         <details class="bloodtest-item" data-searchable="WBC 白血球 white blood cell 血液像">
-                            <summary><span class="bloodtest-item-term">WBC</span><span class="bloodtest-item-name">白血球<small>White blood cell</small></span></summary>
+                            <summary><span class="bloodtest-item-term">WBC</span><span class="bloodtest-item-name">白血球</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>体に細菌や異物が入ったときに体を守る働きに関係する、白血球の数をみます。炎症や血液の病気で変動することがあります。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：男性3900～9800／女性3500～9100 /μL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="PLT 血小板 platelet 血液像">
-                            <summary><span class="bloodtest-item-term">PLT</span><span class="bloodtest-item-name">血小板数<small>Platelet</small></span></summary>
+                            <summary><span class="bloodtest-item-term">PLT</span><span class="bloodtest-item-name">血小板数</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>出血を止める働きに関係する血小板の数をみます。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：男性13.1～36.2／女性13.0～36.9 ×10⁴/μL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="NEUT 好中球 血液像">
-                            <summary><span class="bloodtest-item-term">NEUT</span><span class="bloodtest-item-name">好中球<small>白血球の一種</small></span></summary>
+                            <summary><span class="bloodtest-item-term">NEUT</span><span class="bloodtest-item-name">好中球</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>白血球の一種で、細菌から体を守る働きに関係します。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：40.0～74.0％</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="EOSINO 好酸球 eosinophil 血液像">
-                            <summary><span class="bloodtest-item-term">EOSINO</span><span class="bloodtest-item-name">好酸球<small>白血球の一種</small></span></summary>
+                            <summary><span class="bloodtest-item-term">EOSINO</span><span class="bloodtest-item-name">好酸球</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>白血球の一種で、アレルギーなどに関係します。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：0.0～6.0％</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="BASO 好塩基球 basophil 血液像">
-                            <summary><span class="bloodtest-item-term">BASO</span><span class="bloodtest-item-name">好塩基球<small>白血球の一種</small></span></summary>
+                            <summary><span class="bloodtest-item-term">BASO</span><span class="bloodtest-item-name">好塩基球</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>白血球の一種で、アレルギーや一部の血液の病気に関係します。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：0.0～2.0％</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="MONO 単球 monocyte 血液像">
-                            <summary><span class="bloodtest-item-term">MONO</span><span class="bloodtest-item-name">単球<small>白血球の一種</small></span></summary>
+                            <summary><span class="bloodtest-item-term">MONO</span><span class="bloodtest-item-name">単球</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>白血球の一種で、体内に入った病原体と闘う働きに関係します。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：0.0～8.0％</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="LYMPH リンパ球 lymphocyte 血液像">
-                            <summary><span class="bloodtest-item-term">LYMPH</span><span class="bloodtest-item-name">リンパ球<small>白血球の一種</small></span></summary>
+                            <summary><span class="bloodtest-item-term">LYMPH</span><span class="bloodtest-item-name">リンパ球</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>白血球の一種で、ウイルスへの反応や免疫防御に関係します。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：18.0～59.0％</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="PTH-I 副甲状腺ホルモン intact hormone">
-                            <summary><span class="bloodtest-item-term">PTH-I</span><span class="bloodtest-item-name">副甲状腺ホルモン（インタクト）<small>カルシウム・リン代謝に関係</small></span></summary>
+                            <summary><span class="bloodtest-item-term">PTH-I</span><span class="bloodtest-item-name">副甲状腺ホルモン（インタクト）</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>カルシウムやリン酸の代謝を調整するホルモンをみます。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：10～65 pg/mL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="TSH 甲状腺刺激ホルモン thyroid hormone">
-                            <summary><span class="bloodtest-item-term">TSH</span><span class="bloodtest-item-name">甲状腺刺激ホルモン<small>甲状腺に関係するホルモン</small></span></summary>
+                            <summary><span class="bloodtest-item-term">TSH</span><span class="bloodtest-item-name">甲状腺刺激ホルモン</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>甲状腺ホルモンの分泌を刺激するホルモンをみます。FT3・FT4と合わせて確認します。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：0.500～5.00 µIU/mL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="FT3 フリートリヨードサイロニン 甲状腺">
-                            <summary><span class="bloodtest-item-term">FT3</span><span class="bloodtest-item-name">フリートリヨードサイロニン<small>甲状腺ホルモン</small></span></summary>
+                            <summary><span class="bloodtest-item-term">FT3</span><span class="bloodtest-item-name">フリートリヨードサイロニン</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>甲状腺から分泌される、たんぱく質と結合していないホルモンをみます。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：2.30～4.30 pg/mL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="FT4 遊離サイロキシン 甲状腺">
-                            <summary><span class="bloodtest-item-term">FT4</span><span class="bloodtest-item-name">遊離サイロキシン<small>甲状腺ホルモン</small></span></summary>
+                            <summary><span class="bloodtest-item-term">FT4</span><span class="bloodtest-item-name">遊離サイロキシン</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>甲状腺から分泌される、たんぱく質と結合していないホルモンをみます。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：0.90～1.70 ng/dL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="HANP ヒト心房性ナトリウム利尿ペプチド 心臓">
-                            <summary><span class="bloodtest-item-term">HANP</span><span class="bloodtest-item-name">ヒト心房性ナトリウム利尿ペプチド<small>心房への負荷に関係</small></span></summary>
+                            <summary><span class="bloodtest-item-term">HANP</span><span class="bloodtest-item-name">ヒト心房性ナトリウム利尿ペプチド</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>心房筋の伸展で分泌されるホルモンです。資料では高値が心房負荷や循環血漿量の増加を示唆すると説明されています。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：43.0 pg/mL以下</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="BNP ヒト脳性ナトリウム利尿ペプチド 心臓">
-                            <summary><span class="bloodtest-item-term">BNP</span><span class="bloodtest-item-name">ヒト脳性ナトリウム利尿ペプチド<small>心室への負荷に関係</small></span></summary>
+                            <summary><span class="bloodtest-item-term">BNP</span><span class="bloodtest-item-name">ヒト脳性ナトリウム利尿ペプチド</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>体液や血圧の調整に関係するホルモンです。心室に負荷がかかると分泌されると資料に記載されています。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：18.4 pg/mL以下</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="FPG 空腹時血糖 glucose 糖尿病">
-                            <summary><span class="bloodtest-item-term">FPG</span><span class="bloodtest-item-name">空腹時血糖<small>血液中のブドウ糖</small></span></summary>
+                            <summary><span class="bloodtest-item-term">FPG</span><span class="bloodtest-item-name">空腹時血糖</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液中のブドウ糖の濃度をみる検査です。糖尿病診断の目安の一つと資料に記載されています。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：70～109 mg/dL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="HbA1c ヘモグロビンA1c 糖尿病">
-                            <summary><span class="bloodtest-item-term">HbA1c</span><span class="bloodtest-item-name">ヘモグロビンA1c<small>長期的な血糖の指標</small></span></summary>
+                            <summary><span class="bloodtest-item-term">HbA1c</span><span class="bloodtest-item-name">ヘモグロビンA1c</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>ヘモグロビンとブドウ糖が結合した割合をみます。資料では過去1～2か月の平均的な血糖状態を知る指標と説明されています。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：4.6～6.2％</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="GA グリコアルブミン 糖尿病">
-                            <summary><span class="bloodtest-item-term">GA</span><span class="bloodtest-item-name">グリコアルブミン<small>短期間の血糖の指標</small></span></summary>
+                            <summary><span class="bloodtest-item-term">GA</span><span class="bloodtest-item-name">グリコアルブミン</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>アルブミンとブドウ糖が結合したものをみます。資料では過去1～3週間の血糖の平均値を反映すると説明されています。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：12.4～16.3％</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="CK CPK クレアチンキナーゼ 筋肉">
-                            <summary><span class="bloodtest-item-term">CK</span><span class="bloodtest-item-name">クレアチンキナーゼ（CPK）<small>筋肉・心筋などに関係する酵素</small></span></summary>
+                            <summary><span class="bloodtest-item-term">CK</span><span class="bloodtest-item-name">クレアチンキナーゼ（CPK）</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>骨格筋・心筋・赤血球などに含まれる酵素で、筋肉の状態を考える材料です。運動後にも増加すると資料にあります。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：男性62～287／女性45～163 U/L</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="ALP アルカリフォスファターゼ 肝臓">
-                            <summary><span class="bloodtest-item-term">ALP</span><span class="bloodtest-item-name">アルカリフォスファターゼ<small>肝臓・胆管・骨などに関係</small></span></summary>
+                            <summary><span class="bloodtest-item-term">ALP</span><span class="bloodtest-item-name">アルカリフォスファターゼ</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>肝臓や胆管、骨などに含まれる酵素をみます。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：115～359 U/L</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="LAP ロイシンアミノペプチダーゼ 肝臓">
-                            <summary><span class="bloodtest-item-term">LAP</span><span class="bloodtest-item-name">ロイシンアミノペプチダーゼ<small>肝臓などに関係する酵素</small></span></summary>
+                            <summary><span class="bloodtest-item-term">LAP</span><span class="bloodtest-item-name">ロイシンアミノペプチダーゼ</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>総合版では、肝臓などに関係する酵素として掲載されています。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：35～73 U/L</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="AMY アミラーゼ 膵臓 唾液腺">
-                            <summary><span class="bloodtest-item-term">AMY</span><span class="bloodtest-item-name">アミラーゼ<small>膵臓・唾液腺から出る消化酵素</small></span></summary>
+                            <summary><span class="bloodtest-item-term">AMY</span><span class="bloodtest-item-name">アミラーゼ</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>膵臓と唾液腺から出される消化酵素をみます。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：37～125 U/L</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="Na ナトリウム 電解質">
-                            <summary><span class="bloodtest-item-term">Na</span><span class="bloodtest-item-name">ナトリウム<small>電解質</small></span></summary>
+                            <summary><span class="bloodtest-item-term">Na</span><span class="bloodtest-item-name">ナトリウム</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>体の水分や電解質のバランスをみる材料のひとつです。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：136～147 mEq/L</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="Cl クロール 電解質">
-                            <summary><span class="bloodtest-item-term">Cl</span><span class="bloodtest-item-name">クロール<small>電解質</small></span></summary>
+                            <summary><span class="bloodtest-item-term">Cl</span><span class="bloodtest-item-name">クロール</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>電解質のバランスをみる材料のひとつです。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：98～109 mEq/L</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="Mg マグネシウム 電解質">
-                            <summary><span class="bloodtest-item-term">Mg</span><span class="bloodtest-item-name">マグネシウム<small>必須微量金属</small></span></summary>
+                            <summary><span class="bloodtest-item-term">Mg</span><span class="bloodtest-item-name">マグネシウム</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>生体の代謝調節に関係するマグネシウムをみます。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：1.8～2.6 mg/dL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="T-Bil 総ビリルビン 黄疸 肝臓">
-                            <summary><span class="bloodtest-item-term">T-Bil</span><span class="bloodtest-item-name">総ビリルビン<small>肝臓の障害や黄疸に関係</small></span></summary>
+                            <summary><span class="bloodtest-item-term">T-Bil</span><span class="bloodtest-item-name">総ビリルビン</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>血液に含まれる黄色い色素をみます。肝臓の障害や黄疸の確認に役立つと資料にあります。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：0.3～1.2 mg/dL</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="CRP C反応性蛋白 炎症">
-                            <summary><span class="bloodtest-item-term">CRP</span><span class="bloodtest-item-name">C反応性蛋白<small>炎症反応</small></span></summary>
+                            <summary><span class="bloodtest-item-term">CRP</span><span class="bloodtest-item-name">C反応性蛋白</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>細菌感染をはじめ、体内に炎症がないかどうかをみる材料のひとつです。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版・一般参考値：0.30 mg/dL以下</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="RPR定性 梅毒定性 感染症">
-                            <summary><span class="bloodtest-item-term">RPR</span><span class="bloodtest-item-name">梅毒定性<small>感染症関連</small></span></summary>
+                            <summary><span class="bloodtest-item-term">RPR</span><span class="bloodtest-item-name">梅毒定性</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>梅毒に感染したときに産生される抗体の有無を調べる検査です。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版記載：陰性（-）</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="TP抗体定性 梅毒トレポネーマパリダム抗体 感染症">
-                            <summary><span class="bloodtest-item-term">TP抗体</span><span class="bloodtest-item-name">梅毒トレポネーマ・パリダム抗体定性<small>感染症関連</small></span></summary>
+                            <summary><span class="bloodtest-item-term">TP抗体</span><span class="bloodtest-item-name">梅毒トレポネーマ・パリダム抗体定性</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>梅毒に関係する抗体を調べる検査です。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版記載：陰性（-）</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="HBs抗原 B型肝炎ウイルス抗原 感染症">
-                            <summary><span class="bloodtest-item-term">HBs抗原</span><span class="bloodtest-item-name">抗B型肝炎ウイルス抗原<small>感染症関連</small></span></summary>
+                            <summary><span class="bloodtest-item-term">HBs抗原</span><span class="bloodtest-item-name">抗B型肝炎ウイルス抗原</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>B型肝炎ウイルスに関係する抗原を調べる検査です。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版記載：陰性</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="HBs抗体 抗B型肝炎ウイルス抗体 感染症">
-                            <summary><span class="bloodtest-item-term">HBs抗体</span><span class="bloodtest-item-name">抗B型肝炎ウイルス抗体<small>感染症関連</small></span></summary>
+                            <summary><span class="bloodtest-item-term">HBs抗体</span><span class="bloodtest-item-name">抗B型肝炎ウイルス抗体</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>B型肝炎ウイルスに感染したことがあるか、感染している場合の状態を考える材料のひとつです。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版記載：8未満</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="HCV抗体 判定 C型肝炎ウイルス抗体 感染症">
-                            <summary><span class="bloodtest-item-term">HCV抗体</span><span class="bloodtest-item-name">抗C型肝炎ウイルス抗体<small>判定・数値</small></span></summary>
+                            <summary><span class="bloodtest-item-term">HCV抗体</span><span class="bloodtest-item-name">抗C型肝炎ウイルス抗体</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>C型肝炎ウイルスに感染しているかどうかを調べる検査です。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">判定：陰性（-）／数値：0.2以下</span></dd></div></dl></div>
                         </details>
                         <details class="bloodtest-item" data-searchable="HIV抗原 HIV抗体 HIVスクリーニング 感染症">
-                            <summary><span class="bloodtest-item-term">HIV</span><span class="bloodtest-item-name">HIVスクリーニング検査<small>HIV抗原・抗体</small></span></summary>
+                            <summary><span class="bloodtest-item-term">HIV</span><span class="bloodtest-item-name">HIVスクリーニング検査</span></summary>
                             <div class="bloodtest-item-body"><h3>何を調べる検査？</h3><p>HIVウイルスへの感染をスクリーニングする検査です。</p><dl class="bloodtest-meta"><div><dt>参考値</dt><dd><span class="bloodtest-reference-line bloodtest-reference-general">総合版記載：陰性（-）</span></dd></div></dl></div>
                         </details>
                     </div>

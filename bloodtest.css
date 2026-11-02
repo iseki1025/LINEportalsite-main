@@ -10,67 +10,21 @@
 }
 
 .page-bloodtest .hero-section.bloodtest-hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(230px, .8fr);
-    align-items: center;
-    min-height: 340px;
-    padding: clamp(2rem, 5vw, 4rem);
-    border: 1px solid #cfe8ee;
-    border-radius: 24px;
-    background:
-        radial-gradient(circle at 84% 20%, rgba(255, 255, 255, .92) 0 7%, transparent 7.5%),
-        linear-gradient(120deg, #e7f8fb, #f3f4ff 70%, #fffaf2);
+    --hero-accent: #087f8c;
+    --hero-tint: #e7f8fb;
 }
 
-.page-bloodtest .bloodtest-hero-copy {
-    position: relative;
-    z-index: 1;
+.page-bloodtest .hero-section.bloodtest-hero .patient-hero-copy {
+    text-align: center;
 }
 
 .page-bloodtest .bloodtest-hero .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    min-height: 32px;
-    margin: 0 0 .9rem;
-    padding: .35rem .85rem;
     color: #087f8c;
-    font-size: .85rem;
-    font-weight: 800;
-    background: rgba(255, 255, 255, .78);
-    border: 1px solid #b8dfe6;
-    border-radius: 999px;
-}
-
-.page-bloodtest .bloodtest-hero .hero-title {
-    margin: 0 0 .75rem;
-    color: #125b75;
-    font-size: clamp(2.15rem, 5vw, 3.8rem);
-    line-height: 1.25;
-    letter-spacing: .04em;
-    animation: none;
 }
 
 .page-bloodtest .bloodtest-hero .hero-subtitle {
     max-width: 34em;
-    margin: 0;
-    color: #31566a;
-    font-size: clamp(1rem, 1.6vw, 1.2rem);
-    font-weight: 600;
-    line-height: 1.85;
-    animation: none;
-}
-
-.bloodtest-hero-visual {
-    display: grid;
-    place-items: center;
-    min-height: 245px;
-    color: #087f8c;
-}
-
-.bloodtest-hero-visual svg {
-    width: min(100%, 250px);
-    height: auto;
-    filter: drop-shadow(0 14px 14px rgba(20, 86, 112, .12));
+    margin: 0 auto;
 }
 
 .bloodtest-lead,
@@ -399,14 +353,6 @@
     min-width: 0;
 }
 
-.bloodtest-item-name small {
-    display: block;
-    margin-top: .15rem;
-    color: #647b8c;
-    font-size: .78rem;
-    font-weight: 600;
-}
-
 .bloodtest-item-body {
     padding: 1rem;
 }
@@ -545,17 +491,7 @@
 
 @media (max-width: 760px) {
     .page-bloodtest .hero-section.bloodtest-hero {
-        grid-template-columns: 1fr;
-        min-height: 0;
-        padding: 1.75rem 1.25rem .9rem;
-    }
-
-    .bloodtest-hero-visual {
-        min-height: 175px;
-    }
-
-    .bloodtest-hero-visual svg {
-        width: 180px;
+        --hero-tint: #e9f7f9;
     }
 
     .bloodtest-lead {
