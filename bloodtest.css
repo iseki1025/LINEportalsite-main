@@ -444,13 +444,6 @@
     border-radius: 999px;
 }
 
-.bloodtest-related-link {
-    color: #087f8c;
-    font-weight: 700;
-    text-decoration: underline;
-    text-underline-offset: .15em;
-}
-
 .bloodtest-review {
     margin-top: 1.35rem;
     padding: clamp(1.1rem, 3vw, 1.6rem);
